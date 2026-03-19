@@ -14,7 +14,7 @@
 
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 
   overflow-y: auto;
 }
@@ -25,13 +25,14 @@
 .modal-box-demo {
   width: 100%;
   max-width: 1100px;
-
+  max-height: 90vh;
+  overflow-y: auto;
   position: relative;
 
   background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(20px);
 
-  border-radius: 20px;
+  border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.08);
 
   overflow: hidden;
@@ -242,7 +243,7 @@
 ========================================================= */
 @media (max-width: 900px) {
   .two-column-demo {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 
   .demo-form-side {
@@ -262,7 +263,7 @@
 @media (max-width: 600px) {
   .demo-form-side,
   .demo-info-side {
-    padding: 24px;
+    padding: 20px;
   }
 
   .form-action-buttons {
