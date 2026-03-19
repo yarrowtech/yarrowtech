@@ -18,13 +18,17 @@
 // export default router;
 
 
+
+
+
+
 import express from "express";
 import {
   submitRequestDemo,
   getAllDemoRequests,
   getManagerDemoRequests,
   updateLeadStatusByManager,
-} from "../controllers/requestDemo.controller.js";
+} from "../controllers/requestDemo.Controller.js";
 
 import { verifyErpToken } from "../erp/middleware/erpAuth.js";
 import verifyRoles from "../erp/middleware/verifyRoles.js";

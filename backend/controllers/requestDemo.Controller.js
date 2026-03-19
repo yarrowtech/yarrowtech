@@ -1,55 +1,5 @@
 
 
-// import RequestDemo from "../models/RequestDemo.js";
-
-// /* ============================================================
-//    SUBMIT REQUEST DEMO (Normal public user)
-// ============================================================ */
-// export const submitRequestDemo = async (req, res) => {
-//   try {
-//     const { name, email, companyName, message } = req.body;
-
-//     if (!name || !email) {
-//       return res.status(400).json({ error: "Name and Email required." });
-//     }
-
-//     const newReq = await RequestDemo.create({
-//       name,
-//       email,
-//       companyName,
-//       message,
-//     });
-
-//     res.status(201).json({
-//       success: true,
-//       message: "Demo request submitted successfully!",
-//       data: newReq,
-//     });
-//   } catch (err) {
-//     console.error("❌ DEMO REQUEST ERROR:", err);
-//     res.status(500).json({ error: "Server error" });
-//   }
-// };
-
-// /* ============================================================
-//    GET ALL DEMO REQUESTS (Admin only)
-// ============================================================ */
-// export const getAllDemoRequests = async (req, res) => {
-//   try {
-//     const requests = await RequestDemo.find().sort({ createdAt: -1 });
-
-//     res.json({
-//       success: true,
-//       count: requests.length,
-//       requests,
-//     });
-//   } catch (err) {
-//     console.error("❌ FETCH DEMO REQUESTS ERROR:", err);
-//     res.status(500).json({ error: "Failed to fetch demo requests" });
-//   }
-// };
-
-
 
 
 
@@ -61,44 +11,53 @@ import RequestDemo from "../models/RequestDemo.js";
 ============================================================ */
 export const submitRequestDemo = async (req, res) => {
   try {
-    const {
-      fullName,
-      email,
-      phoneNumber,
-      companyName,
-      location,
-      serviceInterested,
-      preferredContactMethod,
-      projectDescription,
-    } = req.body;
+    console.log("📥 Incoming Body:", req.body);
 
-    // Required validation
-    if (!fullName || !email || !serviceInterested || !projectDescription) {
-      return res.status(400).json({
-        message: "Please fill all required fields",
-      });
+    const name = (req.body.name || req.body.fullName || "").trim();
+    const email = (req.body.email || "").trim();
+    const company = (req.body.company || req.body.companyName || "").trim();
+    const message = (
+      req.body.message || req.body.projectDescription || ""
+    ).trim();
+
+    // ✅ Email validation
+    const isValidEmail = /\S+@\S+\.\S+/.test(email);
+
+    // ✅ Required validation
+    if (!name) {
+      return res.status(400).json({ message: "Name is required" });
+    }
+
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+
+    if (!isValidEmail) {
+      return res.status(400).json({ message: "Invalid email format" });
+    }
+
+    if (!message) {
+      return res.status(400).json({ message: "Message is required" });
     }
 
     const demoRequest = await RequestDemo.create({
-      fullName,
+      fullName: name,
       email,
-      phoneNumber,
-      companyName,
-      location,
-      serviceInterested,
-      preferredContactMethod,
-      projectDescription,
-      createdByUser: req.user?.id || null,
+      companyName: company,
+      projectDescription: message,
+      serviceInterested: "Demo Request",
+      preferredContactMethod: "email",
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Demo request submitted successfully",
       data: demoRequest,
     });
   } catch (error) {
     console.error("❌ REQUEST DEMO ERROR:", error);
-    res.status(500).json({
+
+    return res.status(500).json({
       message: "Server error while submitting demo request",
     });
   }
