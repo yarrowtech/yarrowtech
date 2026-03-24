@@ -10,7 +10,7 @@
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 
-  padding: 90px 16px 24px;
+  padding: 20px;
 
   display: flex;
   justify-content: center;
@@ -23,21 +23,23 @@
    MODAL CONTAINER
 ========================================================= */
 .modal-box-demo {
-  width: 100%;
+  width: 90%;
   max-width: 1100px;
-  max-height: 90vh;
+  max-height: 92vh;
   overflow-y: auto;
   position: relative;
+  margin: auto;
 
   background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(20px);
 
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
-  overflow: hidden;
 
-  box-shadow: 0 25px 80px rgba(0,0,0,0.65);
+  display: flex;
+  /* flex-direction: column; */
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.65);
 }
 
 /* Glow */
@@ -46,7 +48,7 @@
   position: absolute;
   width: 280px;
   height: 280px;
-  background: radial-gradient(circle, rgba(250,204,21,0.15), transparent);
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.15), transparent);
   top: -80px;
   right: -80px;
   filter: blur(80px);
@@ -67,10 +69,11 @@
   padding: 40px;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 🔥 CENTER FIX */
+  justify-content: center;
+  /* 🔥 CENTER FIX */
   align-items: center;
-  border-right: 1px solid rgba(255,255,255,0.1);
-    /* 🔥 ADD THESE */
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  /* 🔥 ADD THESE */
   width: 100%;
 
 }
@@ -115,10 +118,12 @@
 
 .demo-form input,
 .demo-form textarea {
+  width: 100%;
+  font-size: 14px;
   padding: 14px;
 
   background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 
   border-radius: 12px;
   color: #e5e7eb;
@@ -129,7 +134,8 @@
 .demo-form input:focus,
 .demo-form textarea:focus {
   border-color: #facc15;
-  box-shadow: 0 0 0 2px rgba(250,204,21,0.2);
+  box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.2);
+  outline: none;
 }
 
 /* =========================================================
@@ -154,7 +160,7 @@
 
 .primary-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(250,204,21,0.25);
+  box-shadow: 0 10px 30px rgba(250, 204, 21, 0.25);
 }
 
 .secondary-btn {
@@ -166,7 +172,7 @@
 }
 
 .secondary-btn:hover {
-  background: rgba(148,163,184,0.08);
+  background: rgba(148, 163, 184, 0.08);
 }
 
 /* =========================================================
@@ -178,7 +184,7 @@
 
   background: rgba(8, 15, 30, 0.5);
 
-  border-left: 1px solid rgba(255,255,255,0.05);
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Timeline line */
@@ -189,7 +195,7 @@
   top: 120px;
   bottom: 40px;
   width: 2px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* Titles */
@@ -217,8 +223,8 @@
   width: 36px;
   height: 36px;
 
-  background: rgba(250,204,21,0.1);
-  border: 1px solid rgba(250,204,21,0.2);
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.2);
 
   border-radius: 50%;
 
@@ -252,7 +258,7 @@
 
   .demo-info-side {
     border-left: none;
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
 
   .demo-info-side::before {
@@ -261,6 +267,16 @@
 }
 
 @media (max-width: 600px) {
+  .modal-box-demo {
+    border-radius: 14px;
+    max-height: 95vh;
+    scroll-behavior: smooth;
+  }
+
+  .modal-overlay {
+    padding: 10px;
+  }
+
   .demo-form-side,
   .demo-info-side {
     padding: 20px;
@@ -269,6 +285,11 @@
   .form-action-buttons {
     flex-direction: column;
   }
+
+  /* 🔥 Hide right side for clean mobile UX */
+  .demo-info-side {
+    display: none;
+  }
 }
 
 
@@ -276,5 +297,6 @@
 .modal-title,
 .modal-subtitle {
   width: 100%;
-  max-width: 420px; /* 🔥 perfect width */
+  max-width: 420px;
+  /* 🔥 perfect width */
 }
