@@ -5,27 +5,34 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const email = process.argv[2];
+const newPassword = process.argv[3];
+
 async function resetPassword() {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("✅ MongoDB connected");
 
-    const email = "democlient6@gmail.com";
-    const newPassword = "12345";
+    if (!email || !newPassword) {
+      console.log("❌ Usage: node resetClientPassword.js email password");
+      process.exit(0);
+    }
+
+    const client = await ERPClient.findOne({ email });
+
+    if (!client) {
+      console.log("❌ Client not found");
+      process.exit(0);
+    }
 
     const hash = await bcrypt.hash(newPassword, 10);
+    client.password = hash;
+    await client.save();
 
-    const result = await ERPClient.updateOne(
-      { email },
-      { password: hash }
-    );
-
-    console.log("✅ Password reset result:", result);
-    console.log("✅ New login password:", newPassword);
+    console.log("✅ Password reset successful for:", email);
 
     process.exit(0);
   } catch (err) {
-    console.error("❌ Error:", err);
+    console.error(err);
     process.exit(1);
   }
 }

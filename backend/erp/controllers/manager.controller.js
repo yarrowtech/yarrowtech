@@ -1,4 +1,3 @@
-
 // import ERPClient from "../models/Client.js";
 // import ERPProject from "../models/Project.js";
 // import ERPUser from "../models/User.js";
@@ -24,18 +23,27 @@
 // };
 
 // /* ============================================================
-//    MANAGER → CREATE CLIENT + PROJECT
+//    MANAGER → CREATE CLIENT + PROJECT  ✅ FIXED
 // ============================================================ */
 // export const createClientAndProject = async (req, res) => {
 //   try {
 //     const {
 //       projectId,
-//       name,               // project name
+//       name, // project name
 //       clientName,
 //       clientEmail,
 //       expectedDelivery,
 //       techLeadEmail,
 //     } = req.body;
+
+//     /* 🔐 MANAGER FROM TOKEN */
+//     const managerId = req.erpUser?.id || req.erpUser?._id;
+
+//     if (!managerId) {
+//       return res.status(401).json({
+//         message: "Invalid manager token",
+//       });
+//     }
 
 //     /* ================= VALIDATE TECH LEAD ================= */
 //     const techLead = await ERPUser.findOne({
@@ -60,20 +68,22 @@
 //     if (!client) {
 //       generatedPassword = generatePassword();
 
-//       client = await ERPClient.create({
-//         name: clientName,
-//         email: clientEmail.toLowerCase(),
-//         password: generatedPassword, // 🔐 hashed automatically
-//         status: "active",
-//         role: "client",
-//       });
+//   const newClient = new ERPClient({
+//   name: clientName,
+//   email: clientEmail.toLowerCase(),
+//   password: generatedPassword, // 🔐 WILL BE HASHED
+//   status: "active",
+//   role: "client",
+// });
+
+// client = await newClient.save(); // ✅ GUARANTEES pre("save") runs
 
 //       await sendEmail(
 //         clientEmail,
 //         "Your YarrowTech ERP Login",
 //         `Welcome to YarrowTech ERP!
 
-// Login URL: https://yourdomain.com/login
+// Login URL: https://yourdomain.com/erp
 
 // Email: ${clientEmail}
 // Password: ${generatedPassword}
@@ -88,9 +98,15 @@
 //       name,
 //       client: client._id,
 //       clientName,
-//       clientEmail: clientEmail.toLowerCase(),
+//       clientEmail: client.email,
+
+//       /* ✅ REAL RELATION */
+//       manager: managerId,
+
+//       /* DISPLAY / EMAIL */
 //       managerEmail: req.erpUser.email,
 //       techLeadEmail: techLead.email,
+
 //       expectedDelivery,
 //       status: "pending",
 //       progress: 0,
@@ -108,16 +124,30 @@
 // };
 
 // /* ============================================================
-//    MANAGER → GET PROJECTS
+//    MANAGER → GET PROJECTS  ✅ FIXED
 // ============================================================ */
 // export const getProjects = async (req, res) => {
 //   try {
-//     const projects = await ERPProject.find({
-//       managerEmail: req.erpUser.email,
-//     }).sort({ createdAt: -1 });
+//     const managerId = req.erpUser?.id || req.erpUser?._id;
 
-//     res.json({ success: true, projects });
+//     if (!managerId) {
+//       return res.status(401).json({
+//         message: "Invalid manager token",
+//       });
+//     }
+
+//     const projects = await ERPProject.find({
+//       manager: managerId,
+//     })
+//       .populate("client", "name email status")
+//       .sort({ createdAt: -1 });
+
+//     res.json({
+//       success: true,
+//       projects,
+//     });
 //   } catch (err) {
+//     console.error("❌ GET MANAGER PROJECTS ERROR:", err);
 //     res.status(500).json({ message: "Server error" });
 //   }
 // };
@@ -127,11 +157,20 @@
 // ============================================================ */
 // export const updateProject = async (req, res) => {
 //   try {
-//     const allowed = ["name", "techLeadEmail", "expectedDelivery", "status"];
-//     const updateData = {};
+//     const allowed = [
+//       "name",
+//       "techLeadEmail",
+//       "expectedDelivery",
+//       "status",
+//       "progress",
+//       "projectDetails",
+//     ];
 
+//     const updateData = {};
 //     allowed.forEach((key) => {
-//       if (req.body[key] !== undefined) updateData[key] = req.body[key];
+//       if (req.body[key] !== undefined) {
+//         updateData[key] = req.body[key];
+//       }
 //     });
 
 //     const updated = await ERPProject.findByIdAndUpdate(
@@ -146,10 +185,11 @@
 
 //     res.json({
 //       success: true,
-//       message: "Project updated",
+//       message: "Project updated successfully",
 //       project: updated,
 //     });
 //   } catch (err) {
+//     console.error("❌ UPDATE PROJECT ERROR:", err);
 //     res.status(500).json({ message: "Server error" });
 //   }
 // };
@@ -159,9 +199,16 @@
 
 
 
+
+
+
+
+
+
 import ERPClient from "../models/Client.js";
 import ERPProject from "../models/Project.js";
 import ERPUser from "../models/User.js";
+import bcrypt from "bcryptjs"; // ✅ added
 
 import { generatePassword } from "../utils/generatePassword.js";
 import sendEmail from "../utils/sendEmail.js";
@@ -184,20 +231,19 @@ export const getTechLeads = async (req, res) => {
 };
 
 /* ============================================================
-   MANAGER → CREATE CLIENT + PROJECT  ✅ FIXED
+   MANAGER → CREATE CLIENT + PROJECT  (ONLY FIXED HASHING)
 ============================================================ */
 export const createClientAndProject = async (req, res) => {
   try {
     const {
       projectId,
-      name, // project name
+      name,
       clientName,
       clientEmail,
       expectedDelivery,
       techLeadEmail,
     } = req.body;
 
-    /* 🔐 MANAGER FROM TOKEN */
     const managerId = req.erpUser?.id || req.erpUser?._id;
 
     if (!managerId) {
@@ -206,7 +252,6 @@ export const createClientAndProject = async (req, res) => {
       });
     }
 
-    /* ================= VALIDATE TECH LEAD ================= */
     const techLead = await ERPUser.findOne({
       email: techLeadEmail.toLowerCase(),
       role: "techlead",
@@ -219,7 +264,6 @@ export const createClientAndProject = async (req, res) => {
       });
     }
 
-    /* ================= FIND / CREATE CLIENT ================= */
     let client = await ERPClient.findOne({
       email: clientEmail.toLowerCase(),
     });
@@ -229,18 +273,25 @@ export const createClientAndProject = async (req, res) => {
     if (!client) {
       generatedPassword = generatePassword();
 
-      client = await ERPClient.create({
+      /* 🔥 ONLY FIX: FORCE HASH */
+      const hashedPassword = await bcrypt.hash(generatedPassword, 10);
+
+      const newClient = new ERPClient({
         name: clientName,
         email: clientEmail.toLowerCase(),
-        password: generatedPassword, // hashed via model
+        password: hashedPassword, // ✅ FIXED
         status: "active",
         role: "client",
       });
 
-      await sendEmail(
-        clientEmail,
-        "Your YarrowTech ERP Login",
-        `Welcome to YarrowTech ERP!
+      client = await newClient.save();
+
+      /* 🔥 EMAIL SAFE (no crash) */
+      try {
+        await sendEmail(
+          clientEmail,
+          "Your YarrowTech ERP Login",
+          `Welcome to YarrowTech ERP!
 
 Login URL: https://yourdomain.com/erp
 
@@ -248,10 +299,12 @@ Email: ${clientEmail}
 Password: ${generatedPassword}
 
 Please change your password after login.`
-      );
+        );
+      } catch (err) {
+        console.error("❌ Email failed:", err.message);
+      }
     }
 
-    /* ================= CREATE PROJECT ================= */
     const project = await ERPProject.create({
       projectId,
       name,
@@ -259,10 +312,7 @@ Please change your password after login.`
       clientName,
       clientEmail: client.email,
 
-      /* ✅ REAL RELATION */
       manager: managerId,
-
-      /* DISPLAY / EMAIL */
       managerEmail: req.erpUser.email,
       techLeadEmail: techLead.email,
 
@@ -283,7 +333,7 @@ Please change your password after login.`
 };
 
 /* ============================================================
-   MANAGER → GET PROJECTS  ✅ FIXED
+   MANAGER → GET PROJECTS (UNCHANGED)
 ============================================================ */
 export const getProjects = async (req, res) => {
   try {
@@ -312,7 +362,7 @@ export const getProjects = async (req, res) => {
 };
 
 /* ============================================================
-   MANAGER → UPDATE PROJECT
+   MANAGER → UPDATE PROJECT (UNCHANGED)
 ============================================================ */
 export const updateProject = async (req, res) => {
   try {
@@ -349,6 +399,72 @@ export const updateProject = async (req, res) => {
     });
   } catch (err) {
     console.error("❌ UPDATE PROJECT ERROR:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+/* ============================================================
+   NEW → DELETE CLIENT
+============================================================ */
+export const deleteClient = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const client = await ERPClient.findById(id);
+    if (!client) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    await ERPProject.deleteMany({ client: id });
+    await ERPClient.findByIdAndDelete(id);
+
+    res.json({
+      success: true,
+      message: "Client deleted successfully",
+    });
+  } catch (err) {
+    console.error("❌ DELETE CLIENT ERROR:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+/* ============================================================
+   NEW → RESET CLIENT PASSWORD
+============================================================ */
+export const resetClientPassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const client = await ERPClient.findById(id);
+    if (!client) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    const newPassword = generatePassword();
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    client.password = hashedPassword;
+    await client.save();
+
+    try {
+      await sendEmail(
+        client.email,
+        "Password Reset - YarrowTech ERP",
+        `Your password has been reset.
+
+Email: ${client.email}
+New Password: ${newPassword}`
+      );
+    } catch (err) {
+      console.error("❌ Email failed:", err.message);
+    }
+
+    res.json({
+      success: true,
+      message: "Password reset successfully",
+    });
+  } catch (err) {
+    console.error("❌ RESET PASSWORD ERROR:", err);
     res.status(500).json({ message: "Server error" });
   }
 };

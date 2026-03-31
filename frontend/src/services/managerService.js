@@ -42,6 +42,28 @@ export const deleteManagerProject = async (
 };
 
 /* =====================================================
+   🔥 NEW → CLIENT MANAGEMENT (ADDED ONLY)
+===================================================== */
+
+/**
+ * Delete client
+ */
+export const deleteClient = async (clientId) => {
+  const res = await API.delete(`/erp/manager/client/${clientId}`);
+  return res.data;
+};
+
+/**
+ * Reset client password
+ */
+export const resetClientPassword = async (clientId) => {
+  const res = await API.put(
+    `/erp/manager/client/reset-password/${clientId}`
+  );
+  return res.data;
+};
+
+/* =====================================================
    MANAGER → TECH LEADS
 ===================================================== */
 
@@ -60,7 +82,7 @@ export const getTechLeads = async () => {
 };
 
 /* =====================================================
-   MANAGER → CRM DEMO REQUESTS (✅ FIXED)
+   MANAGER → CRM DEMO REQUESTS
 ===================================================== */
 
 /**
@@ -73,7 +95,6 @@ export const getManagerDemoRequests = async () => {
 
 /**
  * Update demo request status
- * status: new | contacted | in-progress | closed
  */
 export const updateManagerLeadStatus = async (leadId, status) => {
   const res = await API.put(
