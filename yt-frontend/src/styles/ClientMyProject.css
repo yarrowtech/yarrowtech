@@ -122,6 +122,20 @@
   color: #ff5252;
 }
 
+.client-chat-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.client-chat-btn:hover {
+  opacity: 0.92;
+}
+
 /* ======================================================
    RESPONSIVE — Tablet (medium)
 ====================================================== */

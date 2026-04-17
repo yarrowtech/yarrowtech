@@ -24,6 +24,26 @@ const clientSchema = new mongoose.Schema({
     default: "client",
   },
 
+  company: {
+    type: String,
+    default: "",
+  },
+
+  clientId: {
+    type: String,
+    default: "",
+  },
+
+  phone: {
+    type: String,
+    default: "",
+  },
+
+  address: {
+    type: String,
+    default: "",
+  },
+
   status: {
     type: String,
     enum: ["active", "inactive"],

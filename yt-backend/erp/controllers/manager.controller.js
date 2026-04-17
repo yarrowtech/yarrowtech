@@ -206,12 +206,16 @@
 
 
 import ERPClient from "../models/Client.js";
+import DeletedClientHistory from "../models/DeletedClientHistory.js";
 import ERPProject from "../models/Project.js";
 import ERPUser from "../models/User.js";
-import bcrypt from "bcryptjs"; // ✅ added
 
 import { generatePassword } from "../utils/generatePassword.js";
 import sendEmail from "../utils/sendEmail.js";
+
+const getCurrentManagerId = (req) => req.erpUser?.id || req.erpUser?._id;
+const getCurrentManagerEmail = (req) =>
+  String(req.erpUser?.email || "").toLowerCase();
 
 /* ============================================================
    MANAGER → GET TECH LEADS
@@ -273,13 +277,11 @@ export const createClientAndProject = async (req, res) => {
     if (!client) {
       generatedPassword = generatePassword();
 
-      /* 🔥 ONLY FIX: FORCE HASH */
-      const hashedPassword = await bcrypt.hash(generatedPassword, 10);
-
       const newClient = new ERPClient({
         name: clientName,
         email: clientEmail.toLowerCase(),
-        password: hashedPassword, // ✅ FIXED
+        // The client model hashes passwords in its pre-save hook.
+        password: generatedPassword,
         status: "active",
         role: "client",
       });
@@ -337,7 +339,8 @@ Please change your password after login.`
 ============================================================ */
 export const getProjects = async (req, res) => {
   try {
-    const managerId = req.erpUser?.id || req.erpUser?._id;
+    const managerId = getCurrentManagerId(req);
+    const managerEmail = getCurrentManagerEmail(req);
 
     if (!managerId) {
       return res.status(401).json({
@@ -345,8 +348,13 @@ export const getProjects = async (req, res) => {
       });
     }
 
+    const accessQuery = [{ manager: managerId }];
+    if (managerEmail) {
+      accessQuery.push({ managerEmail });
+    }
+
     const projects = await ERPProject.find({
-      manager: managerId,
+      $or: accessQuery,
     })
       .populate("client", "name email status")
       .sort({ createdAt: -1 });
@@ -366,6 +374,15 @@ export const getProjects = async (req, res) => {
 ============================================================ */
 export const updateProject = async (req, res) => {
   try {
+    const managerId = getCurrentManagerId(req);
+    const managerEmail = getCurrentManagerEmail(req);
+
+    if (!managerId) {
+      return res.status(401).json({
+        message: "Invalid manager token",
+      });
+    }
+
     const allowed = [
       "name",
       "techLeadEmail",
@@ -382,14 +399,24 @@ export const updateProject = async (req, res) => {
       }
     });
 
-    const updated = await ERPProject.findByIdAndUpdate(
-      req.params.id,
+    const accessQuery = [{ manager: managerId }];
+    if (managerEmail) {
+      accessQuery.push({ managerEmail });
+    }
+
+    const updated = await ERPProject.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        $or: accessQuery,
+      },
       updateData,
       { new: true }
     );
 
     if (!updated) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({
+        message: "Project not found or you do not have access",
+      });
     }
 
     res.json({
@@ -409,11 +436,35 @@ export const updateProject = async (req, res) => {
 export const deleteClient = async (req, res) => {
   try {
     const { id } = req.params;
+    const managerId = req.erpUser?.id || req.erpUser?._id;
 
     const client = await ERPClient.findById(id);
     if (!client) {
       return res.status(404).json({ message: "Client not found" });
     }
+
+    const projects = await ERPProject.find({ client: id }).lean();
+
+    await DeletedClientHistory.create({
+      originalClientId: client._id,
+      managerId,
+      managerEmail: req.erpUser?.email || "",
+      name: client.name,
+      email: client.email,
+      status: client.status || "inactive",
+      company: client.company || "",
+      clientCode: client.clientId || "",
+      phone: client.phone || "",
+      address: client.address || "",
+      projects: projects.map((project) => ({
+        projectId: project.projectId,
+        name: project.name,
+        status: project.status,
+        progress: project.progress || 0,
+        expectedDelivery: project.expectedDelivery || null,
+      })),
+      deletedAt: new Date(),
+    });
 
     await ERPProject.deleteMany({ client: id });
     await ERPClient.findByIdAndDelete(id);
@@ -434,17 +485,24 @@ export const deleteClient = async (req, res) => {
 export const resetClientPassword = async (req, res) => {
   try {
     const { id } = req.params;
+    const { password } = req.body || {};
 
     const client = await ERPClient.findById(id);
     if (!client) {
       return res.status(404).json({ message: "Client not found" });
     }
 
-    const newPassword = generatePassword();
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    client.password = hashedPassword;
+    const newPassword = password?.trim();
+    if (!newPassword) {
+      return res.status(400).json({ message: "New password is required" });
+    }
+    client.password = newPassword;
     await client.save();
+
+    return res.json({
+      success: true,
+      message: "Password reset successfully",
+    });
 
     try {
       await sendEmail(
@@ -465,6 +523,30 @@ New Password: ${newPassword}`
     });
   } catch (err) {
     console.error("❌ RESET PASSWORD ERROR:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+export const getDeletedClientHistory = async (req, res) => {
+  try {
+    const managerId = req.erpUser?.id || req.erpUser?._id;
+
+    if (!managerId) {
+      return res.status(401).json({
+        message: "Invalid manager token",
+      });
+    }
+
+    const history = await DeletedClientHistory.find({
+      managerId,
+    }).sort({ deletedAt: -1 });
+
+    res.json({
+      success: true,
+      history,
+    });
+  } catch (err) {
+    console.error("❌ DELETED CLIENT HISTORY ERROR:", err);
     res.status(500).json({ message: "Server error" });
   }
 };

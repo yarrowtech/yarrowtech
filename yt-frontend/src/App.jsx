@@ -557,6 +557,7 @@ import AdminBlog from "./pages/admin/AdminBlog";
 import ManagerLayout from "./pages/manager/ManagerLayout";
 import ManagerDashboard from "./pages/manager/ManagerDashboard";
 import ManageProjects from "./pages/manager/ManageProjects";
+import ProjectDetails from "./pages/manager/ProjectDetails";
 import CreateClient from "./pages/manager/CreateClient";
 import Notifications from "./pages/manager/Notifications";
 import ManagerSettings from "./pages/manager/Settings";
@@ -712,6 +713,7 @@ export default function App() {
             <Route index element={<ManagerDashboard />} />
             <Route path="dashboard" element={<ManagerDashboard />} />
             <Route path="projects" element={<ManageProjects />} />
+            <Route path="projects/:projectId" element={<ProjectDetails />} />
             <Route path="create-client" element={<CreateClient />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="requests" element={<RequestDemoManager />} />

@@ -159,7 +159,12 @@ export default function ProductsPage() {
   ];
 
   return (
-    <section id="products" ref={sectionRef} className="products-section">
+    <section
+      id="products"
+      ref={sectionRef}
+      className="products-section"
+      style={{ position: "relative" }}
+    >
       {/* BACKGROUND AMBIENT MOTION */}
       <motion.div
         className="ambient-particles"

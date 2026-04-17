@@ -28,6 +28,10 @@ const projectSchema = new mongoose.Schema({
   projectId: { type: String, required: true, unique: true }, // display only
   name: { type: String, required: true },
   projectDetails: String,
+  totalPayment: {
+    type: Number,
+    default: 0,
+  },
 
   /* ✅ CLIENT RELATION */
   client: {

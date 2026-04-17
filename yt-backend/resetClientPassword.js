@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
 import ERPClient from "./erp/models/Client.js";
 import dotenv from "dotenv";
 
@@ -24,8 +23,7 @@ async function resetPassword() {
       process.exit(0);
     }
 
-    const hash = await bcrypt.hash(newPassword, 10);
-    client.password = hash;
+    client.password = newPassword;
     await client.save();
 
     console.log("✅ Password reset successful for:", email);

@@ -14,6 +14,10 @@ const paymentSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  paymentType: {
+    type: String,
+    default: "project-payment",
+  },
   method: {
     type: String,
     required: true,
@@ -25,6 +29,14 @@ const paymentSchema = new mongoose.Schema({
   status: {
     type: String,
     default: "paid",
+  },
+  paymentDate: {
+    type: Date,
+    default: Date.now,
+  },
+  notes: {
+    type: String,
+    default: "",
   },
   createdAt: {
     type: Date,

@@ -1,0 +1,129 @@
+.project-chat-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(2, 6, 23, 0.78);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+}
+
+.project-chat-modal {
+  width: min(100%, 760px);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+.project-chat-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.project-chat-header h3 {
+  margin: 0 0 6px;
+  color: #f8fafc;
+}
+
+.project-chat-header p {
+  margin: 0;
+  color: #94a3b8;
+}
+
+.project-chat-close {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: transparent;
+  color: #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.project-chat-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.project-chat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px;
+  overflow-y: auto;
+  min-height: 320px;
+}
+
+.project-chat-muted {
+  color: #94a3b8;
+}
+
+.project-chat-bubble {
+  max-width: 75%;
+  padding: 12px 14px;
+  border-radius: 14px;
+}
+
+.project-chat-bubble.mine {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+}
+
+.project-chat-bubble.theirs {
+  align-self: flex-start;
+  background: rgba(30, 41, 59, 0.95);
+  color: #e2e8f0;
+}
+
+.project-chat-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 0.72rem;
+  opacity: 0.82;
+  margin-bottom: 6px;
+  text-transform: capitalize;
+}
+
+.project-chat-bubble p {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
+
+.project-chat-footer {
+  padding: 16px 20px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.project-chat-footer textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0c2238;
+  color: #fff;
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+.project-chat-footer textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.project-chat-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}

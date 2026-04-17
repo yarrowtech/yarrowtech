@@ -1,7 +1,3 @@
-/* ======================================================
-   CLIENT PAYMENTS PAGE (Admin Clone Styling)
-====================================================== */
-
 .client-payments-container {
   padding: 25px 30px;
   color: #fff;
@@ -11,7 +7,6 @@
   gap: 20px;
 }
 
-/* HEADER */
 .client-header h2 {
   font-size: 1.8rem;
   font-weight: 700;
@@ -21,17 +16,87 @@
 .client-header .subtitle {
   color: #aaa;
   font-size: 0.95rem;
-  margin-bottom: 20px;
 }
 
-/* ============================
-   TABLE WRAPPER
-============================ */
+.client-payment-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.client-payment-summary-card {
+  background: linear-gradient(180deg, #071a2d, #0a2038);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+}
+
+.client-payment-summary-card span {
+  display: block;
+  color: #9bb2c7;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.client-payment-summary-card strong {
+  font-size: 1.4rem;
+  color: #ffffff;
+}
+
+.client-payment-summary-card.highlight {
+  border-color: rgba(255, 203, 5, 0.28);
+  background: linear-gradient(180deg, rgba(255, 203, 5, 0.12), #0a2038);
+}
+
+.client-payment-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.client-payment-project-card {
+  background: #071a2d;
+  border-radius: 16px;
+  padding: 20px 22px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+}
+
+.client-payment-project-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.client-payment-project-head h3 {
+  margin: 0 0 6px;
+  color: #ffcb05;
+}
+
+.client-payment-project-head p {
+  margin: 0;
+  color: #a8bfd2;
+}
+
+.client-payment-mini-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.client-payment-mini-stats span {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: #dbe7f3;
+  font-size: 0.88rem;
+}
+
 .client-payments-table-wrapper {
   background: #071a2d;
   border-radius: 16px;
-  padding: 20px 25px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
   overflow-x: auto;
 }
 
@@ -39,7 +104,7 @@
   width: 100%;
   border-collapse: collapse;
   color: #eaeaea;
-  min-width: 700px;
+  min-width: 820px;
   font-size: 0.95rem;
 }
 
@@ -51,6 +116,7 @@
   padding: 14px 12px;
   font-weight: 600;
   color: #ffcb05;
+  text-align: left;
 }
 
 .client-payments-table td {
@@ -62,18 +128,19 @@
   background: rgba(255, 255, 255, 0.05);
 }
 
-/* ============================
-   PAYMENT STATUS BADGES
-============================ */
 .client-payment-status {
   font-weight: 600;
   text-transform: capitalize;
   padding: 5px 10px;
-  border-radius: 6px;
+  border-radius: 999px;
   font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 82px;
 }
 
-.client-payment-success {
+.client-payment-paid {
   background: rgba(76, 175, 80, 0.2);
   color: #4caf50;
 }
@@ -88,35 +155,38 @@
   color: #ff5252;
 }
 
-/* ============================
-   RESPONSIVE
-============================ */
+.client-empty-state,
+.client-empty-table-cell {
+  color: #a8bfd2;
+  text-align: center;
+  padding: 20px;
+}
+
 @media (max-width: 992px) {
   .client-payments-container {
     padding: 20px;
   }
 
-  .client-payments-table th,
-  .client-payments-table td {
-    padding: 10px 8px;
+  .client-payment-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .client-payment-project-head {
+    flex-direction: column;
   }
 }
 
 @media (max-width: 768px) {
+  .client-payment-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
   .client-payments-table {
     font-size: 0.85rem;
-    min-width: 550px;
+    min-width: 680px;
   }
 
   .client-header h2 {
     font-size: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .client-payments-table th,
-  .client-payments-table td {
-    padding: 8px 6px;
-    font-size: 0.78rem;
   }
 }

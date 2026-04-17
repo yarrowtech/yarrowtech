@@ -3,13 +3,13 @@ import {
   addPayment,
   getPaymentsByProject,
   updatePayment,
+  updateProjectPaymentSummary,
 } from "../controllers/payment.controller.js";
 import { verifyErpToken } from "../middleware/erpAuth.js";
 import verifyRoles from "../middleware/verifyRoles.js";
 
 const router = express.Router();
 
-/* ADD PAYMENT */
 router.post(
   "/",
   verifyErpToken,
@@ -17,14 +17,19 @@ router.post(
   addPayment
 );
 
-/* GET PAYMENTS BY PROJECT */
 router.get(
   "/project/:projectId",
   verifyErpToken,
   getPaymentsByProject
 );
 
-/* UPDATE PAYMENT ✅ FIXED */
+router.put(
+  "/project/:projectId/summary",
+  verifyErpToken,
+  verifyRoles("manager", "admin"),
+  updateProjectPaymentSummary
+);
+
 router.put(
   "/:paymentId",
   verifyErpToken,

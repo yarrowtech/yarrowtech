@@ -53,12 +53,18 @@ export const deleteClient = async (clientId) => {
   return res.data;
 };
 
+export const getDeletedClientHistory = async () => {
+  const res = await API.get("/erp/manager/client-history");
+  return Array.isArray(res.data?.history) ? res.data.history : [];
+};
+
 /**
  * Reset client password
  */
-export const resetClientPassword = async (clientId) => {
+export const resetClientPassword = async (clientId, password) => {
   const res = await API.put(
-    `/erp/manager/client/reset-password/${clientId}`
+    `/erp/manager/client/reset-password/${clientId}`,
+    { password }
   );
   return res.data;
 };
@@ -112,9 +118,9 @@ export const updateManagerLeadStatus = async (leadId, status) => {
  * Get payments for a project
  */
 export const getProjectPayments = async (projectId) => {
-  if (!projectId) return [];
+  if (!projectId) return { project: null, summary: null, payments: [] };
   const res = await API.get(`/erp/payments/project/${projectId}`);
-  return Array.isArray(res.data) ? res.data : [];
+  return res.data || { project: null, summary: null, payments: [] };
 };
 
 /**
@@ -122,6 +128,14 @@ export const getProjectPayments = async (projectId) => {
  */
 export const addProjectPayment = async (payload) => {
   const res = await API.post("/erp/payments", payload);
+  return res.data;
+};
+
+/**
+ * Update project payment summary
+ */
+export const updateProjectPaymentSummary = async (projectId, payload) => {
+  const res = await API.put(`/erp/payments/project/${projectId}/summary`, payload);
   return res.data;
 };
 

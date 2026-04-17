@@ -22,6 +22,28 @@
   font-size: 0.95rem;
 }
 
+.manager-projects-subtitle {
+  margin-bottom: 16px;
+}
+
+.manager-project-search {
+  margin-bottom: 18px;
+}
+
+.manager-project-search input {
+  width: min(100%, 460px);
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0c2238;
+  color: #ffffff;
+}
+
+.manager-project-search input:focus {
+  outline: none;
+  border-color: #ffcb05;
+}
+
 /* ======================================================
    PROJECT CARD
 ====================================================== */
@@ -55,6 +77,10 @@
   margin-top: 4px;
   font-size: 0.85rem;
   color: #9bb3c9;
+}
+
+.project-id-text {
+  margin-bottom: 0;
 }
 
 /* RIGHT SUMMARY */
@@ -101,6 +127,10 @@
 
 .summary button:hover {
   background: #163c61;
+}
+
+.view-project-btn {
+  min-width: 122px;
 }
 
 /* ======================================================

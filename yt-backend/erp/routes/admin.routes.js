@@ -46,7 +46,6 @@
 
 
 import express from "express";
-import bcrypt from "bcryptjs";
 
 /* ================= CONTROLLERS ================= */
 import {
@@ -123,12 +122,11 @@ router.post("/clients", async (req, res) => {
     }
 
     const tempPassword = "12345"; // 🔐 later: generate dynamically
-    const hashedPassword = await bcrypt.hash(tempPassword, 10);
 
     const client = await ERPClient.create({
       name,
       email: email.toLowerCase(),
-      password: hashedPassword,
+      password: tempPassword,
       role: "client",
       status: "active",
     });
@@ -173,7 +171,7 @@ router.post("/clients/:id/reset-password", async (req, res) => {
     }
 
     const tempPassword = "12345";
-    client.password = await bcrypt.hash(tempPassword, 10);
+    client.password = tempPassword;
     await client.save();
 
     res.json({

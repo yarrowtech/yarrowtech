@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "../../styles/ClientMyProject.css";
 import API from "../../services/axiosInstance";
 import { toast } from "react-hot-toast";
+import ProjectChatModal from "../../components/ProjectChatModal";
 
 export default function ClientMyProjects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeChatProject, setActiveChatProject] = useState(null);
 
   /* ================= LOAD PROJECTS ================= */
   const loadProjects = async () => {
@@ -63,6 +65,7 @@ export default function ClientMyProjects() {
               <th>Start Date</th>
               <th>Progress</th>
               <th>Status</th>
+              <th>Chat</th>
             </tr>
           </thead>
 
@@ -99,11 +102,29 @@ export default function ClientMyProjects() {
                     {p.status || "pending"}
                   </span>
                 </td>
+                <td>
+                  <button
+                    className="client-chat-btn"
+                    onClick={() => setActiveChatProject(p)}
+                  >
+                    Chat
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {activeChatProject && (
+        <ProjectChatModal
+          project={activeChatProject}
+          currentRole="client"
+          recipientEmail={activeChatProject.managerEmail || ""}
+          recipientLabel="Manager"
+          onClose={() => setActiveChatProject(null)}
+        />
+      )}
     </div>
   );
 }
