@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ModalForm.css";
 import { X } from "lucide-react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function RequestDemoForm({ onClose, showToast }) {
+export default function RequestDemoForm({ onClose, showToast, currentUser }) {
   const isModal = !!onClose;
   const navigate = useNavigate();
 
@@ -20,6 +20,14 @@ export default function RequestDemoForm({ onClose, showToast }) {
 
   const toastFn =
     typeof showToast === "function" ? showToast : (t, m) => console.log(t, m);
+
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      name: currentUser?.name || prev.name,
+      email: currentUser?.email || prev.email,
+    }));
+  }, [currentUser]);
 
   // ✅ Handle input change
   const handleChange = (e) => {

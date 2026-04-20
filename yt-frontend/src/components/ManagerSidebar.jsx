@@ -8,6 +8,8 @@ import {
   LayoutDashboard,
   FolderKanban,
   Users,
+  Mail,
+  Briefcase,
   Bell,
   Settings,
   LogOut,
@@ -69,6 +71,16 @@ const managerName = formatName(erpUser?.name || "manager");
         <NavLink to="/manager/requests" className="nav-item">
           <Users size={18} />
           CRM Requests
+        </NavLink>
+
+        <NavLink to="/manager/contacts" className="nav-item">
+          <Mail size={18} />
+          Contact Forms
+        </NavLink>
+
+        <NavLink to="/manager/careers" className="nav-item">
+          <Briefcase size={18} />
+          Career Forms
         </NavLink>
 
         <NavLink to="/manager/notifications" className="nav-item">

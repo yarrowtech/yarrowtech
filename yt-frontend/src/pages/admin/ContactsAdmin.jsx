@@ -87,13 +87,14 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/ContactsAdmin.css";
 import { getContacts } from "../../services/adminService";
-import { Search } from "lucide-react";
+import { Search, MailOpen, X } from "lucide-react";
 
 export default function ContactsAdmin() {
   const [contacts, setContacts] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const [selectedContact, setSelectedContact] = useState(null);
 
   useEffect(() => {
     loadContacts();
@@ -178,8 +179,8 @@ export default function ContactsAdmin() {
               <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Message</th>
                 <th>Received</th>
+                <th>Message</th>
               </tr>
             </thead>
 
@@ -198,15 +199,88 @@ export default function ContactsAdmin() {
               ) : (
                 filtered.map((c) => (
                   <tr key={c._id}>
-                    <td>{c.name}</td>
-                    <td>{c.email}</td>
-                    <td className="msg-col">{c.message}</td>
-                    <td>{new Date(c.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      <div className="contact-name-cell">
+                        <span className="contact-name">{c.name}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="contact-email">{c.email}</span>
+                    </td>
+                    <td>
+                      <div className="contact-date-cell">
+                        <span>{new Date(c.createdAt).toLocaleDateString()}</span>
+                        <small>
+                          {new Date(c.createdAt).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </small>
+                      </div>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className="view-message-btn"
+                        onClick={() => setSelectedContact(c)}
+                      >
+                        <MailOpen size={16} />
+                        View Message
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {selectedContact && (
+        <div
+          className="contact-modal-backdrop"
+          onClick={() => setSelectedContact(null)}
+        >
+          <div
+            className="contact-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="contact-modal-header">
+              <div>
+                <p className="contact-modal-label">Message Details</p>
+                <h3>{selectedContact.name}</h3>
+              </div>
+
+              <button
+                type="button"
+                className="contact-modal-close"
+                onClick={() => setSelectedContact(null)}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="contact-modal-meta">
+              <div className="contact-meta-card">
+                <span>Email</span>
+                <strong>{selectedContact.email}</strong>
+              </div>
+
+              <div className="contact-meta-card">
+                <span>Received</span>
+                <strong>
+                  {new Date(selectedContact.createdAt).toLocaleString()}
+                </strong>
+              </div>
+            </div>
+
+            <div className="contact-message-panel">
+              <p className="contact-message-label">Message</p>
+              <div className="contact-message-body">
+                {selectedContact.message}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

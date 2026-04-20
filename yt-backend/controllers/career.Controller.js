@@ -29,3 +29,21 @@ export const submitCareer = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const getAllCareerSubmissions = async (req, res) => {
+  try {
+    const careers = await Career.find().sort({ createdAt: -1 });
+
+    return res.status(200).json({
+      success: true,
+      total: careers.length,
+      careers,
+    });
+  } catch (err) {
+    console.error("Career Fetch Error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch career applications",
+    });
+  }
+};

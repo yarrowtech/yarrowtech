@@ -82,6 +82,8 @@ import {
   Folder,
   FileText,
   Users,
+  Mail,
+  Briefcase,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -136,6 +138,18 @@ export default function Sidebar() {
           to="/admin/users"
           icon={<Users size={18} />}
           label="Users"
+        />
+
+        <NavItem
+          to="/admin/contacts"
+          icon={<Mail size={18} />}
+          label="Contact Forms"
+        />
+
+        <NavItem
+          to="/admin/careers"
+          icon={<Briefcase size={18} />}
+          label="Career Forms"
         />
       </div>
 

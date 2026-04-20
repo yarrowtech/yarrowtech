@@ -183,7 +183,7 @@
 
 
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CareerForm.css";
 import { Upload, X } from "lucide-react";
 import axios from "axios";
@@ -191,7 +191,7 @@ import axios from "axios";
 const API_BASE =
   (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/+$/, "");
 
-export default function CareerForm({ open, onClose, showToast }) {
+export default function CareerForm({ open, onClose, showToast, currentUser }) {
 
   // ⭐ IMPORTANT: hide modal when not open
   if (!open) return null;
@@ -209,6 +209,14 @@ export default function CareerForm({ open, onClose, showToast }) {
     typeof showToast === "function"
       ? showToast
       : (type, msg) => console.log(type, msg);
+
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      name: currentUser?.name || prev.name,
+      email: currentUser?.email || prev.email,
+    }));
+  }, [currentUser]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;

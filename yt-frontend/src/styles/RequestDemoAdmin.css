@@ -1,80 +1,78 @@
-/* =========================================================
-   CRM – DEMO REQUESTS (ADMIN + MANAGER)
-========================================================= */
+/* ======================================================
+   REQUEST DEMO INBOX UI
+====================================================== */
 
 .admin-requests-container {
-  padding: 24px;
-  background: #0f172a;
-  min-height: 100vh;
-  color: #e5e7eb;
-}
-
-/* ================= HEADER ================= */
-.admin-header {
-  margin-bottom: 20px;
+  padding: 24px 28px;
+  color: #e8eef5;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .admin-header h2 {
-  font-size: 24px;
-  font-weight: 600;
-  color: #f8fafc;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffcb05;
+  margin-bottom: 6px;
 }
 
 .admin-header .subtitle {
-  margin-top: 4px;
-  font-size: 14px;
-  color: #94a3b8;
+  font-size: 1rem;
+  color: #9eb2c8;
 }
 
-/* ================= ACTION BAR ================= */
 .rd-action-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 18px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
 .rd-search-box {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: #020617;
-  border: 1px solid #1e293b;
-  padding: 8px 12px;
-  border-radius: 8px;
-  min-width: 260px;
+  gap: 10px;
+  min-width: 280px;
   flex: 1;
+  background: #071a2d;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px 14px;
+  color: #9eb2c8;
 }
 
 .rd-search-box input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #e5e7eb;
   width: 100%;
-  font-size: 14px;
+  border: none;
+  background: transparent;
+  color: #e8eef5;
+  font-size: 0.95rem;
+  outline: none;
 }
 
-.rd-search-box svg {
-  color: #64748b;
+.rd-search-box input::placeholder {
+  color: #7f93a8;
 }
 
-/* ================= EXPORT BUTTONS (ADMIN ONLY) ================= */
 .rd-actions {
   display: flex;
   gap: 10px;
 }
 
 .export-btn {
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
   border: none;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.export-btn:hover {
+  transform: translateY(-1px);
 }
 
 .export-btn.excel {
@@ -82,100 +80,114 @@
   color: #ecfdf5;
 }
 
-.export-btn.excel:hover {
-  background: #15803d;
-}
-
 .export-btn.pdf {
   background: #dc2626;
   color: #fef2f2;
 }
 
-.export-btn.pdf:hover {
-  background: #b91c1c;
+.status-filter {
+  padding: 12px 14px;
+  background: #071a2d;
+  color: #ffffff;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-width: 180px;
+  font-size: 0.95rem;
 }
 
-/* ================= TABLE ================= */
 .rd-table-wrapper {
+  background: #071a2d;
+  border-radius: 18px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
   overflow-x: auto;
-  border-radius: 10px;
-  border: 1px solid #1e293b;
-  background: #020617;
 }
 
 .rd-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 950px;
+  min-width: 760px;
+  color: #dce4ee;
 }
 
 .rd-table thead {
-  background: #020617;
+  background: #0c2b47;
 }
 
 .rd-table th {
-  text-align: left;
-  padding: 14px;
-  font-size: 13px;
-  color: #94a3b8;
+  padding: 14px 12px;
+  color: #ffcb05;
   font-weight: 600;
-  border-bottom: 1px solid #1e293b;
+  text-align: left;
   white-space: nowrap;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .rd-table td {
-  padding: 14px;
-  font-size: 14px;
-  border-bottom: 1px solid #1e293b;
-  vertical-align: top;
+  padding: 16px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  vertical-align: middle;
 }
 
-/* ================= LEAD INFO ================= */
-.lead-main {
+.rd-table tr:hover td {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.rd-primary-text {
+  font-weight: 600;
+  color: #f4f7fb;
+}
+
+.rd-secondary-text {
+  color: #a8d1ff;
+}
+
+.rd-date-cell {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.lead-name {
+.rd-date-cell span {
   font-weight: 600;
-  color: #f8fafc;
+  color: #eef4fb;
 }
 
-.lead-email {
-  display: flex;
+.rd-date-cell small {
+  color: #8ea5bc;
+  font-size: 0.82rem;
+}
+
+.rd-view-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: #94a3b8;
+  gap: 8px;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #0f4c81, #1363aa);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* ================= MESSAGE ================= */
-.rd-message {
-  max-width: 380px;
-  white-space: normal;
-  word-break: break-word;
-  color: #e5e7eb;
-  line-height: 1.5;
+.rd-view-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(19, 99, 170, 0.28);
 }
 
-.rd-message svg {
-  margin-right: 6px;
-  vertical-align: middle;
-  color: #64748b;
-}
-
-/* ================= STATUS BADGES ================= */
 .status-badge {
-  display: inline-block;
-  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
-/* Status colors */
 .status-badge.blue {
   background: rgba(59, 130, 246, 0.15);
   color: #3b82f6;
@@ -201,47 +213,128 @@
   color: #94a3b8;
 }
 
-/* ================= STATUS SELECT (MANAGER ONLY) ================= */
-.status-select {
-  margin-top: 6px;
-  width: 100%;
-  background: #020617;
-  border: 1px solid #1e293b;
-  color: #e5e7eb;
-  padding: 6px 8px;
-  border-radius: 6px;
-  font-size: 13px;
+.rd-loading,
+.rd-no-records {
+  padding: 40px;
+  text-align: center;
+  color: #94a3b8;
+}
+
+.rd-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(3, 12, 22, 0.74);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.rd-modal {
+  width: min(780px, 100%);
+  background: linear-gradient(180deg, #071a2d 0%, #05111d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  padding: 24px;
+}
+
+.rd-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.rd-modal-header h3 {
+  margin: 6px 0 0;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+.rd-modal-label,
+.rd-message-label {
+  margin: 0;
+  color: #ffcb05;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.rd-modal-close {
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: #dbe8f4;
+  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-.status-select option {
-  background: #020617;
-  color: #e5e7eb;
+.rd-modal-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 22px;
 }
 
-/* ================= ADMIN READ-ONLY MODE ================= */
-/* Admin should NOT see status dropdown */
-.admin-requests-container.admin-view .status-select {
-  display: none;
+.rd-meta-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-/* ================= NO DATA / LOADING ================= */
-.rd-loading {
-  padding: 40px;
-  text-align: center;
-  color: #94a3b8;
+.rd-meta-card span {
+  color: #8ea5bc;
+  font-size: 0.82rem;
 }
 
-.rd-no-records {
-  text-align: center;
-  padding: 40px;
-  color: #94a3b8;
+.rd-meta-card strong {
+  color: #f4f7fb;
+  font-size: 0.96rem;
+  word-break: break-word;
 }
 
-/* ================= RESPONSIVE ================= */
+.rd-message-panel,
+.rd-status-panel {
+  margin-top: 22px;
+}
+
+.rd-message-body {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 18px;
+  color: #dce4ee;
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+
+.rd-status-select {
+  width: 100%;
+  margin-top: 10px;
+  background: #0c2238;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+}
+
 @media (max-width: 768px) {
   .admin-requests-container {
-    padding: 16px;
+    padding: 18px;
   }
 
   .rd-action-bar {
@@ -250,34 +343,25 @@
   }
 
   .rd-actions {
-    justify-content: flex-end;
+    flex-direction: column;
   }
 
   .rd-table {
-    min-width: 800px;
+    min-width: 700px;
+  }
+
+  .rd-modal {
+    padding: 18px;
+  }
+
+  .rd-modal-grid {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 480px) {
-  .admin-header h2 {
-    font-size: 20px;
+  .rd-view-btn {
+    padding: 9px 12px;
+    font-size: 0.82rem;
   }
-
-  .export-btn {
-    width: 100%;
-    text-align: center;
-  }
-
-  .rd-actions {
-    flex-direction: column;
-  }
-}
-.status-filter {
-  background: #020617;
-  border: 1px solid #1e293b;
-  color: #e5e7eb;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
 }

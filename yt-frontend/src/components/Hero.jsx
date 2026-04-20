@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ added
 import "./Hero.css";
 import HeroImg from "../assets/laptop.png";
 import HeroParticles from "./HeroParticles";
 
 const Hero = () => {
-  const navigate = useNavigate(); // ✅ navigation hook
-
   const words = ["Website", "AI Systems", "Mobile App", "Software", "ERP System"];
   const [wordIndex, setWordIndex] = useState(0);
   const [typedText, setTypedText] = useState("");
@@ -18,14 +15,16 @@ const Hero = () => {
 
     const typing = setInterval(() => {
       setTypedText(word.slice(0, i + 1));
-      i++;
-      if (i === word.length) clearInterval(typing);
+      i += 1;
+
+      if (i === word.length) {
+        clearInterval(typing);
+      }
     }, 80);
 
-    const next = setTimeout(
-      () => setWordIndex((p) => (p + 1) % words.length),
-      2800
-    );
+    const next = setTimeout(() => {
+      setWordIndex((prev) => (prev + 1) % words.length);
+    }, 2800);
 
     return () => {
       clearInterval(typing);
@@ -54,12 +53,12 @@ const Hero = () => {
           and customized ERP solutions designed to scale your business efficiently
         </p>
 
-        {/* ✅ UPDATED BUTTON */}
         <button
           className="cta-btn"
           onClick={() => {
-            navigate("/request-demo"); // redirect to demo page
-            window.scrollTo(0, 0); // optional UX
+            if (typeof window !== "undefined" && window.openFreeTrialModal) {
+              window.openFreeTrialModal();
+            }
           }}
         >
           Get a Free Quote

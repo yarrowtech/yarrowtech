@@ -1,8 +1,4 @@
-/* ======================================================
-   CONTACT INBOX UI
-====================================================== */
-
-.admin-contacts-container {
+.career-applications-container {
   padding: 25px 30px;
   color: #e8eef5;
   display: flex;
@@ -10,19 +6,7 @@
   gap: 20px;
 }
 
-.admin-header h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #ffcb05;
-  margin-bottom: 6px;
-}
-
-.admin-header .subtitle {
-  font-size: 1rem;
-  color: #9eb2c8;
-}
-
-.contacts-search-bar {
+.career-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,7 +14,7 @@
   flex-wrap: wrap;
 }
 
-.search-box {
+.career-search-box {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -43,7 +27,7 @@
   color: #9eb2c8;
 }
 
-.search-box input {
+.career-search-box input {
   width: 100%;
   border: none;
   background: transparent;
@@ -52,11 +36,7 @@
   outline: none;
 }
 
-.search-box input::placeholder {
-  color: #7f93a8;
-}
-
-.count-chip {
+.career-count-chip {
   padding: 10px 14px;
   border-radius: 999px;
   background: rgba(255, 203, 5, 0.12);
@@ -65,7 +45,7 @@
   white-space: nowrap;
 }
 
-.contacts-table-wrapper {
+.career-table-wrapper {
   background: #071a2d;
   border-radius: 18px;
   padding: 18px 20px;
@@ -73,18 +53,18 @@
   overflow-x: auto;
 }
 
-.contacts-table {
+.career-table {
   width: 100%;
   border-collapse: collapse;
   min-width: 760px;
   color: #dce4ee;
 }
 
-.contacts-table thead {
+.career-table thead {
   background: #0c2b47;
 }
 
-.contacts-table th {
+.career-table th {
   padding: 14px 12px;
   color: #ffcb05;
   font-weight: 600;
@@ -93,100 +73,75 @@
   border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-.contacts-table td {
+.career-table td {
   padding: 16px 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   vertical-align: middle;
 }
 
-.contacts-table tr:hover td {
+.career-table tr:hover td {
   background: rgba(255, 255, 255, 0.04);
 }
 
-.contact-name-cell {
-  display: flex;
-  align-items: center;
-}
-
-.contact-name {
+.career-primary-text {
   font-weight: 600;
   color: #f4f7fb;
 }
 
-.contact-email {
+.career-secondary-text {
   color: #a8d1ff;
 }
 
-.contact-date-cell {
+.career-date-cell {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.contact-date-cell span {
+.career-date-cell span {
   font-weight: 600;
   color: #eef4fb;
 }
 
-.contact-date-cell small {
+.career-date-cell small {
   color: #8ea5bc;
   font-size: 0.82rem;
 }
 
-.view-message-btn {
+.career-download-btn,
+.career-resume-link,
+.career-view-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: none;
   border-radius: 10px;
   padding: 10px 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.career-download-btn,
+.career-resume-link {
+  background: rgba(255, 255, 255, 0.06);
+  color: #d8e8fb;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.career-view-btn {
+  border: none;
   background: linear-gradient(135deg, #0f4c81, #1363aa);
   color: #ffffff;
-  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.view-message-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(19, 99, 170, 0.28);
-}
-
-.skeleton-table-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.skeleton-row {
-  height: 68px;
-  border-radius: 14px;
-  background: linear-gradient(
-    90deg,
-    rgba(10, 28, 46, 0.9) 0%,
-    rgba(18, 44, 70, 0.95) 50%,
-    rgba(10, 28, 46, 0.9) 100%
-  );
-  background-size: 200% 100%;
-  animation: contactsShimmer 1.4s infinite linear;
-}
-
-.no-records {
+.career-no-records,
+.career-loading {
   text-align: center;
-  padding: 30px 16px;
-}
-
-.no-data-img {
-  width: 86px;
-  opacity: 0.82;
-  margin-bottom: 10px;
-}
-
-.no-records p {
+  padding: 32px;
   color: #9eb2c8;
 }
 
-.contact-modal-backdrop {
+.career-modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 1200;
@@ -198,7 +153,7 @@
   padding: 20px;
 }
 
-.contact-modal {
+.career-modal {
   width: min(760px, 100%);
   background: linear-gradient(180deg, #071a2d 0%, #05111d 100%);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -207,21 +162,21 @@
   padding: 24px;
 }
 
-.contact-modal-header {
+.career-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
 }
 
-.contact-modal-header h3 {
+.career-modal-header h3 {
   margin: 6px 0 0;
   font-size: 1.5rem;
   color: #ffffff;
 }
 
-.contact-modal-label,
-.contact-message-label {
+.career-modal-label,
+.career-message-label {
   margin: 0;
   color: #ffcb05;
   font-size: 0.86rem;
@@ -230,7 +185,7 @@
   text-transform: uppercase;
 }
 
-.contact-modal-close {
+.career-modal-close {
   border: none;
   background: rgba(255, 255, 255, 0.06);
   color: #dbe8f4;
@@ -243,14 +198,14 @@
   cursor: pointer;
 }
 
-.contact-modal-meta {
+.career-modal-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
   margin-top: 22px;
 }
 
-.contact-meta-card {
+.career-meta-card {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 14px;
@@ -260,22 +215,26 @@
   gap: 6px;
 }
 
-.contact-meta-card span {
+.career-meta-card-full {
+  grid-column: 1 / -1;
+}
+
+.career-meta-card span {
   color: #8ea5bc;
   font-size: 0.82rem;
 }
 
-.contact-meta-card strong {
+.career-meta-card strong {
   color: #f4f7fb;
   font-size: 0.96rem;
   word-break: break-word;
 }
 
-.contact-message-panel {
+.career-message-panel {
   margin-top: 22px;
 }
 
-.contact-message-body {
+.career-message-body {
   margin-top: 10px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -286,47 +245,21 @@
   white-space: pre-wrap;
 }
 
-@keyframes contactsShimmer {
-  from {
-    background-position: 200% 0;
-  }
-
-  to {
-    background-position: -200% 0;
-  }
-}
-
 @media (max-width: 768px) {
-  .admin-contacts-container {
+  .career-applications-container {
     padding: 20px;
   }
 
-  .contacts-search-bar {
+  .career-toolbar {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .search-box {
-    min-width: 0;
-  }
-
-  .contact-modal {
+  .career-modal {
     padding: 18px;
   }
 
-  .contact-modal-meta {
+  .career-modal-grid {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .contacts-table th,
-  .contacts-table td {
-    font-size: 0.8rem;
-  }
-
-  .view-message-btn {
-    padding: 9px 12px;
-    font-size: 0.82rem;
   }
 }

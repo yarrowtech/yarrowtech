@@ -110,6 +110,11 @@ export const updateManagerLeadStatus = async (leadId, status) => {
   return res.data;
 };
 
+export const getManagerCareerApplications = async () => {
+  const res = await API.get("/career/all");
+  return Array.isArray(res.data?.careers) ? res.data.careers : [];
+};
+
 /* =====================================================
    MANAGER → PAYMENTS
 ===================================================== */

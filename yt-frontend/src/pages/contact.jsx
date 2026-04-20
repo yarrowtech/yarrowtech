@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import './contact.css'
-import { Mail, Phone, MapPin, Send } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { Mail, MapPin, Phone, Send, X } from 'lucide-react'
 import toast from 'react-hot-toast'
+import './contact.css'
 
-export default function ContactPage() {
+export default function ContactPage({ open = true, onClose, isModal = false, currentUser }) {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [busy, setBusy] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -15,16 +15,45 @@ export default function ContactPage() {
     'http://localhost:5000'
 
   useEffect(() => {
-    setTimeout(() => setAnimate(true), 200)
+    const timer = window.setTimeout(() => setAnimate(true), 200)
+    return () => window.clearTimeout(timer)
   }, [])
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      name: currentUser?.name || prev.name,
+      email: currentUser?.email || prev.email,
+    }))
+  }, [currentUser])
+
+  useEffect(() => {
+    if (!isModal || !open) return undefined
+
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        onClose?.()
+      }
+    }
+
+    window.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.body.style.overflow = originalOverflow
+      window.removeEventListener('keydown', handleEscape)
+    }
+  }, [isModal, onClose, open])
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const handleSubmit = async (event) => {
+    event.preventDefault()
     if (busy) return
 
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
@@ -32,84 +61,127 @@ export default function ContactPage() {
       return
     }
 
-    const loadingId = toast.loading('Sending your message…')
+    const loadingId = toast.loading('Sending your message...')
     setBusy(true)
     setSubmitted(false)
 
     try {
-      const res = await fetch(`${API_BASE}/api/contact`, {
+      const response = await fetch(`${API_BASE}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       })
 
-      const data = await res.json().catch(() => ({}))
+      const data = await response.json().catch(() => ({}))
 
-      if (!res.ok || !data?.success) {
+      if (!response.ok || !data?.success) {
         throw new Error(data?.error || 'Failed to send. Please try again.')
       }
 
       toast.success('Message sent!', { id: loadingId })
       setFormData({ name: '', email: '', message: '' })
       setSubmitted(true)
-      setTimeout(() => setSubmitted(false), 4000)
-    } catch (err) {
-      toast.error(err.message || 'Something went wrong.', { id: loadingId })
+
+      window.setTimeout(() => setSubmitted(false), 4000)
+
+      if (isModal && onClose) {
+        window.setTimeout(() => onClose(), 1200)
+      }
+    } catch (error) {
+      toast.error(error.message || 'Something went wrong.', { id: loadingId })
     } finally {
       setBusy(false)
     }
   }
 
-  return (
-    <section id="contact" className="contact-section">
+  if (!open) return null
+
+  const contactContent = (
+    <section
+      id={isModal ? undefined : 'contact'}
+      className={`contact-section ${isModal ? 'contact-section-modal' : ''}`}
+    >
       <div className={`container fade-in ${animate ? 'show' : ''}`}>
-
-        <h2 className="title slide-up">Contact Us</h2>
-
-        <p className="subtitle slide-up delay-2">
-          We’d love to hear from you! Whether you have a question about our services, pricing,
-          or projects — our team is here to help.
-        </p>
+        <div className="contact-heading slide-up">
+          <span className="contact-badge">Let&apos;s Talk</span>
+          <h2 className="title">Contact Us</h2>
+          <p className="subtitle">
+            Share your requirement, question, or idea and our team will get back to you
+            with the right next step.
+          </p>
+        </div>
 
         <div className="contact-grid">
-
-          {/* LEFT SIDE (Equal-height 3 cards) */}
           <div className="contact-info slide-up delay-3">
-            <div className="left-card-group">
+            <div className="contact-info-panel">
+              <p className="contact-eyebrow">Speak with our team</p>
+              <h3>Start your project conversation with Yarrowtech</h3>
+              <p className="contact-description">
+                Whether you need a website, ERP solution, mobile app, or custom software,
+                we are ready to understand your goals and guide you from planning to delivery.
+              </p>
 
+              <div className="contact-highlights">
+                <div className="contact-highlight">
+                  <strong>Fast response</strong>
+                  <span>We usually reply within one business day.</span>
+                </div>
+                <div className="contact-highlight">
+                  <strong>Expert guidance</strong>
+                  <span>Get help choosing the right service for your business.</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="left-card-group">
               <div className="info-card">
-                <Mail size={32} className="icon" />
-                <div>
+                <div className="info-icon-wrap">
+                  <Mail size={24} className="icon" />
+                </div>
+                <div className="info-copy">
                   <h4>Email</h4>
+                  <span>Send us your project details</span>
                   <p>career@yarrowtech.co.in</p>
                 </div>
               </div>
 
               <div className="info-card">
-                <Phone size={32} className="icon" />
-                <div>
+                <div className="info-icon-wrap">
+                  <Phone size={24} className="icon" />
+                </div>
+                <div className="info-copy">
                   <h4>Phone</h4>
+                  <span>Talk directly with our team</span>
                   <p>+91 9830590929</p>
                 </div>
               </div>
 
               <div className="info-card">
-                <MapPin size={32} className="icon" />
-                <div>
+                <div className="info-icon-wrap">
+                  <MapPin size={24} className="icon" />
+                </div>
+                <div className="info-copy">
                   <h4>Address</h4>
-                  <p>3A,Humayan Place , Esplanade, Kolkata, India</p>
+                  <span>Visit our office location</span>
+                  <p>3A, Humayan Place, Esplanade, Kolkata, India</p>
                 </div>
               </div>
-
             </div>
           </div>
 
-          {/* RIGHT SIDE FORM */}
           <form className="contact-form slide-up delay-4" onSubmit={handleSubmit} noValidate>
+            <div className="form-header">
+              <p className="form-kicker">Send a message</p>
+              <h3>Tell us what you need</h3>
+              <p>
+                Fill out the form and we&apos;ll connect you with the right person from our team.
+              </p>
+            </div>
 
             <div className="form-group">
-              <label>Your Name</label>
+              <label htmlFor="contact-name">Your Name</label>
               <input
+                id="contact-name"
                 type="text"
                 name="name"
                 placeholder="Enter your name"
@@ -120,8 +192,9 @@ export default function ContactPage() {
             </div>
 
             <div className="form-group">
-              <label>Your Email</label>
+              <label htmlFor="contact-email">Your Email</label>
               <input
+                id="contact-email"
                 type="email"
                 name="email"
                 placeholder="you@example.com"
@@ -132,27 +205,49 @@ export default function ContactPage() {
             </div>
 
             <div className="form-group">
-              <label>Your Message</label>
+              <label htmlFor="contact-message">Your Message</label>
               <textarea
+                id="contact-message"
                 name="message"
-                placeholder="Write your message here..."
-                rows="5"
+                placeholder="Tell us about your project, service need, or question..."
+                rows="6"
                 onChange={handleChange}
                 value={formData.message}
                 disabled={busy}
-              ></textarea>
+              />
             </div>
 
             <button type="submit" className="submit-btn" disabled={busy}>
-              <Send size={20} style={{ marginRight: "8px" }} />
-              {busy ? "Sending..." : "Send Message"}
+              <Send size={18} />
+              {busy ? 'Sending...' : 'Send Message'}
             </button>
 
-            {submitted && <p className="success-msg">✅ Thank you! We’ll get back to you soon.</p>}
+            {submitted && (
+              <p className="success-msg">Thank you. We&apos;ll get back to you soon.</p>
+            )}
           </form>
-
         </div>
       </div>
     </section>
+  )
+
+  if (!isModal) {
+    return contactContent
+  }
+
+  return (
+    <div className="contact-modal-overlay" onClick={() => onClose?.()}>
+      <div className="contact-modal-shell" onClick={(event) => event.stopPropagation()}>
+        <button
+          type="button"
+          className="contact-modal-close"
+          onClick={() => onClose?.()}
+          aria-label="Close contact form"
+        >
+          <X size={20} />
+        </button>
+        {contactContent}
+      </div>
+    </div>
   )
 }

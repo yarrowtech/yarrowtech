@@ -58,6 +58,11 @@ export const getContacts = async () => {
   return res.data;
 };
 
+export const getCareerApplications = async () => {
+  const res = await API.get("/career/all");
+  return res.data;
+};
+
 /* ===============================
    DEMO REQUESTS (CRM LEADS)
 ================================ */

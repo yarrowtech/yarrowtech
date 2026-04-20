@@ -526,7 +526,6 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Service from "./pages/services";
 import Products from "./pages/products";
-import Contact from "./pages/contact";
 import Expertise from "./pages/expertise";
 import About from "./pages/about";
 import ScrollProgress from "./components/ScrollProgress";
@@ -552,6 +551,7 @@ import RequestDemoAdmin from "./pages/admin/RequestDemoAdmin";
 import ContactsAdmin from "./pages/admin/ContactsAdmin";
 import Settings from "./pages/admin/Settings";
 import AdminBlog from "./pages/admin/AdminBlog";
+import CareerApplications from "./pages/admin/CareerApplications";
 
 /* 🧩 MANAGER MODULE */
 import ManagerLayout from "./pages/manager/ManagerLayout";
@@ -601,7 +601,6 @@ function Home() {
       <Products />
       <Expertise />
       <About />
-      <Contact />
       <Footer />
     </>
   );
@@ -658,7 +657,7 @@ export default function App() {
           />
 
           {/* SECTION ROUTES */}
-          {["services", "products", "expertise", "about", "contact"].map(
+          {["services", "products", "expertise", "about"].map(
             (sec) => (
               <Route
                 key={sec}
@@ -696,6 +695,7 @@ export default function App() {
             <Route path="blogs" element={<AdminBlog />} />
             <Route path="requests" element={<RequestDemoAdmin />} />
             <Route path="contacts" element={<ContactsAdmin />} />
+            <Route path="careers" element={<CareerApplications />} />
             <Route path="settings" element={<Settings />} />
           </Route>
 
@@ -717,6 +717,8 @@ export default function App() {
             <Route path="create-client" element={<CreateClient />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="requests" element={<RequestDemoManager />} />
+            <Route path="contacts" element={<ContactsAdmin />} />
+            <Route path="careers" element={<CareerApplications />} />
             <Route path="settings" element={<ManagerSettings />} />
             <Route path="chat" element={<ChatWindow />} />
           </Route>
