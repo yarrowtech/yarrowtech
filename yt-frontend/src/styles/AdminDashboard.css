@@ -10,6 +10,28 @@
   gap: 25px;
 }
 
+.dashboard-tabs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.dashboard-tabs button {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #102b45;
+  color: #cfd8e3;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.dashboard-tabs button.active {
+  background: #ffcb05;
+  color: #071a2d;
+  border-color: transparent;
+}
+
 /* Header */
 .admin-header h2 {
   font-size: 1.8rem;
@@ -73,6 +95,98 @@
   gap: 25px;
 }
 
+.dashboard-product-tab {
+  background: #071a2d;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+}
+
+.dashboard-product-tab-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.dashboard-product-tab-head h3 {
+  margin: 0 0 6px;
+  color: #ffcb05;
+}
+
+.dashboard-product-tab-head p {
+  margin: 0;
+  color: #9bb3c9;
+}
+
+.dashboard-product-tab-head button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #ffcb05;
+  color: #071a2d;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dashboard-product-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.dashboard-product-stat {
+  background: #0c2238;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.dashboard-product-stat span {
+  display: block;
+  color: #9bb3c9;
+  margin-bottom: 8px;
+}
+
+.dashboard-product-stat strong {
+  font-size: 1.5rem;
+}
+
+.dashboard-product-list {
+  display: grid;
+  gap: 12px;
+}
+
+.dashboard-product-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.dashboard-product-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  background: #0c2238;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.dashboard-product-card h4 {
+  margin: 0 0 4px;
+}
+
+.dashboard-product-card p,
+.dashboard-product-card span,
+.dashboard-product-empty {
+  margin: 0;
+  color: #9bb3c9;
+}
+
 /* Chart Box */
 .chart-box {
   background: #071a2d;
@@ -99,10 +213,22 @@
   .charts-grid {
     grid-template-columns: 1fr;
   }
+  .dashboard-product-stats {
+    grid-template-columns: 1fr;
+  }
+  .dashboard-product-charts {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
   .stat-card .value {
     font-size: 1.5rem;
+  }
+
+  .dashboard-product-tab-head,
+  .dashboard-product-card {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

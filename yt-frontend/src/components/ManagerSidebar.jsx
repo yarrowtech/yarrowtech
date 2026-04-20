@@ -10,6 +10,7 @@ import {
   Users,
   Mail,
   Briefcase,
+  Layers3,
   Bell,
   Settings,
   LogOut,
@@ -71,6 +72,11 @@ const managerName = formatName(erpUser?.name || "manager");
         <NavLink to="/manager/requests" className="nav-item">
           <Users size={18} />
           CRM Requests
+        </NavLink>
+
+        <NavLink to="/manager/product-users" className="nav-item">
+          <Layers3 size={18} />
+          Product Users
         </NavLink>
 
         <NavLink to="/manager/contacts" className="nav-item">

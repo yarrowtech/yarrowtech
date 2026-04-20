@@ -3,6 +3,12 @@ import bcrypt from "bcryptjs";
 
 const userSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
     email: {
       type: String,
       required: true,
@@ -18,7 +24,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["admin", "manager", "techlead"],
+      enum: ["admin", "manager", "techlead", "productuser"],
       required: true,
     },
 
@@ -26,6 +32,48 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["active", "inactive"],
       default: "active",
+    },
+
+    address: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    mobileNumber: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    manager: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ERPUser",
+      default: null,
+    },
+
+    managerEmail: {
+      type: String,
+      default: "",
+      lowercase: true,
+      trim: true,
+    },
+
+    productName: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    assignedAt: {
+      type: Date,
+      default: null,
+    },
+
+    totalAmount: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
   },
   { timestamps: true }

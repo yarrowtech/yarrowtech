@@ -85,6 +85,7 @@ import {
   Mail,
   Briefcase,
   Settings,
+  Layers3,
   LogOut,
 } from "lucide-react";
 
@@ -138,6 +139,12 @@ export default function Sidebar() {
           to="/admin/users"
           icon={<Users size={18} />}
           label="Users"
+        />
+
+        <NavItem
+          to="/admin/product-users"
+          icon={<Layers3 size={18} />}
+          label="Product Users"
         />
 
         <NavItem

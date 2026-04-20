@@ -55,6 +55,15 @@ import {
   toggleUserStatus,
   resetUserPassword,
 } from "../controllers/admin.controller.js";
+import {
+  addProductUserPayment,
+  getProductUserAnalytics,
+  getManagersForAssignment,
+  getProductCatalog,
+  getProductUserDetails,
+  getProductUsers,
+  updateProductUserPaymentSummary,
+} from "../controllers/productUser.controller.js";
 
 /* ================= MODELS ================= */
 import ERPClient from "../models/Client.js";
@@ -91,6 +100,15 @@ router.put("/user/:id/toggle-status", toggleUserStatus);
 
 // Reset ERP user password
 router.put("/user/:id/reset-password", resetUserPassword);
+
+// Product user management
+router.get("/product-users", getProductUsers);
+router.get("/product-users/analytics", getProductUserAnalytics);
+router.get("/product-users/catalog", getProductCatalog);
+router.get("/product-users/managers", getManagersForAssignment);
+router.get("/product-users/:id", getProductUserDetails);
+router.put("/product-users/:id/payment-summary", updateProductUserPaymentSummary);
+router.post("/product-users/:id/payments", addProductUserPayment);
 
 /* ============================================================
    👤 CLIENT MANAGEMENT (ADMIN ONLY)

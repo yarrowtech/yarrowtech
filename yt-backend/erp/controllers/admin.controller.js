@@ -167,13 +167,23 @@ export const getERPUsers = async (req, res) => {
 ============================================================ */
 export const createERPUser = async (req, res) => {
   try {
-    const { email, password, role } = req.body;
+    const {
+      name,
+      email,
+      password,
+      role,
+      address,
+      mobileNumber,
+      managerId,
+      productName,
+      customProductName,
+    } = req.body;
 
     if (!email || !password || !role) {
       return res.status(400).json({ message: "All fields required" });
     }
 
-    if (!["manager", "techlead", "admin"].includes(role)) {
+    if (!["manager", "techlead", "admin", "productuser"].includes(role)) {
       return res.status(400).json({ message: "Invalid role" });
     }
 
@@ -182,11 +192,49 @@ export const createERPUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
+    let manager = null;
+    let resolvedProductName = String(
+      customProductName || productName || ""
+    ).trim();
+
+    if (role === "productuser") {
+      if (!String(name || "").trim()) {
+        return res.status(400).json({ message: "Name is required" });
+      }
+
+      if (!managerId) {
+        return res.status(400).json({ message: "Manager is required" });
+      }
+
+      if (!resolvedProductName) {
+        return res.status(400).json({ message: "Product is required" });
+      }
+
+      manager = await ERPUser.findOne({
+        _id: managerId,
+        role: "manager",
+        status: "active",
+      });
+
+      if (!manager) {
+        return res.status(400).json({
+          message: "Valid active manager is required",
+        });
+      }
+    }
+
     const user = await ERPUser.create({
+      name: String(name || "").trim(),
       email: email.toLowerCase(),
       password,
       role,
       status: "active",
+      address: String(address || "").trim(),
+      mobileNumber: String(mobileNumber || "").trim(),
+      manager: manager?._id || null,
+      managerEmail: manager?.email || "",
+      productName: role === "productuser" ? resolvedProductName : "",
+      assignedAt: role === "productuser" ? new Date() : null,
     });
 
     res.json({
@@ -194,9 +242,12 @@ export const createERPUser = async (req, res) => {
       message: "User created successfully",
       user: {
         id: user._id,
+        name: user.name,
         email: user.email,
         role: user.role,
         status: user.status,
+        managerEmail: user.managerEmail,
+        productName: user.productName,
       },
     });
   } catch (err) {

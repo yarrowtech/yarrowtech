@@ -151,3 +151,28 @@ export const updateProjectPayment = async (paymentId, payload) => {
   const res = await API.put(`/erp/payments/${paymentId}`, payload);
   return res.data;
 };
+
+export const getManagerProductUsers = async () => {
+  const res = await API.get("/erp/manager/product-users");
+  return Array.isArray(res.data?.productUsers) ? res.data.productUsers : [];
+};
+
+export const getManagerProductUserAnalytics = async () => {
+  const res = await API.get("/erp/manager/product-users/analytics");
+  return res.data;
+};
+
+export const getManagerProductUserDetails = async (id) => {
+  const res = await API.get(`/erp/manager/product-users/${id}`);
+  return res.data;
+};
+
+export const updateManagerProductUserPaymentSummary = async (id, payload) => {
+  const res = await API.put(`/erp/manager/product-users/${id}/payment-summary`, payload);
+  return res.data;
+};
+
+export const addManagerProductUserPayment = async (id, payload) => {
+  const res = await API.post(`/erp/manager/product-users/${id}/payments`, payload);
+  return res.data;
+};

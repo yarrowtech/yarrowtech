@@ -1,0 +1,86 @@
+.product-portal-page {
+  padding: 24px;
+  color: #fff;
+}
+
+.product-portal-head {
+  margin-bottom: 18px;
+}
+
+.product-portal-head h2 {
+  margin: 0 0 8px;
+  color: #ffcb05;
+}
+
+.product-portal-head p {
+  margin: 0;
+  color: #9bb3c9;
+}
+
+.product-portal-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.product-portal-stat,
+.product-portal-card {
+  background: linear-gradient(145deg, #071a2d, #0c2238);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 18px;
+}
+
+.product-portal-stat span {
+  display: block;
+  color: #9bb3c9;
+  margin-bottom: 10px;
+}
+
+.product-portal-stat strong {
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+.product-portal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.product-portal-card h3 {
+  margin-top: 0;
+  color: #ffcb05;
+}
+
+.product-portal-card p {
+  color: #e5e7eb;
+}
+
+.product-portal-page .project-chat-overlay {
+  position: static;
+  inset: unset;
+  background: transparent;
+  backdrop-filter: none;
+}
+
+.product-portal-page .project-chat-modal {
+  width: 100%;
+  max-width: none;
+  min-height: 540px;
+}
+
+@media (max-width: 992px) {
+  .product-portal-stats,
+  .product-portal-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .product-portal-stats,
+  .product-portal-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -9,6 +9,13 @@ import {
   resetClientPassword,
   updateProject,
 } from "../controllers/manager.controller.js";
+import {
+  addProductUserPayment,
+  getProductUserAnalytics,
+  getProductUserDetails,
+  getProductUsers,
+  updateProductUserPaymentSummary,
+} from "../controllers/productUser.controller.js";
 import { verifyErpToken } from "../middleware/erpAuth.js";
 import verifyRoles from "../middleware/verifyRoles.js";
 
@@ -61,6 +68,41 @@ router.put(
   verifyErpToken,
   verifyRoles("manager"),
   resetClientPassword
+);
+
+router.get(
+  "/product-users",
+  verifyErpToken,
+  verifyRoles("manager"),
+  getProductUsers
+);
+
+router.get(
+  "/product-users/analytics",
+  verifyErpToken,
+  verifyRoles("manager"),
+  getProductUserAnalytics
+);
+
+router.get(
+  "/product-users/:id",
+  verifyErpToken,
+  verifyRoles("manager"),
+  getProductUserDetails
+);
+
+router.put(
+  "/product-users/:id/payment-summary",
+  verifyErpToken,
+  verifyRoles("manager"),
+  updateProductUserPaymentSummary
+);
+
+router.post(
+  "/product-users/:id/payments",
+  verifyErpToken,
+  verifyRoles("manager"),
+  addProductUserPayment
 );
 
 export default router;

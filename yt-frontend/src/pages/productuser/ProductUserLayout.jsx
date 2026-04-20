@@ -1,13 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import ClientSidebar from "../../components/ClientSidebar";
+
+import ProductUserSidebar from "../../components/ProductUserSidebar";
 import "../../styles/ClientLayout.css";
 
-export default function ClientLayout() {
+export default function ProductUserLayout() {
   return (
     <div className="client-layout">
-      <ClientSidebar />
-
+      <ProductUserSidebar />
       <div className="client-content">
         <Outlet />
       </div>

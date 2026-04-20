@@ -43,6 +43,7 @@ export default function ERPLogin() {
       else if (res.data.role === "manager") window.location.href = "/manager/dashboard";
       else if (res.data.role === "techlead") window.location.href = "/techlead/dashboard";
       else if (res.data.role === "client") window.location.href = "/client/dashboard";
+      else if (res.data.role === "productuser") window.location.href = "/product-user/dashboard";
 
     } catch (err) {
       toast.error(err.response?.data?.message || "Invalid credentials");

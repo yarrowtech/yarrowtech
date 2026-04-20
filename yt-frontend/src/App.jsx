@@ -552,6 +552,8 @@ import ContactsAdmin from "./pages/admin/ContactsAdmin";
 import Settings from "./pages/admin/Settings";
 import AdminBlog from "./pages/admin/AdminBlog";
 import CareerApplications from "./pages/admin/CareerApplications";
+import AdminProductUsers from "./pages/admin/ProductUsers";
+import AdminProductUserDetails from "./pages/admin/ProductUserDetails";
 
 /* 🧩 MANAGER MODULE */
 import ManagerLayout from "./pages/manager/ManagerLayout";
@@ -563,6 +565,8 @@ import Notifications from "./pages/manager/Notifications";
 import ManagerSettings from "./pages/manager/Settings";
 import ChatWindow from "./pages/manager/ChatWindow";
 import RequestDemoManager from "./pages/manager/RequestDemoManager";
+import ManagerProductUsers from "./pages/manager/ProductUsers";
+import ManagerProductUserDetails from "./pages/manager/ProductUserDetails";
 
 /* 🧩 TECH LEAD */
 import TechnicalLayout from "./pages/technical/TechnicalLayout";
@@ -578,6 +582,11 @@ import MyProjects from "./pages/client/MyProjects";
 import Payments from "./pages/client/Payments";
 import ProjectHistory from "./pages/client/ProjectHistory";
 import Profile from "./pages/client/Profile";
+import ProductUserLayout from "./pages/productuser/ProductUserLayout";
+import ProductUserDashboard from "./pages/productuser/ProductUserDashboard";
+import ProductUserProjects from "./pages/productuser/ProductUserProjects";
+import ProductUserPayments from "./pages/productuser/ProductUserPayments";
+import ProductUserChat from "./pages/productuser/ProductUserChat";
 
 /* 🔔 Toast */
 import { Toaster } from "react-hot-toast";
@@ -617,6 +626,7 @@ function ContactMenuWrapper() {
     pathname.startsWith("/manager") ||
     pathname.startsWith("/techlead") ||
     pathname.startsWith("/client") ||
+    pathname.startsWith("/product-user") ||
     pathname.startsWith("/erp");
 
   return isHidden ? null : <ContactMenu />;
@@ -691,6 +701,8 @@ export default function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="users" element={<Users />} />
+            <Route path="product-users" element={<AdminProductUsers />} />
+            <Route path="product-users/:id" element={<AdminProductUserDetails />} />
             <Route path="projects" element={<Projects />} />
             <Route path="blogs" element={<AdminBlog />} />
             <Route path="requests" element={<RequestDemoAdmin />} />
@@ -714,6 +726,8 @@ export default function App() {
             <Route path="dashboard" element={<ManagerDashboard />} />
             <Route path="projects" element={<ManageProjects />} />
             <Route path="projects/:projectId" element={<ProjectDetails />} />
+            <Route path="product-users" element={<ManagerProductUsers />} />
+            <Route path="product-users/:id" element={<ManagerProductUserDetails />} />
             <Route path="create-client" element={<CreateClient />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="requests" element={<RequestDemoManager />} />
@@ -758,6 +772,21 @@ export default function App() {
             <Route path="payments" element={<Payments />} />
             <Route path="history" element={<ProjectHistory />} />
             <Route path="profile" element={<Profile />} />
+          </Route>
+
+          <Route
+            path="/product-user"
+            element={
+              <ERPProtectedRoute role="productuser">
+                <ProductUserLayout />
+              </ERPProtectedRoute>
+            }
+          >
+            <Route index element={<ProductUserDashboard />} />
+            <Route path="dashboard" element={<ProductUserDashboard />} />
+            <Route path="projects" element={<ProductUserProjects />} />
+            <Route path="payments" element={<ProductUserPayments />} />
+            <Route path="chat" element={<ProductUserChat />} />
           </Route>
 {/* 📩 REQUEST DEMO PAGE */}
 <Route

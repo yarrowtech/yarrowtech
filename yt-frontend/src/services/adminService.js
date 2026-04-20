@@ -32,6 +32,41 @@ export const createERPUser = async (payload) => {
   return res.data;
 };
 
+export const getProductUsers = async () => {
+  const res = await API.get("/erp/admin/product-users");
+  return Array.isArray(res.data?.productUsers) ? res.data.productUsers : [];
+};
+
+export const getProductUserAnalytics = async () => {
+  const res = await API.get("/erp/admin/product-users/analytics");
+  return res.data;
+};
+
+export const getProductUserCatalog = async () => {
+  const res = await API.get("/erp/admin/product-users/catalog");
+  return Array.isArray(res.data?.products) ? res.data.products : [];
+};
+
+export const getProductUserManagers = async () => {
+  const res = await API.get("/erp/admin/product-users/managers");
+  return Array.isArray(res.data?.managers) ? res.data.managers : [];
+};
+
+export const getProductUserDetails = async (id) => {
+  const res = await API.get(`/erp/admin/product-users/${id}`);
+  return res.data;
+};
+
+export const updateProductUserPaymentSummary = async (id, payload) => {
+  const res = await API.put(`/erp/admin/product-users/${id}/payment-summary`, payload);
+  return res.data;
+};
+
+export const addProductUserPayment = async (id, payload) => {
+  const res = await API.post(`/erp/admin/product-users/${id}/payments`, payload);
+  return res.data;
+};
+
 /* ===============================
    TOGGLE USER STATUS (ADMIN)
 ================================ */
