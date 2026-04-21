@@ -98,6 +98,18 @@ export const getCareerApplications = async () => {
   return res.data;
 };
 
+export const downloadCareerResume = async (id, filename) => {
+  const res = await API.get(`/career/download/${id}`, { responseType: "blob" });
+  const url = URL.createObjectURL(new Blob([res.data]));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename || "resume";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
 /* ===============================
    DEMO REQUESTS (CRM LEADS)
 ================================ */

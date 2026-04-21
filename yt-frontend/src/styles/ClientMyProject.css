@@ -1,126 +1,42 @@
-/* ======================================================
-   CLIENT PROJECTS PAGE (Admin Clone Styling)
-====================================================== */
-
 .client-projects-container {
   padding: 25px 30px;
-  color: #fff;
+  color: var(--erp-text);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* HEADER */
-.client-header h2 {
-  font-size: 1.8rem;
-  color: #ffcb05;
-  margin-bottom: 8px;
-  font-weight: 700;
-}
+.client-header h2       { font-size: 1.8rem; color: var(--erp-accent); margin-bottom: 8px; font-weight: 700; }
+.client-header .subtitle{ color: var(--erp-text-muted); font-size: 0.95rem; margin-bottom: 20px; }
 
-.client-header .subtitle {
-  color: #aaa;
-  font-size: 0.95rem;
-  margin-bottom: 20px;
-}
-
-/* ============================
-   TABLE WRAPPER
-============================ */
 .client-projects-table-wrapper {
-  background: #071a2d;
+  background: var(--erp-bg);
+  border: 1px solid var(--erp-border);
   border-radius: 16px;
   padding: 20px 25px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--erp-shadow);
   overflow-x: auto;
-  scroll-behavior: smooth;
 }
 
-/* Smooth scrolling for mobile */
-.client-projects-table-wrapper::-webkit-scrollbar {
-  height: 8px;
-}
+.client-projects-table-wrapper::-webkit-scrollbar       { height: 8px; }
+.client-projects-table-wrapper::-webkit-scrollbar-thumb { background: var(--erp-border-med); border-radius: 10px; }
 
-.client-projects-table-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-}
+.client-projects-table { width: 100%; border-collapse: collapse; color: var(--erp-text); font-size: 0.95rem; min-width: 650px; }
+.client-projects-table thead { background: var(--erp-bg-header); }
 
-.client-projects-table {
-  width: 100%;
-  border-collapse: collapse;
-  color: #eaeaea;
-  font-size: 0.95rem;
-  min-width: 650px; /* reduced from 800px */
-}
+.client-projects-table th { color: var(--erp-accent); padding: 14px 12px; text-align: left; font-weight: 600; }
+.client-projects-table td { padding: 14px 12px; border-bottom: 1px solid var(--erp-border-med); }
+.client-projects-table tr:hover td { background: var(--erp-bg-hover); }
 
-.client-projects-table thead {
-  background: #0c2b47;
-}
+.client-progress-bar  { background: var(--erp-border-med); height: 8px; border-radius: 5px; overflow: hidden; width: 120px; display: inline-block; margin-right: 8px; }
+.client-progress-fill { height: 100%; background: linear-gradient(90deg, var(--erp-accent), #ff8800); border-radius: 5px; transition: width 0.4s ease; }
+.client-progress-text { font-size: 0.85rem; color: var(--erp-text-muted); display: inline-block; min-width: 35px; }
 
-.client-projects-table th {
-  color: #ffcb05;
-  padding: 14px 12px;
-  text-align: left;
-  font-weight: 600;
-}
-
-.client-projects-table td {
-  padding: 14px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.client-projects-table tr:hover td {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* ============================
-   PROGRESS BAR
-============================ */
-.client-progress-bar {
-  background: rgba(255, 255, 255, 0.1);
-  height: 8px;
-  border-radius: 5px;
-  overflow: hidden;
-  width: 120px;
-  display: inline-block;
-  margin-right: 8px;
-}
-
-.client-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #ffcb05, #ff8800);
-  border-radius: 5px;
-  transition: width 0.4s ease;
-}
-
-.client-progress-text {
-  font-size: 0.85rem;
-  color: #ccc;
-  display: inline-block;
-  min-width: 35px;
-}
-
-/* ============================
-   STATUS BADGES
-============================ */
-.client-status {
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.client-status-completed {
-  color: #4caf50;
-}
-
-.client-status-ongoing {
-  color: #ffcb05;
-}
-
-.client-status-pending {
-  color: #ff5252;
-}
+.client-status           { font-weight: 600; text-transform: capitalize; }
+.client-status-completed { color: #4caf50; }
+.client-status-ongoing   { color: var(--erp-accent); }
+.client-status-pending   { color: #ff5252; }
 
 .client-chat-btn {
   padding: 8px 14px;
@@ -131,74 +47,27 @@
   cursor: pointer;
   font-weight: 600;
 }
+.client-chat-btn:hover { opacity: 0.92; }
 
-.client-chat-btn:hover {
-  opacity: 0.92;
-}
-
-/* ======================================================
-   RESPONSIVE — Tablet (medium)
-====================================================== */
 @media (max-width: 992px) {
-  .client-projects-container {
-    padding: 20px;
-  }
-
-  .client-header h2 {
-    font-size: 1.6rem;
-  }
-
+  .client-projects-container { padding: 20px; }
+  .client-header h2 { font-size: 1.6rem; }
   .client-projects-table th,
-  .client-projects-table td {
-    padding: 10px 8px;
-  }
-
-  .client-progress-bar {
-    width: 90px;
-  }
+  .client-projects-table td { padding: 10px 8px; }
+  .client-progress-bar { width: 90px; }
 }
 
-/* ======================================================
-   RESPONSIVE — Mobile (small)
-====================================================== */
 @media (max-width: 768px) {
-  .client-projects-container {
-    padding: 18px;
-  }
-
-  .client-projects-table {
-    font-size: 0.85rem;
-    min-width: 550px; /* further reduced */
-  }
-
-  .client-header h2 {
-    font-size: 1.4rem;
-  }
-
-  .client-progress-text {
-    display: none;
-  }
+  .client-projects-container { padding: 18px; }
+  .client-projects-table     { font-size: 0.85rem; min-width: 550px; }
+  .client-header h2          { font-size: 1.4rem; }
+  .client-progress-text      { display: none; }
 }
 
-/* ======================================================
-   RESPONSIVE — Extra Small (phones < 480px)
-====================================================== */
 @media (max-width: 480px) {
-  .client-header h2 {
-    font-size: 1.25rem;
-  }
-
+  .client-header h2 { font-size: 1.25rem; }
   .client-projects-table th,
-  .client-projects-table td {
-    padding: 8px 6px;
-    font-size: 0.78rem;
-  }
-
-  .client-progress-bar {
-    width: 70px;
-  }
-
-  .client-projects-table {
-    min-width: 480px; /* tight layout for small phones */
-  }
+  .client-projects-table td { padding: 8px 6px; font-size: 0.78rem; }
+  .client-progress-bar      { width: 70px; }
+  .client-projects-table    { min-width: 480px; }
 }

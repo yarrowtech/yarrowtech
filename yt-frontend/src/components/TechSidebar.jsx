@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
 import "../styles/techSidebar.css";
 // import API from "../services/axiosInstance"; // optional
 
@@ -67,6 +68,9 @@ export default function TechSidebar() {
 
       {/* 🔴 LOGOUT */}
       <div className="sidebar-footer">
+        <div style={{ marginBottom: 10 }}>
+          <ThemeToggle />
+        </div>
         <button className="logout-btn" onClick={handleLogout}>
           Logout
         </button>

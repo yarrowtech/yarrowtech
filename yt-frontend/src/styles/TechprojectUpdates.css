@@ -11,12 +11,12 @@
 
 /* CARD */
 .update-card {
-  background: linear-gradient(180deg, #0c263d, #0b2235);
+  background: var(--erp-card-gradient);
   padding: 20px 22px;
   border-radius: 14px;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  color: var(--erp-text);
+  border: 1px solid var(--erp-border);
+  box-shadow: var(--erp-shadow);
 }
 
 /* HEADER */
@@ -28,7 +28,7 @@
 
 .update-card h3 {
   font-size: 1.15rem;
-  color: #ffcb05;
+  color: var(--erp-accent);
 }
 
 /* STATUS BADGE */
@@ -66,14 +66,14 @@
 .progress-bar {
   flex: 1;
   height: 8px;
-  background: #1b3a55;
+  background: var(--erp-border-med);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #ffcb05, #ff9f00);
+  background: linear-gradient(90deg, var(--erp-accent), #ff9f00);
 }
 
 /* FORM */
@@ -90,17 +90,17 @@
 .form-group label {
   font-size: 0.85rem;
   margin-bottom: 4px;
-  color: #9fb3c8;
+  color: var(--erp-text-muted);
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-  background: #081a2a;
-  border: 1px solid #223d57;
+  background: var(--erp-bg-input);
+  border: 1px solid var(--erp-border-med);
   border-radius: 8px;
   padding: 8px 10px;
-  color: #fff;
+  color: var(--erp-text);
 }
 
 /* ACTIONS */
@@ -111,27 +111,31 @@
 }
 
 .primary-btn {
-  background: #ffcb05;
-  color: #000;
+  background: var(--erp-accent);
+  color: var(--erp-accent-text);
   padding: 8px 16px;
   border-radius: 8px;
   font-weight: 600;
+  border: none;
+  cursor: pointer;
 }
 
 .secondary-btn {
   background: transparent;
-  border: 1px solid #3b5d7a;
-  color: #cbd3df;
+  border: 1px solid var(--erp-border-med);
+  color: var(--erp-text-muted);
   padding: 8px 16px;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 /* EDIT BUTTON */
 .edit-btn {
   margin-top: 10px;
   background: transparent;
-  border: 1px solid #3b5d7a;
-  color: #cbd3df;
+  border: 1px solid var(--erp-border-med);
+  color: var(--erp-text-muted);
   padding: 7px 14px;
   border-radius: 8px;
+  cursor: pointer;
 }

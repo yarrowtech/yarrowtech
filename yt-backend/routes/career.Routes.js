@@ -3,6 +3,7 @@ import uploadResume from "../middleware/uploadResume.js";
 import {
   submitCareer,
   getAllCareerSubmissions,
+  downloadResume,
 } from "../controllers/career.Controller.js";
 import { authMiddleware } from "../middleware/auth.js";
 import verifyRoles from "../middleware/verifyRoles.js";
@@ -18,6 +19,14 @@ router.get(
   authMiddleware,
   verifyRoles("admin", "manager"),
   getAllCareerSubmissions
+);
+
+// ADMIN + MANAGER route → proxy resume download from Cloudinary
+router.get(
+  "/download/:id",
+  authMiddleware,
+  verifyRoles("admin", "manager"),
+  downloadResume
 );
 
 export default router;

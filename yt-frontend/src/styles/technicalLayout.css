@@ -2,21 +2,20 @@
   display: flex;
   width: 100%;
   min-height: 100vh;
-  background: #081721;
+  background: var(--erp-layout);
 }
 
-/* Main area next to sidebar */
 .technical-main {
   flex: 1;
-  margin-left: 17rem; /* width of sidebar */
+  margin-left: 17rem;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* Content area below navbar */
 .technical-content {
   padding: 25px;
   flex: 1;
-  color: #fff;
+  background: var(--erp-bg);
+  color: var(--erp-text);
 }

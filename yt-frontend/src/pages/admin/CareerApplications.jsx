@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/CareerApplications.css";
-import { getCareerApplications } from "../../services/adminService";
+import { getCareerApplications, downloadCareerResume } from "../../services/adminService";
 import { Search, Eye, Download, X } from "lucide-react";
 
 export default function CareerApplications() {
@@ -9,6 +9,18 @@ export default function CareerApplications() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedApplication, setSelectedApplication] = useState(null);
+  const [downloading, setDownloading] = useState(null);
+
+  const handleDownload = async (id, filename) => {
+    setDownloading(id);
+    try {
+      await downloadCareerResume(id, filename);
+    } catch (err) {
+      console.error("Download failed:", err);
+    } finally {
+      setDownloading(null);
+    }
+  };
 
   useEffect(() => {
     loadApplications();
@@ -112,15 +124,15 @@ export default function CareerApplications() {
                       </div>
                     </td>
                     <td>
-                      <a
+                      <button
+                        type="button"
                         className="career-download-btn"
-                        href={item.resumeUrl}
-                        target="_blank"
-                        rel="noreferrer"
+                        disabled={downloading === item._id}
+                        onClick={() => handleDownload(item._id, item.resumeName)}
                       >
                         <Download size={16} />
-                        {item.resumeName || "Resume"}
-                      </a>
+                        {downloading === item._id ? "Downloading..." : (item.resumeName || "Resume")}
+                      </button>
                     </td>
                     <td>
                       <button
@@ -177,15 +189,15 @@ export default function CareerApplications() {
               </div>
               <div className="career-meta-card career-meta-card-full">
                 <span>Resume</span>
-                <a
-                  href={selectedApplication.resumeUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                <button
+                  type="button"
                   className="career-resume-link"
+                  disabled={downloading === selectedApplication._id}
+                  onClick={() => handleDownload(selectedApplication._id, selectedApplication.resumeName)}
                 >
                   <Download size={16} />
-                  {selectedApplication.resumeName || "Open Resume"}
-                </a>
+                  {downloading === selectedApplication._id ? "Downloading..." : (selectedApplication.resumeName || "Download Resume")}
+                </button>
               </div>
             </div>
 

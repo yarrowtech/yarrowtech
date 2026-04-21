@@ -2,6 +2,7 @@
   display: flex;
   width: 100%;
   min-height: 100vh;
+  background: var(--erp-layout);
 }
 
 .client-content {
@@ -9,10 +10,11 @@
   width: calc(100% - 16rem);
   padding: 25px 30px;
   min-height: 100vh;
+  background: var(--erp-bg);
+  color: var(--erp-text);
   transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
-/* Tablet */
 @media (max-width: 992px) {
   .client-content {
     margin-left: 14rem;
@@ -21,7 +23,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .client-content {
     margin-left: 0;

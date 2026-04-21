@@ -1,24 +1,12 @@
-/* PAGE WRAPPER */
 .client-dashboard-container {
   padding: 25px 30px;
-  color: #fff;
+  color: var(--erp-text);
   min-height: 100vh;
 }
 
-/* HEADER */
-.client-header h2 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #ffcb05;
-}
+.client-header h2       { font-size: 1.8rem; font-weight: 700; color: var(--erp-accent); }
+.client-header .subtitle{ color: var(--erp-text-muted); font-size: 0.95rem; margin-bottom: 20px; }
 
-.client-header .subtitle {
-  color: #aaa;
-  font-size: 0.95rem;
-  margin-bottom: 20px;
-}
-
-/* STATS GRID */
 .client-stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -26,60 +14,35 @@
   margin-bottom: 35px;
 }
 
-/* STAT CARD */
 .client-stat-card {
-  background: #071a2d;
+  background: var(--erp-bg);
+  border: 1px solid var(--erp-border);
   padding: 20px 22px;
   border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--erp-shadow);
   transition: 0.3s;
 }
 
-.client-stat-card:hover {
-  transform: translateY(-3px);
-}
+.client-stat-card:hover  { transform: translateY(-3px); box-shadow: var(--erp-shadow-lg); }
+.client-stat-card h4     { font-size: 1rem; color: var(--erp-text-muted); }
+.client-stat-card .value { font-size: 2rem; font-weight: 700; color: var(--erp-accent); }
 
-.client-stat-card h4 {
-  font-size: 1rem;
-  color: #eaeaea;
-}
+.change     { font-size: 0.9rem; font-weight: 600; }
+.change.up  { color: #4caf50; }
+.change.down{ color: #ff5252; }
 
-.client-stat-card .value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #ffcb05;
-}
-
-.change {
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.change.up {
-  color: #4caf50;
-}
-
-.change.down {
-  color: #ff5252;
-}
-
-/* CHART GRID */
 .client-charts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 25px;
 }
 
-/* CHART BOX */
 .client-chart-box {
-  background: #071a2d;
+  background: var(--erp-bg);
+  border: 1px solid var(--erp-border);
   padding: 20px 25px;
   border-radius: 16px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--erp-shadow);
 }
 
-.client-chart-box h3 {
-  font-size: 1.1rem;
-  color: #ffcb05;
-  margin-bottom: 12px;
-}
+.client-chart-box h3 { font-size: 1.1rem; color: var(--erp-accent); margin-bottom: 12px; }

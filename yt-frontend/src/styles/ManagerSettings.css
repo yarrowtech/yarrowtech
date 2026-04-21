@@ -1,18 +1,18 @@
 .manager-page {
-  background: #071a2d;
+  background: var(--erp-bg);
   padding: 25px 30px;
-  color: #fff;
+  color: var(--erp-text);
   border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--erp-shadow);
 }
 
 .manager-page h2 {
   font-size: 1.8rem;
-  color: #ffcb05;
+  color: var(--erp-accent);
   margin-bottom: 10px;
 }
 
 .manager-page p {
   font-size: 1rem;
-  color: #ccc;
+  color: var(--erp-text-muted);
 }

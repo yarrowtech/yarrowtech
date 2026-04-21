@@ -1,7 +1,4 @@
-.product-user-page {
-  padding: 24px;
-  color: #fff;
-}
+.product-user-page { padding: 24px; color: var(--erp-text); }
 
 .product-user-page-head {
   display: flex;
@@ -11,38 +8,30 @@
   margin-bottom: 18px;
 }
 
-.product-user-page-head h2 {
-  margin: 0 0 6px;
-  color: #ffcb05;
-}
-
+.product-user-page-head h2   { margin: 0 0 6px; color: var(--erp-accent); }
 .product-user-page-head p,
-.product-user-count {
-  color: #9bb3c9;
-}
+.product-user-count           { color: var(--erp-text-muted); }
 
 .product-user-table-wrap {
-  background: #071a2d;
+  background: var(--erp-bg);
   border-radius: 16px;
   overflow: auto;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--erp-border);
 }
 
-.product-user-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+.product-user-table { width: 100%; border-collapse: collapse; }
 
 .product-user-table th,
 .product-user-table td {
   padding: 14px;
   text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--erp-border);
+  color: var(--erp-text);
 }
 
 .product-user-table th {
-  background: #102b45;
-  color: #ffcb05;
+  background: var(--erp-bg-header);
+  color: var(--erp-accent);
 }
 
 .product-user-status {
@@ -54,40 +43,43 @@
   font-weight: 700;
 }
 
-.product-user-status.active {
-  background: #22c55e;
-  color: #032114;
-}
-
-.product-user-status.inactive {
-  background: #64748b;
-  color: #020617;
-}
+.product-user-status.active   { background: #22c55e; color: #032114; }
+.product-user-status.inactive { background: #64748b; color: #020617; }
 
 .action-btn {
   padding: 8px 14px;
   border: none;
   border-radius: 10px;
-  background: #ffcb05;
-  color: #071a2d;
+  background: var(--erp-accent);
+  color: var(--erp-accent-text);
   font-weight: 700;
   cursor: pointer;
 }
 
 .action-btn.secondary {
-  background: #102b45;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--erp-bg-header);
+  color: var(--erp-text);
+  border: 1px solid var(--erp-border-med);
 }
 
-.empty-table-cell {
-  text-align: center;
-  color: #9bb3c9;
+.empty-table-cell { text-align: center; color: var(--erp-text-muted); }
+
+.payment-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 78px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  text-transform: capitalize;
+  font-size: 0.82rem;
+  font-weight: 700;
 }
+
+.payment-status-badge.paid    { background: rgba(34,197,94,0.15);  color: #22c55e; }
+.payment-status-badge.pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.payment-status-badge.failed  { background: rgba(239,68,68,0.15);  color: #ef4444; }
 
 @media (max-width: 768px) {
-  .product-user-page-head {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  .product-user-page-head { flex-direction: column; align-items: flex-start; }
 }

@@ -4,7 +4,7 @@
 
 .admin-requests-container {
   padding: 24px;
-  color: #ffffff;
+  color: var(--erp-text);
 }
 
 /* ================= HEADER ================= */
@@ -15,12 +15,12 @@
 
 .admin-header h2 {
   font-size: 1.9rem;
-  color: #ffcb05;
+  color: var(--erp-accent);
   margin-bottom: 4px;
 }
 
 .admin-header .subtitle {
-  color: #9bb3c9;
+  color: var(--erp-text-muted);
   font-size: 0.95rem;
 }
 
@@ -38,10 +38,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #0c2238;
+  background: var(--erp-bg-input);
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--erp-border-med);
   flex: 1;
 }
 
@@ -49,42 +49,42 @@
   background: transparent;
   border: none;
   outline: none;
-  color: #ffffff;
+  color: var(--erp-text);
   width: 100%;
 }
 
 /* STATUS FILTER */
 .status-filter {
   padding: 10px 14px;
-  background: #0c2238;
-  color: #ffffff;
+  background: var(--erp-bg-input);
+  color: var(--erp-text);
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--erp-border-med);
   min-width: 160px;
 }
 
 /* ================= TABLE ================= */
 
 .rd-table-wrapper {
-  background: #071a2d;
+  background: var(--erp-bg);
   border-radius: 14px;
   padding: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  overflow-x: auto; /* ✅ horizontal scroll on mobile */
+  border: 1px solid var(--erp-border);
+  overflow-x: auto;
 }
 
 .rd-table {
   width: 100%;
-  min-width: 900px; /* ✅ keeps columns visible */
+  min-width: 900px;
   border-collapse: collapse;
-  background: #0c2238;
+  background: var(--erp-card-gradient);
   border-radius: 10px;
   overflow: hidden;
 }
 
 .rd-table thead th {
-  background: #102b45;
-  color: #ffcb05;
+  background: var(--erp-bg-header);
+  color: var(--erp-accent);
   padding: 12px 14px;
   text-align: left;
   font-size: 0.9rem;
@@ -93,8 +93,9 @@
 .rd-table td {
   padding: 12px 14px;
   font-size: 0.88rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--erp-border);
   vertical-align: top;
+  color: var(--erp-text);
 }
 
 .rd-row-clickable {
@@ -102,7 +103,7 @@
 }
 
 .rd-row-clickable:hover {
-  background: #0f2c46;
+  background: var(--erp-bg-hover);
 }
 
 /* ================= LEAD INFO ================= */
@@ -114,7 +115,7 @@
 
 .lead-email {
   font-size: 0.8rem;
-  color: #9bb3c9;
+  color: var(--erp-text-muted);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -124,7 +125,7 @@
 
 .rd-message {
   max-width: 260px;
-  color: #dbeafe;
+  color: var(--erp-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -141,26 +142,10 @@
   text-transform: capitalize;
 }
 
-/* Status Colors */
-.status-badge.new {
-  background: #facc15;
-  color: #000;
-}
-
-.status-badge.contacted {
-  background: #60a5fa;
-  color: #001d2e;
-}
-
-.status-badge.in-progress {
-  background: #38bdf8;
-  color: #002b3f;
-}
-
-.status-badge.closed {
-  background: #22c55e;
-  color: #002b17;
-}
+.status-badge.new         { background: #facc15; color: #000; }
+.status-badge.contacted   { background: #60a5fa; color: #001d2e; }
+.status-badge.in-progress { background: #38bdf8; color: #002b3f; }
+.status-badge.closed      { background: #22c55e; color: #002b17; }
 
 /* ================= STATES ================= */
 
@@ -168,11 +153,11 @@
 .rd-no-records {
   padding: 24px;
   text-align: center;
-  color: #9bb3c9;
+  color: var(--erp-text-muted);
 }
 
 /* =====================================================
-   SLIDE-IN DRAWER (MOBILE / TABLET)
+   SLIDE-IN DRAWER
 ===================================================== */
 
 .rd-drawer-overlay {
@@ -188,23 +173,20 @@
   width: 380px;
   max-width: 92vw;
   height: 100%;
-  background: #071a2d;
+  background: var(--erp-card-gradient-flat);
   padding: 22px;
   animation: slideIn 0.3s ease;
   overflow-y: auto;
+  border-left: 1px solid var(--erp-border);
 }
 
 @keyframes slideIn {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
 }
 
 .rd-drawer h3 {
-  color: #ffcb05;
+  color: var(--erp-accent);
   margin-bottom: 18px;
 }
 
@@ -215,22 +197,22 @@
 .drawer-section label {
   display: block;
   font-size: 0.8rem;
-  color: #9bb3c9;
+  color: var(--erp-text-muted);
   margin-bottom: 4px;
 }
 
 .drawer-section p {
   font-size: 0.95rem;
-  color: #ffffff;
+  color: var(--erp-text);
 }
 
 .drawer-section select {
   width: 100%;
   padding: 10px;
-  background: #0c2238;
+  background: var(--erp-bg-input);
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  border: 1px solid var(--erp-border-med);
+  color: var(--erp-text);
 }
 
 .drawer-close {
@@ -238,8 +220,8 @@
   width: 100%;
   padding: 12px;
   border-radius: 10px;
-  background: #ffcb05;
-  color: #071a2d;
+  background: var(--erp-accent);
+  color: var(--erp-accent-text);
   font-weight: 700;
   border: none;
   cursor: pointer;
@@ -250,23 +232,11 @@
 ===================================================== */
 
 @media (max-width: 768px) {
-  .admin-requests-container {
-    padding: 16px;
-  }
-
-  .rd-action-bar {
-    flex-direction: column;
-  }
-
-  .rd-table {
-    min-width: 720px; /* horizontal swipe */
-  }
+  .admin-requests-container { padding: 16px; }
+  .rd-action-bar { flex-direction: column; }
+  .rd-table { min-width: 720px; }
 }
 
 @media (max-width: 480px) {
-  .rd-table {
-    min-width: 640px;
-  }
+  .rd-table { min-width: 640px; }
 }
-
-

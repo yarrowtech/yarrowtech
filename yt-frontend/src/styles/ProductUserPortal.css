@@ -1,21 +1,217 @@
-.product-portal-page {
-  padding: 24px;
-  color: #fff;
+/* ── Product User Dashboard ─────────────────────────────── */
+
+.pu-dash-page {
+  padding: 28px 30px;
+  color: var(--erp-text);
+  min-height: 100vh;
 }
 
-.product-portal-head {
-  margin-bottom: 18px;
+.pu-dash-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+
+.pu-dash-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--erp-accent-muted);
+  color: var(--erp-accent);
+  flex-shrink: 0;
 }
 
-.product-portal-head h2 {
-  margin: 0 0 8px;
-  color: #ffcb05;
+.pu-dash-header h2 { margin: 0 0 4px; font-size: 1.55rem; font-weight: 700; color: var(--erp-accent); }
+.pu-dash-header p  { margin: 0; color: var(--erp-text-muted); font-size: 0.9rem; }
+
+.pu-dash-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
 }
 
-.product-portal-head p {
-  margin: 0;
-  color: #9bb3c9;
+.pu-dash-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  background: var(--erp-card-gradient);
+  border-radius: 16px;
+  border: 1px solid var(--erp-border);
+  border-left: 3px solid var(--accent);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
+
+.pu-dash-stat-card:hover { transform: translateY(-3px); box-shadow: var(--erp-shadow-lg); }
+
+.pu-dash-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.pu-dash-stat-body  { display: flex; flex-direction: column; gap: 4px; }
+.pu-dash-stat-label { font-size: 0.82rem; color: var(--erp-text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.pu-dash-stat-value { font-size: 1.35rem; font-weight: 700; color: var(--erp-text); line-height: 1.2; }
+
+.pu-dash-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+
+.pu-dash-card {
+  background: var(--erp-card-gradient);
+  border-radius: 18px;
+  border: 1px solid var(--erp-border);
+  padding: 22px 24px;
+}
+
+.pu-dash-card h3 { margin: 0 0 18px; font-size: 1rem; font-weight: 600; color: var(--erp-accent); }
+.pu-dash-empty   { color: var(--erp-text-faint); font-size: 0.9rem; margin-top: 20px; text-align: center; }
+
+.pu-dash-summary-rows    { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+
+.pu-dash-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--erp-border);
+}
+
+.pu-dash-summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+.pu-dash-summary-row span       { color: var(--erp-text-muted); }
+.pu-dash-summary-row strong     { font-size: 0.95rem; color: var(--erp-text); }
+
+.pu-dash-progress-section { margin-top: 8px; }
+
+.pu-dash-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  color: var(--erp-text-muted);
+}
+
+.pu-dash-pct { font-weight: 700; color: #22c55e; }
+
+.pu-dash-progress-bar  { height: 8px; background: var(--erp-border-med); border-radius: 999px; overflow: hidden; }
+.pu-dash-progress-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #4ade80); border-radius: 999px; transition: width 0.6s ease; }
+
+@media (max-width: 900px) { .pu-dash-bottom { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .pu-dash-page   { padding: 18px 16px; } .pu-dash-stats { grid-template-columns: 1fr; } }
+
+/* ── Product User Projects ──────────────────────────────── */
+
+.pu-proj-page { padding: 28px 30px; color: var(--erp-text); min-height: 100vh; }
+
+.pu-proj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.pu-proj-card {
+  background: var(--erp-card-gradient);
+  border-radius: 18px;
+  border: 1px solid var(--erp-border);
+  padding: 22px 22px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pu-proj-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+
+.pu-proj-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--erp-accent-muted);
+  color: var(--erp-accent);
+  flex-shrink: 0;
+}
+
+.pu-proj-card-header h3 { margin: 0; font-size: 0.95rem; font-weight: 600; color: var(--erp-accent); }
+
+.pu-proj-product-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  background: var(--erp-accent-muted);
+  border: 1px solid rgba(255, 203, 5, 0.2);
+  border-radius: 999px;
+  color: var(--erp-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  width: fit-content;
+}
+
+.pu-proj-info-list   { display: flex; flex-direction: column; }
+
+.pu-proj-info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--erp-border);
+}
+
+.pu-proj-info-row:last-child { border-bottom: none; }
+
+.pu-proj-info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--erp-bg-hover);
+  color: var(--erp-text-muted);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pu-proj-info-body  { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pu-proj-info-label { font-size: 0.75rem; color: var(--erp-text-faint); text-transform: uppercase; letter-spacing: 0.04em; }
+.pu-proj-info-value { font-size: 0.9rem; color: var(--erp-text); word-break: break-word; }
+
+.pu-proj-payment-rows { display: flex; flex-direction: column; }
+
+.pu-proj-payment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--erp-border);
+  font-size: 0.88rem;
+}
+
+.pu-proj-payment-row:last-child { border-bottom: none; }
+.pu-proj-payment-row span       { color: var(--erp-text-muted); }
+.pu-proj-payment-row strong     { color: var(--erp-text); }
+.pu-proj-payment-row.paid strong    { color: #22c55e; }
+.pu-proj-payment-row.pending strong { color: #f59e0b; }
+.pu-proj-payment-row.due strong     { color: #ef4444; }
+
+@media (max-width: 1024px) { .pu-proj-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px)  { .pu-proj-page { padding: 18px 16px; } .pu-proj-grid { grid-template-columns: 1fr; } }
+
+/* ── Legacy product-portal (Payments page) ── */
+
+.product-portal-page { padding: 24px; color: var(--erp-text); }
+.product-portal-head { margin-bottom: 18px; }
+.product-portal-head h2 { margin: 0 0 8px; color: var(--erp-accent); }
+.product-portal-head p  { margin: 0; color: var(--erp-text-muted); }
 
 .product-portal-stats {
   display: grid;
@@ -26,22 +222,14 @@
 
 .product-portal-stat,
 .product-portal-card {
-  background: linear-gradient(145deg, #071a2d, #0c2238);
+  background: var(--erp-card-gradient);
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--erp-border);
   padding: 18px;
 }
 
-.product-portal-stat span {
-  display: block;
-  color: #9bb3c9;
-  margin-bottom: 10px;
-}
-
-.product-portal-stat strong {
-  font-size: 1.15rem;
-  line-height: 1.45;
-}
+.product-portal-stat span   { display: block; color: var(--erp-text-muted); margin-bottom: 10px; }
+.product-portal-stat strong { font-size: 1.15rem; color: var(--erp-text); line-height: 1.45; }
 
 .product-portal-grid {
   display: grid;
@@ -49,38 +237,18 @@
   gap: 16px;
 }
 
-.product-portal-card h3 {
-  margin-top: 0;
-  color: #ffcb05;
-}
+.product-portal-card h3 { margin-top: 0; color: var(--erp-accent); }
+.product-portal-card p  { color: var(--erp-text); }
 
-.product-portal-card p {
-  color: #e5e7eb;
-}
-
-.product-portal-page .project-chat-overlay {
-  position: static;
-  inset: unset;
-  background: transparent;
-  backdrop-filter: none;
-}
-
-.product-portal-page .project-chat-modal {
-  width: 100%;
-  max-width: none;
-  min-height: 540px;
-}
+.product-portal-page .project-chat-overlay { position: static; inset: unset; background: transparent; backdrop-filter: none; }
+.product-portal-page .project-chat-modal   { width: 100%; max-width: none; min-height: 540px; }
 
 @media (max-width: 992px) {
   .product-portal-stats,
-  .product-portal-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+  .product-portal-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 640px) {
   .product-portal-stats,
-  .product-portal-grid {
-    grid-template-columns: 1fr;
-  }
+  .product-portal-grid { grid-template-columns: 1fr; }
 }

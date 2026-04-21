@@ -59,13 +59,13 @@ import {
   Home,
   Box,
   CreditCard,
-  Clock3,
   User,
   LogOut,
   Menu,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import API from "../services/axiosInstance";
+import ThemeToggle from "./ThemeToggle";
 import "../styles/ClientSidebar.css";
 
 export default function ClientSidebar() {
@@ -76,7 +76,6 @@ export default function ClientSidebar() {
     { label: "Dashboard", icon: <Home size={20} />, to: "/client/dashboard" },
     { label: "My Projects", icon: <Box size={20} />, to: "/client/projects" },
     { label: "Payments", icon: <CreditCard size={20} />, to: "/client/payments" },
-    { label: "History", icon: <Clock3 size={20} />, to: "/client/history" },
     { label: "Profile", icon: <User size={20} />, to: "/client/profile" },
   ];
 
@@ -138,6 +137,9 @@ export default function ClientSidebar() {
 
         {/* LOGOUT */}
         <div className="client-sidebar-bottom">
+          <div style={{ marginBottom: 10 }}>
+            <ThemeToggle />
+          </div>
           <button className="client-logout-btn" onClick={handleLogout}>
             <LogOut size={20} />
             <span>Logout</span>

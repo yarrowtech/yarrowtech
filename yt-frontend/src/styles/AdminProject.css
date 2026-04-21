@@ -1,6 +1,5 @@
 /* =======================================================================
-   Y A R R O W T E C H — ADMIN PROJECTS UI (ENTERPRISE DESIGN)
-   Perfectly matched with updated JSX (Inline Editing Version)
+   Y A R R O W T E C H — ADMIN PROJECTS UI
 ========================================================================= */
 
 /* ======================================================
@@ -8,7 +7,7 @@
 ====================================================== */
 .admin-projects-container {
   padding: 32px 34px;
-  color: #e8eef5;
+  color: var(--erp-text);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -20,12 +19,12 @@
 .admin-header h2 {
   font-size: 2rem;
   font-weight: 700;
-  color: #ffcb05;
+  color: var(--erp-accent);
   margin-bottom: 8px;
 }
 
 .admin-header .subtitle {
-  color: #9bb2c8;
+  color: var(--erp-text-muted);
   font-size: 1rem;
   letter-spacing: 0.3px;
 }
@@ -37,36 +36,37 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #0b1a2b;
+  background: var(--erp-bg);
   padding: 14px 18px;
   border-radius: 14px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+  border: 1px solid var(--erp-border);
+  box-shadow: var(--erp-shadow);
 }
 
 .search-box {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #071422;
+  background: var(--erp-bg-input);
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--erp-border-med);
 }
 
 .search-box input {
   background: transparent;
   border: none;
   outline: none;
-  color: #e6edf5;
+  color: var(--erp-text);
   font-size: 0.95rem;
 }
 
 .filter-select {
-  background: #071422;
-  color: #e6edf5;
+  background: var(--erp-bg-input);
+  color: var(--erp-text);
   padding: 10px 12px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--erp-border-med);
   font-size: 0.95rem;
 }
 
@@ -74,11 +74,12 @@
    TABLE CONTAINER
 ====================================================== */
 .projects-table-wrapper {
-  background: #081726;
+  background: var(--erp-bg);
   border-radius: 18px;
   padding: 22px 28px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--erp-shadow);
   overflow-x: auto;
+  border: 1px solid var(--erp-border);
 }
 
 .projects-table {
@@ -86,33 +87,33 @@
   border-collapse: collapse;
   min-width: 900px;
   font-size: 0.95rem;
-  color: #dce4ee;
+  color: var(--erp-text);
 }
 
 /* TABLE HEADER */
 .projects-table thead {
-  background: linear-gradient(90deg, #0e2438, #0d1f31);
+  background: var(--erp-bg-header);
 }
 
 .projects-table th {
   padding: 15px;
   font-weight: 700;
-  color: #ffcb05;
+  color: var(--erp-accent);
   text-transform: uppercase;
   font-size: 0.8rem;
   letter-spacing: 1px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 2px solid var(--erp-border-med);
 }
 
 /* BODY CELLS */
 .projects-table td {
   padding: 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--erp-border);
   white-space: nowrap;
 }
 
 .projects-table tr:hover td {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--erp-bg-hover);
 }
 
 /* ======================================================
@@ -121,10 +122,10 @@
 .projects-table input,
 .projects-table select {
   width: 130px;
-  background: #0b1a2b;
-  color: #e8eef5;
+  background: var(--erp-bg-input);
+  color: var(--erp-text);
   padding: 8px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--erp-border-med);
   border-radius: 8px;
   font-size: 0.9rem;
   outline: none;
@@ -146,51 +147,32 @@
   text-transform: capitalize;
 }
 
-.status-completed {
-  background: rgba(46, 204, 113, 0.22);
-  color: #2ecc71;
-}
-
-.status-ongoing {
-  background: rgba(255, 193, 7, 0.22);
-  color: #ffcb05;
-}
-
-.status-pending {
-  background: rgba(255, 82, 82, 0.22);
-  color: #ff5252;
-}
+.status-completed { background: rgba(46,204,113,0.22); color: #2ecc71; }
+.status-ongoing   { background: rgba(255,193,7,0.22);  color: #ffcb05; }
+.status-pending   { background: rgba(255,82,82,0.22);  color: #ff5252; }
 
 /* ======================================================
-   ACTION BUTTONS (EDIT, SAVE, CANCEL)
+   ACTION BUTTONS
 ====================================================== */
 .save-btn,
 .cancel-btn,
 .edit-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--erp-bg-hover);
+  border: 1px solid var(--erp-border-med);
   padding: 8px;
   border-radius: 10px;
   cursor: pointer;
   transition: 0.2s ease;
 }
 
-.save-btn svg {
-  color: #2ecc71;
-}
-
-.cancel-btn svg {
-  color: #ff5252;
-}
-
-.edit-btn svg {
-  color: #ffcb05;
-}
+.save-btn svg   { color: #2ecc71; }
+.cancel-btn svg { color: #ff5252; }
+.edit-btn svg   { color: var(--erp-accent); }
 
 .save-btn:hover,
 .cancel-btn:hover,
 .edit-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--erp-border-med);
   transform: translateY(-2px);
 }
 
@@ -198,9 +180,10 @@
    SKELETON LOADING UI
 ====================================================== */
 .skeleton-table-wrapper {
-  background: #081726;
+  background: var(--erp-bg);
   padding: 22px;
   border-radius: 18px;
+  border: 1px solid var(--erp-border);
 }
 
 .skeleton-row {
@@ -208,9 +191,9 @@
   border-radius: 10px;
   background: linear-gradient(
     90deg,
-    rgba(18, 45, 70, 0.5),
-    rgba(45, 85, 120, 0.9),
-    rgba(18, 45, 70, 0.5)
+    var(--erp-bg-hover),
+    var(--erp-border-med),
+    var(--erp-bg-hover)
   );
   background-size: 200% 100%;
   animation: shimmer 1.3s infinite;
@@ -218,7 +201,7 @@
 }
 
 @keyframes shimmer {
-  0% { background-position: 180% 0; }
+  0%   { background-position: 180% 0; }
   100% { background-position: -180% 0; }
 }
 
@@ -228,7 +211,7 @@
 .no-records {
   text-align: center;
   padding: 20px;
-  color: #9bb2c8;
+  color: var(--erp-text-muted);
   font-size: 1rem;
 }
 
@@ -236,29 +219,17 @@
    RESPONSIVE DESIGN
 ====================================================== */
 @media (max-width: 992px) {
-  .admin-projects-container {
-    padding: 20px;
-  }
+  .admin-projects-container { padding: 20px; }
 }
 
 @media (max-width: 768px) {
-  .projects-table {
-    font-size: 0.85rem;
-  }
-
+  .projects-table { font-size: 0.85rem; }
   .projects-table input,
-  .projects-table select {
-    width: 110px;
-  }
+  .projects-table select { width: 110px; }
 }
 
 @media (max-width: 480px) {
   .projects-table th,
-  .projects-table td {
-    font-size: 0.75rem;
-    padding: 10px;
-  }
-  .admin-header h2 {
-    font-size: 1.5rem;
-  }
+  .projects-table td { font-size: 0.75rem; padding: 10px; }
+  .admin-header h2   { font-size: 1.5rem; }
 }

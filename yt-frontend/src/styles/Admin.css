@@ -1,21 +1,12 @@
-/* ======================================================
-   YARROWTECH ADMIN - PROJECTS PAGE (Optimized)
-   Refined visuals, same colors, improved spacing + UX
-====================================================== */
-
 .admin-projects-container {
   padding: 25px 30px;
-  color: #fff;
+  color: var(--erp-text);
   min-height: 100vh;
-  background: transparent;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-/* ------------------------------
-   HEADER SECTION
---------------------------------*/
 .admin-header {
   display: flex;
   flex-direction: column;
@@ -24,77 +15,56 @@
 
 .admin-header h2 {
   font-size: 1.8rem;
-  color: #ffcb05;
+  color: var(--erp-accent);
   margin-bottom: 8px;
   font-weight: 700;
-  letter-spacing: 0.5px;
 }
 
 .admin-header .subtitle {
-  color: #aaa;
+  color: var(--erp-text-muted);
   font-size: 0.95rem;
   margin-bottom: 20px;
-  letter-spacing: 0.3px;
 }
 
-/* ------------------------------
-   PROJECTS TABLE
---------------------------------*/
 .projects-table-wrapper {
-  background: #071a2d;
+  background: var(--erp-bg);
+  border: 1px solid var(--erp-border);
   border-radius: 16px;
   padding: 20px 25px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--erp-shadow);
   overflow-x: auto;
-  transition: all 0.3s ease;
-}
-
-.projects-table-wrapper:hover {
-  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.3);
 }
 
 .projects-table {
   width: 100%;
   border-collapse: collapse;
-  color: #eaeaea;
+  color: var(--erp-text);
   font-size: 0.95rem;
   min-width: 800px;
 }
 
-.projects-table thead {
-  background: #0c2b47;
-}
+.projects-table thead { background: var(--erp-bg-header); }
 
 .projects-table th {
-  color: #ffcb05;
+  color: var(--erp-accent);
   padding: 14px 12px;
   text-align: left;
   font-weight: 600;
-  letter-spacing: 0.4px;
   white-space: nowrap;
 }
 
 .projects-table td {
   padding: 14px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--erp-border-med);
   vertical-align: middle;
   white-space: nowrap;
 }
 
-.projects-table tr:last-child td {
-  border-bottom: none;
-}
+.projects-table tr:last-child td { border-bottom: none; }
+.projects-table tr:hover td      { background: var(--erp-bg-hover); }
 
-.projects-table tr:hover td {
-  background: rgba(255, 255, 255, 0.05);
-  transition: background 0.25s ease;
-}
-
-/* ------------------------------
-   PROGRESS BAR
---------------------------------*/
 .progress-bar {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--erp-border-med);
   height: 8px;
   border-radius: 5px;
   overflow: hidden;
@@ -105,179 +75,81 @@
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #ffcb05, #ff8800);
+  background: linear-gradient(90deg, var(--erp-accent), #ff8800);
   border-radius: 5px;
   transition: width 0.4s ease;
 }
 
 .progress-text {
   font-size: 0.85rem;
-  color: #ccc;
+  color: var(--erp-text-muted);
   display: inline-block;
   min-width: 35px;
   text-align: right;
 }
 
-/* ------------------------------
-   STATUS COLORS
---------------------------------*/
-.status {
-  font-weight: 600;
-  text-transform: capitalize;
-}
+.status          { font-weight: 600; text-transform: capitalize; }
+.status-completed{ color: #4caf50; }
+.status-ongoing  { color: var(--erp-accent); }
+.status-pending  { color: #ff5252; }
 
-.status-completed {
-  color: #4caf50;
-}
-
-.status-ongoing {
-  color: #ffcb05;
-}
-
-.status-pending {
-  color: #ff5252;
-}
-
-/* ------------------------------
-   ACTION BUTTONS
---------------------------------*/
-.actions {
-  display: flex;
-  gap: 10px;
-}
-
+.actions        { display: flex; gap: 10px; }
 .actions button {
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #ffcb05;
-  transition: color 0.2s ease, transform 0.2s ease;
+  color: var(--erp-accent);
+  transition: color 0.2s, transform 0.2s;
 }
+.actions button:hover { color: var(--erp-text); transform: scale(1.15); }
 
-.actions button:hover {
-  color: #ffffff;
-  transform: scale(1.15);
-}
-
-/* ------------------------------
-   SPINNER (LOADING)
---------------------------------*/
 .spinner-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 60vh;
-  color: #ffcb05;
+  color: var(--erp-accent);
   gap: 10px;
-  text-align: center;
 }
 
 .spinner {
   width: 45px;
   height: 45px;
-  border: 4px solid rgba(255, 203, 5, 0.2);
-  border-top-color: #ffcb05;
+  border: 4px solid var(--erp-accent-muted);
+  border-top-color: var(--erp-accent);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.admin-content {
+  margin-left: 16rem;
+  width: calc(100% - 15.5rem);
+  padding: 25px 30px;
+  min-height: 100vh;
+  background: var(--erp-bg);
+  transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
-/* ------------------------------
-   RESPONSIVE DESIGN
---------------------------------*/
 @media (max-width: 992px) {
-  .admin-projects-container {
-    padding: 20px;
-  }
-
+  .admin-projects-container { padding: 20px; }
   .projects-table th,
-  .projects-table td {
-    padding: 10px 8px;
-    font-size: 0.9rem;
-  }
-
-  .progress-bar {
-    width: 90px;
-  }
-
-  .projects-table-wrapper {
-    padding: 15px;
-  }
+  .projects-table td        { padding: 10px 8px; font-size: 0.9rem; }
+  .progress-bar             { width: 90px; }
+  .admin-content            { margin-left: 14rem; width: calc(100% - 14rem); padding: 20px; }
 }
 
 @media (max-width: 768px) {
-  .projects-table {
-    font-size: 0.85rem;
-  }
-
-  .admin-header h2 {
-    font-size: 1.5rem;
-  }
-
-  .admin-header .subtitle {
-    font-size: 0.85rem;
-  }
-
-  .projects-table-wrapper {
-    border-radius: 10px;
-  }
-
-  .progress-text {
-    display: none; /* Hide percentage text on mobile */
-  }
+  .projects-table           { font-size: 0.85rem; }
+  .admin-header h2          { font-size: 1.5rem; }
+  .admin-content            { margin-left: 0; width: 100%; padding: 18px; }
+  .progress-text            { display: none; }
 }
 
 @media (max-width: 480px) {
   .projects-table th,
-  .projects-table td {
-    padding: 8px 6px;
-    font-size: 0.8rem;
-  }
-
-  .admin-header h2 {
-    font-size: 1.3rem;
-  }
-}
-
-
-.admin-content {
-  margin-left: 15.5rem;
-}
-
-
-/* ======================================================
-   GLOBAL ADMIN CONTENT FIX (No Overlap)
-====================================================== */
-
-.admin-content {
-  margin-left: 16rem;      /* Matches your sidebar width */
-  width: calc(100% - 15.5rem);
-  padding: 25px 30px;        /* Smooth spacing for all pages */
-  min-height: 100vh;
-  background: transparent;
-  transition: margin-left 0.3s ease, width 0.3s ease;
-}
-
-/* Responsive Fix for Tablets */
-@media (max-width: 992px) {
-  .admin-content {
-    margin-left: 14rem;
-    width: calc(100% - 14rem);
-    padding: 20px;
-  }
-}
-
-/* Responsive Fix for Mobile */
-@media (max-width: 768px) {
-  .admin-content {
-    margin-left: 0;
-    width: 100%;
-    padding: 18px;
-  }
+  .projects-table td { padding: 8px 6px; font-size: 0.8rem; }
+  .admin-header h2   { font-size: 1.3rem; }
 }

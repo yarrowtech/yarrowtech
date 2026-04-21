@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/ManagerSidebar.css";
 import API from "../services/axiosInstance";
 import { toast } from "react-hot-toast";
+import ThemeToggle from "./ThemeToggle";
 
 import {
   LayoutDashboard,
@@ -102,6 +103,9 @@ const managerName = formatName(erpUser?.name || "manager");
 
       {/* LOGOUT */}
       <div className="manager-sidebar-bottom">
+        <div style={{ marginBottom: 10 }}>
+          <ThemeToggle />
+        </div>
         <button className="manager-logout-btn" onClick={handleLogout}>
           <LogOut size={18} />
           Logout

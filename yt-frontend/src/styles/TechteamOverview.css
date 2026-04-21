@@ -5,13 +5,14 @@
 }
 
 .team-card {
-  background: #0b2235;
+  background: var(--erp-card-gradient);
   padding: 20px;
   border-radius: 10px;
-  color: #fff;
+  color: var(--erp-text);
+  border: 1px solid var(--erp-border);
 }
 
 .team-card h3 {
   margin-bottom: 5px;
-  color: #ffbe3d;
+  color: var(--erp-accent);
 }

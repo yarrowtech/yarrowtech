@@ -90,6 +90,7 @@ import {
 } from "lucide-react";
 
 import API from "../services/axiosInstance";
+import ThemeToggle from "./ThemeToggle";
 import "../styles/Sidebar.css";
 
 export default function Sidebar() {
@@ -173,6 +174,9 @@ export default function Sidebar() {
 
       {/* 🔴 LOGOUT */}
       <div className="sidebar-bottom">
+        <div style={{ marginBottom: 10 }}>
+          <ThemeToggle />
+        </div>
         <button className="logout-btn" onClick={handleLogout}>
           <LogOut size={18} />
           <span>Logout</span>

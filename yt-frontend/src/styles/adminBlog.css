@@ -1,16 +1,16 @@
 .admin-blog-container {
   padding: 26px;
-  color: #fff;
+  color: var(--erp-text);
   font-family: Inter, system-ui;
 }
 
 /* HEADER */
 .admin-blog-header h2 {
   font-size: 2rem;
-  color: #ffcb05;
+  color: var(--erp-accent);
 }
 .admin-blog-header p {
-  color: #9bb3c9;
+  color: var(--erp-text-muted);
   margin-bottom: 20px;
 }
 
@@ -20,18 +20,19 @@
   max-width: 420px;
   padding: 12px 14px;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: #0e1a28;
-  color: #fff;
+  border: 1px solid var(--erp-border-med);
+  background: var(--erp-bg-input);
+  color: var(--erp-text);
   margin-bottom: 22px;
 }
 
 /* TABLE */
 .admin-blog-table {
-  background: #0e1a28;
+  background: var(--erp-bg-card, var(--erp-bg));
   border-radius: 14px;
   padding: 14px;
   margin-bottom: 30px;
+  border: 1px solid var(--erp-border);
 }
 
 .admin-blog-table table {
@@ -41,14 +42,14 @@
 
 .admin-blog-table th {
   text-align: left;
-  color: #9bb3c9;
+  color: var(--erp-text-muted);
   font-weight: 600;
   padding: 12px;
 }
 
 .admin-blog-table td {
   padding: 12px;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid var(--erp-border);
 }
 
 .slug {
@@ -58,7 +59,7 @@
 
 .empty {
   text-align: center;
-  color: #9bb3c9;
+  color: var(--erp-text-muted);
   padding: 20px;
 }
 
@@ -80,15 +81,16 @@
 
 /* FORM */
 .admin-blog-form {
-  background: #0e1a28;
+  background: var(--erp-card-gradient);
   border-radius: 16px;
   padding: 22px;
   max-width: 700px;
+  border: 1px solid var(--erp-border);
 }
 
 .admin-blog-form h3 {
   margin-bottom: 14px;
-  color: #ffcb05;
+  color: var(--erp-accent);
 }
 
 .admin-blog-form form {
@@ -102,17 +104,17 @@
 .admin-blog-form select {
   padding: 12px;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: #081321;
-  color: #fff;
+  border: 1px solid var(--erp-border-med);
+  background: var(--erp-bg-input);
+  color: var(--erp-text);
 }
 
 .admin-blog-form button {
   margin-top: 10px;
   padding: 12px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #ffcb05, #f59e0b);
-  color: #000;
+  background: linear-gradient(135deg, var(--erp-accent), #f59e0b);
+  color: var(--erp-accent-text);
   font-weight: 700;
   border: none;
   cursor: pointer;

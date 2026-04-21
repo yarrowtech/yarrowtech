@@ -30,6 +30,33 @@ export const submitCareer = async (req, res) => {
   }
 };
 
+export const downloadResume = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const career = await Career.findById(id);
+    if (!career?.resumeUrl) {
+      return res.status(404).json({ message: "Resume not found" });
+    }
+
+    const fileRes = await fetch(career.resumeUrl);
+    if (!fileRes.ok) {
+      return res.status(502).json({ message: "Failed to fetch resume from storage" });
+    }
+
+    const contentType = fileRes.headers.get("content-type") || "application/octet-stream";
+    const filename = encodeURIComponent(career.resumeName || "resume");
+
+    res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+    res.setHeader("Content-Type", contentType);
+
+    const { Readable } = await import("stream");
+    Readable.fromWeb(fileRes.body).pipe(res);
+  } catch (err) {
+    console.error("Download Resume Error:", err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
 export const getAllCareerSubmissions = async (req, res) => {
   try {
     const careers = await Career.find().sort({ createdAt: -1 });

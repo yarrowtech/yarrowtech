@@ -4,6 +4,7 @@ import { Home, Box, CreditCard, MessageSquare, LogOut, Menu } from "lucide-react
 import { toast } from "react-hot-toast";
 
 import API from "../services/axiosInstance";
+import ThemeToggle from "./ThemeToggle";
 import "../styles/ClientSidebar.css";
 
 export default function ProductUserSidebar() {
@@ -64,6 +65,9 @@ export default function ProductUserSidebar() {
         </nav>
 
         <div className="client-sidebar-bottom">
+          <div style={{ marginBottom: 10 }}>
+            <ThemeToggle />
+          </div>
           <button className="client-logout-btn" onClick={handleLogout}>
             <LogOut size={20} />
             <span>Logout</span>

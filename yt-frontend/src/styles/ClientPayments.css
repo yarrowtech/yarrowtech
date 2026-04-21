@@ -1,192 +1,342 @@
-.client-payments-container {
-  padding: 25px 30px;
-  color: #fff;
+/* ── Client Payments Page ─────────────────────────────────── */
+
+.cp-page {
+  padding: 28px 30px;
+  color: var(--erp-text);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
 }
 
-.client-header h2 {
-  font-size: 1.8rem;
+/* Header */
+.cp-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cp-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--erp-accent-muted);
+  color: var(--erp-accent);
+  flex-shrink: 0;
+}
+
+.cp-header h2 {
+  margin: 0 0 4px;
+  font-size: 1.55rem;
   font-weight: 700;
-  color: #ffcb05;
+  color: var(--erp-accent);
 }
 
-.client-header .subtitle {
-  color: #aaa;
-  font-size: 0.95rem;
+.cp-header p {
+  margin: 0;
+  color: var(--erp-text-muted);
+  font-size: 0.9rem;
 }
 
-.client-payment-summary-grid {
+/* Stat Cards */
+.cp-stats-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
-.client-payment-summary-card {
-  background: linear-gradient(180deg, #071a2d, #0a2038);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+.cp-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--erp-card-gradient);
   border-radius: 16px;
-  padding: 18px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--erp-border);
+  border-left: 3px solid var(--accent);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.client-payment-summary-card span {
-  display: block;
-  color: #9bb2c7;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
+.cp-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--erp-shadow-lg);
 }
 
-.client-payment-summary-card strong {
-  font-size: 1.4rem;
-  color: #ffffff;
+.cp-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: var(--erp-bg-hover);
+  color: var(--erp-accent);
+  flex-shrink: 0;
 }
 
-.client-payment-summary-card.highlight {
-  border-color: rgba(255, 203, 5, 0.28);
-  background: linear-gradient(180deg, rgba(255, 203, 5, 0.12), #0a2038);
-}
-
-.client-payment-project-list {
+.cp-stat-body {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 3px;
+  min-width: 0;
 }
 
-.client-payment-project-card {
-  background: #071a2d;
-  border-radius: 16px;
-  padding: 20px 22px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+.cp-stat-body span {
+  font-size: 0.78rem;
+  color: var(--erp-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.client-payment-project-head {
+.cp-stat-body strong {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--erp-text);
+}
+
+/* Overall Progress */
+.cp-overall-progress {
+  background: var(--erp-card-gradient);
+  border-radius: 14px;
+  border: 1px solid var(--erp-border);
+  padding: 18px 22px;
+}
+
+.cp-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.88rem;
+  color: var(--erp-text-muted);
+}
+
+.cp-progress-pct {
+  font-weight: 700;
+  color: #22c55e;
+}
+
+.cp-progress-bar {
+  height: 8px;
+  background: var(--erp-border-med);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.cp-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+  border-radius: 999px;
+  transition: width 0.6s ease;
+  min-width: 2px;
+}
+
+/* Project List */
+.cp-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cp-project-card {
+  background: var(--erp-card-gradient);
+  border-radius: 18px;
+  border: 1px solid var(--erp-border);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Project card header */
+.cp-project-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
-  margin-bottom: 16px;
-}
-
-.client-payment-project-head h3 {
-  margin: 0 0 6px;
-  color: #ffcb05;
-}
-
-.client-payment-project-head p {
-  margin: 0;
-  color: #a8bfd2;
-}
-
-.client-payment-mini-stats {
-  display: flex;
-  gap: 12px;
   flex-wrap: wrap;
 }
 
-.client-payment-mini-stats span {
-  background: rgba(255, 255, 255, 0.05);
+.cp-project-head-left h3 {
+  margin: 0 0 5px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--erp-text);
+}
+
+.cp-project-id {
+  font-size: 0.8rem;
+  color: var(--erp-text-faint);
+  background: var(--erp-bg-hover);
+  padding: 3px 10px;
   border-radius: 999px;
-  padding: 8px 12px;
-  color: #dbe7f3;
-  font-size: 0.88rem;
 }
 
-.client-payments-table-wrapper {
-  background: #071a2d;
-  border-radius: 16px;
+/* Chips */
+.cp-project-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cp-chip {
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.cp-chip.total  { background: var(--erp-bg-hover); color: var(--erp-text-muted); border-color: var(--erp-border-med); }
+.cp-chip.paid   { background: rgba(34,197,94,0.1);   color: #22c55e; border-color: rgba(34,197,94,0.25); }
+.cp-chip.due    { background: rgba(239,68,68,0.1);   color: #ef4444; border-color: rgba(239,68,68,0.25); }
+
+/* Per-project progress */
+.cp-proj-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cp-proj-progress .cp-progress-bar {
+  flex: 1;
+}
+
+.cp-proj-pct {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #22c55e;
+  white-space: nowrap;
+}
+
+/* Table */
+.cp-table-wrap {
+  border-radius: 12px;
   overflow-x: auto;
+  border: 1px solid var(--erp-border);
 }
 
-.client-payments-table {
+.cp-table {
   width: 100%;
   border-collapse: collapse;
-  color: #eaeaea;
-  min-width: 820px;
-  font-size: 0.95rem;
+  min-width: 740px;
+  font-size: 0.88rem;
+  color: var(--erp-text);
 }
 
-.client-payments-table thead {
-  background: #0c2b47;
+.cp-table thead {
+  background: var(--erp-bg-header);
 }
 
-.client-payments-table th {
-  padding: 14px 12px;
-  font-weight: 600;
-  color: #ffcb05;
+.cp-table th {
+  padding: 13px 14px;
   text-align: left;
-}
-
-.client-payments-table td {
-  padding: 14px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.client-payments-table tr:hover td {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.client-payment-status {
+  font-size: 0.78rem;
   font-weight: 600;
-  text-transform: capitalize;
-  padding: 5px 10px;
-  border-radius: 999px;
-  font-size: 0.85rem;
+  color: var(--erp-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.cp-table td {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--erp-border);
+  vertical-align: middle;
+}
+
+.cp-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cp-table tbody tr:hover td {
+  background: var(--erp-bg-hover);
+}
+
+.cp-amount {
+  font-weight: 600;
+  color: var(--erp-text);
+}
+
+.cp-notes {
+  color: var(--erp-text-faint);
+  font-size: 0.83rem;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Status Badge */
+.cp-status-badge {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-width: 82px;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  border: 1px solid;
+  white-space: nowrap;
 }
 
-.client-payment-paid {
-  background: rgba(76, 175, 80, 0.2);
-  color: #4caf50;
-}
-
-.client-payment-pending {
-  background: rgba(255, 203, 5, 0.2);
-  color: #ffcb05;
-}
-
-.client-payment-failed {
-  background: rgba(255, 82, 82, 0.2);
-  color: #ff5252;
-}
-
-.client-empty-state,
-.client-empty-table-cell {
-  color: #a8bfd2;
+/* Empty states */
+.cp-empty {
   text-align: center;
+  color: var(--erp-text-faint);
   padding: 20px;
 }
 
-@media (max-width: 992px) {
-  .client-payments-container {
-    padding: 20px;
-  }
+.cp-empty-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 20px;
+  color: var(--erp-text-muted);
+}
 
-  .client-payment-summary-grid {
+.cp-empty-block p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.cp-empty-cell {
+  text-align: center;
+  color: var(--erp-text-faint);
+  padding: 24px;
+  font-size: 0.88rem;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .cp-stats-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .client-payment-project-head {
-    flex-direction: column;
   }
 }
 
 @media (max-width: 768px) {
-  .client-payment-summary-grid {
+  .cp-page {
+    padding: 18px 16px;
+    gap: 16px;
+  }
+
+  .cp-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cp-project-head {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .cp-stats-grid {
     grid-template-columns: 1fr;
-  }
-
-  .client-payments-table {
-    font-size: 0.85rem;
-    min-width: 680px;
-  }
-
-  .client-header h2 {
-    font-size: 1.5rem;
   }
 }

@@ -27,14 +27,8 @@
 
 /* Animation */
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ======================================================
@@ -166,15 +160,7 @@
 ====================================================== */
 
 @media (max-width: 420px) {
-  .erp-login-card {
-    padding: 28px 22px;
-  }
-
-  .erp-title {
-    font-size: 1.5rem;
-  }
-
-  .erp-subtitle {
-    font-size: 0.9rem;
-  }
+  .erp-login-card { padding: 28px 22px; }
+  .erp-title      { font-size: 1.5rem; }
+  .erp-subtitle   { font-size: 0.9rem; }
 }

@@ -58,8 +58,7 @@
 // import ClientDashboard from "./pages/client/ClientDashboard";
 // import MyProjects from "./pages/client/MyProjects";
 // import Payments from "./pages/client/Payments";
-// import ProjectHistory from "./pages/client/ProjectHistory";
-// import Profile from "./pages/client/Profile";
+// // import Profile from "./pages/client/Profile";
 
 // /* 🔔 Toast */
 // import { Toaster } from "react-hot-toast";
@@ -320,8 +319,7 @@
 // import ClientDashboard from "./pages/client/ClientDashboard";
 // import MyProjects from "./pages/client/MyProjects";
 // import Payments from "./pages/client/Payments";
-// import ProjectHistory from "./pages/client/ProjectHistory";
-// import Profile from "./pages/client/Profile";
+// // import Profile from "./pages/client/Profile";
 
 // /* 🔔 Toast */
 // import { Toaster } from "react-hot-toast";
@@ -580,7 +578,6 @@ import ClientLayout from "./pages/client/ClientLayout";
 import ClientDashboard from "./pages/client/ClientDashboard";
 import MyProjects from "./pages/client/MyProjects";
 import Payments from "./pages/client/Payments";
-import ProjectHistory from "./pages/client/ProjectHistory";
 import Profile from "./pages/client/Profile";
 import ProductUserLayout from "./pages/productuser/ProductUserLayout";
 import ProductUserDashboard from "./pages/productuser/ProductUserDashboard";
@@ -590,6 +587,9 @@ import ProductUserChat from "./pages/productuser/ProductUserChat";
 
 /* 🔔 Toast */
 import { Toaster } from "react-hot-toast";
+
+/* Theme */
+import { ThemeProvider } from "./context/ThemeContext";
 
 /* Styles */
 import "./App.css";
@@ -649,6 +649,7 @@ function NotFound() {
 ======================= */
 export default function App() {
   return (
+    <ThemeProvider>
     <Router>
       <ContactMenuWrapper />
 
@@ -770,7 +771,6 @@ export default function App() {
             <Route path="dashboard" element={<ClientDashboard />} />
             <Route path="projects" element={<MyProjects />} />
             <Route path="payments" element={<Payments />} />
-            <Route path="history" element={<ProjectHistory />} />
             <Route path="profile" element={<Profile />} />
           </Route>
 
@@ -808,5 +808,6 @@ export default function App() {
         <Toaster position="top-right" />
       </div>
     </Router>
+    </ThemeProvider>
   );
 }

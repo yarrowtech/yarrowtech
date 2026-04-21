@@ -1,21 +1,22 @@
 .technical-profile {
   padding: 20px;
-  color: #fff;
+  color: var(--erp-text);
 }
 
 .page-title {
   font-size: 1.6rem;
   font-weight: 700;
-  color: #ffbe3d;
+  color: var(--erp-accent);
   margin-bottom: 25px;
 }
 
 .profile-card {
   display: flex;
   gap: 25px;
-  background: #0b2235;
+  background: var(--erp-card-gradient);
   padding: 25px;
   border-radius: 12px;
+  border: 1px solid var(--erp-border);
 }
 
 /* LEFT SIDE */
@@ -28,18 +29,18 @@
   width: 130px;
   height: 130px;
   border-radius: 50%;
-  border: 3px solid #ffbe3d;
+  border: 3px solid var(--erp-accent);
 }
 
 .profile-name {
   margin-top: 15px;
   font-size: 1.2rem;
-  color: #fff;
+  color: var(--erp-text);
 }
 
 .profile-role {
   font-size: 0.9rem;
-  color: #ccc;
+  color: var(--erp-text-muted);
 }
 
 /* RIGHT SIDE */
@@ -54,7 +55,7 @@
 }
 
 .field-group label {
-  color: #ddd;
+  color: var(--erp-text-muted);
   margin-bottom: 6px;
 }
 
@@ -62,22 +63,22 @@
 .field-group textarea {
   padding: 10px;
   border-radius: 8px;
-  background: #071a2d;
-  color: #fff;
-  border: 1px solid #24415d;
+  background: var(--erp-bg-input);
+  color: var(--erp-text);
+  border: 1px solid var(--erp-border-med);
   outline: none;
 }
 
 .field-group input:focus,
 .field-group textarea:focus {
-  border-color: #ffbe3d;
+  border-color: var(--erp-accent);
 }
 
 .save-btn {
   margin-top: 10px;
   padding: 12px 20px;
-  background: #ffbe3d;
-  color: #000;
+  background: var(--erp-accent);
+  color: var(--erp-accent-text);
   border: none;
   font-weight: bold;
   border-radius: 8px;

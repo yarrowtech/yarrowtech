@@ -1,64 +1,32 @@
-/* ======================================================
-   PAGE WRAPPER
-====================================================== */
 .manager-projects-page {
   padding: 24px;
-  color: #e5e7eb;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+  color: var(--erp-text);
 }
 
-/* PAGE TITLE */
-.page-title {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #ffcb05;
-  margin-bottom: 18px;
-}
+.page-title            { font-size: 1.8rem; font-weight: 700; color: var(--erp-accent); margin-bottom: 18px; }
+.muted                 { color: var(--erp-text-muted); font-size: 0.95rem; }
+.manager-projects-subtitle { margin-bottom: 16px; }
 
-/* MUTED TEXT */
-.muted {
-  color: #9bb3c9;
-  font-size: 0.95rem;
-}
-
-.manager-projects-subtitle {
-  margin-bottom: 16px;
-}
-
-.manager-project-search {
-  margin-bottom: 18px;
-}
-
-.manager-project-search input {
+.manager-project-search        { margin-bottom: 18px; }
+.manager-project-search input  {
   width: min(100%, 460px);
   padding: 12px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #0c2238;
-  color: #ffffff;
+  border: 1px solid var(--erp-border-med);
+  background: var(--erp-bg-input);
+  color: var(--erp-text);
 }
+.manager-project-search input:focus { outline: none; border-color: var(--erp-accent); }
 
-.manager-project-search input:focus {
-  outline: none;
-  border-color: #ffcb05;
-}
-
-/* ======================================================
-   PROJECT CARD
-====================================================== */
 .project-card {
-  background: linear-gradient(180deg, #071a2d, #061427);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--erp-card-gradient-flat);
+  border: 1px solid var(--erp-border);
   border-radius: 14px;
   margin-bottom: 18px;
   overflow: hidden;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--erp-shadow-lg);
 }
 
-/* ======================================================
-   PROJECT HEADER
-====================================================== */
 .project-header {
   display: flex;
   justify-content: space-between;
@@ -67,205 +35,99 @@
   cursor: pointer;
 }
 
-.project-header h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #ffffff;
-}
+.project-header h3 { margin: 0; font-size: 1.1rem; color: var(--erp-text); }
+.project-header p  { margin-top: 4px; font-size: 0.85rem; color: var(--erp-text-muted); }
+.project-id-text   { margin-bottom: 0; }
 
-.project-header p {
-  margin-top: 4px;
-  font-size: 0.85rem;
-  color: #9bb3c9;
-}
+.summary { display: flex; align-items: center; gap: 14px; }
 
-.project-id-text {
-  margin-bottom: 0;
-}
+.status { padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; text-transform: capitalize; }
+.status.pending   { background: #facc15; color: #000; }
+.status.ongoing   { background: #38bdf8; color: #001827; }
+.status.completed { background: #34d399; color: #002b1a; }
 
-/* RIGHT SUMMARY */
-.summary {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-/* STATUS BADGE */
-.status {
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: capitalize;
-}
-
-.status.pending {
-  background: #facc15;
-  color: #000;
-}
-
-.status.ongoing {
-  background: #38bdf8;
-  color: #001827;
-}
-
-.status.completed {
-  background: #34d399;
-  color: #002b1a;
-}
-
-/* TOGGLE BUTTON */
 .summary button {
-  background: #102b45;
+  background: var(--erp-bg-header);
   border: none;
-  color: #ffcb05;
+  color: var(--erp-accent);
   font-size: 1rem;
   padding: 6px 10px;
   border-radius: 10px;
   cursor: pointer;
 }
+.summary button:hover { filter: brightness(1.2); }
+.view-project-btn     { min-width: 122px; }
 
-.summary button:hover {
-  background: #163c61;
-}
-
-.view-project-btn {
-  min-width: 122px;
-}
-
-/* ======================================================
-   EXPANDED PANEL
-====================================================== */
 .erp-panel {
   padding: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  background: #061427;
+  border-top: 1px solid var(--erp-border);
+  background: var(--erp-bg-deep);
   display: grid;
   gap: 18px;
 }
 
-/* ======================================================
-   SECTION BLOCK
-====================================================== */
 .erp-section {
-  background: #071a2d;
+  background: var(--erp-bg);
   padding: 16px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--erp-border);
 }
 
-.erp-section h4 {
-  margin-bottom: 10px;
-  color: #ffcb05;
-  font-size: 1rem;
-}
+.erp-section h4    { margin-bottom: 10px; color: var(--erp-accent); font-size: 1rem; }
+.erp-section label { font-size: 0.85rem; color: var(--erp-text-muted); margin-bottom: 6px; display: block; }
 
-.erp-section label {
-  font-size: 0.85rem;
-  color: #cbd5e1;
-  margin-bottom: 6px;
-  display: block;
-}
-
-/* ======================================================
-   INPUTS
-====================================================== */
 .erp-section input,
 .erp-section select {
   width: 100%;
   padding: 10px 12px;
-  background: #0c2238;
-  color: #ffffff;
+  background: var(--erp-bg-input);
+  color: var(--erp-text);
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--erp-border-med);
 }
 
 .erp-section input:focus,
-.erp-section select:focus {
-  outline: none;
-  border-color: #ffcb05;
-}
+.erp-section select:focus { outline: none; border-color: var(--erp-accent); }
 
-/* RANGE SLIDER */
-.erp-section input[type="range"] {
-  padding: 0;
-}
+.erp-section input[type="range"] { padding: 0; }
 
-/* ======================================================
-   ACTION BUTTONS
-====================================================== */
-.erp-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 10px;
-}
+.erp-actions { display: flex; gap: 12px; margin-top: 10px; }
 
 .save-btn {
-  background: #ffcb05;
-  color: #071a2d;
+  background: var(--erp-accent);
+  color: var(--erp-accent-text);
   padding: 10px 16px;
   border-radius: 10px;
   border: none;
   font-weight: 700;
   cursor: pointer;
 }
-
-.save-btn:hover {
-  background: #ffd84d;
-}
+.save-btn:hover { filter: brightness(1.08); }
 
 .cancel-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
+  border: 1px solid var(--erp-border-med);
+  color: var(--erp-text);
   padding: 10px 16px;
   border-radius: 10px;
   cursor: pointer;
 }
+.cancel-btn:hover { background: var(--erp-bg-hover); }
 
-.cancel-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* ======================================================
-   EXTRA ACTIONS (CHAT / PDF)
-====================================================== */
-.erp-extra-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
+.erp-extra-actions       { display: flex; flex-wrap: wrap; gap: 10px; }
 .erp-extra-actions button {
-  background: #102b45;
-  color: #ffcb05;
+  background: var(--erp-bg-header);
+  color: var(--erp-accent);
   border: none;
   padding: 8px 14px;
   border-radius: 10px;
   cursor: pointer;
   font-size: 0.85rem;
 }
+.erp-extra-actions button:hover { filter: brightness(1.2); }
 
-.erp-extra-actions button:hover {
-  background: #163c61;
-}
-
-/* ======================================================
-   RESPONSIVE
-====================================================== */
 @media (max-width: 900px) {
-  .project-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  .summary {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .erp-actions {
-    flex-direction: column;
-  }
+  .project-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .summary        { width: 100%; justify-content: space-between; }
+  .erp-actions    { flex-direction: column; }
 }

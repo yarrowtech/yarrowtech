@@ -11,7 +11,7 @@
 .page-title {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #ffbe3d;
+  color: var(--erp-accent);
   margin-bottom: 25px;
 }
 
@@ -22,9 +22,10 @@
 }
 
 .card {
-  background: #0b2235;
+  background: var(--erp-card-gradient);
   padding: 20px;
   border-radius: 10px;
-  color: #fff;
+  color: var(--erp-text);
   font-weight: 600;
+  border: 1px solid var(--erp-border);
 }
