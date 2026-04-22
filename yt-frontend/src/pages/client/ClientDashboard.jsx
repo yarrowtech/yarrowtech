@@ -1,26 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  Cell,
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Cell as PieCell,
-  Legend,
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
+  CartesianGrid, Cell, LineChart, Line, PieChart, Pie, Legend,
 } from "recharts";
 import { toast } from "react-hot-toast";
+import {
+  LayoutDashboard, FolderKanban, CheckCircle2, Clock, AlertCircle,
+  TrendingUp, BarChart2, PieChart as PieIcon,
+} from "lucide-react";
 
 import "../../styles/ClientDashboard.css";
 import { clientService } from "../../services/clientService";
 
-const COLORS = ["#ffcb05", "#007bff", "#ff5252", "#00c49f"];
+const COLORS = ["#ffcb05", "#3b82f6", "#ef4444", "#22c55e", "#a855f7"];
 
 const formatCurrency = (value) =>
   new Intl.NumberFormat("en-IN", {
@@ -29,115 +21,130 @@ const formatCurrency = (value) =>
     maximumFractionDigits: 0,
   }).format(Number(value) || 0);
 
+const CustomBarTooltip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="cd-tooltip">
+      <p className="cd-tooltip-label">{label}</p>
+      <p className="cd-tooltip-value">{payload[0].value}%</p>
+    </div>
+  );
+};
+
+const CustomLineTooltip = ({ active, payload, label }) => {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="cd-tooltip">
+      <p className="cd-tooltip-label">{label}</p>
+      <p className="cd-tooltip-value">{payload[0].value}%</p>
+    </div>
+  );
+};
+
 export default function ClientDashboard() {
   const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState([]);
+  const [stats,   setStats]   = useState([]);
   const [barData, setBarData] = useState([]);
   const [lineData, setLineData] = useState([]);
-  const [pieData, setPieData] = useState([]);
+  const [pieData,  setPieData]  = useState([]);
 
   const loadDashboard = async () => {
     try {
       setLoading(true);
-
       const res = await clientService.dashboard();
-      const dashboardStats = res?.stats || {};
-      const recentProjects = Array.isArray(res?.recentProjects)
-        ? res.recentProjects
-        : [];
-      const statusBreakdown = res?.statusBreakdown || {};
+      const s  = res?.stats || {};
+      const rp = Array.isArray(res?.recentProjects) ? res.recentProjects : [];
+      const sb = res?.statusBreakdown || {};
 
       setStats([
-        {
-          label: "My Projects",
-          value: dashboardStats.totalProjects ?? recentProjects.length,
-          isCurrency: false,
-        },
-        {
-          label: "Payments Made",
-          value: dashboardStats.paidAmount ?? 0,
-          isCurrency: true,
-        },
-        {
-          label: "Pending",
-          value: dashboardStats.pendingAmount ?? 0,
-          isCurrency: true,
-        },
-        {
-          label: "Yet To Pay",
-          value: dashboardStats.dueAmount ?? 0,
-          isCurrency: true,
-        },
+        { label: "My Projects",    value: s.totalProjects ?? rp.length, icon: FolderKanban,  isCurrency: false, accent: "#3b82f6" },
+        { label: "Payments Made",  value: s.paidAmount   ?? 0,          icon: CheckCircle2,  isCurrency: true,  accent: "#22c55e" },
+        { label: "Pending",        value: s.pendingAmount ?? 0,          icon: Clock,         isCurrency: true,  accent: "#f59e0b" },
+        { label: "Yet To Pay",     value: s.dueAmount     ?? 0,          icon: AlertCircle,   isCurrency: true,  accent: "#ef4444" },
       ]);
 
-      setPieData(
-        Object.entries(statusBreakdown).map(([name, value]) => ({
-          name,
-          value,
-        }))
-      );
+      setPieData(Object.entries(sb).map(([name, value]) => ({ name, value })));
 
       setBarData(
-        recentProjects.length
-          ? recentProjects.map((project) => ({
-              name: project.projectId || project.name,
-              progress: Number(project.progress) || 0,
-            }))
+        rp.length
+          ? rp.map((p) => ({ name: p.projectId || p.name, progress: Number(p.progress) || 0 }))
           : [{ name: "No Data", progress: 0 }]
       );
 
       setLineData(
-        recentProjects.length
-          ? recentProjects.map((project, index) => ({
-              step: `Project ${index + 1}`,
-              progress: Number(project.progress) || 0,
-            }))
-          : [{ step: "Project 1", progress: 0 }]
+        rp.length
+          ? rp.map((p, i) => ({ step: `P${i + 1}`, progress: Number(p.progress) || 0 }))
+          : [{ step: "P1", progress: 0 }]
       );
     } catch (err) {
       console.error(err);
-      toast.error("Failed to load client dashboard");
+      toast.error("Failed to load dashboard");
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    loadDashboard();
-  }, []);
+  useEffect(() => { loadDashboard(); }, []);
 
   if (loading) {
-    return <p className="muted">Loading dashboard...</p>;
+    return (
+      <div className="cd-page">
+        <div className="cd-loading">
+          <div className="cd-spinner" />
+          <span>Loading dashboard...</span>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="client-dashboard-container">
-      <div className="client-header">
-        <h2>Client Dashboard</h2>
-        <p className="subtitle">Overview of your project activity and payment status</p>
+    <div className="cd-page">
+
+      {/* ── Header ── */}
+      <div className="cd-header">
+        <div className="cd-header-icon">
+          <LayoutDashboard size={24} />
+        </div>
+        <div>
+          <h2>Client Dashboard</h2>
+          <p>Overview of your project activity and payment status</p>
+        </div>
       </div>
 
-      <div className="client-stats-grid">
-        {stats.map((item) => (
-          <div key={item.label} className="client-stat-card">
-            <h4>{item.label}</h4>
-            <p className="value">
-              {item.isCurrency ? formatCurrency(item.value) : item.value}
-            </p>
+      {/* ── Stat Cards ── */}
+      <div className="cd-stats">
+        {stats.map((s) => (
+          <div className="cd-stat-card" key={s.label} style={{ borderLeftColor: s.accent }}>
+            <div className="cd-stat-icon" style={{ color: s.accent }}>
+              <s.icon size={22} />
+            </div>
+            <div className="cd-stat-body">
+              <span>{s.label}</span>
+              <strong>{s.isCurrency ? formatCurrency(s.value) : s.value}</strong>
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="client-charts-grid">
-        <div className="client-chart-box">
-          <h3>Project Progress</h3>
-          <ResponsiveContainer width="100%" height={270}>
-            <BarChart data={barData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="progress">
+      {/* ── Charts ── */}
+      <div className="cd-charts">
+
+        {/* Bar Chart */}
+        <div className="cd-chart-card">
+          <div className="cd-chart-head">
+            <div className="cd-chart-head-icon"><BarChart2 size={18} /></div>
+            <div>
+              <h3>Project Progress</h3>
+              <p>Completion % per project</p>
+            </div>
+          </div>
+          <ResponsiveContainer width="100%" height={240}>
+            <BarChart data={barData} barSize={32}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--erp-border)" vertical={false} />
+              <XAxis dataKey="name" tick={{ fill: "var(--erp-text-muted)", fontSize: 12 }} axisLine={false} tickLine={false} />
+              <YAxis domain={[0, 100]} tick={{ fill: "var(--erp-text-muted)", fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v}%`} />
+              <Tooltip content={<CustomBarTooltip />} cursor={{ fill: "var(--erp-bg-hover)" }} />
+              <Bar dataKey="progress" radius={[6, 6, 0, 0]}>
                 {barData.map((_, i) => (
                   <Cell key={i} fill={COLORS[i % COLORS.length]} />
                 ))}
@@ -146,43 +153,74 @@ export default function ClientDashboard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="client-chart-box">
-          <h3>Recent Project Trend</h3>
-          <ResponsiveContainer width="100%" height={270}>
+        {/* Line Chart */}
+        <div className="cd-chart-card">
+          <div className="cd-chart-head">
+            <div className="cd-chart-head-icon"><TrendingUp size={18} /></div>
+            <div>
+              <h3>Progress Trend</h3>
+              <p>Progress across recent projects</p>
+            </div>
+          </div>
+          <ResponsiveContainer width="100%" height={240}>
             <LineChart data={lineData}>
-              <XAxis dataKey="step" />
-              <YAxis />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--erp-border)" vertical={false} />
+              <XAxis dataKey="step" tick={{ fill: "var(--erp-text-muted)", fontSize: 12 }} axisLine={false} tickLine={false} />
+              <YAxis domain={[0, 100]} tick={{ fill: "var(--erp-text-muted)", fontSize: 12 }} axisLine={false} tickLine={false} tickFormatter={(v) => `${v}%`} />
+              <Tooltip content={<CustomLineTooltip />} />
               <Line
                 type="monotone"
                 dataKey="progress"
                 stroke="#ffcb05"
                 strokeWidth={3}
+                dot={{ fill: "#ffcb05", r: 5, strokeWidth: 0 }}
+                activeDot={{ r: 7, fill: "#ffcb05" }}
               />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="client-chart-box">
-          <h3>Project Status Breakdown</h3>
-          <ResponsiveContainer width="100%" height={270}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                dataKey="value"
-                nameKey="name"
-                innerRadius={45}
-                outerRadius={75}
-                label
-              >
-                {pieData.map((_, i) => (
-                  <PieCell key={i} fill={COLORS[i % COLORS.length]} />
-                ))}
-              </Pie>
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
+        {/* Pie Chart */}
+        <div className="cd-chart-card">
+          <div className="cd-chart-head">
+            <div className="cd-chart-head-icon"><PieIcon size={18} /></div>
+            <div>
+              <h3>Status Breakdown</h3>
+              <p>Projects by current status</p>
+            </div>
+          </div>
+          {pieData.length === 0 ? (
+            <div className="cd-chart-empty">No status data available</div>
+          ) : (
+            <ResponsiveContainer width="100%" height={240}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={55}
+                  outerRadius={85}
+                  paddingAngle={3}
+                >
+                  {pieData.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(v, n) => [v, n]} />
+                <Legend
+                  iconType="circle"
+                  iconSize={10}
+                  formatter={(value) => (
+                    <span style={{ color: "var(--erp-text-muted)", fontSize: "0.82rem" }}>{value}</span>
+                  )}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          )}
         </div>
+
       </div>
     </div>
   );

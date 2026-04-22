@@ -98,16 +98,17 @@ export const getCareerApplications = async () => {
   return res.data;
 };
 
-export const downloadCareerResume = async (id, filename) => {
-  const res = await API.get(`/career/download/${id}`, { responseType: "blob" });
-  const url = URL.createObjectURL(new Blob([res.data]));
+export const downloadCareerResume = async (id) => {
+  const res = await API.get(`/career/download/${id}`);
+  const { url, filename } = res.data;
+  // Use a hidden anchor — works after await without being blocked by popup blockers
   const link = document.createElement("a");
   link.href = url;
-  link.download = filename || "resume";
+  link.setAttribute("download", filename || "resume");
+  link.style.display = "none";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  URL.revokeObjectURL(url);
 };
 
 /* ===============================

@@ -47,6 +47,10 @@ const CareerSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    resumePublicId: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

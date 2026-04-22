@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../../styles/CareerApplications.css";
 import { getCareerApplications, downloadCareerResume } from "../../services/adminService";
 import { Search, Eye, Download, X } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 export default function CareerApplications() {
   const [applications, setApplications] = useState([]);
@@ -17,6 +18,7 @@ export default function CareerApplications() {
       await downloadCareerResume(id, filename);
     } catch (err) {
       console.error("Download failed:", err);
+      toast.error("Failed to download resume. Please try again.");
     } finally {
       setDownloading(null);
     }
