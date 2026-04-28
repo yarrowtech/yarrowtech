@@ -17,3 +17,9 @@
 .tech-user {
   color: #fff;
 }
+
+.tech-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}

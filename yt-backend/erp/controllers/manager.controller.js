@@ -212,6 +212,7 @@ import ERPUser from "../models/User.js";
 
 import { generatePassword } from "../utils/generatePassword.js";
 import sendEmail from "../utils/sendEmail.js";
+import { notifyEmail, notifyRoles } from "../utils/createNotification.js";
 
 const getCurrentManagerId = (req) => req.erpUser?.id || req.erpUser?._id;
 const getCurrentManagerEmail = (req) =>
@@ -323,6 +324,30 @@ Please change your password after login.`
       progress: 0,
     });
 
+    notifyEmail(
+      client.email, "client",
+      `Project Created: ${name}`,
+      `Your project "${name}" (ID: ${projectId}) has been created. Our team will be in touch soon.`,
+      "project_created",
+      "/client/projects"
+    );
+
+    notifyEmail(
+      techLead.email, "techlead",
+      `Assigned to Project: ${name}`,
+      `You have been assigned as Tech Lead for project "${name}" (ID: ${projectId}).`,
+      "project_created",
+      "/techlead/projects"
+    );
+
+    notifyRoles(
+      ["admin"],
+      `New Project Created: ${name}`,
+      `Manager ${req.erpUser.email} created project "${name}" for client ${clientName}.`,
+      "project_created",
+      "/admin/projects"
+    );
+
     res.json({
       success: true,
       message: "Client & Project created successfully",
@@ -417,6 +442,23 @@ export const updateProject = async (req, res) => {
       return res.status(404).json({
         message: "Project not found or you do not have access",
       });
+    }
+
+    if (updated.clientEmail) {
+      const changeLines = [];
+      if (updateData.status)   changeLines.push(`Status: ${updateData.status}`);
+      if (updateData.progress !== undefined) changeLines.push(`Progress: ${updateData.progress}%`);
+      if (updateData.expectedDelivery) changeLines.push(`Expected Delivery updated`);
+
+      if (changeLines.length) {
+        notifyEmail(
+          updated.clientEmail, "client",
+          `Project Updated: ${updated.name}`,
+          changeLines.join(" · "),
+          "project_updated",
+          "/client/projects"
+        );
+      }
     }
 
     res.json({

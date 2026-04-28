@@ -710,6 +710,7 @@ export default function App() {
             <Route path="contacts" element={<ContactsAdmin />} />
             <Route path="careers" element={<CareerApplications />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="notifications" element={<Notifications />} />
           </Route>
 
           {/* ==========================
@@ -754,6 +755,7 @@ export default function App() {
             <Route path="project-updates" element={<ProjectUpdates />} />
             <Route path="team-overview" element={<TeamOverview />} />
             <Route path="profile" element={<TechnicalProfile />} />
+            <Route path="notifications" element={<Notifications />} />
           </Route>
 
           {/* ==========================
@@ -772,6 +774,7 @@ export default function App() {
             <Route path="projects" element={<MyProjects />} />
             <Route path="payments" element={<Payments />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="notifications" element={<Notifications />} />
           </Route>
 
           <Route

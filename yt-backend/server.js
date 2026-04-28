@@ -220,6 +220,7 @@ import erpPaymentRoutes from "./erp/routes/payment.routes.js";
 import erpMessageRoutes from "./erp/routes/message.routes.js";
 import erpAdminRoutes from "./erp/routes/admin.routes.js";
 import erpProductUserRoutes from "./erp/routes/productUser.routes.js";
+import erpNotificationRoutes from "./erp/routes/notification.routes.js";
 
 const app = express();
 app.set("trust proxy", 1);
@@ -275,6 +276,7 @@ app.use("/api/erp/payments", erpPaymentRoutes);
 app.use("/api/erp/message", erpMessageRoutes);
 app.use("/api/erp/admin", erpAdminRoutes);
 app.use("/api/erp/product-user", erpProductUserRoutes);
+app.use("/api/erp/notifications", erpNotificationRoutes);
 
 // -------------------- HEALTH --------------------
 app.get("/health", (req, res) => {

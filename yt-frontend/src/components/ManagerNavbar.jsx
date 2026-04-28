@@ -1,18 +1,12 @@
-import React from "react";
 import "../styles/ManagerNavbar.css";
-import { Bell } from "lucide-react";
+import NotificationBell from "./NotificationBell";
 
 export default function ManagerNavbar() {
   return (
     <header className="manager-navbar">
-      {/* TITLE */}
       <h3 className="nav-title">Welcome, Manager</h3>
-
-      {/* RIGHT ACTIONS */}
       <div className="nav-actions">
-        <div className="icon-box">
-          <Bell className="nav-icon" />
-        </div>
+        <NotificationBell viewAllPath="/manager/notifications" />
       </div>
     </header>
   );

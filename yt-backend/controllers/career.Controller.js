@@ -1,5 +1,6 @@
 // backend/controllers/career.Controller.js
 import Career from "../models/Career.js";
+import { notifyRoles } from "../erp/utils/createNotification.js";
 
 export const submitCareer = async (req, res) => {
   try {
@@ -16,6 +17,14 @@ export const submitCareer = async (req, res) => {
       resumeName:   req.file.originalname,
       resumePublicId: req.file.filename,   // store public_id for signed downloads
     });
+
+    notifyRoles(
+      ["admin", "manager"],
+      "New Career Application",
+      `${req.body.name || "Someone"} submitted a career application${req.body.email ? ` (${req.body.email})` : ""}.`,
+      "career_application",
+      "/manager/careers"
+    );
 
     res.json({ message: "Career application submitted", data });
   } catch (err) {

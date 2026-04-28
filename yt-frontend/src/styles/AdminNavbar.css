@@ -12,6 +12,8 @@
 
 .navbar-title { font-size: 1.4rem; font-weight: 600; color: var(--erp-accent); }
 
+.admin-actions { display: flex; align-items: center; gap: 12px; }
+
 .navbar-right { display: flex; align-items: center; gap: 22px; }
 
 .icon-container {

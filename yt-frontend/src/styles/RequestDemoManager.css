@@ -1,242 +1,81 @@
-/* =====================================================
-   CRM – DEMO REQUESTS (MANAGER)
-===================================================== */
+/* ── Manager CRM — extra styles on top of RequestDemoAdmin.css ── */
 
-.admin-requests-container {
-  padding: 24px;
+/* Inline status select in table row */
+.rdm-status-select {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: center;
+}
+
+.rdm-status--blue   { background: rgba(59,130,246,0.15);  color: #3b82f6; border-color: rgba(59,130,246,0.3);  }
+.rdm-status--yellow { background: rgba(234,179,8,0.15);   color: #ca8a04; border-color: rgba(234,179,8,0.3);   }
+.rdm-status--purple { background: rgba(168,85,247,0.15);  color: #a855f7; border-color: rgba(168,85,247,0.3);  }
+.rdm-status--green  { background: rgba(34,197,94,0.15);   color: #16a34a; border-color: rgba(34,197,94,0.3);   }
+.rdm-status--gray   { background: rgba(148,163,184,0.15); color: #64748b; border-color: rgba(148,163,184,0.3); }
+
+.rdm-status-select option {
+  background: var(--erp-bg);
   color: var(--erp-text);
 }
 
-/* ================= HEADER ================= */
-
-.admin-header {
-  margin-bottom: 18px;
-}
-
-.admin-header h2 {
-  font-size: 1.9rem;
-  color: var(--erp-accent);
-  margin-bottom: 4px;
-}
-
-.admin-header .subtitle {
-  color: var(--erp-text-muted);
-  font-size: 0.95rem;
-}
-
-/* ================= ACTION BAR ================= */
-
-.rd-action-bar {
+/* Status update panel in modal */
+.rdm-status-panel {
   display: flex;
-  gap: 14px;
-  margin-bottom: 16px;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--erp-border);
+}
+
+.rdm-status-buttons {
+  display: flex;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
-/* SEARCH */
-.rd-search-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--erp-bg-input);
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: 1px solid var(--erp-border-med);
+.rdm-status-btn {
   flex: 1;
-}
-
-.rd-search-box input {
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--erp-text);
-  width: 100%;
-}
-
-/* STATUS FILTER */
-.status-filter {
+  min-width: 100px;
   padding: 10px 14px;
-  background: var(--erp-bg-input);
-  color: var(--erp-text);
-  border-radius: 10px;
-  border: 1px solid var(--erp-border-med);
-  min-width: 160px;
-}
-
-/* ================= TABLE ================= */
-
-.rd-table-wrapper {
-  background: var(--erp-bg);
-  border-radius: 14px;
-  padding: 6px;
-  border: 1px solid var(--erp-border);
-  overflow-x: auto;
-}
-
-.rd-table {
-  width: 100%;
-  min-width: 900px;
-  border-collapse: collapse;
-  background: var(--erp-card-gradient);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.rd-table thead th {
-  background: var(--erp-bg-header);
-  color: var(--erp-accent);
-  padding: 12px 14px;
-  text-align: left;
-  font-size: 0.9rem;
-}
-
-.rd-table td {
-  padding: 12px 14px;
-  font-size: 0.88rem;
-  border-bottom: 1px solid var(--erp-border);
-  vertical-align: top;
-  color: var(--erp-text);
-}
-
-.rd-row-clickable {
-  cursor: pointer;
-}
-
-.rd-row-clickable:hover {
-  background: var(--erp-bg-hover);
-}
-
-/* ================= LEAD INFO ================= */
-
-.lead-name {
+  border-radius: 12px;
+  border: 2px solid transparent;
+  font-size: 0.85rem;
   font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.lead-email {
-  font-size: 0.8rem;
-  color: var(--erp-text-muted);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* ================= MESSAGE ================= */
-
-.rd-message {
-  max-width: 260px;
-  color: var(--erp-text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ================= STATUS ================= */
-
-.status-badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: capitalize;
-}
-
-.status-badge.new         { background: #facc15; color: #000; }
-.status-badge.contacted   { background: #60a5fa; color: #001d2e; }
-.status-badge.in-progress { background: #38bdf8; color: #002b3f; }
-.status-badge.closed      { background: #22c55e; color: #002b17; }
-
-/* ================= STATES ================= */
-
-.rd-loading,
-.rd-no-records {
-  padding: 24px;
-  text-align: center;
-  color: var(--erp-text-muted);
-}
-
-/* =====================================================
-   SLIDE-IN DRAWER
-===================================================== */
-
-.rd-drawer-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 3000;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.rd-drawer {
-  width: 380px;
-  max-width: 92vw;
-  height: 100%;
-  background: var(--erp-card-gradient-flat);
-  padding: 22px;
-  animation: slideIn 0.3s ease;
-  overflow-y: auto;
-  border-left: 1px solid var(--erp-border);
-}
-
-@keyframes slideIn {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
-}
-
-.rd-drawer h3 {
-  color: var(--erp-accent);
-  margin-bottom: 18px;
-}
-
-.drawer-section {
-  margin-bottom: 14px;
-}
-
-.drawer-section label {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--erp-text-muted);
-  margin-bottom: 4px;
-}
-
-.drawer-section p {
-  font-size: 0.95rem;
-  color: var(--erp-text);
-}
-
-.drawer-section select {
-  width: 100%;
-  padding: 10px;
-  background: var(--erp-bg-input);
-  border-radius: 10px;
-  border: 1px solid var(--erp-border-med);
-  color: var(--erp-text);
-}
-
-.drawer-close {
-  margin-top: 18px;
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  background: var(--erp-accent);
-  color: var(--erp-accent-text);
-  font-weight: 700;
-  border: none;
   cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  background: var(--erp-bg-hover);
+  color: var(--erp-text-muted);
 }
 
-/* =====================================================
-   RESPONSIVE FIXES
-===================================================== */
-
-@media (max-width: 768px) {
-  .admin-requests-container { padding: 16px; }
-  .rd-action-bar { flex-direction: column; }
-  .rd-table { min-width: 720px; }
+.rdm-status-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
 }
+
+.rdm-status-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Active state */
+.rdm-status-btn--blue.active   { background: rgba(59,130,246,0.18);  color: #3b82f6; border-color: #3b82f6;  }
+.rdm-status-btn--yellow.active { background: rgba(234,179,8,0.18);   color: #ca8a04; border-color: #ca8a04;  }
+.rdm-status-btn--purple.active { background: rgba(168,85,247,0.18);  color: #a855f7; border-color: #a855f7;  }
+.rdm-status-btn--green.active  { background: rgba(34,197,94,0.18);   color: #16a34a; border-color: #22c55e;  }
+
+/* Hover state (non-active) */
+.rdm-status-btn--blue:hover:not(:disabled):not(.active)   { background: rgba(59,130,246,0.1);  color: #3b82f6; }
+.rdm-status-btn--yellow:hover:not(:disabled):not(.active) { background: rgba(234,179,8,0.1);   color: #ca8a04; }
+.rdm-status-btn--purple:hover:not(:disabled):not(.active) { background: rgba(168,85,247,0.1);  color: #a855f7; }
+.rdm-status-btn--green:hover:not(:disabled):not(.active)  { background: rgba(34,197,94,0.1);   color: #16a34a; }
 
 @media (max-width: 480px) {
-  .rd-table { min-width: 640px; }
+  .rdm-status-buttons { flex-direction: column; }
+  .rdm-status-btn     { min-width: unset; }
 }

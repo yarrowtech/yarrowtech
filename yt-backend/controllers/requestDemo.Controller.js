@@ -5,6 +5,7 @@
 
 
 import RequestDemo from "../models/RequestDemo.js";
+import { notifyRoles } from "../erp/utils/createNotification.js";
 
 /* ============================================================
    🌐 SUBMIT REQUEST DEMO (Website User)
@@ -48,6 +49,14 @@ export const submitRequestDemo = async (req, res) => {
       serviceInterested: "Demo Request",
       preferredContactMethod: "email",
     });
+
+    notifyRoles(
+      ["admin", "manager"],
+      "New Demo Request",
+      `${name}${company ? ` from ${company}` : ""} submitted a demo request.`,
+      "demo_request",
+      "/manager/requests"
+    );
 
     return res.status(201).json({
       success: true,

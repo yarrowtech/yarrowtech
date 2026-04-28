@@ -3,6 +3,7 @@ import ERPProject from "../models/Project.js";
 import sendEmail from "../utils/sendEmail.js";
 import { generateInvoicePDF } from "../utils/generateInvoice.js";
 import { calculateProjectPaymentSummary } from "../utils/paymentSummary.js";
+import { notifyEmail } from "../utils/createNotification.js";
 
 const VALID_PAYMENT_STATUSES = ["paid", "pending", "failed"];
 
@@ -168,6 +169,14 @@ YarrowTech Team`,
     }
 
     const payload = await buildProjectPaymentPayload(project._id, req.erpUser);
+
+    notifyEmail(
+      project.clientEmail, "client",
+      `Payment Recorded: ₹${sanitizedAmount}`,
+      `A ${normalizedStatus} payment of ₹${sanitizedAmount} (${paymentType || "Project Payment"}) has been recorded for project "${project.name}". Invoice: ${invoiceNo}.`,
+      "payment_added",
+      "/client/payments"
+    );
 
     res.json({
       success: true,
