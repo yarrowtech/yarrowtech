@@ -4,9 +4,12 @@ import {
   createClientAndProject,
   deleteClient,
   getDeletedClientHistory,
+  getManagerProfile,
   getProjects,
   getTechLeads,
   resetClientPassword,
+  updateManagerProfile,
+  changeManagerPassword,
   updateProject,
 } from "../controllers/manager.controller.js";
 import {
@@ -20,6 +23,10 @@ import { verifyErpToken } from "../middleware/erpAuth.js";
 import verifyRoles from "../middleware/verifyRoles.js";
 
 const router = express.Router();
+
+router.get(  "/profile",         verifyErpToken, verifyRoles("manager"), getManagerProfile);
+router.put(  "/profile",         verifyErpToken, verifyRoles("manager"), updateManagerProfile);
+router.post( "/profile/change-password", verifyErpToken, verifyRoles("manager"), changeManagerPassword);
 
 router.get(
   "/techleads",

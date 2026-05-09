@@ -88,9 +88,10 @@
 
 
 
+import bcrypt from "bcryptjs";
 import Client from "../models/Client.js";
 import Project from "../models/Project.js";
-import ERPUser from "../models/User.js";           // ✅ NEW
+import ERPUser from "../models/User.js";
 import { Contact } from "../../models/contact.js";
 import RequestDemo from "../../models/RequestDemo.js";
 
@@ -305,5 +306,64 @@ export const resetUserPassword = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to reset password" });
+  }
+};
+
+/* ============================================================
+   ⭐ GET ADMIN PROFILE
+============================================================ */
+export const getAdminProfile = async (req, res) => {
+  try {
+    const user = await ERPUser.findOne({ email: req.erpUser.email }).select("-password");
+    if (!user) return res.status(404).json({ message: "Profile not found" });
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch profile" });
+  }
+};
+
+/* ============================================================
+   ⭐ UPDATE ADMIN PROFILE (name, address, mobileNumber)
+============================================================ */
+export const updateAdminProfile = async (req, res) => {
+  try {
+    const { name, address, mobileNumber } = req.body;
+    const user = await ERPUser.findOneAndUpdate(
+      { email: req.erpUser.email },
+      { name: String(name || "").trim(), address: String(address || "").trim(), mobileNumber: String(mobileNumber || "").trim() },
+      { new: true }
+    ).select("-password");
+    if (!user) return res.status(404).json({ message: "Profile not found" });
+    res.json({ success: true, user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to update profile" });
+  }
+};
+
+/* ============================================================
+   ⭐ CHANGE ADMIN PASSWORD
+============================================================ */
+export const changeAdminPassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword)
+      return res.status(400).json({ message: "Both passwords are required" });
+    if (newPassword.length < 6)
+      return res.status(400).json({ message: "New password must be at least 6 characters" });
+
+    const user = await ERPUser.findOne({ email: req.erpUser.email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const match = await bcrypt.compare(currentPassword, user.password);
+    if (!match) return res.status(400).json({ message: "Current password is incorrect" });
+
+    user.password = newPassword;
+    await user.save();
+    res.json({ success: true, message: "Password changed successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to change password" });
   }
 };

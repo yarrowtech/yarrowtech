@@ -205,6 +205,7 @@
 
 
 
+import bcrypt from "bcryptjs";
 import ERPClient from "../models/Client.js";
 import DeletedClientHistory from "../models/DeletedClientHistory.js";
 import ERPProject from "../models/Project.js";
@@ -590,5 +591,68 @@ export const getDeletedClientHistory = async (req, res) => {
   } catch (err) {
     console.error("❌ DELETED CLIENT HISTORY ERROR:", err);
     res.status(500).json({ message: "Server error" });
+  }
+};
+
+/* ============================================================
+   MANAGER → GET PROFILE
+============================================================ */
+export const getManagerProfile = async (req, res) => {
+  try {
+    const user = await ERPUser.findOne({ email: req.erpUser.email }).select("-password");
+    if (!user) return res.status(404).json({ message: "Profile not found" });
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to fetch profile" });
+  }
+};
+
+/* ============================================================
+   MANAGER → UPDATE PROFILE (name, address, mobileNumber)
+============================================================ */
+export const updateManagerProfile = async (req, res) => {
+  try {
+    const { name, address, mobileNumber } = req.body;
+    const user = await ERPUser.findOneAndUpdate(
+      { email: req.erpUser.email },
+      {
+        name: String(name || "").trim(),
+        address: String(address || "").trim(),
+        mobileNumber: String(mobileNumber || "").trim(),
+      },
+      { new: true }
+    ).select("-password");
+    if (!user) return res.status(404).json({ message: "Profile not found" });
+    res.json({ success: true, user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to update profile" });
+  }
+};
+
+/* ============================================================
+   MANAGER → CHANGE PASSWORD
+============================================================ */
+export const changeManagerPassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword)
+      return res.status(400).json({ message: "Both passwords are required" });
+    if (newPassword.length < 6)
+      return res.status(400).json({ message: "New password must be at least 6 characters" });
+
+    const user = await ERPUser.findOne({ email: req.erpUser.email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const match = await bcrypt.compare(currentPassword, user.password);
+    if (!match) return res.status(400).json({ message: "Current password is incorrect" });
+
+    user.password = newPassword;
+    await user.save();
+    res.json({ success: true, message: "Password changed successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to change password" });
   }
 };

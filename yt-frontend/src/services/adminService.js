@@ -166,12 +166,16 @@ export const getLeadTimeline = async (leadId) => {
 };
 
 /* ===============================
-   UPDATE ADMIN PROFILE  ✅ FIX
+   ADMIN PROFILE
 ================================ */
-export const updateAdminProfile = async (payload) => {
-  const res = await API.put("/erp/admin/profile", payload);
-  return res.data;
-};
+export const getAdminProfile = () =>
+  API.get("/erp/admin/profile").then((r) => r.data);
+
+export const updateAdminProfile = (payload) =>
+  API.put("/erp/admin/profile", payload).then((r) => r.data);
+
+export const changeAdminPassword = (payload) =>
+  API.post("/erp/admin/profile/change-password", payload).then((r) => r.data);
 
 /* ===============================
    UPDATE PROJECT (ADMIN)

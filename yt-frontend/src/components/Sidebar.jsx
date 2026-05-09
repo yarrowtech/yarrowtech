@@ -87,6 +87,7 @@ import {
   Settings,
   Layers3,
   LogOut,
+  Bell,
 } from "lucide-react";
 
 import API from "../services/axiosInstance";
@@ -158,6 +159,12 @@ export default function Sidebar() {
           to="/admin/careers"
           icon={<Briefcase size={18} />}
           label="Career Forms"
+        />
+
+        <NavItem
+          to="/admin/notifications"
+          icon={<Bell size={18} />}
+          label="Notifications"
         />
       </div>
 

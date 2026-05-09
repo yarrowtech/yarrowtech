@@ -1,6 +1,7 @@
 // backend/controllers/career.Controller.js
 import Career from "../models/Career.js";
 import { notifyRoles } from "../erp/utils/createNotification.js";
+import sendEmail from "../erp/utils/sendEmail.js";
 
 export const submitCareer = async (req, res) => {
   try {
@@ -11,20 +12,104 @@ export const submitCareer = async (req, res) => {
       return res.status(400).json({ message: "Resume is required" });
     }
 
+    const { name, email, message } = req.body;
+
     const data = await Career.create({
       ...req.body,
-      resumeUrl:    req.file.path,
-      resumeName:   req.file.originalname,
-      resumePublicId: req.file.filename,   // store public_id for signed downloads
+      resumeUrl:      req.file.path,
+      resumeName:     req.file.originalname,
+      resumePublicId: req.file.filename,
     });
 
     notifyRoles(
       ["admin", "manager"],
       "New Career Application",
-      `${req.body.name || "Someone"} submitted a career application${req.body.email ? ` (${req.body.email})` : ""}.`,
+      `${name || "Someone"} submitted a career application${email ? ` (${email})` : ""}.`,
       "career_application",
       "/manager/careers"
     );
+
+    // ── Email 1: Confirmation to applicant ──────────────────────
+    if (email) {
+      sendEmail(
+        email,
+        "We've received your application — YarrowTech",
+        `
+        <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;background:#071a2d;color:#f1f5f9;border-radius:14px;padding:32px;">
+          <h2 style="color:#ffcb05;margin-top:0;">Thank you, ${name || "there"}!</h2>
+          <p>We've received your career application and our team will review it shortly.</p>
+          <p style="color:#94a3b8;">Here's a summary of what you submitted:</p>
+          <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;width:110px;">Name</td>
+              <td style="padding:8px 0;font-weight:600;">${name || "—"}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;">Email</td>
+              <td style="padding:8px 0;font-weight:600;">${email}</td>
+            </tr>
+            ${message ? `
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;vertical-align:top;">Message</td>
+              <td style="padding:8px 0;">${message}</td>
+            </tr>` : ""}
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;">Resume</td>
+              <td style="padding:8px 0;">${req.file.originalname}</td>
+            </tr>
+          </table>
+          <p>We'll be in touch if your profile matches our current openings.</p>
+          <p style="margin-top:28px;color:#64748b;font-size:0.85rem;">
+            — Team YarrowTech<br/>
+            <a href="https://yarrowtech.co.in" style="color:#ffcb05;">yarrowtech.co.in</a>
+          </p>
+        </div>
+        `
+      );
+    }
+
+    // ── Email 2: Alert to YarrowTech team ───────────────────────
+    const hrEmail = process.env.SMTP_USER || process.env.FROM_EMAIL;
+    if (hrEmail) {
+      sendEmail(
+        hrEmail,
+        `New Career Application — ${name || "Unknown"} (${email || "no email"})`,
+        `
+        <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;background:#071a2d;color:#f1f5f9;border-radius:14px;padding:32px;">
+          <h2 style="color:#ffcb05;margin-top:0;">New Career Application</h2>
+          <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;width:110px;">Name</td>
+              <td style="padding:8px 0;font-weight:600;">${name || "—"}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;">Email</td>
+              <td style="padding:8px 0;">${email || "—"}</td>
+            </tr>
+            ${message ? `
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;vertical-align:top;">Message</td>
+              <td style="padding:8px 0;">${message}</td>
+            </tr>` : ""}
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;">Resume</td>
+              <td style="padding:8px 0;">${req.file.originalname}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;">Submitted</td>
+              <td style="padding:8px 0;">${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}</td>
+            </tr>
+          </table>
+          <p style="margin-top:24px;">
+            <a href="${process.env.FRONTEND_URL || "http://localhost:5173"}/admin/careers"
+               style="display:inline-block;padding:11px 22px;border-radius:999px;background:#2563eb;color:#fff;text-decoration:none;font-weight:700;">
+              View in Admin Panel
+            </a>
+          </p>
+        </div>
+        `
+      );
+    }
 
     res.json({ message: "Career application submitted", data });
   } catch (err) {

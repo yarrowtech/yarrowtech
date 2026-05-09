@@ -27,6 +27,6 @@
   .client-content {
     margin-left: 0;
     width: 100%;
-    padding: 18px;
+    padding: 58px 18px 18px; /* top clears the fixed hamburger toggle */
   }
 }

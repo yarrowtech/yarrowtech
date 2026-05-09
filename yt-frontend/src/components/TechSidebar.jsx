@@ -64,6 +64,15 @@ export default function TechSidebar() {
         >
           Profile
         </NavLink>
+
+        <NavLink
+          to="/techlead/notifications"
+          className={({ isActive }) =>
+            isActive ? "menu-item active" : "menu-item"
+          }
+        >
+          Notifications
+        </NavLink>
       </nav>
 
       {/* 🔴 LOGOUT */}

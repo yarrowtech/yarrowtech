@@ -4,6 +4,7 @@ import { generateToken } from "../utils/generateToken.js";
 import { OAuth2Client } from "google-auth-library";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+import sendEmail from "../erp/utils/sendEmail.js";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -81,6 +82,36 @@ export const loginUser = async (req, res) => {
       token: generateToken(user),
       user,
     });
+
+    const loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+
+    sendEmail(
+      user.email,
+      "New login to your YarrowTech account",
+      `
+      <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;background:#071a2d;color:#f1f5f9;border-radius:14px;padding:32px;">
+        <h2 style="color:#ffcb05;margin-top:0;">New Login Detected</h2>
+        <p>Hi ${user.name || "there"},</p>
+        <p>We noticed a new login to your YarrowTech account.</p>
+        <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+          <tr>
+            <td style="padding:8px 0;color:#94a3b8;width:120px;">Account</td>
+            <td style="padding:8px 0;font-weight:600;">${user.email}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 0;color:#94a3b8;">Time</td>
+            <td style="padding:8px 0;">${loginTime} IST</td>
+          </tr>
+        </table>
+        <p>If this was you, no action is needed.</p>
+        <p style="color:#ef4444;">If you did not log in, please reset your password immediately.</p>
+        <p style="margin-top:28px;color:#64748b;font-size:0.85rem;">
+          — Team YarrowTech<br/>
+          <a href="https://yarrowtech.co.in" style="color:#ffcb05;">yarrowtech.co.in</a>
+        </p>
+      </div>
+      `
+    );
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

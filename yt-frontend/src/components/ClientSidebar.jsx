@@ -62,6 +62,7 @@ import {
   User,
   LogOut,
   Menu,
+  Bell,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import API from "../services/axiosInstance";
@@ -73,10 +74,11 @@ export default function ClientSidebar() {
   const navigate = useNavigate();
 
   const menu = [
-    { label: "Dashboard", icon: <Home size={20} />, to: "/client/dashboard" },
-    { label: "My Projects", icon: <Box size={20} />, to: "/client/projects" },
-    { label: "Payments", icon: <CreditCard size={20} />, to: "/client/payments" },
-    { label: "Profile", icon: <User size={20} />, to: "/client/profile" },
+    { label: "Dashboard",     icon: <Home size={20} />,     to: "/client/dashboard" },
+    { label: "My Projects",   icon: <Box size={20} />,      to: "/client/projects" },
+    { label: "Payments",      icon: <CreditCard size={20} />, to: "/client/payments" },
+    { label: "Notifications", icon: <Bell size={20} />,     to: "/client/notifications" },
+    { label: "Profile",       icon: <User size={20} />,     to: "/client/profile" },
   ];
 
   /* ================= LOGOUT ================= */

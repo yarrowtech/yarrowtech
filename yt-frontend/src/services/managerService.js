@@ -176,3 +176,15 @@ export const addManagerProductUserPayment = async (id, payload) => {
   const res = await API.post(`/erp/manager/product-users/${id}/payments`, payload);
   return res.data;
 };
+
+/* =====================================================
+   MANAGER → PROFILE / SETTINGS
+===================================================== */
+export const getManagerProfile = () =>
+  API.get("/erp/manager/profile").then((r) => r.data);
+
+export const updateManagerProfile = (payload) =>
+  API.put("/erp/manager/profile", payload).then((r) => r.data);
+
+export const changeManagerPassword = (payload) =>
+  API.post("/erp/manager/profile/change-password", payload).then((r) => r.data);

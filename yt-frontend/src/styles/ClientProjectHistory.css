@@ -4,7 +4,7 @@
 
 .client-history-container {
   padding: 25px 30px;
-  color: #fff;
+  color: var(--erp-text);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@
 }
 
 .client-header .subtitle {
-  color: #aaa;
+  color: var(--erp-text-muted);
   font-size: 0.95rem;
   margin-bottom: 20px;
 }
@@ -28,23 +28,24 @@
    TABLE WRAPPER
 ============================ */
 .client-history-table-wrapper {
-  background: #071a2d;
+  background: var(--erp-card-gradient);
+  border: 1px solid var(--erp-border);
   border-radius: 16px;
   padding: 20px 25px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--erp-shadow);
   overflow-x: auto;
 }
 
 .client-history-table {
   width: 100%;
   border-collapse: collapse;
-  color: #eaeaea;
+  color: var(--erp-text);
   min-width: 750px;
   font-size: 0.95rem;
 }
 
 .client-history-table thead {
-  background: #0c2b47;
+  background: var(--erp-bg-header);
 }
 
 .client-history-table th {
@@ -55,12 +56,12 @@
 
 .client-history-table td {
   padding: 14px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid var(--erp-border);
 }
 
 /* Hover Effect */
 .client-history-table tr:hover td {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--erp-bg-hover);
 }
 
 /* ============================
@@ -115,6 +116,10 @@
 }
 
 @media (max-width: 480px) {
+  .client-history-container {
+    padding: 18px 16px;
+  }
+
   .client-history-table th,
   .client-history-table td {
     padding: 8px 6px;

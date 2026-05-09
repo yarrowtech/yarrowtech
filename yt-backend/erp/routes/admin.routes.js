@@ -54,6 +54,9 @@ import {
   createERPUser,
   toggleUserStatus,
   resetUserPassword,
+  getAdminProfile,
+  updateAdminProfile,
+  changeAdminPassword,
 } from "../controllers/admin.controller.js";
 import {
   addProductUserPayment,
@@ -79,6 +82,13 @@ const router = express.Router();
    🔐 ADMIN AUTH + ROLE GUARD (GLOBAL)
 ============================================================ */
 router.use(verifyErpToken, verifyRoles("admin"));
+
+/* ============================================================
+   👤 ADMIN PROFILE / SETTINGS
+============================================================ */
+router.get("/profile",                 getAdminProfile);
+router.put("/profile",                 updateAdminProfile);
+router.post("/profile/change-password", changeAdminPassword);
 
 /* ============================================================
    📊 ADMIN DASHBOARD

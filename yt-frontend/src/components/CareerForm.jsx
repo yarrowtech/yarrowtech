@@ -192,10 +192,6 @@ const API_BASE =
   (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000").replace(/\/+$/, "");
 
 export default function CareerForm({ open, onClose, showToast, currentUser }) {
-
-  // ⭐ IMPORTANT: hide modal when not open
-  if (!open) return null;
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -217,6 +213,9 @@ export default function CareerForm({ open, onClose, showToast, currentUser }) {
       email: currentUser?.email || prev.email,
     }));
   }, [currentUser]);
+
+  // All hooks must be above this line
+  if (!open) return null;
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
