@@ -35,8 +35,8 @@ import { createRoot } from "react-dom/client";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import "./index.css";
-import "./styles/responsive.css";
 import App from "./App.jsx";
+import "./styles/responsive.css";
 
 const GOOGLE_CLIENT_ID =
   typeof import.meta !== "undefined" &&

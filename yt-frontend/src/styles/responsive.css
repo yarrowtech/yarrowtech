@@ -1,96 +1,507 @@
-/* =======================================
-   🌐 Global Responsive Styles
-   ======================================= */
+/* ==========================================================
+   Global Responsive Layer
+   Loaded after app/component CSS so these rules can normalize
+   public pages and ERP screens across tablet and mobile.
+========================================================== */
 
-/* Base adjustments */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-img {
+html,
+body,
+#root,
+.app {
+  width: 100%;
   max-width: 100%;
-  height: auto;
+  overflow-x: hidden;
 }
 
-/* Desktop styles are already in your normal CSS files */
-
-/* 📱 Tablets (width ≤ 992px) */
-@media (max-width: 992px) {
-  section, .section {
-    padding: 40px 20px;
-  }
-
-  .hero-content, .about-content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .values-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
 }
 
-/* 📱 Mobiles (width ≤ 576px) */
-@media (max-width: 576px) {
-  h1 {
-    font-size: 1.6rem;
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  max-width: 100%;
+}
+
+input,
+select,
+textarea {
+  min-width: 0;
+}
+
+.container,
+.footer-container,
+.header-container,
+.services-section .container,
+.products-section .container,
+.expertise-section .container,
+.about-section .container {
+  width: min(100% - 32px, 1200px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Keep all data tables usable on narrow screens. */
+.projects-table-wrapper,
+.users-table-wrapper,
+.career-table-wrapper,
+.contacts-table-wrapper,
+.rda-table-wrap,
+.admin-blog-table,
+.pum-table-wrap,
+.mp-table-wrapper,
+.notifications-table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  max-width: 100%;
+}
+
+.projects-table,
+.users-table,
+.career-table,
+.contacts-table,
+.rda-table,
+.pum-table {
+  width: max-content;
+  min-width: 760px;
+}
+
+.modal-overlay,
+.modal-backdrop,
+.reset-modal-backdrop,
+.rda-modal-backdrop,
+.career-modal-backdrop,
+.project-chat-overlay {
+  padding: 18px;
+  overflow-y: auto;
+}
+
+.modal.login-card,
+.modal-box,
+.reset-modal,
+.modal-box-demo,
+.modal-box-career,
+.rda-modal,
+.career-modal,
+.project-chat-modal {
+  max-width: min(100%, 920px);
+  max-height: calc(100svh - 36px);
+  overflow-y: auto;
+}
+
+/* ==========================================================
+   Tablet
+========================================================== */
+
+@media (max-width: 1100px) {
+  .admin-content,
+  .client-content,
+  .technical-main {
+    min-width: 0;
   }
 
-  h2 {
-    font-size: 1.25rem;
+  .admin-dashboard,
+  .manager-dashboard,
+  .admin-users-container,
+  .career-applications-container,
+  .contacts-admin-container,
+  .admin-projects-container,
+  .request-demo-admin,
+  .notifications-page,
+  .product-user-management,
+  .pu-dash-page,
+  .pu-proj-page,
+  .product-portal-page {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
-  p {
-    font-size: 0.9rem;
-    line-height: 1.5;
+  .ad-stats,
+  .md-stats,
+  .rda-stats,
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  section, .section {
-    padding: 20px 10px;
-  }
-
-  .values-grid {
+  .ad-charts,
+  .md-dashboard-grid,
+  .pu-dash-bottom,
+  .product-portal-grid,
+  .mpd-grid,
+  .mpd-details-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+  }
+}
+
+@media (max-width: 992px) {
+  section,
+  .section {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
-  nav ul {
+  .services-grid,
+  .products-list,
+  .expertise-grid,
+  .values-grid,
+  .pu-proj-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .create-user-form,
+  .product-user-form,
+  .erp-user-form-grid,
+  .create-form-grid,
+  .settings-grid,
+  .profile-grid,
+  .rda-modal-grid,
+  .career-modal-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================
+   Mobile ERP Layouts
+========================================================== */
+
+@media (max-width: 768px) {
+  body {
+    min-width: 320px;
+  }
+
+  section,
+  .section {
+    padding: 48px 16px;
+  }
+
+  .container,
+  .footer-container,
+  .header-container,
+  .services-section .container,
+  .products-section .container,
+  .expertise-section .container,
+  .about-section .container {
+    width: min(100% - 24px, 720px);
+  }
+
+  .admin-layout,
+  .manager-layout,
+  .technical-layout {
+    display: flex;
     flex-direction: column;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .admin-content,
+  .manager-content,
+  .client-content,
+  .technical-main {
+    margin-left: 0 !important;
+    width: 100% !important;
+    min-width: 0;
+  }
+
+  .admin-content,
+  .manager-inner,
+  .technical-content {
+    padding: 16px;
+  }
+
+  .client-content {
+    padding: 64px 16px 18px;
+  }
+
+  .sidebar,
+  .manager-sidebar,
+  .tech-sidebar {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 1200;
+    width: 100%;
+    min-height: auto;
+    height: auto;
+    max-height: 72px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .sidebar,
+  .manager-sidebar {
+    display: flex;
     align-items: center;
+    gap: 10px;
+  }
+
+  .tech-sidebar {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .sidebar-title,
+  .manager-logo,
+  .manager-name,
+  .tech-sidebar .sidebar-title,
+  .section-title,
+  .manager-sidebar-top {
+    display: none !important;
+  }
+
+  .sidebar-section,
+  .manager-nav,
+  .sidebar-menu {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin: 0;
+    width: max-content;
+  }
+
+  .sidebar-link,
+  .nav-item,
+  .sidebar-menu .menu-item {
+    flex: 0 0 auto;
+    margin: 0;
+    min-height: 42px;
+    padding: 9px 11px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  .sidebar-bottom,
+  .manager-sidebar-bottom,
+  .sidebar-footer {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .logout-btn,
+  .manager-logout-btn {
+    min-height: 42px;
+    padding: 9px 11px;
+    white-space: nowrap;
+  }
+
+  .admin-header,
+  .admin-section-head,
+  .career-toolbar,
+  .rda-toolbar,
+  .product-portal-head,
+  .pu-dash-header,
+  .pu-proj-card-header,
+  .create-modal-head {
+    align-items: stretch;
     gap: 12px;
   }
 
-  .hero-content, .about-content {
-    flex-direction: column;
+  .admin-header h2,
+  .page-title,
+  .pu-dash-header h2,
+  .product-portal-head h2 {
+    font-size: 1.35rem;
+    line-height: 1.2;
   }
 
-  .hero-image, .about-img {
+  .services-grid,
+  .products-list,
+  .expertise-grid,
+  .values-grid,
+  .ad-stats,
+  .md-stats,
+  .ad-quick-grid,
+  .md-quick-grid,
+  .rda-stats,
+  .dashboard-grid,
+  .pu-dash-stats,
+  .pu-proj-grid,
+  .product-portal-stats,
+  .product-portal-grid,
+  .pum-grid,
+  .pud-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ad-stat-card,
+  .md-stat-card,
+  .pu-dash-stat-card,
+  .product-portal-stat,
+  .service-card,
+  .product-card {
+    min-width: 0;
+  }
+
+  .admin-projects-container,
+  .admin-users-container,
+  .career-applications-container,
+  .contacts-admin-container,
+  .request-demo-admin,
+  .notifications-page,
+  .product-user-management,
+  .pu-dash-page,
+  .pu-proj-page,
+  .product-portal-page {
+    padding: 16px;
+  }
+
+  .projects-table-wrapper,
+  .users-table-wrapper,
+  .career-table-wrapper,
+  .contacts-table-wrapper,
+  .rda-table-wrap,
+  .admin-blog-table,
+  .pum-table-wrap {
+    margin-left: -4px;
+    margin-right: -4px;
+    border-radius: 12px;
+  }
+
+  .modal.login-card,
+  .modal-box,
+  .reset-modal,
+  .modal-box-demo,
+  .modal-box-career,
+  .rda-modal,
+  .career-modal,
+  .project-chat-modal {
     width: 100%;
-    text-align: center;
+    padding: 18px;
+    border-radius: 14px;
   }
 
-  .hero-image img, .about-img img {
-    width: 85%;
-    margin: 0 auto;
+  .two-column-demo,
+  .modal-content-grid,
+  .rda-modal-grid,
+  .career-modal-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .modal-actions,
+  .reset-modal-actions,
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .modal-actions button,
+  .reset-modal-actions button,
+  .hero-actions button {
+    width: 100%;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 28px;
   }
 }
 
-/* Utility classes */
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+/* ==========================================================
+   Small Phones
+========================================================== */
 
-.hide-mobile {
-  display: block;
-}
+@media (max-width: 480px) {
+  section,
+  .section {
+    padding: 40px 12px;
+  }
 
-@media (max-width: 576px) {
-  .hide-mobile {
+  .admin-content,
+  .manager-inner,
+  .technical-content,
+  .client-content,
+  .admin-projects-container,
+  .admin-users-container,
+  .career-applications-container,
+  .contacts-admin-container,
+  .request-demo-admin,
+  .notifications-page,
+  .product-user-management,
+  .pu-dash-page,
+  .pu-proj-page,
+  .product-portal-page {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .sidebar-link span,
+  .nav-item span,
+  .logout-btn span,
+  .manager-logout-btn span {
     display: none;
+  }
+
+  .sidebar-link,
+  .nav-item,
+  .sidebar-menu .menu-item,
+  .logout-btn,
+  .manager-logout-btn {
+    min-width: 42px;
+    justify-content: center;
+  }
+
+  .projects-table,
+  .users-table,
+  .career-table,
+  .contacts-table,
+  .rda-table,
+  .pum-table {
+    min-width: 680px;
+    font-size: 0.82rem;
+  }
+
+  .career-download-btn,
+  .career-view-btn,
+  .rda-action-btn,
+  .md-open-btn,
+  .mpd-sec-btn,
+  .mpd-back-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .modal-overlay,
+  .modal-backdrop,
+  .reset-modal-backdrop,
+  .rda-modal-backdrop,
+  .career-modal-backdrop,
+  .project-chat-overlay {
+    padding: 10px;
+  }
+
+  .contact-menu {
+    right: 14px;
+    bottom: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
   }
 }
