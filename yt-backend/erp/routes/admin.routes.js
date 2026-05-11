@@ -71,6 +71,8 @@ import {
 /* ================= MODELS ================= */
 import ERPClient from "../models/Client.js";
 import ERPProject from "../models/Project.js";
+import Career from "../../models/Career.js";
+import cloudinary from "../../utils/cloudinary.js";
 
 /* ================= MIDDLEWARE ================= */
 import { verifyErpToken } from "../middleware/erpAuth.js";
@@ -256,6 +258,42 @@ router.post("/clients/:id/projects", async (req, res) => {
   } catch (err) {
     console.error("❌ CREATE PROJECT ERROR:", err);
     res.status(500).json({ message: "Failed to create project" });
+  }
+});
+
+/* ============================================================
+   🔧 ONE-TIME MIGRATION: Set existing resumes to public access
+   Call once: POST /erp/admin/migrate-resumes
+============================================================ */
+router.post("/migrate-resumes", async (req, res) => {
+  try {
+    const careers = await Career.find({});
+    const results = [];
+
+    for (const career of careers) {
+      let publicId = career.resumePublicId || "";
+      if (!publicId && career.resumeUrl) {
+        const match = career.resumeUrl.match(/\/upload\/(?:v\d+\/)?(.+)$/);
+        if (match) publicId = match[1];
+      }
+      if (!publicId) {
+        results.push({ id: career._id, status: "skipped", reason: "no publicId" });
+        continue;
+      }
+      try {
+        await cloudinary.api.update(publicId, {
+          resource_type: "raw",
+          access_control: [{ access_type: "anonymous" }],
+        });
+        results.push({ id: career._id, publicId, status: "updated" });
+      } catch (e) {
+        results.push({ id: career._id, publicId, status: "failed", error: e.message });
+      }
+    }
+
+    res.json({ total: careers.length, results });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 

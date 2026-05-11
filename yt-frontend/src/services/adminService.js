@@ -98,17 +98,20 @@ export const getCareerApplications = async () => {
   return res.data;
 };
 
-export const downloadCareerResume = async (id) => {
-  const res = await API.get(`/career/download/${id}`);
-  const { url, filename } = res.data;
-  // Use a hidden anchor — works after await without being blocked by popup blockers
+export const downloadCareerResume = async (id, filename) => {
+  // Backend streams the file directly — correct MIME type, no cross-origin issues
+  const res = await API.get(`/career/download/${id}`, { responseType: "blob" });
+  const name = filename || "resume";
+
+  const objectUrl = URL.createObjectURL(res.data);
   const link = document.createElement("a");
-  link.href = url;
-  link.setAttribute("download", filename || "resume");
+  link.href = objectUrl;
+  link.setAttribute("download", name);
   link.style.display = "none";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(objectUrl);
 };
 
 /* ===============================
@@ -182,5 +185,13 @@ export const changeAdminPassword = (payload) =>
 ================================ */
 export const updateProject = async (projectId, payload) => {
   const res = await API.put(`/erp/projects/${projectId}`, payload);
+  return res.data;
+};
+
+/* ===============================
+   MIGRATE RESUME ACCESS (ONE-TIME)
+================================ */
+export const migrateResumeAccess = async () => {
+  const res = await API.post("/erp/admin/migrate-resumes");
   return res.data;
 };

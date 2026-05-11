@@ -2,6 +2,7 @@
 import Career from "../models/Career.js";
 import { notifyRoles } from "../erp/utils/createNotification.js";
 import sendEmail from "../erp/utils/sendEmail.js";
+import cloudinary from "../utils/cloudinary.js";
 
 export const submitCareer = async (req, res) => {
   try {
@@ -123,21 +124,49 @@ export const downloadResume = async (req, res) => {
     const { id } = req.params;
     const career = await Career.findById(id);
 
-    console.log("Download requested for:", id, "| resumeUrl:", career?.resumeUrl);
-
     if (!career?.resumeUrl) {
       return res.status(404).json({ message: "Resume not found" });
     }
 
-    // Insert fl_attachment into the Cloudinary URL → forces Content-Disposition: attachment
-    // e.g. .../upload/v123/... → .../upload/fl_attachment/v123/...
-    const downloadUrl = career.resumeUrl.includes("/upload/")
-      ? career.resumeUrl.replace("/upload/", "/upload/fl_attachment/")
-      : career.resumeUrl;
+    const filename = career.resumeName || "resume";
+    const ext = filename.split(".").pop().toLowerCase();
+    const mimeMap = {
+      pdf:  "application/pdf",
+      doc:  "application/msword",
+      docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    };
+    const contentType = mimeMap[ext] || "application/octet-stream";
 
-    console.log("Download URL:", downloadUrl);
+    // Resolve public_id — stored field or extracted from URL
+    let publicId = career.resumePublicId || "";
+    if (!publicId && career.resumeUrl) {
+      const match = career.resumeUrl.match(/\/upload\/(?:v\d+\/)?(.+)$/);
+      if (match) publicId = match[1];
+    }
 
-    res.json({ url: downloadUrl, filename: career.resumeName || "resume" });
+    // private_download_url generates a signed API URL that works for
+    // both public and authenticated Cloudinary resources
+    let fetchUrl = career.resumeUrl;
+    if (publicId) {
+      fetchUrl = cloudinary.utils.private_download_url(publicId, ext, {
+        resource_type: "raw",
+        expires_at: Math.floor(Date.now() / 1000) + 300,
+      });
+    }
+
+    const fileRes = await fetch(fetchUrl);
+
+    if (!fileRes.ok) {
+      console.error("Cloudinary fetch failed:", fileRes.status, publicId);
+      return res.status(502).json({ message: "Failed to fetch resume from storage" });
+    }
+
+    res.setHeader("Content-Type", contentType);
+    res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+    res.setHeader("Cache-Control", "no-store");
+
+    const arrayBuffer = await fileRes.arrayBuffer();
+    res.send(Buffer.from(arrayBuffer));
   } catch (err) {
     console.error("Download Resume Error:", err);
     res.status(500).json({ message: err.message });
