@@ -27,6 +27,13 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
+  background-color: #051423;
+}
+
+/* Hide Google One Tap floating prompt — we use the explicit login modal instead */
+#credential_picker_container,
+#credential_picker_iframe {
+  display: none !important;
 }
 
 html {

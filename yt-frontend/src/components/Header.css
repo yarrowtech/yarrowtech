@@ -6,9 +6,11 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 75px;
-  background: rgba(5, 20, 35, 0.65);
-  backdrop-filter: blur(18px);
+  height: 72px;
+  background: rgba(4, 12, 24, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   z-index: 2000;
 }
 
@@ -16,14 +18,10 @@
   max-width: 1400px;
   height: 100%;
   margin: 0 auto;
-  padding: 0 18px;
-
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  padding: 0 32px;
+  display: flex;
   align-items: center;
-}
-.logo{
-  margin-left:-6px;
+  gap: 36px;
 }
 
 /* ======================================================
@@ -31,42 +29,135 @@
 ====================================================== */
 
 .logo {
-  width: 230px;
-  height: 90px;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  gap: 14px;
+  flex-shrink: 0;
+  text-decoration: none;
+  position: relative;
 }
 
-.logo > div {
+.logo-mark {
+  position: relative;
+  width: 86px;
+  height: 86px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.logo-mark::before {
+  content: "";
+  position: absolute;
+  inset: 11px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(250, 204, 21, 0.18), transparent 68%);
+  opacity: 0.85;
+  transform: scale(0.92);
+  animation: logoAura 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.logo-img {
+  position: relative;
+  z-index: 1;
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.2))
+    drop-shadow(0 0 18px rgba(250, 204, 21, 0.2));
+  animation: logoPresence 3.2s ease-in-out infinite;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.logo-text {
+  position: relative;
+  color: #ffffff;
+  font-size: clamp(0.95rem, 1.35vw, 1.12rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.logo-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #facc15, #f97316);
+  transition: width 0.25s ease;
+}
+
+.logo:hover .logo-img {
+  transform: translateY(-1px) scale(1.05);
+  filter: drop-shadow(0 0 14px rgba(250, 204, 21, 0.28));
+}
+
+.logo:hover .logo-text {
+  color: #ffffff;
+}
+
+.logo:hover .logo-text::after {
   width: 100%;
-  height: 100%;
 }
 
-.logo svg,
-.logo canvas {
-  width: 100% !important;
-  height: 100% !important;
-  transform: scale(1.9);
-  transform-origin: center;
+@keyframes logoPresence {
+  0%,
+  100% {
+    opacity: 0.92;
+    transform: translateY(0) scale(1);
+  }
+
+  45% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.08);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translateY(-1px) scale(1.03);
+  }
+}
+
+@keyframes logoAura {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.86);
+  }
+
+  50% {
+    opacity: 0.95;
+    transform: scale(1.12);
+  }
 }
 
 /* ======================================================
-   NAVIGATION (DESKTOP)
+   NAVIGATION
 ====================================================== */
 
 .nav-menu {
+  flex: 1;
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 28px;
+  gap: 32px;
 }
 
 .nav-link {
-  color: #ffffff;
+  color: #94a3b8;
   font-weight: 500;
+  font-size: 0.95rem;
   text-decoration: none;
   position: relative;
-  padding: 6px 2px;
+  padding: 4px 0;
+  transition: color 0.2s;
+  white-space: nowrap;
 }
 
 .nav-link.active,
@@ -77,11 +168,12 @@
 .nav-link::after {
   content: "";
   position: absolute;
+  bottom: -2px;
   left: 0;
-  bottom: -4px;
   width: 0;
   height: 2px;
   background: #facc15;
+  border-radius: 2px;
   transition: width 0.25s ease;
 }
 
@@ -97,7 +189,8 @@
 .header-buttons {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 
 /* ======================================================
@@ -105,24 +198,77 @@
 ====================================================== */
 
 .btn {
-  padding: 8px 16px;
+  padding: 8px 20px;
   border-radius: 999px;
   font-weight: 600;
+  font-size: 0.88rem;
   cursor: pointer;
   border: none;
   white-space: nowrap;
+  transition: all 0.2s;
 }
 
 .contact-btn {
   background: transparent;
-  border: 1px solid #facc15;
+  border: 1.5px solid #facc15;
   color: #facc15;
+}
+
+.contact-btn:hover {
+  background: rgba(250, 204, 21, 0.1);
 }
 
 .login-btn {
   background: transparent;
-  border: 1px solid #3b82f6;
-  color: #3b82f6;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+}
+
+.login-btn:hover {
+  border-color: #facc15;
+  color: #facc15;
+}
+
+/* ======================================================
+   HAMBURGER
+====================================================== */
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-buttons {
+  display: none;
 }
 
 /* ======================================================
@@ -134,12 +280,17 @@
 }
 
 .navbar-user-avatar {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.25);
   cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.navbar-user-avatar:hover {
+  border-color: #facc15;
 }
 
 /* ======================================================
@@ -148,13 +299,14 @@
 
 .profile-dropdown {
   position: absolute;
-  top: 60px;
+  top: 52px;
   right: 0;
-  width: 190px;
-  background: #0b1628;
+  width: 180px;
+  background: #0f2040;
   padding: 14px;
   border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
   z-index: 3000;
 }
 
@@ -162,52 +314,170 @@
   text-align: center;
   color: #ffffff;
   font-weight: 600;
+  font-size: 0.88rem;
   margin-bottom: 12px;
 }
 
 .logout-btn {
   width: 100%;
-  padding: 10px;
+  padding: 9px;
   background: #ef4444;
   color: #ffffff;
   border-radius: 8px;
   border: none;
   cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
 /* ======================================================
-   MODAL OVERLAY
+   MODAL OVERLAY  — radial glow behind card
 ====================================================== */
 
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(2, 6, 14, 0.92);
   z-index: 5000;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 16px;
 }
 
 /* ======================================================
-   LOGIN CARD (ANIMATED)
+   LOGIN CARD — GLASSMORPHISM
 ====================================================== */
 
 .modal.login-card {
   width: 100%;
-  max-width: 420px;
-  background: rgba(11,22,40,0.95);
-  border-radius: 18px;
-  padding: 32px;
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.7);
-  backdrop-filter: blur(14px);
+  max-width: 320px;
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-radius: 16px;
+  padding: 22px 20px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 2px 0 rgba(255, 255, 255, 0.08) inset,
+    0 24px 64px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(250, 204, 21, 0.06);
+  position: relative;
+  overflow: hidden;
+  animation: goldPulse 3s ease-in-out infinite;
 }
 
+/* animated yellow accent bar at top */
+.modal.login-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 24px 24px 0 0;
+  background: linear-gradient(90deg, transparent, #facc15, #f97316, #facc15, transparent);
+  background-size: 200% auto;
+  animation: goldSlide 2.5s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes goldSlide {
+  0% {
+    background-position: 0% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* pulsing gold border glow */
+@keyframes goldPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 2px 0 rgba(255, 255, 255, 0.08) inset, 0 24px 64px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(250, 204, 21, 0.06);
+  }
+
+  50% {
+    box-shadow: 0 2px 0 rgba(255, 255, 255, 0.08) inset, 0 24px 64px rgba(0, 0, 0, 0.55), 0 0 28px rgba(250, 204, 21, 0.18), 0 0 0 1px rgba(250, 204, 21, 0.2);
+  }
+}
+
+/* ---- Circular logo at top ---- */
+.modal-logo-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  box-shadow: 0 0 14px rgba(250, 204, 21, 0.12);
+}
+
+.modal-logo-circle img,
+.modal-logo-circle video {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* ---- Title ---- */
 .modal-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 800;
+  text-align: left;
+  color: #ffffff;
+  margin: 0 0 4px;
+  letter-spacing: -0.3px;
+}
+
+.modal-subtitle {
+  text-align: left;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0 0 2px;
+}
+
+.modal-subtitle-link {
+  color: #facc15;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.modal-subtitle-link:hover {
+  opacity: 0.8;
+}
+
+/* ---- Close ---- */
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  z-index: 1;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.14);
   color: #ffffff;
 }
 
@@ -218,113 +488,198 @@
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 14px;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .modal-form label {
+  font-size: 0.75rem;
   font-weight: 600;
-  font-size: 0.9rem;
-  color: #cbd5f5;
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.04em;
 }
 
-/* INPUT */
-
-.modal-form input {
-  background: #071220;
-  border: 1px solid rgba(255,255,255,0.08);
-  padding: 12px 14px;
-  border-radius: 10px;
-  color: #ffffff;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
+/* ---- Input Group ---- */
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 9px 14px;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
 }
 
-.modal-form input::placeholder {
-  color: #64748b;
+.input-group:focus-within {
+  background: rgba(250, 204, 21, 0.05);
+  border-color: rgba(250, 204, 21, 0.45);
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.08);
 }
 
-/* FOCUS */
+.input-group svg {
+  color: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
 
-.modal-form input:focus {
+.input-group:focus-within svg {
+  color: #facc15;
+}
+
+.input-group input {
+  flex: 1;
+  border: none;
+  background: transparent;
   outline: none;
-  border-color: #facc15;
-  box-shadow: 0 0 0 2px rgba(250,204,21,0.2);
+  color: #ffffff;
+  font-size: 0.85rem;
 }
 
-/* PASSWORD FIELD */
-
-.password-field {
-  position: relative;
+.input-group input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
 }
 
-.password-field input {
-  width: 100%;
-  padding-right: 42px;
-}
-
+/* ---- Eye toggle ---- */
 .eye-btn {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
   background: none;
   border: none;
   cursor: pointer;
-  color: #94a3b8;
+  color: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  flex-shrink: 0;
+  transition: color 0.2s;
 }
 
+.eye-btn:hover {
+  color: #facc15;
+}
+
+/* ---- Forgot link ---- */
 .auth-meta-row {
   display: flex;
   justify-content: flex-end;
-  margin-top: -6px;
+  margin-top: 4px;
 }
 
 .forgot-link {
   padding: 0;
   border: none;
   background: none;
-  color: #60a5fa;
-  font-size: 0.88rem;
-  font-weight: 600;
+  color: rgba(250, 204, 21, 0.8);
+  font-size: 0.8rem;
+  font-weight: 500;
   cursor: pointer;
+  transition: color 0.2s;
 }
 
 .forgot-link:hover {
-  color: #93c5fd;
-  text-decoration: underline;
+  color: #facc15;
 }
 
-/* SUBMIT BUTTON */
-
+/* ---- Submit button ---- */
 .submit-btn {
-  margin-top: 12px;
-  padding: 12px;
+  margin-top: 4px;
+  padding: 10px;
   border-radius: 999px;
   border: none;
-  background: linear-gradient(135deg,#2563eb,#1d4ed8);
-  color: white;
-  font-weight: 700;
+  background: linear-gradient(135deg, #facc15 0%, #f59e0b 100%);
+  color: #0a0f1a;
+  font-weight: 800;
+  font-size: 0.88rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  width: 100%;
 }
 
 .submit-btn:hover {
+  opacity: 0.9;
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(37,99,235,0.45);
 }
+
+.submit-btn:active {
+  transform: scale(0.98);
+}
+
+.submit-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* ======================================================
-   GOOGLE LOGIN
+   DIVIDER
+====================================================== */
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 10px;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.divider span {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.25);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ======================================================
+   GOOGLE LOGIN — glass button style
 ====================================================== */
 
 .google-auth-box {
-  margin-top: 18px;
   display: flex;
   justify-content: center;
 }
-.google-auth-box iframe{
-  width:100% !important;
+
+.google-auth-box>div,
+.google-auth-box iframe {
+  width: 100% !important;
+  border-radius: 999px !important;
 }
+
+/* ======================================================
+   MODAL FOOTER
+====================================================== */
+
+.login-footer {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.28);
+}
+
+.login-footer span {
+  color: #facc15;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.login-footer span:hover {
+  opacity: 0.75;
+  text-decoration: underline;
+}
+
 /* ======================================================
    TOAST
 ====================================================== */
@@ -349,188 +704,156 @@
 }
 
 /* ======================================================
-   MOBILE NAV
+   RESPONSIVE — TABLET  (≤ 1024px)
 ====================================================== */
 
-.hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 4px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
+@media (max-width: 1024px) {
+  .header-container {
+    gap: 24px;
+  }
 
-.hamburger span {
-  width: 22px;
-  height: 2px;
-  background: #ffffff;
-}
+  .nav-menu {
+    gap: 20px;
+  }
 
-.mobile-buttons {
-  display: none;
+  .nav-link {
+    font-size: 0.9rem;
+  }
 }
 
 /* ======================================================
-   RESPONSIVE
+   RESPONSIVE — MOBILE  (≤ 900px)
 ====================================================== */
 
 @media (max-width: 900px) {
+  .header-container {
+    padding: 0 20px;
+    gap: 0;
+  }
+
+  .logo {
+    gap: 8px;
+  }
+
+  .logo-mark {
+    width: 64px;
+    height: 64px;
+  }
+
+  .logo-img {
+    width: 60px;
+    height: 60px;
+  }
+
+  .logo-text {
+    font-size: 0.96rem;
+  }
+
+  /* Hide desktop nav & buttons */
   .nav-menu {
     display: none;
   }
 
+  .header-buttons {
+    display: none;
+  }
+
+  /* Show hamburger */
   .hamburger {
     display: flex;
   }
 
- .nav-menu.open {
-  position: fixed;
-  top: 75px;
-  left: 0;
-  width: 100%;
-  height: calc(100vh - 75px);
-  background: #051423;
+  /* Full-screen mobile drawer */
+  .nav-menu.open {
+    position: fixed;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    height: calc(100dvh - 72px);
+    background: rgba(4, 12, 24, 0.98);
+    backdrop-filter: blur(20px);
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 
-  gap: 18px;
-  padding: 30px 20px;
-}
+    gap: 0;
+    padding: 16px 0 32px;
+    overflow-y: auto;
+    z-index: 1999;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .nav-menu.open .nav-link {
+    font-size: 1.05rem;
+    padding: 16px 24px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
 
   .mobile-buttons {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
+    align-items: stretch;
+    gap: 10px;
+    width: 80%;
+    margin-top: 24px;
+  }
+
+  .mobile-buttons .btn,
+  .mobile-buttons .logout-btn {
+    width: 100%;
+    text-align: center;
+    padding: 13px;
+    border-radius: 12px;
+    font-size: 0.95rem;
   }
 
   .modal.login-card {
-    margin: 0 16px;
+    padding: 20px 16px 16px;
+    max-width: calc(100vw - 32px);
   }
 }
 
-@media (max-width: 600px) {
+/* ======================================================
+   RESPONSIVE — SMALL MOBILE  (≤ 480px)
+====================================================== */
 
-  .modal.login-card{
-    width: 92%;
-    max-width: none;
-    padding: 24px;
+@media (max-width: 480px) {
+  .logo {
+    gap: 6px;
+  }
+
+  .logo-mark {
+    width: 54px;
+    height: 54px;
+  }
+
+  .logo-img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .logo-text {
+    font-size: 0.82rem;
+  }
+
+  .modal.login-card {
+    padding: 18px 16px 16px;
     border-radius: 14px;
   }
 
-  .modal-title{
-    font-size: 1.25rem;
+  .modal-title {
+    font-size: 1.2rem;
   }
 
-  .modal-form{
-    gap: 12px;
+  .modal-form {
+    gap: 10px;
   }
 
-  .modal-form input{
-    font-size: 0.9rem;
-    padding: 11px 12px;
+  .input-group {
+    padding: 8px 12px;
   }
-
-  .submit-btn{
-    padding: 11px;
-  }
-
-}
-@media (max-width:480px){
-
-  .header-container{
-    grid-template-columns: auto auto;
-    justify-content: space-between;
-  }
-
-  .logo{
-    width:210px;
-    height:70px;
-  }
-
-  .header-buttons{
-    display:none;
-  }
-
-}
-/* ======================================================
-   LOGIN MODAL EXTRA UI
-====================================================== */
-
-/* CLOSE BUTTON */
-
-.modal.login-card {
-  position: relative;
-}
-
-.modal-close {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  border: none;
-  background: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #64748b;
-}
-
-.modal-close:hover {
-  color: #111827;
-}
-
-/* SUBTITLE */
-
-.modal-subtitle {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #6b7280;
-  margin-bottom: 18px;
-}
-
-/* DIVIDER */
-
-.divider {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
-}
-
-.divider::before,
-.divider::after {
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.divider span {
-  padding: 0 10px;
-  font-size: 0.85rem;
-  color: #94a3b8;
-}
-
-/* FOOTER TEXT */
-
-.login-footer {
-  margin-top: 16px;
-  text-align: center;
-  font-size: 0.85rem;
-  color: #94a3b8;
-}
-
-.login-footer span {
-  color: #2563eb;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.login-footer span:hover {
-  text-decoration: underline;
-}
-
-.modal-subtitle{
-  color:#94a3b8;
-  text-align:center;
-  margin-bottom:18px;
 }

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Lottie from "lottie-react";
 import axios from "axios";
 import { GoogleLogin } from "@react-oauth/google";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import toast from "react-hot-toast";
 
 import "./Header.css";
-import logoAnimation from "../assets/logo2.json";
+import logo from "../assets/logo.png";
 import CareerForm from "../components/CareerForm";
 import ContactPage from "../pages/contact";
 import RequestDemoForm from "../components/RequestDemoForm";
@@ -24,6 +23,7 @@ const NAV_LINKS = [
   { label: "Services", hash: "#services" },
   { label: "Products", hash: "#products" },
   { label: "Expertise", hash: "#expertise" },
+  { label: "FAQ", hash: "#faq" },
   { label: "About", hash: "#about" },
   { label: "Career", hash: "#career" },
 ];
@@ -89,22 +89,17 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const sections = ["home", "services", "products", "expertise", "about"];
+    const sections = ["home", "services", "products", "expertise", "faq", "about"];
 
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 150;
-
+      const threshold = 150;
       let nextActiveHash = "";
 
       sections.forEach((id) => {
         const section = document.getElementById(id);
-
         if (!section) return;
-
-        const top = section.offsetTop;
-        const height = section.offsetHeight;
-
-        if (scrollPos >= top && scrollPos < top + height) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= threshold && rect.bottom > threshold) {
           nextActiveHash = `#${id}`;
         }
       });
@@ -426,7 +421,10 @@ export default function Header() {
       <header className="header">
         <div className="header-container">
           <a href="/" className="logo">
-            <Lottie animationData={logoAnimation} loop autoplay />
+            <span className="logo-mark">
+              <img src={logo} className="logo-img" alt="YarrowTech logo" />
+            </span>
+            <span className="logo-text">YARROW TECH</span>
           </a>
 
           <nav className={`nav-menu ${menuOpen ? "open" : ""}`}>
@@ -471,8 +469,9 @@ export default function Header() {
           <div className="header-buttons">{renderAuthActions()}</div>
 
           <button
-            className="hamburger"
+            className={`hamburger ${menuOpen ? "open" : ""}`}
             onClick={() => setMenuOpen((prev) => !prev)}
+            aria-label="Toggle menu"
           >
             <span></span>
             <span></span>
@@ -492,89 +491,65 @@ export default function Header() {
               onClick={(event) => event.stopPropagation()}
               {...modalAnim}
             >
-              <button
-                className="modal-close"
-                onClick={() => setShowLogin(false)}
-              >
-                x
-              </button>
+              <button className="modal-close" onClick={() => setShowLogin(false)}>&#x2715;</button>
 
-              <h2 className="modal-title">Welcome Back</h2>
+              <div className="modal-logo-circle">
+                <img src={logo} alt="YarrowTech logo" />
+              </div>
+
+              <h2 className="modal-title">Log in</h2>
               <p className="modal-subtitle">
-                Login to continue to your account
+                Don&apos;t have an account?&nbsp;
+                <span className="modal-subtitle-link" onClick={() => { setShowLogin(false); setShowRegister(true); }}>
+                  Create Account
+                </span>
               </p>
 
               <form className="modal-form" onSubmit={handleLogin}>
-                <label>Email Address</label>
-                <input
-                  type="email"
-                  autoComplete="email"
-                  placeholder="Enter your email"
-                  value={loginEmail}
-                  onChange={(event) => setLoginEmail(event.target.value)}
-                  required
-                />
-
-                <label>Password</label>
-                <div className="password-field">
-                  <input
-                    type={showLoginPassword ? "text" : "password"}
-                    autoComplete="current-password"
-                    placeholder="Enter your password"
-                    value={loginPassword}
-                    onChange={(event) => setLoginPassword(event.target.value)}
-                    required
-                  />
-
-                  <button
-                    type="button"
-                    className="eye-btn"
-                    onClick={() => setShowLoginPassword((prev) => !prev)}
-                  >
-                    {showLoginPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
+                <div className="form-field">
+                  <label>Email Address</label>
+                  <div className="input-group">
+                    <input
+                      type="email"
+                      autoComplete="email"
+                      placeholder="you@example.com"
+                      value={loginEmail}
+                      onChange={(event) => setLoginEmail(event.target.value)}
+                      required
+                    />
+                  </div>
                 </div>
 
-                <div className="auth-meta-row">
-                  <button
-                    type="button"
-                    className="forgot-link"
-                    onClick={() => {
-                      setShowLogin(false);
-                      setShowForgotPassword(true);
-                    }}
-                  >
-                    Forgot password?
-                  </button>
+                <div className="form-field">
+                  <label>Password</label>
+                  <div className="input-group">
+                    <input
+                      type={showLoginPassword ? "text" : "password"}
+                      autoComplete="current-password"
+                      placeholder="Enter password"
+                      value={loginPassword}
+                      onChange={(event) => setLoginPassword(event.target.value)}
+                      required
+                    />
+                    <button type="button" className="eye-btn" onClick={() => setShowLoginPassword((prev) => !prev)}>
+                      {showLoginPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
+                  <div className="auth-meta-row">
+                    <button type="button" className="forgot-link" onClick={() => { setShowLogin(false); setShowForgotPassword(true); }}>
+                      Forgot Password?
+                    </button>
+                  </div>
                 </div>
 
-                <button className="submit-btn" type="submit">
-                  Login
-                </button>
+                <button className="submit-btn" type="submit">Log in</button>
               </form>
 
-              <div className="divider">
-                <span>or</span>
-              </div>
+              <div className="divider"><span>or</span></div>
 
               <div className="google-auth-box">
-                <GoogleLogin
-                  onSuccess={handleGoogleLoginSuccess}
-                  onError={handleGoogleLoginError}
-                />
+                <GoogleLogin onSuccess={handleGoogleLoginSuccess} onError={handleGoogleLoginError} />
               </div>
-
-              <p className="login-footer">
-                Don&apos;t have an account?
-                <span
-                  onClick={() => {
-                    setShowLogin(false);
-                    setShowRegister(true);
-                  }}
-                >
-                  Create account
-                </span>
-              </p>
             </motion.div>
           </motion.div>
         )}
@@ -591,72 +566,78 @@ export default function Header() {
               onClick={(event) => event.stopPropagation()}
               {...modalAnim}
             >
-              <button
-                className="modal-close"
-                onClick={() => setShowRegister(false)}
-              >
-                x
-              </button>
+              <button className="modal-close" onClick={() => setShowRegister(false)}>&#x2715;</button>
+
+              <div className="modal-logo-circle">
+                <img src={logo} alt="YarrowTech logo" />
+              </div>
 
               <h2 className="modal-title">Create Account</h2>
-              <p className="modal-subtitle">
-                Sign up to start using YarrowTech
-              </p>
+              <p className="modal-subtitle">Join YarrowTech today</p>
 
               <form className="modal-form" onSubmit={handleRegister}>
-                <label>Name</label>
-                <input
-                  type="text"
-                  placeholder="Your name"
-                  value={registerName}
-                  onChange={(event) => setRegisterName(event.target.value)}
-                  required
-                />
-
-                <label>Email</label>
-                <input
-                  type="email"
-                  autoComplete="email"
-                  placeholder="Enter your email"
-                  value={registerEmail}
-                  onChange={(event) => setRegisterEmail(event.target.value)}
-                  required
-                />
-
-                <label>Password</label>
-                <div className="password-field">
-                  <input
-                    type={showRegisterPassword ? "text" : "password"}
-                    autoComplete="new-password"
-                    placeholder="Create password"
-                    value={registerPassword}
-                    onChange={(event) => setRegisterPassword(event.target.value)}
-                    required
-                  />
-
-                  <button
-                    type="button"
-                    className="eye-btn"
-                    onClick={() => setShowRegisterPassword((prev) => !prev)}
-                  >
-                    {showRegisterPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
+                <div className="form-field">
+                  <label>Full Name</label>
+                  <div className="input-group">
+                    <User size={16} />
+                    <input
+                      type="text"
+                      placeholder="Your full name"
+                      value={registerName}
+                      onChange={(event) => setRegisterName(event.target.value)}
+                      required
+                    />
+                  </div>
                 </div>
 
-                <label>Confirm Password</label>
-                <input
-                  type={showRegisterPassword ? "text" : "password"}
-                  placeholder="Confirm password"
-                  value={registerConfirmPassword}
-                  onChange={(event) =>
-                    setRegisterConfirmPassword(event.target.value)
-                  }
-                  required
-                />
+                <div className="form-field">
+                  <label>Email</label>
+                  <div className="input-group">
+                    <Mail size={16} />
+                    <input
+                      type="email"
+                      autoComplete="email"
+                      placeholder="you@example.com"
+                      value={registerEmail}
+                      onChange={(event) => setRegisterEmail(event.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
 
-                <button className="submit-btn" type="submit">
-                  Create Account
-                </button>
+                <div className="form-field">
+                  <label>Password</label>
+                  <div className="input-group">
+                    <Lock size={16} />
+                    <input
+                      type={showRegisterPassword ? "text" : "password"}
+                      autoComplete="new-password"
+                      placeholder="Create a password"
+                      value={registerPassword}
+                      onChange={(event) => setRegisterPassword(event.target.value)}
+                      required
+                    />
+                    <button type="button" className="eye-btn" onClick={() => setShowRegisterPassword((prev) => !prev)}>
+                      {showRegisterPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="form-field">
+                  <label>Confirm Password</label>
+                  <div className="input-group">
+                    <Lock size={16} />
+                    <input
+                      type={showRegisterPassword ? "text" : "password"}
+                      placeholder="Confirm your password"
+                      value={registerConfirmPassword}
+                      onChange={(event) => setRegisterConfirmPassword(event.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <button className="submit-btn" type="submit">Create Account</button>
               </form>
 
               <p className="login-footer">
@@ -686,29 +667,32 @@ export default function Header() {
               onClick={(event) => event.stopPropagation()}
               {...modalAnim}
             >
-              <button
-                className="modal-close"
-                onClick={() => setShowForgotPassword(false)}
-              >
-                x
-              </button>
+              <button className="modal-close" onClick={() => setShowForgotPassword(false)}>&#x2715;</button>
+
+              <div className="modal-logo-circle">
+                <img src={logo} alt="YarrowTech logo" />
+              </div>
 
               <h2 className="modal-title">Forgot Password</h2>
               <p className="modal-subtitle">
-                Enter your email address and we&apos;ll send you a password reset
-                link.
+                Enter your email and we&apos;ll send a reset link.
               </p>
 
               <form className="modal-form" onSubmit={handleForgotPassword}>
-                <label>Email Address</label>
-                <input
-                  type="email"
-                  autoComplete="email"
-                  placeholder="Enter your email"
-                  value={forgotEmail}
-                  onChange={(event) => setForgotEmail(event.target.value)}
-                  required
-                />
+                <div className="form-field">
+                  <label>Email Address</label>
+                  <div className="input-group">
+                    <Mail size={16} />
+                    <input
+                      type="email"
+                      autoComplete="email"
+                      placeholder="you@example.com"
+                      value={forgotEmail}
+                      onChange={(event) => setForgotEmail(event.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
 
                 <button className="submit-btn" type="submit" disabled={forgotBusy}>
                   {forgotBusy ? "Sending..." : "Send Reset Link"}

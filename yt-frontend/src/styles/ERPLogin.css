@@ -4,11 +4,40 @@
 
 .erp-login-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #071a2d, #0d2a47);
+  background: linear-gradient(135deg, #060f1e 0%, #0b1f3a 55%, #0d2a47 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative glow blobs */
+.erp-login-page::before,
+.erp-login-page::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+.erp-login-page::before {
+  width: 520px;
+  height: 520px;
+  background: #1a6bff;
+  top: -140px;
+  left: -160px;
+}
+
+.erp-login-page::after {
+  width: 420px;
+  height: 420px;
+  background: #00c6ff;
+  bottom: -120px;
+  right: -120px;
 }
 
 /* ======================================================
@@ -17,18 +46,43 @@
 
 .erp-login-card {
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   background: #ffffff;
-  border-radius: 14px;
-  padding: 36px 32px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  padding: 40px 36px;
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.38);
   animation: fadeUp 0.45s ease;
+  position: relative;
+  z-index: 1;
 }
 
-/* Animation */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ======================================================
+   LOGO
+====================================================== */
+
+.erp-logo-wrap {
+  width: 200px;
+  height: 78px;
+  margin: 0 auto 4px;
+  overflow: hidden;
+}
+
+.erp-logo-wrap > div {
+  width: 100%;
+  height: 100%;
+}
+
+.erp-logo-wrap svg,
+.erp-logo-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+  transform: scale(1.9);
+  transform-origin: center;
 }
 
 /* ======================================================
@@ -36,17 +90,36 @@
 ====================================================== */
 
 .erp-title {
-  font-size: 1.7rem;
+  font-size: 1.65rem;
   font-weight: 700;
   text-align: center;
   color: #071a2d;
+  margin: 0;
 }
 
 .erp-subtitle {
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   color: #6b7280;
-  margin: 10px 0 28px;
+  margin: 6px 0 28px;
+}
+
+/* ======================================================
+   FIELD (label + input)
+====================================================== */
+
+.erp-field {
+  margin-bottom: 16px;
+}
+
+.erp-field label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 /* ======================================================
@@ -57,16 +130,27 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #f3f4f6;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
   border-radius: 10px;
-  padding: 12px 14px;
-  margin-bottom: 16px;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+  padding: 11px 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .erp-input-group:focus-within {
-  background: #eef6ff;
-  box-shadow: 0 0 0 2px #007bff;
+  background: #ffffff;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.12);
+}
+
+.erp-input-group svg {
+  color: #9ca3af;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.erp-input-group:focus-within svg {
+  color: #007bff;
 }
 
 .erp-input-group input {
@@ -74,8 +158,12 @@
   background: transparent;
   outline: none;
   width: 100%;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: #111827;
+}
+
+.erp-input-group input::placeholder {
+  color: #d1d5db;
 }
 
 /* ======================================================
@@ -86,13 +174,16 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #6b7280;
+  color: #9ca3af;
   display: flex;
   align-items: center;
+  padding: 0;
+  flex-shrink: 0;
+  transition: color 0.2s;
 }
 
 .erp-eye-btn:hover {
-  color: #111827;
+  color: #374151;
 }
 
 /* ======================================================
@@ -101,13 +192,15 @@
 
 .erp-forgot {
   text-align: right;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  margin-top: -4px;
 }
 
 .erp-forgot a {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: #007bff;
   text-decoration: none;
+  font-weight: 500;
 }
 
 .erp-forgot a:hover {
@@ -120,19 +213,25 @@
 
 .erp-login-btn {
   width: 100%;
-  padding: 12px;
+  padding: 13px;
   border-radius: 10px;
   border: none;
-  background: #071a2d;
+  background: linear-gradient(135deg, #071a2d 0%, #0d3a6a 100%);
   color: #ffffff;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.97rem;
   cursor: pointer;
-  transition: background 0.25s ease, transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 0.03em;
+  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 16px rgba(7, 26, 45, 0.38);
 }
 
 .erp-login-btn:hover {
-  background: #0d2a47;
+  opacity: 0.91;
+  box-shadow: 0 6px 22px rgba(7, 26, 45, 0.48);
 }
 
 .erp-login-btn:active {
@@ -140,8 +239,25 @@
 }
 
 .erp-login-btn:disabled {
-  opacity: 0.7;
+  opacity: 0.65;
   cursor: not-allowed;
+}
+
+/* ======================================================
+   SPINNER
+====================================================== */
+
+.erp-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* ======================================================
@@ -150,17 +266,19 @@
 
 .erp-footer {
   text-align: center;
-  font-size: 0.75rem;
+  font-size: 0.73rem;
   color: #9ca3af;
   margin-top: 28px;
+  padding-top: 18px;
+  border-top: 1px solid #f3f4f6;
 }
 
 /* ======================================================
    MOBILE RESPONSIVE
 ====================================================== */
 
-@media (max-width: 420px) {
-  .erp-login-card { padding: 28px 22px; }
-  .erp-title      { font-size: 1.5rem; }
-  .erp-subtitle   { font-size: 0.9rem; }
+@media (max-width: 480px) {
+  .erp-login-card { padding: 30px 22px; }
+  .erp-title      { font-size: 1.45rem; }
+  .erp-logo-wrap  { width: 165px; height: 64px; }
 }

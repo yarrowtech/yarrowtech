@@ -53,16 +53,31 @@ const Hero = () => {
           and customized ERP solutions designed to scale your business efficiently
         </p>
 
-        <button
-          className="cta-btn"
-          onClick={() => {
-            if (typeof window !== "undefined" && window.openFreeTrialModal) {
-              window.openFreeTrialModal();
-            }
-          }}
-        >
-          Get a Free Quote
-        </button>
+        <div className="hero-actions">
+          <button
+            className="cta-btn"
+            onClick={() => {
+              if (typeof window !== "undefined" && window.openFreeTrialModal) {
+                window.openFreeTrialModal();
+              }
+            }}
+          >
+            Get Free Demo
+          </button>
+
+          <button
+            className="cta-btn secondary-cta-btn"
+            onClick={() => {
+              const productsSection = document.getElementById("products");
+
+              if (productsSection) {
+                productsSection.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+          >
+            Explore Our Product
+          </button>
+        </div>
       </div>
     </section>
   );

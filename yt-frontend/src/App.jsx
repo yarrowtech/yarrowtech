@@ -524,7 +524,9 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Service from "./pages/services";
 import Products from "./pages/products";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
 import Expertise from "./pages/expertise";
+import FAQ from "./pages/faq";
 import About from "./pages/about";
 import ScrollProgress from "./components/ScrollProgress";
 import SectionRouteRedirect from "./components/SectionRouteRedirect";
@@ -609,6 +611,7 @@ function Home() {
       <Service />
       <Products />
       <Expertise />
+      <FAQ />
       <About />
       <Footer />
     </>
@@ -668,7 +671,7 @@ export default function App() {
           />
 
           {/* SECTION ROUTES */}
-          {["services", "products", "expertise", "about"].map(
+          {["services", "products", "expertise", "faq", "about"].map(
             (sec) => (
               <Route
                 key={sec}
@@ -686,6 +689,17 @@ export default function App() {
           {/* ==========================
              🔐 ERP LOGIN (PUBLIC)
           ========================== */}
+          <Route
+            path="/products/:productSlug"
+            element={
+              <>
+                <Header />
+                <ProductDetailsPage />
+                <Footer />
+              </>
+            }
+          />
+
           <Route path="/erp" element={<ERPLogin />} />
 
           {/* ==========================

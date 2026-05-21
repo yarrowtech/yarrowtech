@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { toast } from "react-hot-toast";
+import Lottie from "lottie-react";
+import logoAnimation from "../assets/logo2.json";
 import "../styles/ERPLogin.css";
 
 export default function ERPLogin() {
@@ -55,41 +57,52 @@ export default function ERPLogin() {
   return (
     <div className="erp-login-page">
       <div className="erp-login-card">
-        <h2 className="erp-title">ERP Login</h2>
-        <p className="erp-subtitle">
-          Sign in to access your dashboard
-        </p>
+
+        {/* LOGO */}
+        <div className="erp-logo-wrap">
+          <Lottie animationData={logoAnimation} loop autoplay />
+        </div>
+
+        <h2 className="erp-title">Welcome Back</h2>
+        <p className="erp-subtitle">Sign in to access your dashboard</p>
 
         <form onSubmit={handleLogin}>
+
           {/* EMAIL */}
-          <div className="erp-input-group">
-            <Mail size={18} />
-            <input
-              type="email"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="username"
-            />
+          <div className="erp-field">
+            <label>Email address</label>
+            <div className="erp-input-group">
+              <Mail size={17} />
+              <input
+                type="email"
+                placeholder="you@yarrowtech.co.in"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="username"
+              />
+            </div>
           </div>
 
           {/* PASSWORD */}
-          <div className="erp-input-group">
-            <Lock size={18} />
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-            />
-            <button
-              type="button"
-              className="erp-eye-btn"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
+          <div className="erp-field">
+            <label>Password</label>
+            <div className="erp-input-group">
+              <Lock size={17} />
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="erp-eye-btn"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+              </button>
+            </div>
           </div>
 
           {/* FORGOT PASSWORD */}
@@ -99,12 +112,13 @@ export default function ERPLogin() {
 
           {/* SUBMIT */}
           <button className="erp-login-btn" disabled={loading}>
-            {loading ? "Signing in..." : "Login"}
+            {loading ? <span className="erp-spinner" /> : "Sign In"}
           </button>
+
         </form>
 
         <div className="erp-footer">
-          © {new Date().getFullYear()} YarrowTech ERP
+          © {new Date().getFullYear()} YarrowTech ERP &nbsp;·&nbsp; All rights reserved
         </div>
       </div>
     </div>
