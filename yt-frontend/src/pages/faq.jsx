@@ -17,7 +17,7 @@ const faqs = [
   {
     question: "Which products are available from YarrowTech?",
     answer:
-      "Our product ecosystem includes Electronic Educare, eretailms, emnbmms, and esportm for sports management.",
+      "Our product ecosystem includes EEC, ERETAILMS, EFNBMMS, and ESPORTM for education, retail, food and beverage, and sports management.",
   },
   {
     question: "Can any business or organization use your products?",
@@ -30,19 +30,19 @@ const faqs = [
       "Electronic Educare is useful for schools, colleges, coaching institutes, training centers, teachers, students, parents, and administrators who need one platform for learning and campus management.",
   },
   {
-    question: "Who can use eretailms?",
+    question: "Who can use ERETAILMS?",
     answer:
       "Retail shops, supermarkets, distributors, wholesalers, franchise stores, and product-based businesses can use it to manage inventory, billing, vendors, employees, and daily sales.",
   },
   {
-    question: "Who can use emnbmms?",
+    question: "Who can use EFNBMMS?",
     answer:
-      "Restaurants, cafes, cloud kitchens, bakeries, hotels, and food service businesses can use it to manage orders, inventory, kitchen workflows, menu items, and financial tracking.",
+      "Restaurants, cafes, cloud kitchens, bakeries, hotels, and food chains can use it to manage orders, inventory, kitchen workflows, menu operations, financial tracking, and ERP-level business visibility.",
   },
   {
-    question: "Who can use esportm?",
+    question: "Who can use ESPORTM?",
     answer:
-      "esportm is designed for sports academies, clubs, coaches, players, tournament organizers, and sports institutions that need player profiles, performance tracking, and data-driven management.",
+      "ESPORTM is designed for sports academies, clubs, coaches, players, tournament organizers, and sports institutions that need player profiles, performance tracking, and data-driven management.",
   },
   {
     question: "Can your products be customized for my company?",

@@ -4,8 +4,8 @@ import eecLogo from "../assets/eec-logo.jpg";
 export const products = [
   {
     slug: "electronic-educare",
-    name: "EEC - Electronic Educare",
-    shortName: "Electronic Educare",
+    name: "EEC - ELECTRONIC EDUCARE",
+    shortName: "ELECTRONIC EDUCARE",
     logo: eecLogo,
     accent: "#f5c542",
     category: "Education ERP and LMS",
@@ -34,15 +34,15 @@ export const products = [
   },
   {
     slug: "retail-management-system",
-    name: "eretailms - Retail Management System",
-    shortName: "eretailms",
+    name: "ERETAILMS - RETAIL MANAGEMENT SYSTEM",
+    shortName: "ERETAILMS",
     icon: Store,
     accent: "#4f9cff",
     category: "Retail Operations Platform",
     description:
       "A web-based retail platform digitizing product, inventory, sales, vendor, and employee operations with real-time insights.",
     writeup:
-      "eretailms gives retailers a practical way to control stock, billing, vendors, sales, and staff activity from a single system. It is built for teams that need accurate daily operations and useful business visibility.",
+      "ERETAILMS gives retailers a practical way to control stock, billing, vendors, sales, and staff activity from a single system. It is built for teams that need accurate daily operations and useful business visibility.",
     audience: [
       "Retail shops and supermarkets",
       "Distributors and wholesalers",
@@ -64,45 +64,46 @@ export const products = [
   },
   {
     slug: "food-and-beverage-management-system",
-    name: "emnbmms - Food & Beverage Management System",
-    shortName: "emnbmms",
+    name: "EFNBMMS - FOOD & BEVERAGE MANAGEMENT SYSTEM",
+    shortName: "EFNBMMS",
     icon: UtensilsCrossed,
     accent: "#3ccf91",
     category: "Restaurant and Kitchen Operations",
     description:
-      "A modern platform optimizing restaurant operations from orders and inventory to kitchen workflows and financial insights.",
+      "An intelligent ERP platform for modern restaurants, cafes, cloud kitchens, and food chains to manage orders, inventory, kitchen workflows, staff activity, and business performance from one connected system.",
     writeup:
-      "emnbmms helps food businesses manage orders, menus, inventory, kitchen activity, and financial tracking in one place. It is designed to make service smoother and reduce operational blind spots.",
+      "EFNBMMS helps food and beverage businesses transform daily operations with a complete digital platform. From stock control and order management to full ERP workflows, reporting, and custom enterprise solutions, it gives owners and managers the visibility they need to reduce manual work, avoid mistakes, and scale with confidence.",
     audience: [
       "Restaurants and cafes",
       "Cloud kitchens",
-      "Bakeries and hotels",
-      "Food service businesses",
+      "Bakeries, hotels, and food counters",
+      "Multi-branch food chains and enterprise F&B businesses",
     ],
     features: [
-      "Menu and order management",
-      "Kitchen workflow tracking",
-      "Inventory and ingredient visibility",
-      "Financial summaries and operational reports",
+      "Inventory and order management",
+      "Kitchen workflow and menu operations",
+      "Full ERP suite for professional F&B teams",
+      "Custom enterprise modules for growing restaurant chains",
+      "Financial summaries, performance reports, and operational insights",
     ],
     outcomes: [
-      "Smoother order handling",
-      "Improved kitchen coordination",
-      "Better control over stock and costs",
+      "Smarter food and beverage operations",
+      "Better control over inventory, orders, and costs",
+      "A scalable ERP foundation for restaurants and chains",
     ],
-    productUrl: "",
+    productUrl: "https://www.efnbmms.com/",
   },
   {
     slug: "sportbit",
-    name: "esportm - Sports Management System",
-    shortName: "esportm",
+    name: "ESPORTM - SPORTS MANAGEMENT SYSTEM",
+    shortName: "ESPORTM",
     icon: Trophy,
     accent: "#9b7cff",
     category: "Sports Performance Platform",
     description:
       "A sports ecosystem enabling player discovery, performance analytics, health metrics, and data-driven club decisions.",
     writeup:
-      "esportm brings player profiles, performance data, coaching workflows, and sports organization management into a focused digital system. It helps teams make better decisions with structured sports data.",
+      "ESPORTM brings player profiles, performance data, coaching workflows, and sports organization management into a focused digital system. It helps teams make better decisions with structured sports data.",
     audience: [
       "Sports academies and clubs",
       "Coaches and players",
