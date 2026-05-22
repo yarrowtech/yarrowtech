@@ -17,6 +17,8 @@ const RAW_API_BASE =
   "http://localhost:5000";
 
 const API_BASE = RAW_API_BASE.replace(/\/+$/, "").replace(/\/api$/, "");
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const IS_GOOGLE_AUTH_ENABLED = Boolean(GOOGLE_CLIENT_ID);
 
 const NAV_LINKS = [
   { label: "Home", hash: "" },
@@ -548,7 +550,16 @@ export default function Header() {
               <div className="divider"><span>or</span></div>
 
               <div className="google-auth-box">
-                <GoogleLogin onSuccess={handleGoogleLoginSuccess} onError={handleGoogleLoginError} />
+                {IS_GOOGLE_AUTH_ENABLED ? (
+                  <GoogleLogin
+                    onSuccess={handleGoogleLoginSuccess}
+                    onError={handleGoogleLoginError}
+                  />
+                ) : (
+                  <p className="google-auth-disabled">
+                    Google login is not configured
+                  </p>
+                )}
               </div>
             </motion.div>
           </motion.div>

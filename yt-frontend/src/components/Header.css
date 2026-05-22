@@ -657,6 +657,17 @@
   border-radius: 999px !important;
 }
 
+.google-auth-disabled {
+  width: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 /* ======================================================
    MODAL FOOTER
 ====================================================== */
