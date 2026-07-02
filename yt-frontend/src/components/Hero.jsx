@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Hero.css";
-import HeroImg from "../assets/laptop.png";
+import HeroImg from "../assets/laptop&phone.png";
 import HeroParticles from "./HeroParticles";
 
 const Hero = () => {
@@ -37,46 +37,48 @@ const Hero = () => {
       <HeroParticles />
 
       <div className="hero-content">
-        <div className="heroImg">
-          <img src={HeroImg} alt="ERP Laptop" />
+        <div className="hero-copy">
+          <h1 className="hero-title">
+            Industry-focused <br />
+            <span className="highlight">{typedText}</span> <br />
+            Development Company
+          </h1>
+
+          <p className="hero-subtitle">
+            Transform your operations with innovative software, AI-powered systems
+            <br />
+            and customized ERP solutions designed to scale your business efficiently
+          </p>
+
+          <div className="hero-actions">
+            <button
+              className="cta-btn"
+              onClick={() => {
+                if (typeof window !== "undefined" && window.openFreeTrialModal) {
+                  window.openFreeTrialModal();
+                }
+              }}
+            >
+              Get Free Demo
+            </button>
+
+            <button
+              className="cta-btn secondary-cta-btn"
+              onClick={() => {
+                const productsSection = document.getElementById("products");
+
+                if (productsSection) {
+                  productsSection.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
+              Explore Our Product
+            </button>
+          </div>
         </div>
 
-        <h1 className="hero-title">
-          Industry-focused <br />
-          <span className="highlight">{typedText}</span> <br />
-          Development Company
-        </h1>
-
-        <p className="hero-subtitle">
-          Transform your operations with innovative software, AI-powered systems
-          <br />
-          and customized ERP solutions designed to scale your business efficiently
-        </p>
-
-        <div className="hero-actions">
-          <button
-            className="cta-btn"
-            onClick={() => {
-              if (typeof window !== "undefined" && window.openFreeTrialModal) {
-                window.openFreeTrialModal();
-              }
-            }}
-          >
-            Get Free Demo
-          </button>
-
-          <button
-            className="cta-btn secondary-cta-btn"
-            onClick={() => {
-              const productsSection = document.getElementById("products");
-
-              if (productsSection) {
-                productsSection.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-          >
-            Explore Our Product
-          </button>
+        <div className="heroImg" aria-hidden="true">
+          <img src={HeroImg} alt="YarrowTech laptop and phone showcase" />
         </div>
       </div>
     </section>

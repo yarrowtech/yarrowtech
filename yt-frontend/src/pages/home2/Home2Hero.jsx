@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Home2Hero.css";
+import HeroImg from "../../assets/laptop&phone.png";
 
 const Home2Hero = () => {
   const words = ["Website", "AI Systems", "Mobile App", "Software", "ERP System"];
@@ -32,43 +33,48 @@ const Home2Hero = () => {
 
   return (
     <section id="home" className="v2-hero">
-
       <div className="hero-content">
-        <h1 className="hero-title">
-          Industry-focused <br />
-          <span className="highlight">{typedText}</span> <br />
-          Development Company
-        </h1>
+        <div className="hero-copy">
+          <h1 className="hero-title">
+            Industry-focused <br />
+            <span className="highlight">{typedText}</span> <br />
+            Development Company
+          </h1>
 
-        <p className="hero-subtitle">
-          Transform your operations with innovative software, AI-powered systems
-          <br />
-          and customized ERP solutions designed to scale your business efficiently
-        </p>
+          <p className="hero-subtitle">
+            Transform your operations with innovative software, AI-powered systems
+            <br />
+            and customized ERP solutions designed to scale your business efficiently
+          </p>
 
-        <div className="hero-actions">
-          <button
-            className="cta-btn"
-            onClick={() => {
-              if (typeof window !== "undefined" && window.openFreeTrialModal) {
-                window.openFreeTrialModal();
-              }
-            }}
-          >
-            Get Free Demo
-          </button>
+          <div className="hero-actions">
+            <button
+              className="cta-btn"
+              onClick={() => {
+                if (typeof window !== "undefined" && window.openFreeTrialModal) {
+                  window.openFreeTrialModal();
+                }
+              }}
+            >
+              Get Free Demo
+            </button>
 
-          <button
-            className="cta-btn secondary-cta-btn"
-            onClick={() => {
-              const productsSection = document.getElementById("products");
-              if (productsSection) {
-                productsSection.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-          >
-            Explore Our Product
-          </button>
+            <button
+              className="cta-btn secondary-cta-btn"
+              onClick={() => {
+                const productsSection = document.getElementById("products");
+                if (productsSection) {
+                  productsSection.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
+              Explore Our Product
+            </button>
+          </div>
+        </div>
+
+        <div className="heroImg" aria-hidden="true">
+          <img src={HeroImg} alt="Yarrow Tech laptop and phone showcase" />
         </div>
       </div>
     </section>
@@ -76,5 +82,3 @@ const Home2Hero = () => {
 };
 
 export default Home2Hero;
-
-

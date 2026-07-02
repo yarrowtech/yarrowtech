@@ -1,5 +1,5 @@
 /* =====================================================
-   HERO SECTION – PROFESSIONAL & RESPONSIVE
+   HERO SECTION - PROFESSIONAL & RESPONSIVE
 ===================================================== */
 
 .hero {
@@ -17,10 +17,6 @@
   align-items: center;
 }
 
-/* ============================
-   THREE.JS CANVAS
-============================ */
-
 .hero-canvas {
   position: absolute;
   inset: 0;
@@ -30,14 +26,20 @@
   transform: translateZ(0);
 }
 
-/* ============================
-   HERO CONTENT
-============================ */
-
 .hero-content {
   position: relative;
   z-index: 3;
-  padding-left: 4rem;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 4rem;
+  display: grid;
+  grid-template-columns: minmax(0, 760px) minmax(280px, 1fr);
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-copy {
   max-width: 900px;
 }
 
@@ -72,10 +74,6 @@
   line-height: 1.6;
   max-width: 650px;
 }
-
-/* ============================
-   CTA BUTTON
-============================ */
 
 .hero-actions {
   display: flex;
@@ -115,19 +113,21 @@
   box-shadow: 0px 10px 30px rgba(255, 180, 0, 0.2);
 }
 
-/* ============================
-   HERO IMAGE (DESKTOP ONLY)
-============================ */
-
 .heroImg {
-  position: absolute;
-  bottom: -11rem;
-  right: -60rem;
-  width: 80rem;
-  z-index: 2;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  min-width: 0;
+  pointer-events: none;
 }
 
-/* Glow Overlay */
+.heroImg img {
+  width: min(100%, 560px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 22px 48px rgba(0, 0, 0, 0.38));
+}
+
 .hero::after {
   content: "";
   position: absolute;
@@ -140,17 +140,16 @@
   pointer-events: none;
 }
 
-/* ============================
-   LAPTOP / DESKTOP ONLY
-   (≥1025px)
-============================ */
+@media (max-width: 1200px) {
+  .hero-content {
+    padding: 0 2.8rem;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 420px);
+  }
 
-/* No changes needed – image visible */
-
-/* ============================
-   TABLET & MOBILE (≤1024px)
-   HIDE LAPTOP IMAGE
-============================ */
+  .heroImg img {
+    width: min(100%, 460px);
+  }
+}
 
 @media (max-width: 1024px) {
   .heroImg {
@@ -158,14 +157,11 @@
   }
 
   .hero-content {
-    padding-left: 2.5rem;
+    display: block;
+    padding: 0 2.5rem;
     max-width: 100%;
   }
 }
-
-/* ============================
-   MOBILE (≤768px)
-============================ */
 
 @media (max-width: 768px) {
   .hero {
@@ -176,6 +172,10 @@
   .hero-content {
     padding: 0 1.4rem;
     padding-top: 3rem;
+  }
+
+  .hero-copy {
+    max-width: 100%;
   }
 
   .hero-title {
@@ -197,10 +197,6 @@
     margin-top: 2rem;
   }
 }
-
-/* ============================
-   SMALL MOBILE (≤480px)
-============================ */
 
 @media (max-width: 480px) {
   .hero-title {
