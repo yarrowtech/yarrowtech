@@ -3,53 +3,83 @@
 .modal-overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.75);
+  background:rgba(20,10,4,0.75);
   backdrop-filter:blur(8px);
   display:flex;
   justify-content:center;
   align-items:center;
   z-index:6000;
+  padding:16px;
 }
 
 /* MODAL */
 
 .modal-box-career{
-  width:100%;
-  max-width:520px;
-  background:#0b1628;
+  /* Set via `width`, not `max-width` — a global rule in responsive.css
+     also targets .modal-box-career with equal specificity and would
+     win the cascade on `max-width` alone, blowing this back out to
+     ~920px. `width` isn't touched by that rule, so it wins reliably. */
+  width:min(92vw, 440px);
+  background:#ffffff;
   border-radius:20px;
-  padding:34px;
-  box-shadow:0 30px 70px rgba(0,0,0,0.6);
-  border:1px solid rgba(255,255,255,0.08);
+  padding:34px 30px 28px;
+  box-shadow:0 24px 64px rgba(45,20,6,0.28);
+  border:1px solid rgba(134,63,21,0.12);
   position:relative;
+  overflow:hidden;
+  color-scheme:light;
+}
+
+.modal-box-career::before{
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  height:3px;
+  background:linear-gradient(90deg,#ffb400,#ff7a00);
+  pointer-events:none;
 }
 
 /* CLOSE */
 
-.close-btn{
+.modal-box-career .close-btn{
   position:absolute;
-  right:18px;
-  top:18px;
-  border:none;
-  background:none;
-  color:#94a3b8;
+  right:14px;
+  top:14px;
+  width:32px;
+  height:32px;
+  border:1px solid rgba(134,63,21,0.14);
+  border-radius:999px;
+  background:rgba(134,63,21,0.05);
+  color:#8a6a55;
   cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.modal-box-career .close-btn:hover{
+  color:#2f1a0f;
+  background:rgba(134,63,21,0.1);
+  border-color:rgba(134,63,21,0.2);
 }
 
 /* TEXT */
 
-.modal-title{
+.modal-box-career .modal-title{
   text-align:center;
-  font-size:1.6rem;
+  font-size:1.5rem;
   font-weight:700;
-  color:#ffffff;
+  color:#2f1a0f;
+  letter-spacing:-0.02em;
+  margin:0 0 6px;
 }
 
-.modal-subtitle{
+.modal-box-career .modal-subtitle{
   text-align:center;
-  color:#94a3b8;
-  margin-bottom:24px;
-  font-size:0.9rem;
+  color:#6c584d;
+  margin-bottom:22px;
+  font-size:0.86rem;
 }
 
 /* FORM */
@@ -57,82 +87,169 @@
 .career-form{
   display:flex;
   flex-direction:column;
-  gap:18px;
+  gap:14px;
 }
 
 /* LABEL */
 
-.form-group label{
-  color:#facc15;
-  font-weight:600;
-  margin-bottom:6px;
+.career-form .form-group{
+  display:flex;
+  flex-direction:column;
+  margin-bottom:0;
+}
+
+.career-form .form-group label{
+  display:block;
+  color:#8a7264;
+  font-weight:700;
+  font-size:0.68rem;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  margin-bottom:7px;
 }
 
 /* INPUTS */
 
-.form-group input,
-.form-group textarea{
-  background:#071220;
-  border:1px solid rgba(255,255,255,0.08);
-  color:#ffffff;
-  padding:13px 15px;
-  border-radius:12px;
+.career-form .form-group input{
+  width:100%;
+  min-height:46px;
+  background:#ffffff;
+  border:1px solid #d1d5db;
+  color:#000000;
+  padding:0 18px;
+  border-radius:999px;
   outline:none;
-  font-size:0.95rem;
+  font-size:0.92rem;
+  font-family:inherit;
+  -webkit-appearance:none;
+  appearance:none;
+  color-scheme:light;
 }
 
-.form-group input::placeholder,
-.form-group textarea::placeholder{
-  color:#64748b;
+.career-form .form-group textarea{
+  width:100%;
+  min-height:88px;
+  background:#ffffff;
+  border:1px solid #d1d5db;
+  color:#000000;
+  padding:12px 18px;
+  border-radius:16px;
+  outline:none;
+  font-size:0.92rem;
+  font-family:inherit;
+  resize:vertical;
+  -webkit-appearance:none;
+  appearance:none;
+  color-scheme:light;
 }
 
-.form-group input:focus,
-.form-group textarea:focus{
-  border-color:#facc15;
-  box-shadow:0 0 0 2px rgba(250,204,21,0.2);
+.career-form .form-group input::placeholder,
+.career-form .form-group textarea::placeholder{
+  color:#9ca3af;
+}
+
+.career-form .form-group input:focus,
+.career-form .form-group textarea:focus{
+  border-color:rgba(255,122,0,0.6);
+  box-shadow:0 0 0 3px rgba(255,122,0,0.12);
+}
+
+.career-form .form-group input:-webkit-autofill,
+.career-form .form-group input:-webkit-autofill:hover,
+.career-form .form-group input:-webkit-autofill:focus{
+  -webkit-text-fill-color:#000000;
+  -webkit-box-shadow:0 0 0 1000px #ffffff inset;
+  box-shadow:0 0 0 1000px #ffffff inset;
+  transition:background-color 9999s ease-in-out 0s;
 }
 
 /* FILE */
 
-.file-input-label{
-  border:1px dashed rgba(255,255,255,0.2);
-  padding:14px;
-  border-radius:12px;
+.career-form .file-input-label{
+  width:100%;
+  min-height:46px;
+  border:1px dashed rgba(134,63,21,0.28);
+  padding:0 18px;
+  border-radius:999px;
   display:flex;
   align-items:center;
   gap:10px;
   cursor:pointer;
-  color:#facc15;
+  color:#d17a00;
+  background:rgba(255,180,0,0.05);
+  font-size:0.88rem;
+  transition:background 0.2s ease, border-color 0.2s ease;
 }
 
-.file-input-label input{
+.career-form .file-input-label span{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.career-form .file-input-label:hover{
+  background:rgba(255,180,0,0.1);
+  border-color:rgba(134,63,21,0.4);
+}
+
+.career-form .file-input-label input{
   display:none;
 }
 
 /* BUTTONS */
 
-.form-action-buttons{
+.career-form .form-action-buttons{
   display:flex;
   gap:12px;
-  margin-top:10px;
+  margin-top:6px;
 }
 
-.primary-btn{
+.career-form .primary-btn{
   flex:1;
+  min-height:46px;
   padding:12px;
   border-radius:999px;
   border:none;
   font-weight:700;
-  background:linear-gradient(135deg,#facc15,#f59e0b);
+  font-size:0.92rem;
+  color:#ffffff;
+  background:linear-gradient(135deg,#ffa500,#ff7a00);
+  box-shadow:0 12px 24px rgba(255,140,0,0.3);
   cursor:pointer;
+  transition:opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
-.secondary-btn{
+.career-form .primary-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 16px 28px rgba(255,140,0,0.4);
+}
+
+.career-form .primary-btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.career-form .secondary-btn{
   flex:1;
+  min-height:46px;
   padding:12px;
   border-radius:999px;
-  border:1px solid rgba(255,255,255,0.2);
+  border:1px solid rgba(134,63,21,0.16);
   background:transparent;
-  color:#94a3b8;
+  color:#6c584d;
+  font-size:0.92rem;
+  font-weight:600;
   cursor:pointer;
+  transition:background 0.2s ease, border-color 0.2s ease;
+}
+
+.career-form .secondary-btn:hover{
+  background:rgba(134,63,21,0.06);
+  border-color:rgba(134,63,21,0.28);
+}
+
+.career-form .secondary-btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
 }

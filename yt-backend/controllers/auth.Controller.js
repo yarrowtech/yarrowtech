@@ -1,6 +1,9 @@
 import User from "../models/User.js";
+import ERPUser from "../erp/models/User.js";
+import ERPClient from "../erp/models/Client.js";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/generateToken.js";
+import { signErpToken } from "../erp/middleware/erpAuth.js";
 import { OAuth2Client } from "google-auth-library";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
@@ -67,51 +70,117 @@ export const registerUser = async (req, res) => {
 // --------------------------------
 // LOGIN USER
 // --------------------------------
+// Single unified login: tries the website account first, then falls back to
+// the ERP staff and ERP client accounts, so one form covers every login type.
 export const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const normalizedEmail = req.body?.email?.toLowerCase()?.trim();
+    const { password } = req.body;
 
-    const user = await User.findOne({ email: email.toLowerCase() });
-    if (!user) return res.status(400).json({ message: "User not found" });
+    if (!normalizedEmail || !password) {
+      return res.status(400).json({ message: "Email and password are required" });
+    }
 
-    const match = await user.matchPassword(password);
-    if (!match) return res.status(400).json({ message: "Incorrect password" });
+    // 1) Website customer account
+    const user = await User.findOne({ email: normalizedEmail });
+    if (user) {
+      const match = await user.matchPassword(password);
+      if (!match) return res.status(400).json({ message: "Incorrect password" });
 
-    res.json({
-      message: "Login successful",
-      token: generateToken(user),
-      user,
-    });
+      const role = "user";
 
-    const loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+      res.json({
+        message: "Login successful",
+        token: signErpToken({ id: user._id, email: user.email, role, name: user.name }),
+        role,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          avatar: user.avatar,
+          role,
+        },
+      });
 
-    sendEmail(
-      user.email,
-      "New login to your YarrowTech account",
-      `
-      <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;background:#071a2d;color:#f1f5f9;border-radius:14px;padding:32px;">
-        <h2 style="color:#ffcb05;margin-top:0;">New Login Detected</h2>
-        <p>Hi ${user.name || "there"},</p>
-        <p>We noticed a new login to your YarrowTech account.</p>
-        <table style="width:100%;border-collapse:collapse;margin:16px 0;">
-          <tr>
-            <td style="padding:8px 0;color:#94a3b8;width:120px;">Account</td>
-            <td style="padding:8px 0;font-weight:600;">${user.email}</td>
-          </tr>
-          <tr>
-            <td style="padding:8px 0;color:#94a3b8;">Time</td>
-            <td style="padding:8px 0;">${loginTime} IST</td>
-          </tr>
-        </table>
-        <p>If this was you, no action is needed.</p>
-        <p style="color:#ef4444;">If you did not log in, please reset your password immediately.</p>
-        <p style="margin-top:28px;color:#64748b;font-size:0.85rem;">
-          — Team YarrowTech<br/>
-          <a href="https://yarrowtech.co.in" style="color:#ffcb05;">yarrowtech.co.in</a>
-        </p>
-      </div>
-      `
-    );
+      const loginTime = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+
+      sendEmail(
+        user.email,
+        "New login to your YarrowTech account",
+        `
+        <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;background:#071a2d;color:#f1f5f9;border-radius:14px;padding:32px;">
+          <h2 style="color:#ffcb05;margin-top:0;">New Login Detected</h2>
+          <p>Hi ${user.name || "there"},</p>
+          <p>We noticed a new login to your YarrowTech account.</p>
+          <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;width:120px;">Account</td>
+              <td style="padding:8px 0;font-weight:600;">${user.email}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px 0;color:#94a3b8;">Time</td>
+              <td style="padding:8px 0;">${loginTime} IST</td>
+            </tr>
+          </table>
+          <p>If this was you, no action is needed.</p>
+          <p style="color:#ef4444;">If you did not log in, please reset your password immediately.</p>
+          <p style="margin-top:28px;color:#64748b;font-size:0.85rem;">
+            — Team YarrowTech<br/>
+            <a href="https://yarrowtech.co.in" style="color:#ffcb05;">yarrowtech.co.in</a>
+          </p>
+        </div>
+        `
+      );
+      return;
+    }
+
+    // 2) ERP staff account (admin / manager / techlead / productuser)
+    const erpUser = await ERPUser.findOne({ email: normalizedEmail });
+    if (erpUser) {
+      if (erpUser.status !== "active") {
+        return res.status(403).json({ message: "Account is disabled. Contact administrator." });
+      }
+
+      const match = await erpUser.matchPassword(password);
+      if (!match) return res.status(401).json({ message: "Invalid credentials" });
+
+      const role = erpUser.role;
+      const name = erpUser.name || erpUser.email.split("@")[0];
+
+      return res.json({
+        message: "Login successful",
+        token: signErpToken({ id: erpUser._id, email: erpUser.email, role, name }),
+        role,
+        user: { id: erpUser._id, name, email: erpUser.email, role },
+      });
+    }
+
+    // 3) ERP client account
+    const client = await ERPClient.findOne({ email: normalizedEmail });
+    if (client) {
+      if (client.status && client.status !== "active") {
+        return res.status(403).json({ message: "Client account is inactive" });
+      }
+
+      if (!client.password) {
+        return res.status(400).json({ message: "Client account has no password. Contact support." });
+      }
+
+      const match = await client.matchPassword(password);
+      if (!match) return res.status(401).json({ message: "Invalid credentials" });
+
+      const role = "client";
+      const name = client.name || client.email.split("@")[0];
+
+      return res.json({
+        message: "Login successful",
+        token: signErpToken({ id: client._id, email: client.email, role, name }),
+        role,
+        user: { id: client._id, name, email: client.email, role },
+      });
+    }
+
+    return res.status(400).json({ message: "User not found" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

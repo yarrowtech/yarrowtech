@@ -60,8 +60,8 @@ API.interceptors.response.use(
       localStorage.removeItem("erp_role");
       localStorage.removeItem("erp_user");
 
-      // Redirect to ERP login
-      window.location.href = "/erp/login";
+      // Redirect to the site's login (header login modal)
+      window.location.href = "/";
     }
 
     return Promise.reject(error);

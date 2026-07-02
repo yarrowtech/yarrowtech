@@ -24,8 +24,8 @@
 ========================================================= */
 .modal-box-demo {
   width: 90%;
-  max-width: 1100px;
-  max-height: 92vh;
+  max-width: 940px;
+  max-height: 90vh;
   overflow-y: auto;
   position: relative;
   margin: auto;
@@ -36,26 +36,24 @@
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 
-
-  display: flex;
-  /* flex-direction: column; */
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.65);
 }
 
-/* Glow */
+/* Glow accent */
 .modal-box-demo::before {
   content: "";
   position: absolute;
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, rgba(250, 204, 21, 0.15), transparent);
-  top: -80px;
-  right: -80px;
-  filter: blur(80px);
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.14), transparent);
+  top: -70px;
+  right: -70px;
+  filter: blur(70px);
+  pointer-events: none;
 }
 
 /* =========================================================
-   GRID LAYOUT (FIXED)
+   GRID LAYOUT
 ========================================================= */
 .two-column-demo {
   display: grid;
@@ -66,23 +64,18 @@
    LEFT SIDE (FORM)
 ========================================================= */
 .demo-form-side {
-  padding: 40px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* 🔥 CENTER FIX */
-  align-items: center;
   border-right: 1px solid rgba(255, 255, 255, 0.1);
-  /* 🔥 ADD THESE */
-  width: 100%;
-
 }
 
 /* Close button */
 .close-btn {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 16px;
+  right: 16px;
   background: transparent;
   border: none;
   color: #9ca3af;
@@ -97,14 +90,15 @@
 
 /* Titles */
 .modal-title {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
+  color: #f8fafc;
 }
 
 .modal-subtitle {
-  font-size: 14px;
+  font-size: 13px;
   color: #9ca3af;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 /* =========================================================
@@ -113,28 +107,39 @@
 .demo-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
+  width: 100%;
 }
 
 .demo-form input,
 .demo-form textarea {
   width: 100%;
   font-size: 14px;
-  padding: 14px;
+  padding: 12px 14px;
 
   background: rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
 
-  border-radius: 12px;
+  border-radius: 10px;
   color: #e5e7eb;
 
   transition: 0.25s;
 }
 
+.demo-form textarea {
+  resize: vertical;
+  min-height: 64px;
+}
+
+.demo-form input::placeholder,
+.demo-form textarea::placeholder {
+  color: #6b7280;
+}
+
 .demo-form input:focus,
 .demo-form textarea:focus {
-  border-color: #facc15;
-  box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.2);
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.18);
   outline: none;
 }
 
@@ -143,32 +148,44 @@
 ========================================================= */
 .form-action-buttons {
   display: flex;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 10px;
+  margin-top: 6px;
 }
 
 .primary-btn {
   flex: 1;
-  height: 48px;
+  height: 44px;
 
-  background: linear-gradient(135deg, #facc15, #f59e0b);
+  background: linear-gradient(135deg, #ffffff, #e2e8f0);
+  border: none;
   border-radius: 10px;
+  color: #0f172a;
   font-weight: 700;
+  cursor: pointer;
 
   transition: 0.25s;
 }
 
-.primary-btn:hover {
+.primary-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(250, 204, 21, 0.25);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.18);
+}
+
+.primary-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
 }
 
 .secondary-btn {
   flex: 1;
-  height: 48px;
+  height: 44px;
 
+  background: transparent;
   border: 1px solid #334155;
   border-radius: 10px;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .secondary-btn:hover {
@@ -176,15 +193,13 @@
 }
 
 /* =========================================================
-   RIGHT SIDE (TIMELINE STRUCTURE)
+   RIGHT SIDE (TIMELINE)
 ========================================================= */
 .demo-info-side {
-  padding: 40px;
+  padding: 32px;
   position: relative;
 
   background: rgba(8, 15, 30, 0.5);
-
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Timeline line */
@@ -192,39 +207,45 @@
   content: "";
   position: absolute;
   left: 46px;
-  top: 120px;
-  bottom: 40px;
+  top: 106px;
+  bottom: 32px;
   width: 2px;
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* Titles */
 .info-title {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
+  color: #f8fafc;
 }
 
 .info-sub {
-  font-size: 14px;
+  font-size: 13px;
   color: #94a3b8;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 /* Steps */
 .info-step {
   display: flex;
-  gap: 16px;
-  margin-bottom: 22px;
+  gap: 14px;
+  margin-bottom: 16px;
   position: relative;
+}
+
+.info-step:last-child {
+  margin-bottom: 0;
 }
 
 /* Icon circle */
 .info-icon {
-  width: 36px;
-  height: 36px;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
 
-  background: rgba(250, 204, 21, 0.1);
-  border: 1px solid rgba(250, 204, 21, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
 
   border-radius: 50%;
 
@@ -233,15 +254,18 @@
   justify-content: center;
 }
 
-/* Text */
 .info-step h4 {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
+  color: #f1f5f9;
+  margin: 0 0 2px;
 }
 
 .info-step p {
-  font-size: 13px;
+  font-size: 12.5px;
   color: #94a3b8;
+  line-height: 1.4;
+  margin: 0;
 }
 
 /* =========================================================
@@ -270,7 +294,6 @@
   .modal-box-demo {
     border-radius: 14px;
     max-height: 95vh;
-    scroll-behavior: smooth;
   }
 
   .modal-overlay {
@@ -286,17 +309,8 @@
     flex-direction: column;
   }
 
-  /* 🔥 Hide right side for clean mobile UX */
+  /* Hide the timeline on mobile for a cleaner, shorter form */
   .demo-info-side {
     display: none;
   }
-}
-
-
-.demo-form,
-.modal-title,
-.modal-subtitle {
-  width: 100%;
-  max-width: 420px;
-  /* 🔥 perfect width */
 }

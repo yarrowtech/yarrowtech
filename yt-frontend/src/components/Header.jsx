@@ -30,7 +30,7 @@ const NAV_LINKS = [
   { label: "Career", hash: "#career" },
 ];
 
-export default function Header() {
+export default function Header({ headerClass = "" }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("");
   const [user, setUser] = useState(null);
@@ -155,6 +155,14 @@ export default function Header() {
     };
   }, [user]);
 
+  const ERP_DASHBOARD_ROUTES = {
+    admin: "/admin/dashboard",
+    manager: "/manager/dashboard",
+    techlead: "/techlead/dashboard",
+    client: "/client/dashboard",
+    productuser: "/product-user/dashboard",
+  };
+
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -173,10 +181,32 @@ export default function Header() {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      const { role, token, user: loggedInUser } = res.data;
+      const dashboardRoute = ERP_DASHBOARD_ROUTES[role];
 
-      setUser(res.data.user);
+      if (dashboardRoute) {
+        // ERP staff / client account — hand off to the ERP dashboards
+        localStorage.setItem("erp_token", token);
+        localStorage.setItem("erp_role", role);
+        localStorage.setItem(
+          "erp_user",
+          JSON.stringify({
+            name: loggedInUser.name,
+            role,
+            email: loggedInUser.email,
+          })
+        );
+
+        showToastMessage("success", "Login successful!");
+        window.location.href = dashboardRoute;
+        return;
+      }
+
+      // Regular website account
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(loggedInUser));
+
+      setUser(loggedInUser);
       setLoginEmail("");
       setLoginPassword("");
       closeAuthModals();
@@ -420,7 +450,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="header">
+      <header className={`header${headerClass ? ` ${headerClass}` : ""}`}>
         <div className="header-container">
           <a href="/" className="logo">
             <span className="logo-mark">
@@ -489,7 +519,7 @@ export default function Header() {
             onClick={() => setShowLogin(false)}
           >
             <motion.div
-              className="modal login-card"
+              className="modal login-card header-login-card"
               onClick={(event) => event.stopPropagation()}
               {...modalAnim}
             >
@@ -573,7 +603,7 @@ export default function Header() {
             onClick={() => setShowRegister(false)}
           >
             <motion.div
-              className="modal login-card"
+              className="modal login-card header-login-card"
               onClick={(event) => event.stopPropagation()}
               {...modalAnim}
             >
@@ -674,7 +704,7 @@ export default function Header() {
             onClick={() => setShowForgotPassword(false)}
           >
             <motion.div
-              className="modal login-card"
+              className="modal login-card header-login-card"
               onClick={(event) => event.stopPropagation()}
               {...modalAnim}
             >
@@ -733,7 +763,7 @@ export default function Header() {
             onClick={() => setShowResetPasswordModal(false)}
           >
             <motion.div
-              className="modal login-card"
+              className="modal login-card header-login-card"
               onClick={(event) => event.stopPropagation()}
               {...modalAnim}
             >
@@ -741,9 +771,13 @@ export default function Header() {
                 className="modal-close"
                 onClick={() => setShowResetPasswordModal(false)}
               >
-                x
+                &#x2715;
               </button>
 
+
+              <div className="modal-logo-circle">
+                <img src={logo} alt="YarrowTech logo" />
+              </div>
               <h2 className="modal-title">Set New Password</h2>
               <p className="modal-subtitle">
                 Enter your new password below to finish resetting your account.
@@ -817,3 +851,5 @@ export default function Header() {
     </>
   );
 }
+
+

@@ -1,0 +1,232 @@
+/* EXPERTISE SECTION - HOME2 VARIANT */
+
+.v2-expertise-section {
+  padding: 70px 0 90px;
+  background: #ffffff;
+  overflow-x: hidden;
+}
+
+.v2-expertise-section .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 24px;
+}
+
+.v2-expertise-section .title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #2f1a0f;
+  margin-bottom: 8px;
+}
+
+.v2-expertise-section .subtitle {
+  text-align: center;
+  color: #6c584d;
+  font-size: 16px;
+  margin-bottom: 50px;
+}
+
+.v2-expertise-section .expertise-row-inline {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 45px;
+  padding: 20px;
+  background: #fffaf6;
+  border: 1px solid rgba(134, 63, 21, 0.12);
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(77, 39, 18, 0.08);
+}
+
+.v2-expertise-section .title-wrapper {
+  width: 260px;
+}
+
+.v2-expertise-section .expertise-title-inline {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2f1a0f;
+}
+
+.v2-expertise-section .title-divider {
+  width: 140px;
+  height: 3px;
+  margin-top: 6px;
+  background: linear-gradient(90deg, #ffb400, #ff7a00);
+  border-radius: 30px;
+}
+
+.v2-scroll-inline {
+  flex: 1;
+  overflow: hidden;
+  height: 88px;
+  position: relative;
+}
+
+.v2-scroll-inline::before,
+.v2-scroll-inline::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 80px;
+  height: 100%;
+  z-index: 5;
+}
+
+.v2-scroll-inline::before {
+  left: 0;
+  background: linear-gradient(to right, #ffffff 65%, transparent);
+}
+
+.v2-scroll-inline::after {
+  right: 0;
+  background: linear-gradient(to left, #ffffff 65%, transparent);
+}
+
+.v2-expertise-section .scroll-inline-track {
+  display: inline-flex;
+  gap: 60px;
+  align-items: center;
+  white-space: nowrap;
+  animation: ticker 18s linear infinite;
+}
+
+@keyframes ticker {
+  from { transform: translateX(0%); }
+  to   { transform: translateX(-50%); }
+}
+
+.v2-expertise-section .tool-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.v2-expertise-section .tool-inline-logo {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  transition: transform 0.25s ease;
+}
+
+.v2-expertise-section .white-bg-logo {
+  background: #ffffff;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+@media (hover: hover) {
+  .v2-expertise-section .tool-inline:hover .tool-inline-logo {
+    transform: scale(1.15);
+  }
+}
+
+.v2-expertise-section .tool-inline-name {
+  font-size: 14px;
+  color: #6c584d;
+}
+
+@media (max-width: 1024px) {
+  .v2-expertise-section .title {
+    font-size: 28px;
+  }
+
+  .v2-expertise-section .expertise-row-inline {
+    gap: 28px;
+    padding: 18px;
+  }
+
+  .v2-expertise-section .title-wrapper {
+    width: 220px;
+  }
+
+  .v2-expertise-section .scroll-inline-track {
+    gap: 44px;
+  }
+}
+
+@media (max-width: 768px) {
+  .v2-expertise-section .container {
+    padding: 0 16px;
+  }
+
+  .v2-expertise-section {
+    padding: 50px 0 60px;
+  }
+
+  .v2-expertise-section .title {
+    font-size: 24px;
+  }
+
+  .v2-expertise-section .subtitle {
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  .v2-expertise-section .expertise-row-inline {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
+    margin-bottom: 28px;
+  }
+
+  .v2-expertise-section .title-wrapper {
+    width: 100%;
+  }
+
+  .v2-expertise-section .expertise-title-inline {
+    font-size: 17px;
+  }
+
+  .v2-expertise-section .title-divider {
+    width: 120px;
+  }
+
+  .v2-scroll-inline {
+    height: 72px;
+  }
+
+  .v2-scroll-inline::before,
+  .v2-scroll-inline::after {
+    width: 36px;
+  }
+
+  .v2-expertise-section .scroll-inline-track {
+    gap: 32px;
+    animation-duration: 22s;
+  }
+
+  .v2-expertise-section .tool-inline {
+    min-width: 70px;
+  }
+
+  .v2-expertise-section .tool-inline-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .v2-expertise-section .tool-inline-name {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .v2-expertise-section .title {
+    font-size: 22px;
+  }
+
+  .v2-expertise-section .subtitle {
+    font-size: 13px;
+  }
+
+  .v2-expertise-section .scroll-inline-track {
+    gap: 26px;
+    animation-duration: 26s;
+  }
+}

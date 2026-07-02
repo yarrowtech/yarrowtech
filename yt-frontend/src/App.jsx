@@ -532,12 +532,10 @@ import ScrollProgress from "./components/ScrollProgress";
 import SectionRouteRedirect from "./components/SectionRouteRedirect";
 import Footer from "./components/Footer";
 import RequestDemoForm from "./components/RequestDemoForm";
+import Home2 from "./pages/home2/Home2";
 
 /* ⭐ FLOATING CONTACT MENU */
 import ContactMenu from "./components/ContactMenu";
-
-/* 🔐 ERP LOGIN PAGE */
-import ERPLogin from "./components/ERPLogin";
 
 /* 🔐 ERP PROTECTED ROUTE */
 import ERPProtectedRoute from "./routes/ERPProtectedRoute";
@@ -629,8 +627,7 @@ function ContactMenuWrapper() {
     pathname.startsWith("/manager") ||
     pathname.startsWith("/techlead") ||
     pathname.startsWith("/client") ||
-    pathname.startsWith("/product-user") ||
-    pathname.startsWith("/erp");
+    pathname.startsWith("/product-user");
 
   return isHidden ? null : <ContactMenu />;
 }
@@ -658,9 +655,20 @@ export default function App() {
 
       <div className="app">
         <Routes>
-          {/* 🌍 PUBLIC HOME */}
+          {/* PUBLIC HOME */}
           <Route
             path="/"
+            element={
+              <>
+                <Header headerClass="header-warm" />
+                <Home2 />
+                <ScrollProgress />
+              </>
+            }
+          />
+
+          <Route
+            path="/home-classic"
             element={
               <>
                 <Header />
@@ -700,7 +708,17 @@ export default function App() {
             }
           />
 
-          <Route path="/erp" element={<ERPLogin />} />
+          {/* HOME2 – direct route kept alongside the new default landing page */}
+          <Route
+            path="/home2"
+            element={
+              <>
+                <Header headerClass="header-warm" />
+                <Home2 />
+                <ScrollProgress />
+              </>
+            }
+          />
 
           {/* ==========================
              🔐 ADMIN
@@ -828,3 +846,4 @@ export default function App() {
     </ThemeProvider>
   );
 }
+

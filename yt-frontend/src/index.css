@@ -14,7 +14,7 @@
 
   color-scheme: dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #051423;
+  background-color: #863f15;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -27,7 +27,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: #051423;
+  background-color: #863f15;
 }
 
 /* Hide Google One Tap floating prompt — we use the explicit login modal instead */
@@ -86,3 +86,4 @@ section .container {
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
 }
+
