@@ -5,6 +5,7 @@
   inset:0;
   background:rgba(20,10,4,0.75);
   backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
   display:flex;
   justify-content:center;
   align-items:center;
@@ -150,8 +151,7 @@
 
 .career-form .form-group input:focus,
 .career-form .form-group textarea:focus{
-  border-color:rgba(255,122,0,0.6);
-  box-shadow:0 0 0 3px rgba(255,122,0,0.12);
+  border-color:#9ca3af;
 }
 
 .career-form .form-group input:-webkit-autofill,
@@ -165,7 +165,7 @@
 
 /* FILE */
 
-.career-form .file-input-label{
+.career-form label.file-input-label{
   width:100%;
   min-height:46px;
   border:1px dashed rgba(134,63,21,0.28);
@@ -178,6 +178,9 @@
   color:#d17a00;
   background:rgba(255,180,0,0.05);
   font-size:0.88rem;
+  font-weight:500;
+  letter-spacing:normal;
+  text-transform:none;
   transition:background 0.2s ease, border-color 0.2s ease;
 }
 

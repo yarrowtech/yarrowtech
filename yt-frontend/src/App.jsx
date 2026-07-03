@@ -533,6 +533,7 @@ import SectionRouteRedirect from "./components/SectionRouteRedirect";
 import Footer from "./components/Footer";
 import RequestDemoForm from "./components/RequestDemoForm";
 import Home2 from "./pages/home2/Home2";
+import Home2Footer from "./pages/home2/Home2Footer";
 
 /* ⭐ FLOATING CONTACT MENU */
 import ContactMenu from "./components/ContactMenu";
@@ -701,9 +702,9 @@ export default function App() {
             path="/products/:productSlug"
             element={
               <>
-                <Header />
+                <Header headerClass="header-warm" />
                 <ProductDetailsPage />
-                <Footer />
+                <Home2Footer />
               </>
             }
           />
@@ -828,11 +829,11 @@ export default function App() {
   path="/request-demo"
   element={
     <>
-      <Header />
+      <Header headerClass="header-warm" />
       <div style={{ paddingTop: "100px" }}>
         <RequestDemoForm />
       </div>
-      <Footer />
+      <Home2Footer />
     </>
   }
 />

@@ -81,6 +81,13 @@ export default function ScrollProgress() {
       </div>
 
       <svg viewBox="0 0 120 120" className="scroll-svg">
+        <defs>
+          <linearGradient id="scrollProgressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#ffa500" />
+            <stop offset="100%" stopColor="#ff7a00" />
+          </linearGradient>
+        </defs>
+
         <polygon
           points="60,5 115,35 115,85 60,115 5,85 5,35"
           className="progress-bg"

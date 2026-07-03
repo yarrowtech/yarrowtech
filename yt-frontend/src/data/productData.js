@@ -7,7 +7,7 @@ export const products = [
     name: "EEC - ELECTRONIC EDUCARE",
     shortName: "ELECTRONIC EDUCARE",
     logo: eecLogo,
-    accent: "#f5c542",
+    accent: "#ca8a04",
     category: "Education ERP and LMS",
     description:
       "A unified digital campus combining LMS and ERP into one intelligent ecosystem connecting students, teachers, parents, and administrators.",
@@ -37,7 +37,7 @@ export const products = [
     name: "ERETAILMS - RETAIL MANAGEMENT SYSTEM",
     shortName: "ERETAILMS",
     icon: Store,
-    accent: "#4f9cff",
+    accent: "#2563eb",
     category: "Retail Operations Platform",
     description:
       "A web-based retail platform digitizing product, inventory, sales, vendor, and employee operations with real-time insights.",
@@ -67,7 +67,7 @@ export const products = [
     name: "EFNBMMS - FOOD & BEVERAGE MANAGEMENT SYSTEM",
     shortName: "EFNBMMS",
     icon: UtensilsCrossed,
-    accent: "#3ccf91",
+    accent: "#16a34a",
     category: "Restaurant and Kitchen Operations",
     description:
       "An intelligent ERP platform for modern restaurants, cafes, cloud kitchens, and food chains to manage orders, inventory, kitchen workflows, staff activity, and business performance from one connected system.",
@@ -98,7 +98,7 @@ export const products = [
     name: "ESPORTM - SPORTS MANAGEMENT SYSTEM",
     shortName: "ESPORTM",
     icon: Trophy,
-    accent: "#9b7cff",
+    accent: "#7c3aed",
     category: "Sports Performance Platform",
     description:
       "A sports ecosystem enabling player discovery, performance analytics, health metrics, and data-driven club decisions.",

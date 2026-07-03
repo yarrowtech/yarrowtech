@@ -68,9 +68,9 @@
 .v2-products-section .product-card {
   position: relative;
   padding: 26px;
-  background: #ffffff;
+  background: color-mix(in srgb, var(--accent) 20%, white);
   border-radius: 18px;
-  border: 1px solid rgba(134, 63, 21, 0.12);
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
   box-shadow: 0 14px 32px rgba(77, 39, 18, 0.08);
   transform-style: preserve-3d;
   overflow: hidden;
@@ -96,7 +96,7 @@
   width: 46px;
   height: 46px;
   border-radius: 12px;
-  background: color-mix(in srgb, var(--accent) 14%, white);
+  background: color-mix(in srgb, var(--accent) 38%, white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,7 +111,7 @@
   padding: 0 10px;
   border-radius: 999px;
   color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 12%, white);
+  background: color-mix(in srgb, var(--accent) 32%, white);
   font-size: 12px;
   font-weight: 700;
   margin-bottom: 14px;

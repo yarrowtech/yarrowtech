@@ -17,6 +17,17 @@ export default function Home2Footer() {
             </p>
           </div>
 
+          <div className="footer-col footer-links-col fade-up delay-1">
+            <h4>Quick Links</h4>
+            <nav className="footer-links">
+              <a href="/#home">Home</a>
+              <a href="/#services">Services</a>
+              <a href="/#products">Products</a>
+              <a href="/#expertise">Expertise</a>
+              <a href="/#about">About</a>
+            </nav>
+          </div>
+
           <div className="footer-col fade-up delay-2">
             <h4>Contact Us</h4>
 
@@ -61,7 +72,11 @@ export default function Home2Footer() {
         </div>
 
         <div className="footer-bottom fade-up delay-4">
-          © {new Date().getFullYear()} YarrowTech. All Rights Reserved.
+          <span>© {new Date().getFullYear()} YarrowTech. All Rights Reserved.</span>
+          <div className="footer-legal-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </div>
         </div>
       </footer>
     </>

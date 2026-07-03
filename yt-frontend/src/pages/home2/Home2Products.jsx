@@ -1,13 +1,7 @@
 import React, { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import {
-  motion,
-  useMotionValue,
-  useScroll,
-  useSpring,
-  useTransform,
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { products } from "../../data/productData";
 import "./Home2Products.css";
 
@@ -68,11 +62,6 @@ export default function Home2Products() {
 
 function AliveCard({ product, index }) {
   const navigate = useNavigate();
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const springX = useSpring(x, { stiffness: 80, damping: 15 });
-  const springY = useSpring(y, { stiffness: 80, damping: 15 });
 
   const openProduct = () => navigate(`/products/${product.slug}`);
 
@@ -81,40 +70,31 @@ function AliveCard({ product, index }) {
       className="product-card"
       role="button"
       tabIndex={0}
-      style={{
-        "--accent": product.accent,
-        x: springX,
-        y: springY,
-      }}
+      style={{ "--accent": product.accent }}
       initial={{
         opacity: 0,
-        y: 60,
-        scale: 0.9,
-        filter: "blur(10px)",
+        y: 40,
+        scale: 0.94,
       }}
       whileInView={{
         opacity: 1,
         y: 0,
         scale: 1,
-        filter: "blur(0px)",
       }}
       transition={{
-        duration: 0.9,
-        delay: index * 0.15,
+        duration: 0.6,
+        delay: index * 0.12,
         ease: [0.16, 1, 0.3, 1],
       }}
       viewport={{ once: true, amount: 0.4 }}
-      animate={{
-        scale: [1, 1.015, 1],
+      whileHover={{
+        y: -10,
+        scale: 1.025,
+        transition: { duration: 0.25, ease: "easeOut" },
       }}
-      onMouseMove={(event) => {
-        const rect = event.currentTarget.getBoundingClientRect();
-        x.set((event.clientX - rect.left - rect.width / 2) / 12);
-        y.set((event.clientY - rect.top - rect.height / 2) / 12);
-      }}
-      onMouseLeave={() => {
-        x.set(0);
-        y.set(0);
+      whileTap={{
+        scale: 0.98,
+        transition: { duration: 0.12 },
       }}
       onClick={openProduct}
       onKeyDown={(event) => {
