@@ -35,6 +35,7 @@ export default function Header({ headerClass = "" }) {
   const [activeHash, setActiveHash] = useState("");
   const [user, setUser] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
@@ -113,6 +114,15 @@ export default function Header({ headerClass = "" }) {
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleElevation = () => setScrolled(window.scrollY > 20);
+
+    window.addEventListener("scroll", handleElevation);
+    handleElevation();
+
+    return () => window.removeEventListener("scroll", handleElevation);
   }, []);
 
   const showToastMessage = (type, message) => {
@@ -450,13 +460,20 @@ export default function Header({ headerClass = "" }) {
 
   return (
     <>
-      <header className={`header${headerClass ? ` ${headerClass}` : ""}`}>
+      <header className={`header${headerClass ? ` ${headerClass}` : ""}${scrolled ? " scrolled" : ""}`}>
         <div className="header-container">
-          <a href="/" className="logo">
+          <motion.a
+            href="/"
+            className="logo"
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span className="logo-mark">
-              <img src={logo} className="logo-img" alt="YarrowTech logo" />            </span>
+              <img src={logo} className="logo-img" alt="YarrowTech logo" />
+            </span>
             <span className="logo-text">Yarrowtech</span>
-          </a>
+          </motion.a>
 
           <nav className={`nav-menu ${menuOpen ? "open" : ""}`}>
             {NAV_LINKS.map((item) => (

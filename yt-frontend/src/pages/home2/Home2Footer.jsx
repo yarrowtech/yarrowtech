@@ -1,6 +1,23 @@
 import React from "react";
+import { motion } from "framer-motion";
 import "./Home2Footer.css";
 import { Linkedin, Facebook, Instagram, Mail, Phone, MapPin } from "lucide-react";
+
+const footerContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
+const footerItemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 export default function Home2Footer() {
   return (
@@ -8,16 +25,22 @@ export default function Home2Footer() {
       <div className="v2-footer-wave"></div>
 
       <footer id="contact" className="v2-footer-section">
-        <div className="footer-container">
+        <motion.div
+          className="footer-container"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={footerContainerVariants}
+        >
 
-          <div className="footer-col fade-up">
+          <motion.div className="footer-col" variants={footerItemVariants}>
             <h3 className="footer-logo">YarrowTech</h3>
             <p className="footer-text">
               Empowering businesses with modern, scalable and intelligent digital solutions.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="footer-col footer-links-col fade-up delay-1">
+          <motion.div className="footer-col footer-links-col" variants={footerItemVariants}>
             <h4>Quick Links</h4>
             <nav className="footer-links">
               <a href="/#home">Home</a>
@@ -26,9 +49,9 @@ export default function Home2Footer() {
               <a href="/#expertise">Expertise</a>
               <a href="/#about">About</a>
             </nav>
-          </div>
+          </motion.div>
 
-          <div className="footer-col fade-up delay-2">
+          <motion.div className="footer-col" variants={footerItemVariants}>
             <h4>Contact Us</h4>
 
             <div className="contact-row">
@@ -67,17 +90,23 @@ export default function Home2Footer() {
               </div>
 
             </div>
-          </div>
+          </motion.div>
 
-        </div>
+        </motion.div>
 
-        <div className="footer-bottom fade-up delay-4">
+        <motion.div
+          className="footer-bottom"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        >
           <span>© {new Date().getFullYear()} YarrowTech. All Rights Reserved.</span>
           <div className="footer-legal-links">
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
           </div>
-        </div>
+        </motion.div>
       </footer>
     </>
   );

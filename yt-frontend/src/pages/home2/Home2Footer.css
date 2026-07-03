@@ -166,31 +166,6 @@
   color: #ffd28a;
 }
 
-.v2-footer-section .fade-up {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: v2-fadeUp 0.7s ease forwards;
-}
-
-.v2-footer-section .delay-1 {
-  animation-delay: 0.1s;
-}
-
-.v2-footer-section .delay-2 {
-  animation-delay: 0.2s;
-}
-
-.v2-footer-section .delay-4 {
-  animation-delay: 0.4s;
-}
-
-@keyframes v2-fadeUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (max-width: 768px) {
   .v2-footer-section .footer-container {
     flex-direction: column;

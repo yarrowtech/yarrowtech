@@ -1,5 +1,15 @@
 import React from "react";
+import { motion } from "framer-motion";
 import "./Home2Expertise.css";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 const darkLogos = [
   "Express.js",
@@ -72,13 +82,34 @@ export default function Home2Expertise() {
   return (
     <section id="expertise" className="v2-expertise-section">
       <div className="container">
-        <h2 className="title">Our Expertise</h2>
-        <p className="subtitle">
+        <motion.h2
+          className="title"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.6 }}
+          variants={fadeUp}
+        >
+          Our Expertise
+        </motion.h2>
+        <motion.p
+          className="subtitle"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.6 }}
+          variants={fadeUp}
+        >
           The technologies and tools that power our innovation and creativity.
-        </p>
+        </motion.p>
 
         {expertise.map((cat, i) => (
-          <div key={i} className="expertise-row-inline">
+          <motion.div
+            key={i}
+            className="expertise-row-inline"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={fadeUp}
+          >
             <div className="title-wrapper">
               <h3 className="expertise-title-inline">{cat.title}</h3>
               <div className="title-divider" />
@@ -100,7 +131,7 @@ export default function Home2Expertise() {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
