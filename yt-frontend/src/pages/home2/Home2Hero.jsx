@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Home2Hero.css";
-import HeroImg from "../../assets/laptop&phone.png";
+import HeroImg from "../../assets/result.png";
 
 const Home2Hero = () => {
   const words = ["Website", "AI Systems", "Mobile App", "Software", "ERP System"];
@@ -82,3 +82,4 @@ const Home2Hero = () => {
 };
 
 export default Home2Hero;
+

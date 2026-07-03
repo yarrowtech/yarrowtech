@@ -454,9 +454,8 @@ export default function Header({ headerClass = "" }) {
         <div className="header-container">
           <a href="/" className="logo">
             <span className="logo-mark">
-              <img src={logo} className="logo-img" alt="YarrowTech logo" />
-            </span>
-            <span className="logo-text">YARROW TECH</span>
+              <img src={logo} className="logo-img" alt="YarrowTech logo" />            </span>
+            <span className="logo-text">Yarrowtech</span>
           </a>
 
           <nav className={`nav-menu ${menuOpen ? "open" : ""}`}>
@@ -851,5 +850,7 @@ export default function Header({ headerClass = "" }) {
     </>
   );
 }
+
+
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Hero.css";
-import HeroImg from "../assets/laptop&phone.png";
+import HeroImg from "../assets/result.png";
 import HeroParticles from "./HeroParticles";
 
 const Hero = () => {
@@ -86,3 +86,4 @@ const Hero = () => {
 };
 
 export default Hero;
+
