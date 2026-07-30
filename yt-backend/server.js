@@ -226,12 +226,21 @@ const app = express();
 app.set("trust proxy", 1);
 
 // -------------------- ALLOWED ORIGINS --------------------
-const allowedOrigins = [
+const defaultAllowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
+  "https://yarrowtech.in",
+  "https://www.yarrowtech.in",
   "https://api.yarrowtech.in",
   "https://yarrowtech.vercel.app",
 ];
+
+const envAllowedOrigins = (process.env.CORS_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const allowedOrigins = [...new Set([...defaultAllowedOrigins, ...envAllowedOrigins])];
 
 // -------------------- CORS (EXPRESS 5 + CREDENTIAL SAFE) --------------------
 app.use(
@@ -370,3 +379,4 @@ async function start() {
 }
 
 start();
+
