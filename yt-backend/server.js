@@ -229,6 +229,7 @@ app.set("trust proxy", 1);
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
+  "https://api.yarrowtech.in",
   "https://yarrowtech.vercel.app",
 ];
 
