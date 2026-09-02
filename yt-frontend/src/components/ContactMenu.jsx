@@ -11,7 +11,7 @@ export default function ContactMenu() {
 
         {/* WhatsApp */}
         <a
-          href="https://wa.me/+919830590929"
+          href="https://wa.me/+916293764220"
           target="_blank"
           rel="noopener noreferrer"
           className="contact-item"
@@ -23,7 +23,7 @@ export default function ContactMenu() {
         </a>
 
         {/* Email */}
-        <a href="mailto:career@yarrowtech.co.in" className="contact-item">
+        <a href="mailto:yarrowtech@yarrowtech.in" className="contact-item">
           <span className="label">Email</span>
           <div className="icon-circle">
             <Mail size={20} color="#fff" />
@@ -31,7 +31,7 @@ export default function ContactMenu() {
         </a>
 
         {/* Call */}
-        <a href="tel:+919830590929" className="contact-item">
+        <a href="tel:+916293764220" className="contact-item">
           <span className="label">Call</span>
           <div className="icon-circle">
             <Phone size={20} color="#fff" />

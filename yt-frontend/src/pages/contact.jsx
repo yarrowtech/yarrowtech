@@ -399,7 +399,7 @@ export default function ContactPage({ open = true, onClose, isModal = false, cur
                 <div className="info-copy">
                   <h4>Email</h4>
                   <span>Send us your project details</span>
-                  <p>career@yarrowtech.co.in</p>
+                  <p>yarrowtech@yarrowtech.in</p>
                 </div>
               </div>
 
@@ -410,7 +410,7 @@ export default function ContactPage({ open = true, onClose, isModal = false, cur
                 <div className="info-copy">
                   <h4>Phone</h4>
                   <span>Talk directly with our team</span>
-                  <p>+91 9830590929</p>
+                  <p>+91 6293764220</p>
                 </div>
               </div>
 

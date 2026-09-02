@@ -30,7 +30,7 @@ export const products = [
       "Faster administration",
       "Better parent and student engagement",
     ],
-    productUrl: "",
+    productUrl: "https://erp.electroniceducare.com/",
   },
   {
     slug: "retail-management-system",
@@ -60,7 +60,7 @@ export const products = [
       "Faster billing workflows",
       "Real-time retail insights",
     ],
-    productUrl: "",
+    productUrl: "https://rms.raphaaa.com/",
   },
   {
     slug: "food-and-beverage-management-system",
@@ -121,7 +121,7 @@ export const products = [
       "Data-driven coaching",
       "Organized sports operations",
     ],
-    productUrl: "",
+    productUrl: "https://www.esportm.com/",
   },
 ];
 

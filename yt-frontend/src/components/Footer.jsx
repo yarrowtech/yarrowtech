@@ -101,13 +101,13 @@ export default function Footer() {
 
                 {/* Social Icons */}
                 <div className="footer-socials">
-                  <a href="https://www.linkedin.com" target="_blank" className="glow-hover">
+                  <a href="https://www.linkedin.com/company/yarrowtech" target="_blank" className="glow-hover">
                     <Linkedin size={22} />
                   </a>
-                  <a href="https://www.facebook.com" target="_blank" className="glow-hover">
+                  <a href="https://www.facebook.com/profile.php?id=61592776067969" target="_blank" className="glow-hover">
                     <Facebook size={22} />
                   </a>
-                  <a href="https://www.instagram.com" target="_blank" className="glow-hover">
+                  <a href="https://www.instagram.com/yarrowtech_official?igsi=a3d6YzN1ZDhjems5" target="_blank" className="glow-hover">
                     <Instagram size={22} />
                   </a>
                 </div>
