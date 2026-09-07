@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import "./Home2Hero.css";
 import HeroImg from "../../assets/result.png";
+import { products } from "../../data/productData";
 
 const heroContainerVariants = {
   hidden: {},
@@ -23,6 +25,7 @@ const Home2Hero = () => {
   const words = ["Website", "AI Systems", "Mobile App", "Software", "ERP System"];
   const [wordIndex, setWordIndex] = useState(0);
   const [typedText, setTypedText] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     let i = 0;
@@ -92,6 +95,28 @@ const Home2Hero = () => {
             >
               Explore Our Product
             </button>
+          </motion.div>
+
+          <motion.div className="hero-products-strip" variants={heroItemVariants}>
+            <span className="hero-products-label">Our Products</span>
+            <div className="hero-products-pills">
+              {products.map((product) => (
+                <button
+                  key={product.slug}
+                  type="button"
+                  className="hero-product-pill"
+                  style={{ "--pill-accent": product.accent }}
+                  onClick={() => navigate(`/products/${product.slug}`)}
+                >
+                  {product.logo ? (
+                    <img src={product.logo} alt="" className="hero-pill-logo" />
+                  ) : (
+                    <product.icon size={14} />
+                  )}
+                  {product.shortName}
+                </button>
+              ))}
+            </div>
           </motion.div>
         </div>
 
