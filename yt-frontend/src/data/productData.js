@@ -30,7 +30,7 @@ export const products = [
       "Faster administration",
       "Better parent and student engagement",
     ],
-    productUrl: "https://erp.electroniceducare.com/",
+    productUrl: "https://eecb-2-b.vercel.app/",
   },
   {
     slug: "retail-management-system",
