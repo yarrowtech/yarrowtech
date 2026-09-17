@@ -1,0 +1,120 @@
+.legal-step-page {
+  --consent-accent: var(--product-accent, #16a34a);
+  min-height: 100vh;
+  padding: 132px 20px 60px;
+  background: #faf5f0;
+  display: flex;
+  justify-content: center;
+}
+
+.legal-step-shell {
+  width: min(760px, 100%);
+}
+
+.legal-step-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 14px;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  color: var(--consent-accent);
+  background: color-mix(in srgb, var(--consent-accent) 12%, white);
+  border: 1px solid color-mix(in srgb, var(--consent-accent) 36%, transparent);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.legal-step-shell h1 {
+  margin: 0 0 6px;
+  color: #2f1a0f;
+  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+}
+
+.legal-step-updated {
+  margin: 0 0 20px;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.legal-step-scrollbox {
+  height: 52vh;
+  min-height: 320px;
+  overflow-y: auto;
+  padding: 26px 28px;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid rgba(134, 63, 21, 0.14);
+  box-shadow: 0 20px 48px rgba(45, 20, 6, 0.06);
+}
+
+.legal-step-scrollbox p {
+  margin: 0 0 16px;
+  color: #6c584d;
+  line-height: 1.75;
+  font-size: 0.96rem;
+}
+
+.legal-step-scrollbox p:last-child {
+  margin-bottom: 0;
+}
+
+.legal-step-hint {
+  margin: 14px 0 0;
+  font-size: 0.82rem;
+  color: #b8a99c;
+  text-align: center;
+}
+
+.legal-step-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 22px;
+}
+
+.legal-step-btn {
+  flex: 1;
+  min-height: 52px;
+  border-radius: 999px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.legal-step-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.legal-step-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.legal-step-btn--agree {
+  border: none;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--consent-accent), #15803d);
+  box-shadow: 0 16px 34px color-mix(in srgb, var(--consent-accent) 28%, transparent);
+}
+
+.legal-step-btn--disagree {
+  border: 1px solid rgba(134, 63, 21, 0.2);
+  color: #6c584d;
+  background: #ffffff;
+}
+
+@media (max-width: 620px) {
+  .legal-step-page {
+    padding: 112px 16px 48px;
+  }
+
+  .legal-step-scrollbox {
+    height: 46vh;
+    padding: 20px;
+  }
+
+  .legal-step-actions {
+    flex-direction: column;
+  }
+}

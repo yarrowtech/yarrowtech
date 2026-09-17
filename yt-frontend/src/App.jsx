@@ -525,6 +525,8 @@ import Hero from "./components/Hero";
 import Service from "./pages/services";
 import Products from "./pages/products";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
+import EfnbmmsSignupPage from "./pages/EfnbmmsSignupPage";
+import EfnbmmsVendorSignupPage from "./pages/EfnbmmsVendorSignupPage";
 import Expertise from "./pages/expertise";
 import FAQ from "./pages/faq";
 import About from "./pages/about";
@@ -704,6 +706,29 @@ export default function App() {
               <>
                 <Header headerClass="header-warm" />
                 <ProductDetailsPage />
+                <Home2Footer />
+              </>
+            }
+          />
+
+          {/* EFNBMMS product signup / subscription checkout */}
+          <Route
+            path="/efnbmms/signup"
+            element={
+              <>
+                <Header headerClass="header-warm" />
+                <EfnbmmsSignupPage />
+                <Home2Footer />
+              </>
+            }
+          />
+
+          <Route
+            path="/efnbmms/vendor/signup"
+            element={
+              <>
+                <Header headerClass="header-warm" />
+                <EfnbmmsVendorSignupPage />
                 <Home2Footer />
               </>
             }

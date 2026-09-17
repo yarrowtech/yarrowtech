@@ -92,6 +92,10 @@ export const products = [
       "A scalable ERP foundation for restaurants and chains",
     ],
     productUrl: "https://www.efnbmms.com/",
+    signupPaths: {
+      admin: "/efnbmms/signup",
+      vendor: "/efnbmms/vendor/signup",
+    },
   },
   {
     slug: "sportbit",

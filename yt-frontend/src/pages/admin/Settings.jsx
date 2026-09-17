@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import {
   Settings, User, Lock, ShieldCheck,
-  Mail, Phone, MapPin, Calendar, Save, Eye, EyeOff,
+  Mail, Phone, MapPin, Calendar, Save, Eye, EyeOff, Palette,
 } from "lucide-react";
 import {
   getAdminProfile,
   updateAdminProfile,
   changeAdminPassword,
 } from "../../services/adminService";
+import ThemeToggle from "../../components/ThemeToggle";
 import "../../styles/AdminSettings.css";
 
 export default function AdminSettings() {
@@ -221,6 +222,22 @@ export default function AdminSettings() {
                 <strong>{joinedDate}</strong>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* ── Appearance Card ── */}
+        <div className="as-card">
+          <div className="as-card-head">
+            <div className="as-card-head-icon"><Palette size={17} /></div>
+            <h3>Appearance</h3>
+          </div>
+
+          <div className="as-info-row">
+            <div className="as-info-row-body">
+              <span>Theme</span>
+              <strong>Switch between light and dark mode</strong>
+            </div>
+            <ThemeToggle />
           </div>
         </div>
 

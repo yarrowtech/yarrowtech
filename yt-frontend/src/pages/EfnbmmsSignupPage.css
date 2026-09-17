@@ -1,0 +1,367 @@
+.efnbmms-signup-page {
+  min-height: 100vh;
+  padding: 132px 20px 96px;
+  background: #faf5f0;
+  color: #2f1a0f;
+}
+
+.efnbmms-signup-shell {
+  width: min(1000px, 100%);
+  margin: 0 auto;
+}
+
+.efnbmms-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  border: none;
+  background: none;
+  padding: 0;
+  color: #6c584d;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.efnbmms-back-link:hover {
+  color: #16a34a;
+}
+
+.efnbmms-signup-header {
+  margin-bottom: 34px;
+}
+
+.efnbmms-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: #16a34a;
+  background: color-mix(in srgb, #16a34a 12%, white);
+  border: 1px solid color-mix(in srgb, #16a34a 36%, transparent);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.efnbmms-signup-header h1 {
+  margin: 18px 0 12px;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  line-height: 1.1;
+}
+
+.efnbmms-signup-header p {
+  max-width: 640px;
+  color: #6c584d;
+  line-height: 1.65;
+}
+
+.efnbmms-billing-toggle {
+  display: inline-flex;
+  padding: 4px;
+  margin-bottom: 26px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(134, 63, 21, 0.14);
+}
+
+.efnbmms-billing-toggle button {
+  min-height: 40px;
+  padding: 0 22px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #6c584d;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.efnbmms-billing-toggle button.active {
+  color: #ffffff;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+.efnbmms-loading {
+  color: #6c584d;
+  margin-bottom: 26px;
+}
+
+.efnbmms-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 40px;
+}
+
+.efnbmms-plan-card {
+  position: relative;
+  text-align: left;
+  padding: 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 2px solid rgba(134, 63, 21, 0.12);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.efnbmms-plan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(45, 20, 6, 0.08);
+}
+
+.efnbmms-plan-card.selected {
+  border-color: #16a34a;
+  box-shadow: 0 14px 32px rgba(22, 163, 74, 0.16);
+}
+
+.efnbmms-plan-card.popular {
+  border-color: color-mix(in srgb, #16a34a 40%, rgba(134, 63, 21, 0.12));
+}
+
+.efnbmms-plan-badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.efnbmms-plan-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  color: #2f1a0f;
+}
+
+.efnbmms-plan-desc {
+  margin: 0 0 16px;
+  color: #6c584d;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.efnbmms-plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.efnbmms-plan-price .amount {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #2f1a0f;
+}
+
+.efnbmms-plan-price .cycle {
+  color: #6c584d;
+  font-weight: 600;
+}
+
+.efnbmms-plan-original {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #9ca3af;
+  text-decoration: line-through;
+  font-size: 0.86rem;
+}
+
+.efnbmms-plan-card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.efnbmms-plan-card li {
+  position: relative;
+  padding-left: 18px;
+  color: #6c584d;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.efnbmms-plan-card li::before {
+  content: "";
+  position: absolute;
+  top: 0.6em;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #16a34a;
+}
+
+.efnbmms-signup-form {
+  padding: 32px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid rgba(134, 63, 21, 0.12);
+  box-shadow: 0 24px 64px rgba(45, 20, 6, 0.06);
+}
+
+.efnbmms-signup-form h2 {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+  color: #2f1a0f;
+}
+
+.efnbmms-signup-form h2:not(:first-child) {
+  margin-top: 26px;
+}
+
+.efnbmms-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.efnbmms-signup-form input {
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  color: #000000;
+  font-family: inherit;
+  font-size: 0.92rem;
+}
+
+.efnbmms-signup-form input:focus {
+  outline: none;
+  border-color: #16a34a;
+}
+
+.efnbmms-password-field {
+  position: relative;
+  display: flex;
+}
+
+.efnbmms-password-field input {
+  width: 100%;
+  padding-right: 46px;
+}
+
+.efnbmms-password-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+.efnbmms-password-toggle:hover {
+  color: #16a34a;
+}
+
+.efnbmms-password-toggle:disabled {
+  cursor: not-allowed;
+}
+
+.efnbmms-hint {
+  margin: 10px 0 0;
+  color: #9ca3af;
+  font-size: 0.78rem;
+}
+
+.efnbmms-order-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 26px 0 20px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: color-mix(in srgb, #16a34a 10%, white);
+  border: 1px solid color-mix(in srgb, #16a34a 30%, transparent);
+  color: #2f1a0f;
+  font-weight: 700;
+}
+
+.efnbmms-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  border: none;
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 16px 34px rgba(22, 163, 74, 0.28);
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.efnbmms-primary-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.efnbmms-primary-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.efnbmms-success-card {
+  width: min(560px, 100%);
+  margin: 60px auto 0;
+  padding: 48px 36px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid rgba(134, 63, 21, 0.12);
+  box-shadow: 0 24px 64px rgba(45, 20, 6, 0.1);
+  text-align: center;
+}
+
+.efnbmms-success-icon {
+  color: #16a34a;
+  margin-bottom: 16px;
+}
+
+.efnbmms-success-card h1 {
+  margin: 0 0 14px;
+  font-size: 1.6rem;
+}
+
+.efnbmms-success-card p {
+  color: #6c584d;
+  line-height: 1.65;
+  margin-bottom: 26px;
+}
+
+.efnbmms-success-card .efnbmms-back-link {
+  justify-content: center;
+  width: 100%;
+  margin-top: 18px;
+}
+
+@media (max-width: 720px) {
+  .efnbmms-plan-grid,
+  .efnbmms-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .efnbmms-signup-page {
+    padding: 112px 16px 72px;
+  }
+
+  .efnbmms-signup-form {
+    padding: 22px;
+  }
+}

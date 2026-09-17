@@ -222,6 +222,9 @@ import erpAdminRoutes from "./erp/routes/admin.routes.js";
 import erpProductUserRoutes from "./erp/routes/productUser.routes.js";
 import erpNotificationRoutes from "./erp/routes/notification.routes.js";
 
+// ====== EFNBMMS PRODUCT SIGNUP (server-to-server proxy) ======
+import efnbmmsSignupRoutes from "./routes/efnbmmsSignup.Routes.js";
+
 const app = express();
 app.set("trust proxy", 1);
 
@@ -287,6 +290,9 @@ app.use("/api/erp/message", erpMessageRoutes);
 app.use("/api/erp/admin", erpAdminRoutes);
 app.use("/api/erp/product-user", erpProductUserRoutes);
 app.use("/api/erp/notifications", erpNotificationRoutes);
+
+// EFNBMMS product signup/subscription (proxies to EFNBMMS backend)
+app.use("/api/efnbmms", efnbmmsSignupRoutes);
 
 // -------------------- HEALTH --------------------
 app.get("/health", (req, res) => {

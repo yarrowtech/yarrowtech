@@ -29,6 +29,12 @@ export default function ProductDetailsPage() {
 
   const ProductIcon = product.icon;
   const hasProductLink = Boolean(product.productUrl);
+  const signupEntries = Object.entries(product.signupPaths || {});
+  const hasSignup = signupEntries.length > 0;
+  const SIGNUP_LABELS = {
+    admin: "Sign Up as Admin",
+    vendor: "Sign Up as Vendor",
+  };
 
   return (
     <main
@@ -53,21 +59,42 @@ export default function ProductDetailsPage() {
               </p>
               <p className="product-detail-writeup">{product.writeup}</p>
 
-              {hasProductLink ? (
-                <a
-                  className="product-explore-btn"
-                  href={product.productUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Explore This Product
-                  <ArrowUpRight size={19} aria-hidden="true" />
-                </a>
-              ) : (
-                <button className="product-explore-btn disabled" type="button" disabled>
-                  Product Link Coming Soon
-                </button>
-              )}
+              <div className="product-detail-actions">
+                {signupEntries.map(([key, path], index) => (
+                  <Link
+                    className={
+                      index === 0
+                        ? "product-explore-btn"
+                        : "product-explore-btn secondary"
+                    }
+                    to={path}
+                    key={key}
+                  >
+                    {SIGNUP_LABELS[key] || "Sign Up & Subscribe"}
+                    <ArrowUpRight size={19} aria-hidden="true" />
+                  </Link>
+                ))}
+
+                {hasProductLink ? (
+                  <a
+                    className={
+                      hasSignup
+                        ? "product-explore-btn secondary"
+                        : "product-explore-btn"
+                    }
+                    href={product.productUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Explore This Product
+                    <ArrowUpRight size={19} aria-hidden="true" />
+                  </a>
+                ) : !hasSignup ? (
+                  <button className="product-explore-btn disabled" type="button" disabled>
+                    Product Link Coming Soon
+                  </button>
+                ) : null}
+              </div>
             </div>
 
             <div className="product-detail-panel">

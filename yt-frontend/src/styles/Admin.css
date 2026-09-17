@@ -125,8 +125,10 @@
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .admin-content {
-  margin-left: 16rem;
-  width: calc(100% - 15.5rem);
+  /* Pinned to the sidebar's actual pixel width (Sidebar.css) rather than a
+     separate rem value, so the two can never drift apart and overlap. */
+  margin-left: 250px;
+  width: calc(100% - 250px);
   padding: 25px 30px;
   min-height: 100vh;
   background: var(--erp-bg);
@@ -138,7 +140,7 @@
   .projects-table th,
   .projects-table td        { padding: 10px 8px; font-size: 0.9rem; }
   .progress-bar             { width: 90px; }
-  .admin-content            { margin-left: 14rem; width: calc(100% - 14rem); padding: 20px; }
+  .admin-content            { margin-left: 210px; width: calc(100% - 210px); padding: 20px; }
 }
 
 @media (max-width: 768px) {
