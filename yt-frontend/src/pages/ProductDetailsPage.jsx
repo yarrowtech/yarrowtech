@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight, CheckCircle2, UsersRound } from "lucide-react";
 import { getProductBySlug } from "../data/productData";
+import Seo from "../components/Seo";
 import "./ProductDetailsPage.css";
 
 export default function ProductDetailsPage() {
@@ -15,6 +16,7 @@ export default function ProductDetailsPage() {
   if (!product) {
     return (
       <main className="product-detail-page">
+        <Seo title="Product not found" path={`/products/${productSlug}`} noindex />
         <section className="product-detail-empty">
           <h1>Product not found</h1>
           <p>The product you are looking for is not available.</p>
@@ -41,6 +43,11 @@ export default function ProductDetailsPage() {
       className="product-detail-page"
       style={{ "--product-accent": product.accent }}
     >
+      <Seo
+        title={product.shortName}
+        description={product.description}
+        path={`/products/${product.slug}`}
+      />
       <section className="product-detail-hero">
         <div className="product-detail-shell">
           <Link to="/products" className="product-back-link">

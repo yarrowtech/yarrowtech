@@ -5,6 +5,7 @@ import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import API from "../services/api";
 import PasswordField from "../components/PasswordField";
 import LegalDocumentStep from "../components/LegalDocumentStep";
+import Seo from "../components/Seo";
 import "./EfnbmmsSignupPage.css";
 
 const PRODUCT_SLUG = "food-and-beverage-management-system";
@@ -333,6 +334,10 @@ export default function EfnbmmsSignupPage() {
 
   return (
     <main className="efnbmms-signup-page">
+      {/* Transactional checkout flow, not a marketing/content page —
+          kept out of search results rather than competing for
+          "EFNBMMS" queries against the product page itself. */}
+      <Seo title="EFNBMMS Admin Signup" path="/efnbmms/signup" noindex />
       <div className="efnbmms-signup-shell">
         <Link
           to="/products/food-and-beverage-management-system"

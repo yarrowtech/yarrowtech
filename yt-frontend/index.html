@@ -2,16 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yarrowtech</title>
+    <meta name="theme-color" content="#863f15" />
+
+    <!-- No static page title here on purpose — react-helmet-async inserts
+         its own title element rather than reusing an existing static one,
+         so having both would leave two in the document. Every route sets
+         its real title, description, canonical, and OG tags via the Seo
+         component instead. -->
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-
-
-
-

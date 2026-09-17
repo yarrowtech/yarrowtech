@@ -5,6 +5,7 @@ import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import API from "../services/api";
 import PasswordField from "../components/PasswordField";
 import LegalDocumentStep from "../components/LegalDocumentStep";
+import Seo from "../components/Seo";
 import "./EfnbmmsSignupPage.css";
 
 const PRODUCT_SLUG = "food-and-beverage-management-system";
@@ -358,6 +359,7 @@ export default function EfnbmmsVendorSignupPage() {
 
   return (
     <main className="efnbmms-signup-page">
+      <Seo title="EFNBMMS Vendor Signup" path="/efnbmms/vendor/signup" noindex />
       <div className="efnbmms-signup-shell">
         <Link
           to="/products/food-and-beverage-management-system"

@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Authenticated / internal-only areas — no value to search engines
+Disallow: /admin
+Disallow: /manager
+Disallow: /techlead
+Disallow: /client
+Disallow: /product-user
+
+# Transactional signup/checkout flows — not content pages
+Disallow: /efnbmms/signup
+Disallow: /efnbmms/vendor/signup
+
+Sitemap: https://yarrowtech.in/sitemap.xml

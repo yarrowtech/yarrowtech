@@ -520,6 +520,7 @@ import {
 } from "react-router-dom";
 
 /* 🌐 PUBLIC WEBSITE */
+import Seo from "./components/Seo";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Service from "./pages/services";
@@ -608,6 +609,9 @@ function Home() {
 
   return (
     <>
+      {/* Legacy alternate homepage — kept reachable but not indexed
+          separately from the real homepage at "/". */}
+      <Seo title="Home (classic)" path="/home-classic" noindex />
       <Hero />
       <Service />
       <Products />
@@ -641,6 +645,7 @@ function ContactMenuWrapper() {
 function NotFound() {
   return (
     <div style={{ padding: "60px", textAlign: "center" }}>
+      <Seo title="Page Not Found" noindex />
       <h1>404 – Page Not Found</h1>
       <p>The page you are trying to access does not exist.</p>
     </div>
@@ -854,6 +859,11 @@ export default function App() {
   path="/request-demo"
   element={
     <>
+      <Seo
+        title="Request a Demo"
+        description="Tell us about your project and we'll schedule a demo to show how YarrowTech can build your custom software or ERP solution."
+        path="/request-demo"
+      />
       <Header headerClass="header-warm" />
       <div style={{ paddingTop: "100px" }}>
         <RequestDemoForm />
