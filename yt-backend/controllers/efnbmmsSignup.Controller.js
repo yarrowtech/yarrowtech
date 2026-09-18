@@ -16,6 +16,7 @@ import {
   recordEfnbmmsProductUserPayment,
   syncEfnbmmsProductUser,
 } from "../utils/efnbmmsProductUserSync.js";
+import { getEfnbmmsPolicyDocument } from "../utils/efnbmmsPolicyClient.js";
 
 /* -------------------------------------------------------
    GET PLANS  (GET /api/efnbmms/plans)
@@ -310,6 +311,48 @@ export const verifyVendorSubscriptionPayment = async (req, res) => {
     return res.status(error.status || 500).json({
       success: false,
       message: error.data?.message || "Could not verify EFNBMMS vendor payment",
+    });
+  }
+};
+
+/* =========================================================
+   LEGAL / POLICY CONTENT
+   Powers the signup consent step's Terms & Conditions and
+   Privacy Policy pages with real, published content from
+   EFNBMMS's own legal/policy system (server-to-server only —
+   the OAuth client secret never reaches the browser).
+========================================================= */
+
+/* -------------------------------------------------------
+   GET POLICY DOCUMENT  (GET /api/efnbmms/policy/:docType)
+   docType: "terms" | "privacy"
+------------------------------------------------------- */
+export const getPolicyDocument = async (req, res) => {
+  const docType = String(req.params.docType || "").toLowerCase();
+
+  if (!["terms", "privacy"].includes(docType)) {
+    return res.status(400).json({ success: false, message: "Invalid policy document type" });
+  }
+
+  try {
+    const document = await getEfnbmmsPolicyDocument(docType);
+
+    if (!document) {
+      return res.status(200).json({
+        title: docType === "privacy" ? "Privacy Policy" : "Terms & Conditions",
+        updatedAt: "Not yet published",
+        content: [
+          "This document has not been published yet. Please check back before subscribing.",
+        ],
+      });
+    }
+
+    return res.status(200).json(document);
+  } catch (error) {
+    console.error("EFNBMMS getPolicyDocument error:", error.message);
+    return res.status(error.status || 500).json({
+      success: false,
+      message: error.data?.error || error.message || "Could not load policy document",
     });
   }
 };

@@ -3,6 +3,7 @@ import {
   createSignupOrder,
   createVendorSubscriptionOrder,
   getPlans,
+  getPolicyDocument,
   getVendorPlans,
   vendorLogin,
   vendorSignup,
@@ -16,6 +17,10 @@ const router = express.Router();
 router.get("/plans", getPlans);
 router.post("/signup/order", createSignupOrder);
 router.post("/signup/verify", verifySignupPayment);
+
+// Legal/policy content for the signup consent step (Terms & Conditions,
+// Privacy Policy) — real content from EFNBMMS's policy API.
+router.get("/policy/:docType", getPolicyDocument);
 
 // Vendor — free self-signup, then login, then a paid plan
 // (order/verify expect the vendor's EFNBMMS token in Authorization: Bearer <token>)

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { getLegalDocument } from "../services/legalContentService";
 import "./LegalDocumentStep.css";
 
@@ -16,17 +17,27 @@ export default function LegalDocumentStep({
   onDisagree,
 }) {
   const [doc, setDoc] = useState(null);
+  const [loadError, setLoadError] = useState(false);
   const [scrolledToEnd, setScrolledToEnd] = useState(false);
   const scrollRef = useRef(null);
 
   useEffect(() => {
     let active = true;
     setDoc(null);
+    setLoadError(false);
     setScrolledToEnd(false);
 
-    getLegalDocument(productSlug, docType).then((data) => {
-      if (active) setDoc(data);
-    });
+    getLegalDocument(productSlug, docType)
+      .then((data) => {
+        if (active) setDoc(data);
+      })
+      .catch(() => {
+        if (!active) return;
+        setLoadError(true);
+        toast.error(
+          `Could not load the ${docType === "terms" ? "Terms & Conditions" : "Privacy Policy"}. Please try again.`
+        );
+      });
 
     return () => {
       active = false;
@@ -60,7 +71,9 @@ export default function LegalDocumentStep({
         {doc?.updatedAt && <p className="legal-step-updated">{doc.updatedAt}</p>}
 
         <div className="legal-step-scrollbox" ref={scrollRef} onScroll={handleScroll}>
-          {doc ? (
+          {loadError ? (
+            <p>Could not load this document. Please go back and try again.</p>
+          ) : doc ? (
             doc.content.map((paragraph, i) => <p key={i}>{paragraph}</p>)
           ) : (
             <p>Loading…</p>
@@ -68,7 +81,9 @@ export default function LegalDocumentStep({
         </div>
 
         <p className="legal-step-hint">
-          {scrolledToEnd
+          {loadError
+            ? "Go back and try again once you're reconnected."
+            : scrolledToEnd
             ? "You've reached the end. Choose an option below to continue."
             : "Scroll to the end of the document to enable the buttons below."}
         </p>
@@ -77,7 +92,7 @@ export default function LegalDocumentStep({
           <button
             type="button"
             className="legal-step-btn legal-step-btn--disagree"
-            disabled={!scrolledToEnd}
+            disabled={!scrolledToEnd && !loadError}
             onClick={onDisagree}
           >
             Disagree
@@ -85,7 +100,7 @@ export default function LegalDocumentStep({
           <button
             type="button"
             className="legal-step-btn legal-step-btn--agree"
-            disabled={!scrolledToEnd}
+            disabled={!scrolledToEnd || loadError}
             onClick={onAgree}
           >
             Agree &amp; Continue
