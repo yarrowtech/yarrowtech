@@ -4,9 +4,18 @@ import axios from "axios";
 |--------------------------------------------------------------------------
 | BASE CONFIG
 |--------------------------------------------------------------------------
+| Normalizes VITE_API_URL so a misconfigured env var (missing "/api", or
+| a trailing slash) doesn't silently 404 every request — this exact
+| mistake happened in production (VITE_API_URL set to the bare domain).
 */
+const normalizeApiBase = (url) => {
+  const trimmed = String(url || "").replace(/\/+$/, "");
+  if (!trimmed) return "http://localhost:5000/api";
+  return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+};
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000",
+  baseURL: normalizeApiBase(import.meta.env.VITE_API_URL),
   headers: {
     "Content-Type": "application/json",
   },

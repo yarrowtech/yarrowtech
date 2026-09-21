@@ -5,14 +5,22 @@ import axios from "axios";
 | ERP AXIOS INSTANCE
 |--------------------------------------------------------------------------
 | Rules:
-| 1. Base URL must NOT include /api
+| 1. Base URL MUST include /api — every call below omits the /api prefix
+|    on its own path (e.g. API.get("/efnbmms/plans")), so it has to come
+|    from here. VITE_API_URL is normalized below in case it's ever set to
+|    the bare domain (this happened in production and caused silent 404s).
 | 2. NEVER attach token to ERP login routes
 | 3. Use ONLY erp_token
 |--------------------------------------------------------------------------
 */
+const normalizeApiBase = (url) => {
+  const trimmed = String(url || "").replace(/\/+$/, "");
+  if (!trimmed) return "http://localhost:5000/api";
+  return trimmed.endsWith("/api") ? trimmed : `${trimmed}/api`;
+};
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000",
+  baseURL: normalizeApiBase(import.meta.env.VITE_API_URL),
   headers: {
     "Content-Type": "application/json",
   },
