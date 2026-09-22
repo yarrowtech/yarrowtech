@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "../../styles/CareerApplications.css";
 import { getCareerApplications, downloadCareerResume } from "../../services/adminService";
-import { Search, Eye, Download, X } from "lucide-react";
+import {
+  Search, Eye, Download, X, Briefcase, FileText, CalendarDays, Users,
+} from "lucide-react";
 import { toast } from "react-hot-toast";
+
+const isSameDay = (a, b) =>
+  a.getFullYear() === b.getFullYear() &&
+  a.getMonth() === b.getMonth() &&
+  a.getDate() === b.getDate();
 
 export default function CareerApplications() {
   const [applications, setApplications] = useState([]);
-  const [filtered, setFiltered] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedApplication, setSelectedApplication] = useState(null);
@@ -33,46 +39,74 @@ export default function CareerApplications() {
       const data = await getCareerApplications();
       const list = Array.isArray(data?.careers) ? data.careers : [];
       setApplications(list);
-      setFiltered(list);
     } catch (err) {
       console.error("Error loading career applications:", err);
       setApplications([]);
-      setFiltered([]);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    if (!searchTerm.trim()) {
-      setFiltered(applications);
-      return;
-    }
-
+  const filtered = useMemo(() => {
+    if (!searchTerm.trim()) return applications;
     const value = searchTerm.toLowerCase();
-    setFiltered(
-      applications.filter(
-        (item) =>
-          item.name?.toLowerCase().includes(value) ||
-          item.email?.toLowerCase().includes(value) ||
-          item.message?.toLowerCase().includes(value) ||
-          item.resumeName?.toLowerCase().includes(value)
-      )
+    return applications.filter(
+      (item) =>
+        item.name?.toLowerCase().includes(value) ||
+        item.email?.toLowerCase().includes(value) ||
+        item.message?.toLowerCase().includes(value) ||
+        item.resumeName?.toLowerCase().includes(value)
     );
   }, [searchTerm, applications]);
 
+  const stats = useMemo(() => {
+    const now = new Date();
+    const weekAgo = new Date(now);
+    weekAgo.setDate(weekAgo.getDate() - 7);
+
+    const today = applications.filter((a) => isSameDay(new Date(a.createdAt), now)).length;
+    const thisWeek = applications.filter((a) => new Date(a.createdAt) >= weekAgo).length;
+
+    return [
+      { label: "Total Applications", value: applications.length, icon: Briefcase,    color: "#60a5fa" },
+      { label: "Today",              value: today,               icon: CalendarDays, color: "#facc15" },
+      { label: "This Week",          value: thisWeek,             icon: Users,        color: "#34d399" },
+    ];
+  }, [applications]);
+
   return (
-    <div className="career-applications-container">
-      <div className="admin-header">
-        <h2>Career Applications</h2>
-        <p className="subtitle">
-          View all submitted career forms and resumes
-        </p>
+    <div className="cra-page">
+
+      {/* ── Header ── */}
+      <div className="cra-header">
+        <div className="cra-header-icon">
+          <Briefcase size={24} />
+        </div>
+        <div>
+          <h2>Career Applications</h2>
+          <p>View all submitted career forms and resumes</p>
+        </div>
       </div>
 
-      <div className="career-toolbar">
-        <div className="career-search-box">
-          <Search size={18} />
+      {/* ── Stat Cards ── */}
+      <div className="cra-stats">
+        {stats.map((s) => (
+          <div className="cra-stat-card" key={s.label}>
+            <div className="cra-stat-icon" style={{ color: s.color }}>
+              <s.icon size={20} />
+            </div>
+            <div className="cra-stat-body">
+              <span>{s.label}</span>
+              <strong>{s.value}</strong>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Toolbar ── */}
+      <div className="cra-toolbar">
+        <div className="cra-search">
+          <Search size={16} />
           <input
             type="text"
             placeholder="Search by name, email, message or resume..."
@@ -80,15 +114,19 @@ export default function CareerApplications() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-
-        <div className="career-count-chip">Total: {filtered.length}</div>
+        <div className="cra-count-chip">Total: {filtered.length}</div>
       </div>
 
+      {/* ── Table ── */}
       {loading ? (
-        <div className="career-loading">Loading applications...</div>
+        <div className="cra-skeleton-wrap">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="cra-skeleton-row" />
+          ))}
+        </div>
       ) : (
-        <div className="career-table-wrapper">
-          <table className="career-table">
+        <div className="cra-table-wrap">
+          <table className="cra-table">
             <thead>
               <tr>
                 <th>Name</th>
@@ -101,21 +139,25 @@ export default function CareerApplications() {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="career-no-records">
-                    No career applications found
+                  <td colSpan="5" className="cra-empty">
+                    <FileText size={36} />
+                    <p>No career applications found</p>
                   </td>
                 </tr>
               ) : (
                 filtered.map((item) => (
                   <tr key={item._id}>
                     <td>
-                      <span className="career-primary-text">{item.name}</span>
+                      <div className="cra-name-cell">
+                        <div className="cra-avatar">
+                          {item.name?.[0]?.toUpperCase() || "?"}
+                        </div>
+                        <span className="cra-name">{item.name}</span>
+                      </div>
                     </td>
+                    <td><span className="cra-email">{item.email}</span></td>
                     <td>
-                      <span className="career-secondary-text">{item.email}</span>
-                    </td>
-                    <td>
-                      <div className="career-date-cell">
+                      <div className="cra-date-cell">
                         <span>{new Date(item.createdAt).toLocaleDateString()}</span>
                         <small>
                           {new Date(item.createdAt).toLocaleTimeString([], {
@@ -128,22 +170,21 @@ export default function CareerApplications() {
                     <td>
                       <button
                         type="button"
-                        className="career-download-btn"
+                        className="cra-download-btn"
                         disabled={downloading === item._id}
                         onClick={() => handleDownload(item._id, item.resumeName)}
                       >
-                        <Download size={16} />
-                        {downloading === item._id ? "Downloading..." : (item.resumeName || "Resume")}
+                        <Download size={15} />
+                        <span>{downloading === item._id ? "Downloading..." : (item.resumeName || "Resume")}</span>
                       </button>
                     </td>
                     <td>
                       <button
                         type="button"
-                        className="career-view-btn"
+                        className="cra-view-btn"
                         onClick={() => setSelectedApplication(item)}
                       >
-                        <Eye size={16} />
-                        View Details
+                        <Eye size={15} /> View Details
                       </button>
                     </td>
                   </tr>
@@ -154,61 +195,71 @@ export default function CareerApplications() {
         </div>
       )}
 
+      {/* ── Detail Modal ── */}
       {selectedApplication && (
-        <div
-          className="career-modal-backdrop"
-          onClick={() => setSelectedApplication(null)}
-        >
-          <div
-            className="career-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="career-modal-header">
-              <div>
-                <p className="career-modal-label">Application Details</p>
+        <div className="cra-modal-backdrop" onClick={() => setSelectedApplication(null)}>
+          <div className="cra-modal" onClick={(e) => e.stopPropagation()}>
+
+            <div className="cra-modal-head">
+              <div className="cra-modal-avatar">
+                {selectedApplication.name?.[0]?.toUpperCase() || "?"}
+              </div>
+              <div className="cra-modal-title">
+                <p className="cra-modal-label">Application Details</p>
                 <h3>{selectedApplication.name}</h3>
               </div>
-
               <button
                 type="button"
-                className="career-modal-close"
+                className="cra-modal-close"
                 onClick={() => setSelectedApplication(null)}
               >
                 <X size={18} />
               </button>
             </div>
 
-            <div className="career-modal-grid">
-              <div className="career-meta-card">
-                <span>Email</span>
-                <strong>{selectedApplication.email}</strong>
+            <div className="cra-modal-grid">
+              <div className="cra-info-card">
+                <div className="cra-info-icon"><Users size={15} /></div>
+                <div>
+                  <span>Email</span>
+                  <strong>{selectedApplication.email}</strong>
+                </div>
               </div>
-              <div className="career-meta-card">
-                <span>Received</span>
-                <strong>
-                  {new Date(selectedApplication.createdAt).toLocaleString()}
-                </strong>
+              <div className="cra-info-card">
+                <div className="cra-info-icon"><CalendarDays size={15} /></div>
+                <div>
+                  <span>Received</span>
+                  <strong>{new Date(selectedApplication.createdAt).toLocaleString()}</strong>
+                </div>
               </div>
-              <div className="career-meta-card career-meta-card-full">
-                <span>Resume</span>
-                <button
-                  type="button"
-                  className="career-resume-link"
-                  disabled={downloading === selectedApplication._id}
-                  onClick={() => handleDownload(selectedApplication._id, selectedApplication.resumeName)}
-                >
-                  <Download size={16} />
-                  {downloading === selectedApplication._id ? "Downloading..." : (selectedApplication.resumeName || "Download Resume")}
-                </button>
+              <div className="cra-info-card cra-info-card--full">
+                <div className="cra-info-icon"><FileText size={15} /></div>
+                <div>
+                  <span>Resume</span>
+                  <button
+                    type="button"
+                    className="cra-resume-link"
+                    disabled={downloading === selectedApplication._id}
+                    onClick={() => handleDownload(selectedApplication._id, selectedApplication.resumeName)}
+                  >
+                    <Download size={15} />
+                    <span>
+                      {downloading === selectedApplication._id
+                        ? "Downloading..."
+                        : (selectedApplication.resumeName || "Download Resume")}
+                    </span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div className="career-message-panel">
-              <p className="career-message-label">Message</p>
-              <div className="career-message-body">
+            <div className="cra-message-panel">
+              <p className="cra-message-label"><FileText size={14} /> Message</p>
+              <div className="cra-message-body">
                 {selectedApplication.message || "No message provided."}
               </div>
             </div>
+
           </div>
         </div>
       )}

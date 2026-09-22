@@ -15,7 +15,7 @@
 .client-header h2 {
   font-size: 1.8rem;
   font-weight: 700;
-  color: #ffcb05;
+  color: #ff8a00;
 }
 
 .client-header .subtitle {
@@ -51,7 +51,7 @@
 .client-history-table th {
   padding: 14px 12px;
   font-weight: 600;
-  color: #ffcb05;
+  color: #ff8a00;
 }
 
 .client-history-table td {

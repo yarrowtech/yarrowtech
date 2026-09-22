@@ -1,8 +1,17 @@
 import ERPUser from "../models/User.js";
 import ProductUserPayment from "../models/ProductUserPayment.js";
 import ERPMessage from "../models/Message.js";
+import EfnbmmsSubscription from "../../models/EfnbmmsSubscription.js";
+import EfnbmmsVendorSubscription from "../../models/EfnbmmsVendorSubscription.js";
+import { EFNBMMS_ADMIN_PRODUCT_NAME } from "../../utils/efnbmmsProductUserSync.js";
 
 const PRODUCT_ROLE = "productuser";
+const PRODUCT_CATALOG = [
+  "EEC - Electronic Educare",
+  "RMS - Retail Management System",
+  EFNBMMS_ADMIN_PRODUCT_NAME,
+  "SportBit - Sports Management System",
+];
 const PAYMENT_STATUSES = ["paid", "pending", "failed"];
 
 const normalizeMoney = (value) => {
@@ -105,6 +114,7 @@ async function buildProductUserDetails(productUser) {
       address: productUser.address || "",
       mobileNumber: productUser.mobileNumber || "",
       productName: productUser.productName || "",
+      billingSource: productUser.billingSource || "manual",
       totalAmount,
       manager: productUser.manager
         ? {
@@ -128,12 +138,7 @@ async function buildProductUserDetails(productUser) {
 export const getProductCatalog = async (req, res) => {
   res.json({
     success: true,
-    products: [
-      "EEC - Electronic Educare",
-      "RMS - Retail Management System",
-      "F&B - Food & Beverage Management System",
-      "SportBit - Sports Management System",
-    ],
+    products: PRODUCT_CATALOG,
   });
 };
 
@@ -156,6 +161,12 @@ export const updateProductUserPaymentSummary = async (req, res) => {
     const productUser = await getAccessibleProductUser(req, req.params.id);
     if (!productUser) {
       return res.status(404).json({ message: "Product user not found" });
+    }
+
+    if (productUser.billingSource === "efnbmms") {
+      return res.status(403).json({
+        message: "This product user is billed automatically via EFNBMMS and can't be edited manually",
+      });
     }
 
     const totalAmount = normalizeMoney(req.body?.totalAmount);
@@ -201,6 +212,58 @@ export const getProductUsers = async (req, res) => {
   } catch (err) {
     console.error("GET PRODUCT USERS ERROR:", err);
     res.status(500).json({ message: "Failed to fetch product users" });
+  }
+};
+
+/* Admin-only: the product catalog plus every plan subscription, newest first.
+   Only F&B (EFNBMMS) has subscriptions today — its admin signups and vendor
+   plans both belong to that one product, told apart by `subscriberType`.
+   Each row links to its ERP product user by email when one exists. */
+export const getProductSubscriptions = async (req, res) => {
+  try {
+    const [adminSubs, vendorSubs] = await Promise.all([
+      EfnbmmsSubscription.find().lean(),
+      EfnbmmsVendorSubscription.find().lean(),
+    ]);
+
+    const emails = [
+      ...new Set([...adminSubs, ...vendorSubs].map((sub) => sub.email).filter(Boolean)),
+    ];
+    const productUsers = emails.length
+      ? await ERPUser.find({ role: PRODUCT_ROLE, email: { $in: emails } })
+          .select("_id email")
+          .lean()
+      : [];
+    const productUserIdByEmail = new Map(
+      productUsers.map((user) => [user.email, String(user._id)])
+    );
+
+    const toRow = (sub, subscriberType, customerName, billingCycle) => ({
+      _id: sub._id,
+      customerName: customerName || "",
+      email: sub.email,
+      mobile: sub.mobile || "",
+      productName: EFNBMMS_ADMIN_PRODUCT_NAME,
+      subscriberType,
+      planCode: sub.planCode,
+      billingCycle: billingCycle || "",
+      amount: Number(sub.amount) || 0,
+      status: sub.status,
+      failureReason: sub.failureReason || "",
+      razorpayPaymentId: sub.razorpayPaymentId || "",
+      createdAt: sub.createdAt,
+      productUserId: productUserIdByEmail.get(sub.email) || null,
+    });
+
+    const subscriptions = [
+      ...adminSubs.map((sub) => toRow(sub, "Admin", sub.businessName, sub.billingCycle)),
+      ...vendorSubs.map((sub) => toRow(sub, "Vendor", sub.name)),
+    ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    res.json({ success: true, products: PRODUCT_CATALOG, subscriptions });
+  } catch (err) {
+    console.error("GET PRODUCT SUBSCRIPTIONS ERROR:", err);
+    res.status(500).json({ message: "Failed to fetch product subscriptions" });
   }
 };
 
@@ -359,6 +422,12 @@ export const addProductUserPayment = async (req, res) => {
     const productUser = await getAccessibleProductUser(req, req.params.id);
     if (!productUser) {
       return res.status(404).json({ message: "Product user not found" });
+    }
+
+    if (productUser.billingSource === "efnbmms") {
+      return res.status(403).json({
+        message: "This product user is billed automatically via EFNBMMS and can't be edited manually",
+      });
     }
 
     const amount = normalizeMoney(req.body?.amount);

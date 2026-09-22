@@ -239,6 +239,12 @@
   color: var(--erp-text);
 }
 
+/* ThemeToggle defaults to width:100% for its usual home in a sidebar;
+   pin it to its own content width here so it doesn't crush the label
+   next to it in this row. */
+.as-theme-toggle { flex-shrink: 0; width: auto; }
+.as-theme-toggle .theme-toggle-btn { width: auto; }
+
 /* ── Buttons ── */
 .as-btn {
   display: inline-flex;

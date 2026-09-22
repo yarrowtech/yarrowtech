@@ -26,6 +26,43 @@ export const getAll = async (req, res) => {
 };
 
 /* ===============================
+   UPDATE PROJECT (Admin)
+=============================== */
+export const updateProjectAdmin = async (req, res) => {
+  try {
+    const allowed = [
+      "name",
+      "managerEmail",
+      "techLeadEmail",
+      "expectedDelivery",
+      "status",
+      "progress",
+      "projectDetails",
+    ];
+
+    const updateData = {};
+    allowed.forEach((key) => {
+      if (req.body[key] !== undefined) {
+        updateData[key] = req.body[key];
+      }
+    });
+
+    const updated = await ERPProject.findByIdAndUpdate(req.params.id, updateData, {
+      new: true,
+    }).populate("client");
+
+    if (!updated) {
+      return res.status(404).json({ success: false, message: "Project not found" });
+    }
+
+    res.json({ success: true, project: updated });
+  } catch (err) {
+    console.error("Admin update project error:", err);
+    res.status(500).json({ success: false, message: "Failed to update project" });
+  }
+};
+
+/* ===============================
    GET PROJECT BY ID
 =============================== */
 export const getById = async (req, res) => {

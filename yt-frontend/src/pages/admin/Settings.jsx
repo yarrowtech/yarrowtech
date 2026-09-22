@@ -237,7 +237,9 @@ export default function AdminSettings() {
               <span>Theme</span>
               <strong>Switch between light and dark mode</strong>
             </div>
-            <ThemeToggle />
+            <div className="as-theme-toggle">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
 

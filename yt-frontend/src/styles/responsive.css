@@ -78,7 +78,9 @@ table {
 .contacts-table,
 .rda-table,
 .pum-table {
-  width: max-content;
+  /* Fill the card (the wrapper scrolls sideways below min-width). `max-content`
+     here used to shrink tables to their text and leave a blank strip on the right. */
+  width: 100%;
   min-width: 760px;
 }
 

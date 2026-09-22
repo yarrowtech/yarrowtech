@@ -75,6 +75,17 @@ const userSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+
+    // Set only for product users created from an EFNBMMS signup/vendor
+    // flow — their total amount and payment history are written
+    // automatically from verified Razorpay payments (see
+    // utils/efnbmmsProductUserSync.js), so the admin/manager UI locks
+    // manual payment editing for these records to avoid double entry.
+    billingSource: {
+      type: String,
+      enum: ["manual", "efnbmms"],
+      default: "manual",
+    },
   },
   { timestamps: true }
 );

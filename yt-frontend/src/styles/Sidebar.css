@@ -17,8 +17,8 @@
 
   padding: 24px 18px;
 
-  background: linear-gradient(180deg, #020617, #021c3a);
-  color: #e2e8f0;
+  background: linear-gradient(180deg, #180c06, #2b1710);
+  color: #f0e2d6;
 
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: 4px 0 25px rgba(0, 0, 0, 0.35);
@@ -32,7 +32,7 @@
 .sidebar-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #facc15;
+  color: #ff8a00;
   margin-bottom: 30px;
   letter-spacing: 0.5px;
 }
@@ -63,7 +63,7 @@
   padding: 12px 14px;
   margin-bottom: 6px;
 
-  color: #cbd5f5;
+  color: #e8d5c4;
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 500;
@@ -82,10 +82,10 @@
 
 /* Active */
 .sidebar-link.active {
-  background: linear-gradient(135deg, #facc15, #fde68a);
-  color: #020617;
+  background: linear-gradient(135deg, #ff8a00, #ffb84d);
+  color: #2b1710;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(250, 204, 21, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 138, 0, 0.35);
 }
 
 /* ------------------------------

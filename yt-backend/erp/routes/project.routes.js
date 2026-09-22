@@ -25,8 +25,10 @@ import {
   getAll,
   getById,
   getManagerProjects,
+  updateProjectAdmin,
 } from "../controllers/project.controller.js";
 import { verifyErpToken } from "../middleware/erpAuth.js";
+import verifyRoles from "../middleware/verifyRoles.js";
 
 const router = express.Router();
 
@@ -55,6 +57,16 @@ router.get(
   "/:id",
   verifyErpToken,
   getById
+);
+
+/* ===============================
+   UPDATE PROJECT (Admin only)
+=============================== */
+router.put(
+  "/:id",
+  verifyErpToken,
+  verifyRoles("admin"),
+  updateProjectAdmin
 );
 
 export default router;

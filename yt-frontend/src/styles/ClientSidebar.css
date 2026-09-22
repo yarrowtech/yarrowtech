@@ -3,7 +3,7 @@
 ========================================================== */
 .client-sidebar {
   width: 16rem;
-  background: #071a2d;
+  background: #2b1710;
   color: #fff;
   height: 100vh;
   padding: 20px 15px;
@@ -21,7 +21,7 @@
 .client-sidebar-logo {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #ffcb05;
+  color: #ff8a00;
   margin-bottom: 30px;
 }
 
@@ -50,8 +50,8 @@
 }
 
 .client-sidebar-link.active {
-  background: #ffcb05;
-  color: #000;
+  background: #ff8a00;
+  color: #2b1710;
   font-weight: 600;
 }
 
@@ -106,7 +106,7 @@
   top: 15px;
   left: 15px;
   z-index: 1000;
-  background: #071a2d;
+  background: #2b1710;
   border: none;
   color: #fff;
   padding: 8px;

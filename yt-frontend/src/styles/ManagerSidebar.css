@@ -1,6 +1,6 @@
 .manager-sidebar {
   width: 240px;
-  background: #020d1a;
+  background: #1e1006;
   color: #fff;
   padding: 25px 20px;
   min-height: 100vh;
@@ -13,7 +13,7 @@
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 25px;
-  color: #ffcb05;
+  color: #ff8a00;
   text-align: center;
 }
 
@@ -38,7 +38,7 @@
 .nav-item:hover,
 .nav-item.active {
   background: rgba(255, 255, 255, 0.08);
-  color: #ffcb05;
+  color: #ff8a00;
 }
 
 .manager-sidebar-bottom {
@@ -74,5 +74,5 @@
 .manager-name {
   margin-top: 6px;
   font-size: 0.9rem;
-  color: #9bb3c9;
+  color: #c9ac96;
 }

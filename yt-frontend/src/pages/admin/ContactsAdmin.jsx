@@ -1,97 +1,17 @@
-// import React from "react";
-// import "../../styles/ContactAdmin.css";
-
-// export default function ContactAdmin() {
-//   const contacts = [
-//     {
-//       id: 1,
-//       name: "Rohit Verma",
-//       email: "rohit@gmail.com",
-//       subject: "General Inquiry",
-//       message: "I want to know more about your ERP system.",
-//       date: "2025-11-10",
-//       status: "new",
-//     },
-//     {
-//       id: 2,
-//       name: "Anshika Sharma",
-//       email: "anshika@domain.com",
-//       subject: "Support Needed",
-//       message: "I need help with integrating API.",
-//       date: "2025-11-09",
-//       status: "viewed",
-//     },
-//   ];
-
-//   return (
-//     <div className="admin-contact-container">
-//       {/* Header */}
-//       <div className="admin-header">
-//         <h2>Contact Form Submissions</h2>
-//         <p className="subtitle">Total Contacts: {contacts.length}</p>
-//       </div>
-
-//       {/* Table */}
-//       <div className="contact-table-wrapper">
-//         <table className="contact-table">
-//           <thead>
-//             <tr>
-//               <th>ID</th>
-//               <th>Name</th>
-//               <th>Email</th>
-//               <th>Subject</th>
-//               <th>Message</th>
-//               <th>Date</th>
-//               <th>Status</th>
-//               <th>Action</th>
-//             </tr>
-//           </thead>
-
-//           <tbody>
-//             {contacts.map((c) => (
-//               <tr key={c.id}>
-//                 <td>{c.id}</td>
-//                 <td>{c.name}</td>
-//                 <td>{c.email}</td>
-//                 <td>{c.subject}</td>
-//                 <td className="truncate">{c.message}</td>
-//                 <td>{c.date}</td>
-
-//                 <td>
-//                   <span
-//                     className={`status ${
-//                       c.status === "new" ? "status-new" : "status-viewed"
-//                     }`}
-//                   >
-//                     {c.status}
-//                   </span>
-//                 </td>
-
-//                 <td className="actions">
-//                   <button className="view-btn">View</button>
-//                   <button className="delete-btn">Delete</button>
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-
-
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "../../styles/ContactsAdmin.css";
 import { getContacts } from "../../services/adminService";
-import { Search, MailOpen, X } from "lucide-react";
+import {
+  Search, Eye, X, Mail, MessageSquare, CalendarDays, Users, Reply,
+} from "lucide-react";
+
+const isSameDay = (a, b) =>
+  a.getFullYear() === b.getFullYear() &&
+  a.getMonth() === b.getMonth() &&
+  a.getDate() === b.getDate();
 
 export default function ContactsAdmin() {
   const [contacts, setContacts] = useState([]);
-  const [filtered, setFiltered] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedContact, setSelectedContact] = useState(null);
@@ -103,57 +23,79 @@ export default function ContactsAdmin() {
   const loadContacts = async () => {
     try {
       const data = await getContacts();
-      console.log("CONTACT RESPONSE:", data);
-
       const list = Array.isArray(data)
         ? data
         : Array.isArray(data.contacts)
         ? data.contacts
         : [];
-
       setContacts(list);
-      setFiltered(list);
     } catch (err) {
       console.error("Error loading contacts:", err);
       setContacts([]);
-      setFiltered([]);
     } finally {
       setLoading(false);
     }
   };
 
-  // SEARCH FILTER
-  useEffect(() => {
-    if (!searchTerm.trim()) {
-      setFiltered(contacts);
-      return;
-    }
-
+  const filtered = useMemo(() => {
+    if (!searchTerm.trim()) return contacts;
     const s = searchTerm.toLowerCase();
-
-    const result = contacts.filter(
+    return contacts.filter(
       (c) =>
         c.name?.toLowerCase().includes(s) ||
         c.email?.toLowerCase().includes(s) ||
         c.message?.toLowerCase().includes(s)
     );
-
-    setFiltered(result);
   }, [searchTerm, contacts]);
 
+  const stats = useMemo(() => {
+    const now = new Date();
+    const weekAgo = new Date(now);
+    weekAgo.setDate(weekAgo.getDate() - 7);
+
+    const today = contacts.filter((c) => isSameDay(new Date(c.createdAt), now)).length;
+    const thisWeek = contacts.filter((c) => new Date(c.createdAt) >= weekAgo).length;
+
+    return [
+      { label: "Total Messages", value: contacts.length, icon: MessageSquare, color: "#60a5fa" },
+      { label: "Today",          value: today,           icon: CalendarDays, color: "#facc15" },
+      { label: "This Week",      value: thisWeek,        icon: Users,        color: "#34d399" },
+    ];
+  }, [contacts]);
+
   return (
-    <div className="admin-contacts-container">
-      <div className="admin-header">
-        <h2>Contact Messages</h2>
-        <p className="subtitle">
-          View all messages submitted through the website
-        </p>
+    <div className="ca-page">
+
+      {/* ── Header ── */}
+      <div className="ca-header">
+        <div className="ca-header-icon">
+          <Mail size={24} />
+        </div>
+        <div>
+          <h2>Contact Messages</h2>
+          <p>View all messages submitted through the website</p>
+        </div>
       </div>
 
-      {/* SEARCH BAR */}
-      <div className="contacts-search-bar">
-        <div className="search-box">
-          <Search size={18} />
+      {/* ── Stat Cards ── */}
+      <div className="ca-stats">
+        {stats.map((s) => (
+          <div className="ca-stat-card" key={s.label}>
+            <div className="ca-stat-icon" style={{ color: s.color }}>
+              <s.icon size={20} />
+            </div>
+            <div className="ca-stat-body">
+              <span>{s.label}</span>
+              <strong>{s.value}</strong>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Toolbar ── */}
+      <div className="ca-toolbar">
+        <div className="ca-search">
+          <Search size={16} />
           <input
             type="text"
             placeholder="Search by name, email or message..."
@@ -161,38 +103,33 @@ export default function ContactsAdmin() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-
-        <div className="count-chip">Total: {filtered.length}</div>
+        <div className="ca-count-chip">Total: {filtered.length}</div>
       </div>
 
-      {/* TABLE OR LOADER */}
+      {/* ── Table ── */}
       {loading ? (
-        <div className="skeleton-table-wrapper">
+        <div className="ca-skeleton-wrap">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="skeleton-row"></div>
+            <div key={i} className="ca-skeleton-row" />
           ))}
         </div>
       ) : (
-        <div className="contacts-table-wrapper">
-          <table className="contacts-table">
+        <div className="ca-table-wrap">
+          <table className="ca-table">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Received</th>
                 <th>Message</th>
+                <th>Received</th>
+                <th>Action</th>
               </tr>
             </thead>
-
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="no-records">
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
-                      className="no-data-img"
-                      alt="no data"
-                    />
+                  <td colSpan="5" className="ca-empty">
+                    <MessageSquare size={36} />
                     <p>No contact messages found</p>
                   </td>
                 </tr>
@@ -200,15 +137,21 @@ export default function ContactsAdmin() {
                 filtered.map((c) => (
                   <tr key={c._id}>
                     <td>
-                      <div className="contact-name-cell">
-                        <span className="contact-name">{c.name}</span>
+                      <div className="ca-name-cell">
+                        <div className="ca-avatar">
+                          {c.name?.[0]?.toUpperCase() || "?"}
+                        </div>
+                        <span className="ca-name">{c.name}</span>
                       </div>
                     </td>
+                    <td><span className="ca-email">{c.email}</span></td>
                     <td>
-                      <span className="contact-email">{c.email}</span>
+                      <span className="ca-message-preview" title={c.message}>
+                        {c.message}
+                      </span>
                     </td>
                     <td>
-                      <div className="contact-date-cell">
+                      <div className="ca-date-cell">
                         <span>{new Date(c.createdAt).toLocaleDateString()}</span>
                         <small>
                           {new Date(c.createdAt).toLocaleTimeString([], {
@@ -221,11 +164,10 @@ export default function ContactsAdmin() {
                     <td>
                       <button
                         type="button"
-                        className="view-message-btn"
+                        className="ca-view-btn"
                         onClick={() => setSelectedContact(c)}
                       >
-                        <MailOpen size={16} />
-                        View Message
+                        <Eye size={15} /> View
                       </button>
                     </td>
                   </tr>
@@ -236,50 +178,58 @@ export default function ContactsAdmin() {
         </div>
       )}
 
+      {/* ── Detail Modal ── */}
       {selectedContact && (
-        <div
-          className="contact-modal-backdrop"
-          onClick={() => setSelectedContact(null)}
-        >
-          <div
-            className="contact-modal"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="contact-modal-header">
-              <div>
-                <p className="contact-modal-label">Message Details</p>
+        <div className="ca-modal-backdrop" onClick={() => setSelectedContact(null)}>
+          <div className="ca-modal" onClick={(e) => e.stopPropagation()}>
+
+            <div className="ca-modal-head">
+              <div className="ca-modal-avatar">
+                {selectedContact.name?.[0]?.toUpperCase() || "?"}
+              </div>
+              <div className="ca-modal-title">
+                <p className="ca-modal-label">Message Details</p>
                 <h3>{selectedContact.name}</h3>
               </div>
-
               <button
                 type="button"
-                className="contact-modal-close"
+                className="ca-modal-close"
                 onClick={() => setSelectedContact(null)}
               >
                 <X size={18} />
               </button>
             </div>
 
-            <div className="contact-modal-meta">
-              <div className="contact-meta-card">
-                <span>Email</span>
-                <strong>{selectedContact.email}</strong>
+            <div className="ca-modal-grid">
+              <div className="ca-info-card">
+                <div className="ca-info-icon"><Mail size={15} /></div>
+                <div>
+                  <span>Email</span>
+                  <strong>{selectedContact.email}</strong>
+                </div>
               </div>
-
-              <div className="contact-meta-card">
-                <span>Received</span>
-                <strong>
-                  {new Date(selectedContact.createdAt).toLocaleString()}
-                </strong>
+              <div className="ca-info-card">
+                <div className="ca-info-icon"><CalendarDays size={15} /></div>
+                <div>
+                  <span>Received</span>
+                  <strong>{new Date(selectedContact.createdAt).toLocaleString()}</strong>
+                </div>
               </div>
             </div>
 
-            <div className="contact-message-panel">
-              <p className="contact-message-label">Message</p>
-              <div className="contact-message-body">
+            <div className="ca-message-panel">
+              <p className="ca-message-label"><MessageSquare size={14} /> Message</p>
+              <div className="ca-message-body">
                 {selectedContact.message}
               </div>
             </div>
+
+            <div className="ca-modal-actions">
+              <a className="ca-reply-btn" href={`mailto:${selectedContact.email}`}>
+                <Reply size={15} /> Reply by Email
+              </a>
+            </div>
+
           </div>
         </div>
       )}

@@ -1,13 +1,13 @@
 import React from "react";
 import ProductUserManagement from "../shared/ProductUserManagement";
-import { getProductUsers } from "../../services/adminService";
+import { getProductSubscriptions } from "../../services/adminService";
 
 export default function AdminProductUsers() {
   return (
     <ProductUserManagement
-      title="Product User Management"
-      subtitle="View all product users and open their profile."
-      loadItems={getProductUsers}
+      title="Product Subscriptions"
+      subtitle="Select a product to see all of its subscription details."
+      loadSubscriptions={getProductSubscriptions}
       basePath="/admin/product-users"
       currentRole="admin"
       allowChat={false}

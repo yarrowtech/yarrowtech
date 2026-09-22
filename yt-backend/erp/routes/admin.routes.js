@@ -63,6 +63,7 @@ import {
   getProductUserAnalytics,
   getManagersForAssignment,
   getProductCatalog,
+  getProductSubscriptions,
   getProductUserDetails,
   getProductUsers,
   updateProductUserPaymentSummary,
@@ -118,6 +119,7 @@ router.get("/product-users", getProductUsers);
 router.get("/product-users/analytics", getProductUserAnalytics);
 router.get("/product-users/catalog", getProductCatalog);
 router.get("/product-users/managers", getManagersForAssignment);
+router.get("/product-users/subscriptions", getProductSubscriptions);
 router.get("/product-users/:id", getProductUserDetails);
 router.put("/product-users/:id/payment-summary", updateProductUserPaymentSummary);
 router.post("/product-users/:id/payments", addProductUserPayment);

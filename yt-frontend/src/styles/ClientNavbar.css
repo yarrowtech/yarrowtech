@@ -2,7 +2,7 @@
    CLIENT NAVBAR
 ------------------------------ */
 .client-navbar {
-  background: #0e1a28;
+  background: #1f120a;
   color: #fff;
   height: 70px;
   padding: 0 25px;
@@ -18,7 +18,7 @@
 .client-brand {
   font-size: 1.4rem;
   font-weight: 700;
-  color: #ffbe3d; /* Gold accent */
+  color: #ff8a00; /* Warm accent */
 }
 
 /* RIGHT - NAVIGATION */
@@ -43,26 +43,26 @@
 /* SPECIAL PROFILE BUTTON */
 .profile-btn {
   padding: 8px 14px;
-  border: 1px solid #ffbe3d;
+  border: 1px solid #ff8a00;
   border-radius: 6px;
-  color: #ffbe3d !important;
+  color: #ff8a00 !important;
 }
 
 .profile-btn:hover {
-  background: #ffbe3d;
-  color: #000 !important;
+  background: #ff8a00;
+  color: #2b1710 !important;
 }
 
 /* ACTIVE NAVBAR LINK */
 .client-nav-right a.active {
-  color: #000 !important;
-  background: #ffbe3d;
+  color: #2b1710 !important;
+  background: #ff8a00;
   padding: 8px 14px;
   border-radius: 6px;
   font-weight: 600;
 }
 .client-nav-right a.active:hover {
-  background: #e6ac33;
+  background: #e67a00;
   color: #000 !important;
 }
 

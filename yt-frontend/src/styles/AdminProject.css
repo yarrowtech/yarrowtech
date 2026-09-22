@@ -1,235 +1,311 @@
-/* =======================================================================
-   Y A R R O W T E C H — ADMIN PROJECTS UI
-========================================================================= */
+/* ── Admin Projects Overview ─────────────────────────────────── */
 
-/* ======================================================
-   PAGE WRAPPER
-====================================================== */
-.admin-projects-container {
-  padding: 32px 34px;
+.ap-page {
+  padding: 28px 30px;
   color: var(--erp-text);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
 }
 
-/* ======================================================
-   HEADER
-====================================================== */
-.admin-header h2 {
-  font-size: 2rem;
+/* ── Header ── */
+.ap-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ap-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--erp-accent-muted);
+  color: var(--erp-accent);
+  flex-shrink: 0;
+}
+
+.ap-header h2 {
+  margin: 0 0 4px;
+  font-size: 1.55rem;
   font-weight: 700;
   color: var(--erp-accent);
-  margin-bottom: 8px;
 }
 
-.admin-header .subtitle {
+.ap-header p {
+  margin: 0;
   color: var(--erp-text-muted);
-  font-size: 1rem;
-  letter-spacing: 0.3px;
+  font-size: 0.9rem;
 }
 
-/* ======================================================
-   FILTER BAR
-====================================================== */
-.project-filter-bar {
+/* ── Stat Cards ── */
+.ap-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ap-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--erp-card-gradient);
+  border-radius: 16px;
+  border: 1px solid var(--erp-border);
+  border-left: 3px solid var(--erp-accent);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ap-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--erp-shadow-lg);
+}
+
+.ap-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: var(--erp-bg-hover);
+  flex-shrink: 0;
+}
+
+.ap-stat-body { display: flex; flex-direction: column; gap: 3px; }
+
+.ap-stat-body span {
+  font-size: 0.78rem;
+  color: var(--erp-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ap-stat-body strong {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--erp-text);
+}
+
+/* ── Toolbar ── */
+.ap-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--erp-bg);
-  padding: 14px 18px;
-  border-radius: 14px;
-  border: 1px solid var(--erp-border);
-  box-shadow: var(--erp-shadow);
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
-.search-box {
+.ap-search {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--erp-bg-input);
-  padding: 10px 14px;
-  border-radius: 10px;
+  flex: 1;
+  min-width: 260px;
+  background: var(--erp-card-gradient);
   border: 1px solid var(--erp-border-med);
+  border-radius: 14px;
+  padding: 12px 16px;
+  color: var(--erp-text-muted);
 }
 
-.search-box input {
-  background: transparent;
+.ap-search input {
+  flex: 1;
   border: none;
-  outline: none;
+  background: transparent;
   color: var(--erp-text);
-  font-size: 0.95rem;
+  font-size: 0.93rem;
+  outline: none;
 }
 
-.filter-select {
+.ap-search input::placeholder { color: var(--erp-text-faint); }
+
+.ap-select {
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--erp-border-med);
   background: var(--erp-bg-input);
   color: var(--erp-text);
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid var(--erp-border-med);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  min-width: 150px;
 }
 
-/* ======================================================
-   TABLE CONTAINER
-====================================================== */
-.projects-table-wrapper {
-  background: var(--erp-bg);
+/* ── Loading ── */
+.ap-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 60px 20px;
+  color: var(--erp-text-muted);
+}
+
+.ap-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--erp-border-med);
+  border-top-color: var(--erp-accent);
+  border-radius: 50%;
+  animation: ap-spin 0.7s linear infinite;
+}
+
+@keyframes ap-spin { to { transform: rotate(360deg); } }
+
+/* ── Table ── */
+.ap-table-wrap {
+  background: var(--erp-card-gradient);
   border-radius: 18px;
-  padding: 22px 28px;
-  box-shadow: var(--erp-shadow);
-  overflow-x: auto;
   border: 1px solid var(--erp-border);
+  overflow-x: auto;
+  box-shadow: var(--erp-shadow);
 }
 
-.projects-table {
+.ap-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 900px;
-  font-size: 0.95rem;
+  min-width: 980px;
+  font-size: 0.9rem;
   color: var(--erp-text);
 }
 
-/* TABLE HEADER */
-.projects-table thead {
-  background: var(--erp-bg-header);
-}
+.ap-table thead { background: var(--erp-bg-header); }
 
-.projects-table th {
-  padding: 15px;
+.ap-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 0.78rem;
   font-weight: 700;
   color: var(--erp-accent);
   text-transform: uppercase;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
-  border-bottom: 2px solid var(--erp-border-med);
-}
-
-/* BODY CELLS */
-.projects-table td {
-  padding: 14px;
-  border-bottom: 1px solid var(--erp-border);
+  letter-spacing: 0.06em;
   white-space: nowrap;
 }
 
-.projects-table tr:hover td {
-  background: var(--erp-bg-hover);
+.ap-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--erp-border);
+  vertical-align: middle;
 }
 
-/* ======================================================
-   INLINE INPUTS
-====================================================== */
-.projects-table input,
-.projects-table select {
-  width: 130px;
+.ap-table tbody tr:last-child td { border-bottom: none; }
+.ap-table tbody tr:hover td { background: var(--erp-bg-hover); }
+
+.ap-project-id { color: var(--erp-text-muted); font-size: 0.85rem; }
+.ap-project-name { font-weight: 600; color: var(--erp-text); }
+.ap-client-name { color: var(--erp-text-muted); font-size: 0.87rem; }
+
+.ap-table input[type="text"],
+.ap-table input[type="number"],
+.ap-table input[type="date"],
+.ap-table select {
+  width: 100%;
+  padding: 7px 10px;
   background: var(--erp-bg-input);
   color: var(--erp-text);
-  padding: 8px 10px;
   border: 1px solid var(--erp-border-med);
   border-radius: 8px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   outline: none;
 }
 
-.projects-table input[type="date"] {
-  width: 160px;
-}
+.ap-table input:focus,
+.ap-table select:focus { border-color: var(--erp-accent); }
 
-/* ======================================================
-   STATUS BADGES
-====================================================== */
-.status-badge {
-  padding: 6px 14px;
-  border-radius: 10px;
+/* ── Status badges ── */
+.ap-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.76rem;
   font-weight: 700;
-  display: inline-block;
-  font-size: 0.78rem;
   text-transform: capitalize;
+  white-space: nowrap;
 }
 
-.status-completed { background: rgba(46,204,113,0.22); color: #2ecc71; }
-.status-ongoing   { background: rgba(255,193,7,0.22);  color: #ffcb05; }
-.status-pending   { background: rgba(255,82,82,0.22);  color: #ff5252; }
+.ap-badge--pending   { background: rgba(250,204,21,0.15);  color: #facc15; }
+.ap-badge--ongoing   { background: rgba(56,189,248,0.15);  color: #38bdf8; }
+.ap-badge--completed { background: rgba(52,211,153,0.15);  color: #34d399; }
 
-/* ======================================================
-   ACTION BUTTONS
-====================================================== */
-.save-btn,
-.cancel-btn,
-.edit-btn {
+/* ── Progress bar ── */
+.ap-progress-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 120px;
+}
+
+.ap-progress-track {
+  flex: 1;
+  height: 7px;
+  border-radius: 999px;
   background: var(--erp-bg-hover);
-  border: 1px solid var(--erp-border-med);
-  padding: 8px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.2s ease;
+  overflow: hidden;
 }
 
-.save-btn svg   { color: #2ecc71; }
-.cancel-btn svg { color: #ff5252; }
-.edit-btn svg   { color: var(--erp-accent); }
-
-.save-btn:hover,
-.cancel-btn:hover,
-.edit-btn:hover {
-  background: var(--erp-border-med);
-  transform: translateY(-2px);
+.ap-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--erp-accent);
+  transition: width 0.3s ease;
 }
 
-/* ======================================================
-   SKELETON LOADING UI
-====================================================== */
-.skeleton-table-wrapper {
-  background: var(--erp-bg);
-  padding: 22px;
-  border-radius: 18px;
-  border: 1px solid var(--erp-border);
-}
-
-.skeleton-row {
-  height: 50px;
-  border-radius: 10px;
-  background: linear-gradient(
-    90deg,
-    var(--erp-bg-hover),
-    var(--erp-border-med),
-    var(--erp-bg-hover)
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.3s infinite;
-  margin-bottom: 14px;
-}
-
-@keyframes shimmer {
-  0%   { background-position: 180% 0; }
-  100% { background-position: -180% 0; }
-}
-
-/* ======================================================
-   NO RECORDS
-====================================================== */
-.no-records {
-  text-align: center;
-  padding: 20px;
+.ap-progress-val {
+  font-size: 0.8rem;
+  font-weight: 700;
   color: var(--erp-text-muted);
-  font-size: 1rem;
+  min-width: 34px;
+  text-align: right;
 }
 
-/* ======================================================
-   RESPONSIVE DESIGN
-====================================================== */
-@media (max-width: 992px) {
-  .admin-projects-container { padding: 20px; }
+/* ── Actions ── */
+.ap-actions { display: flex; gap: 8px; flex-wrap: nowrap; }
+
+.ap-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--erp-border-med);
+  background: transparent;
+  color: var(--erp-text-muted);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.ap-icon-btn:hover { background: var(--erp-bg-hover); color: var(--erp-text); }
+
+.ap-icon-btn--save {
+  background: var(--erp-accent);
+  color: var(--erp-accent-text);
+  border-color: var(--erp-accent);
+}
+.ap-icon-btn--save:hover { filter: brightness(1.08); }
+.ap-icon-btn--save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.ap-icon-btn--cancel:hover { background: rgba(239,68,68,0.15); color: #ef4444; border-color: rgba(239,68,68,0.3); }
+
+/* ── Empty ── */
+.ap-empty { text-align: center; padding: 48px 20px; color: var(--erp-text-muted); }
+.ap-empty svg { margin: 0 auto 12px; display: block; opacity: 0.4; }
+.ap-empty p   { margin: 0; font-size: 0.95rem; }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .ap-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 768px) {
-  .projects-table { font-size: 0.85rem; }
-  .projects-table input,
-  .projects-table select { width: 110px; }
+  .ap-page    { padding: 18px 16px; gap: 16px; }
+  .ap-toolbar { flex-direction: column; align-items: stretch; }
 }
 
 @media (max-width: 480px) {
-  .projects-table th,
-  .projects-table td { font-size: 0.75rem; padding: 10px; }
-  .admin-header h2   { font-size: 1.5rem; }
+  .ap-stats { grid-template-columns: 1fr; }
 }

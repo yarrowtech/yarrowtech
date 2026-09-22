@@ -86,6 +86,7 @@ export const syncEfnbmmsProductUser = async ({
       password,
       role: "productuser",
       status: "active",
+      billingSource: "efnbmms",
       address: joinAddress(address),
       mobileNumber: String(mobileNumber || "").trim(),
       manager: managerInfo.managerId,

@@ -256,10 +256,22 @@
 .rda-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 820px;
+  table-layout: fixed;
+  min-width: 940px;
   font-size: 0.9rem;
   color: var(--erp-text);
 }
+
+/* Pinned column widths so the table always fills the card instead of
+   shrinking to its content and leaving blank space on the right. */
+.rda-table th:nth-child(1), .rda-table td:nth-child(1) { width: 19%; } /* Name */
+.rda-table th:nth-child(2), .rda-table td:nth-child(2) { width: 18%; } /* Email */
+.rda-table th:nth-child(3), .rda-table td:nth-child(3) { width: 13%; } /* Company */
+.rda-table th:nth-child(4), .rda-table td:nth-child(4) { width: 14%; } /* Service */
+.rda-table th:nth-child(5), .rda-table td:nth-child(5) { width: 14%; } /* Received */
+.rda-table th:nth-child(6), .rda-table td:nth-child(6) { width: 10%; } /* Status */
+.rda-table th:nth-child(7), .rda-table td:nth-child(7) { width: 12%; } /* Action */
+.rda-table td:nth-child(7) { padding-left: 12px; padding-right: 12px; overflow: visible; }
 
 .rda-table thead {
   background: var(--erp-bg-header);
@@ -280,6 +292,9 @@
   padding: 14px 16px;
   border-bottom: 1px solid var(--erp-border);
   vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .rda-table tbody tr:last-child td {
@@ -295,6 +310,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0; /* let the name span actually shrink + ellipsize */
 }
 
 .rda-avatar {
@@ -311,8 +327,23 @@
   flex-shrink: 0;
 }
 
-.rda-name  { font-weight: 600; color: var(--erp-text); }
-.rda-email { color: #60a5fa; font-size: 0.87rem; }
+.rda-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--erp-text);
+}
+
+.rda-email {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #ffa64d;
+  font-size: 0.87rem;
+}
 
 .rda-date-cell {
   display: flex;
@@ -348,7 +379,7 @@
   border: none;
   border-radius: 10px;
   padding: 8px 14px;
-  background: linear-gradient(135deg, #0f4c81, #1363aa);
+  background: linear-gradient(135deg, #b35900, #ff8a00);
   color: #fff;
   font-size: 0.83rem;
   font-weight: 600;
@@ -358,7 +389,7 @@
 
 .rda-view-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 20px rgba(19, 99, 170, 0.3);
+  box-shadow: 0 8px 20px rgba(255, 138, 0, 0.3);
 }
 
 /* ── Empty ── */
