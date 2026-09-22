@@ -24,30 +24,51 @@
 
 .project-chat-header {
   display: flex;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
   align-items: flex-start;
   padding: 18px 20px;
   border-bottom: 1px solid var(--erp-border);
 }
 
+.project-chat-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--erp-accent-muted);
+  color: var(--erp-accent);
+  flex-shrink: 0;
+}
+
+.project-chat-header-text { flex: 1; min-width: 0; }
+
 .project-chat-header h3 {
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   color: var(--erp-text);
 }
 
 .project-chat-header p {
   margin: 0;
   color: var(--erp-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .project-chat-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
   border: 1px solid var(--erp-border-med);
   background: transparent;
   color: var(--erp-text);
   border-radius: 10px;
-  padding: 10px 14px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .project-chat-close:hover {
@@ -67,6 +88,21 @@
   color: var(--erp-text-muted);
 }
 
+.project-chat-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: auto 0;
+  padding: 40px 20px;
+  color: var(--erp-text-muted);
+  text-align: center;
+}
+
+.project-chat-empty svg { opacity: 0.4; }
+.project-chat-empty p   { margin: 0; }
+
 .project-chat-bubble {
   max-width: 75%;
   padding: 12px 14px;
@@ -75,7 +111,7 @@
 
 .project-chat-bubble.mine {
   align-self: flex-end;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(135deg, #b35900, #ff8a00);
   color: #fff;
 }
 
@@ -119,7 +155,7 @@
 
 .project-chat-footer textarea:focus {
   outline: none;
-  border-color: #2563eb;
+  border-color: var(--erp-accent);
 }
 
 .project-chat-actions {
@@ -127,4 +163,47 @@
   justify-content: flex-end;
   gap: 10px;
   margin-top: 12px;
+}
+
+/* Own, always-applied button styles — these modals used to borrow
+   `.cancel-btn`/`.save-btn` from an unrelated page's stylesheet
+   (technicalProfile.css), which only rendered styled if that page had
+   loaded earlier in the same session. */
+.project-chat-cancel-btn {
+  padding: 11px 20px;
+  border: 1px solid var(--erp-border-med);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--erp-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.project-chat-cancel-btn:hover {
+  background: var(--erp-bg-hover);
+}
+
+.project-chat-send-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border: none;
+  border-radius: 10px;
+  background: var(--erp-accent);
+  color: var(--erp-accent-text);
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.2s, transform 0.15s;
+}
+
+.project-chat-send-btn:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.project-chat-send-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

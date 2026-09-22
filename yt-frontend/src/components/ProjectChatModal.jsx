@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
+import { MessageSquare, Send, X } from "lucide-react";
 
 import API from "../services/axiosInstance";
 import "../styles/ProjectChatModal.css";
@@ -72,15 +73,18 @@ export default function ProjectChatModal({
     <div className="project-chat-overlay" onClick={onClose}>
       <div className="project-chat-modal" onClick={(e) => e.stopPropagation()}>
         <div className="project-chat-header">
-          <div>
+          <div className="project-chat-header-icon">
+            <MessageSquare size={20} />
+          </div>
+          <div className="project-chat-header-text">
             <h3>Project Chat</h3>
             <p>
               {project.name} with {recipientLabel}
             </p>
           </div>
 
-          <button type="button" className="project-chat-close" onClick={onClose}>
-            Close
+          <button type="button" className="project-chat-close" onClick={onClose} title="Close">
+            <X size={18} />
           </button>
         </div>
 
@@ -88,9 +92,10 @@ export default function ProjectChatModal({
           {loading && <p className="project-chat-muted">Loading messages...</p>}
 
           {!loading && messages.length === 0 && (
-            <p className="project-chat-muted">
-              No messages yet. Start the conversation here.
-            </p>
+            <div className="project-chat-empty">
+              <MessageSquare size={30} />
+              <p>No messages yet. Start the conversation here.</p>
+            </div>
           )}
 
           {!loading &&
@@ -125,10 +130,11 @@ export default function ProjectChatModal({
           />
 
           <div className="project-chat-actions">
-            <button type="button" className="cancel-btn" onClick={onClose}>
+            <button type="button" className="project-chat-cancel-btn" onClick={onClose}>
               Close
             </button>
-            <button type="button" className="save-btn" onClick={handleSend} disabled={sending}>
+            <button type="button" className="project-chat-send-btn" onClick={handleSend} disabled={sending}>
+              <Send size={15} />
               {sending ? "Sending..." : "Send"}
             </button>
           </div>
