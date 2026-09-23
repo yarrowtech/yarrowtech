@@ -5,6 +5,12 @@ import sendEmail from "../erp/utils/sendEmail.js";
 import cloudinary from "../utils/cloudinary.js";
 import logger from "../utils/logger.js";
 
+// Applicant input goes into email HTML, so escape it.
+const escapeHtml = (value) =>
+  String(value ?? "").replace(/[&<>"']/g, (ch) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  })[ch]);
+
 export const submitCareer = async (req, res) => {
   try {
     logger.debug({ file: req.file?.originalname, body: req.body }, "Career submission");
@@ -15,8 +21,19 @@ export const submitCareer = async (req, res) => {
 
     const { name, email, message } = req.body;
 
+    if (!name?.trim() || !email?.trim()) {
+      return res.status(400).json({ message: "Name and email are required" });
+    }
+
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeMessage = escapeHtml(message);
+    const safeFileName = escapeHtml(req.file.originalname);
+
     const data = await Career.create({
-      ...req.body,
+      name,
+      email,
+      message: message || "",
       resumeUrl:      req.file.path,
       resumeName:     req.file.originalname,
       resumePublicId: req.file.filename,
@@ -37,26 +54,26 @@ export const submitCareer = async (req, res) => {
         "We've received your application — YarrowTech",
         `
         <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;background:#071a2d;color:#f1f5f9;border-radius:14px;padding:32px;">
-          <h2 style="color:#ffcb05;margin-top:0;">Thank you, ${name || "there"}!</h2>
+          <h2 style="color:#ffcb05;margin-top:0;">Thank you, ${safeName || "there"}!</h2>
           <p>We've received your career application and our team will review it shortly.</p>
           <p style="color:#94a3b8;">Here's a summary of what you submitted:</p>
           <table style="width:100%;border-collapse:collapse;margin:16px 0;">
             <tr>
               <td style="padding:8px 0;color:#94a3b8;width:110px;">Name</td>
-              <td style="padding:8px 0;font-weight:600;">${name || "—"}</td>
+              <td style="padding:8px 0;font-weight:600;">${safeName || "—"}</td>
             </tr>
             <tr>
               <td style="padding:8px 0;color:#94a3b8;">Email</td>
-              <td style="padding:8px 0;font-weight:600;">${email}</td>
+              <td style="padding:8px 0;font-weight:600;">${safeEmail}</td>
             </tr>
             ${message ? `
             <tr>
               <td style="padding:8px 0;color:#94a3b8;vertical-align:top;">Message</td>
-              <td style="padding:8px 0;">${message}</td>
+              <td style="padding:8px 0;">${safeMessage}</td>
             </tr>` : ""}
             <tr>
               <td style="padding:8px 0;color:#94a3b8;">Resume</td>
-              <td style="padding:8px 0;">${req.file.originalname}</td>
+              <td style="padding:8px 0;">${safeFileName}</td>
             </tr>
           </table>
           <p>We'll be in touch if your profile matches our current openings.</p>
@@ -81,20 +98,20 @@ export const submitCareer = async (req, res) => {
           <table style="width:100%;border-collapse:collapse;margin:16px 0;">
             <tr>
               <td style="padding:8px 0;color:#94a3b8;width:110px;">Name</td>
-              <td style="padding:8px 0;font-weight:600;">${name || "—"}</td>
+              <td style="padding:8px 0;font-weight:600;">${safeName || "—"}</td>
             </tr>
             <tr>
               <td style="padding:8px 0;color:#94a3b8;">Email</td>
-              <td style="padding:8px 0;">${email || "—"}</td>
+              <td style="padding:8px 0;">${safeEmail || "—"}</td>
             </tr>
             ${message ? `
             <tr>
               <td style="padding:8px 0;color:#94a3b8;vertical-align:top;">Message</td>
-              <td style="padding:8px 0;">${message}</td>
+              <td style="padding:8px 0;">${safeMessage}</td>
             </tr>` : ""}
             <tr>
               <td style="padding:8px 0;color:#94a3b8;">Resume</td>
-              <td style="padding:8px 0;">${req.file.originalname}</td>
+              <td style="padding:8px 0;">${safeFileName}</td>
             </tr>
             <tr>
               <td style="padding:8px 0;color:#94a3b8;">Submitted</td>
@@ -114,8 +131,11 @@ export const submitCareer = async (req, res) => {
 
     res.json({ message: "Career application submitted", data });
   } catch (err) {
+    if (err.name === "ValidationError") {
+      return res.status(400).json({ message: err.message });
+    }
     logger.error({ err }, "Career submit error");
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Could not submit your application. Please try again." });
   }
 };
 

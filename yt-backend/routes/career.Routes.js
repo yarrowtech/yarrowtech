@@ -1,5 +1,6 @@
 import express from "express";
-import uploadResume from "../middleware/uploadResume.js";
+import multer from "multer";
+import uploadResume, { MAX_RESUME_MB } from "../middleware/uploadResume.js";
 import {
   submitCareer,
   getAllCareerSubmissions,
@@ -12,7 +13,29 @@ import { formLimiter } from "../middleware/rateLimiters.js";
 const router = express.Router();
 
 // PUBLIC route → receives form + resume file
-router.post("/", formLimiter, uploadResume.single("resume"), submitCareer);
+const handleResumeUpload = (req, res, next) => {
+  uploadResume.single("resume")(req, res, (err) => {
+    if (!err) return next();
+
+    if (err.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({ message: `Resume must be smaller than ${MAX_RESUME_MB} MB.` });
+    }
+    if (err instanceof multer.MulterError || err.status === 400) {
+      return res.status(400).json({ message: err.message });
+    }
+
+    // Cloudinary rejected the upload (e.g. plan size limit, bad credentials)
+    // Cloudinary errors are often plain objects, not Error instances.
+    const reason = err.message || err.error?.message || JSON.stringify(err);
+    req.log.error({ err, reason, httpCode: err.http_code }, "Resume upload failed");
+    return res.status(502).json({
+      message: "Could not upload your resume. Please try again.",
+      ...(process.env.NODE_ENV !== "production" && { detail: reason }),
+    });
+  });
+};
+
+router.post("/", formLimiter, handleResumeUpload, submitCareer);
 
 // ADMIN + MANAGER route → fetch career applications
 router.get(

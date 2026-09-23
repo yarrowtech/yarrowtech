@@ -24,8 +24,10 @@
   width: 90%;
   max-width: 900px;
   max-height: 90vh;
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* The box stays still (close button + accent bar); only the body scrolls. */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   position: relative;
   margin: auto;
 
@@ -47,6 +49,13 @@
   background: linear-gradient(90deg, #ffb400, #ff7a00);
   pointer-events: none;
   z-index: 1;
+}
+
+.modal-demo-body {
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
 }
 
 /* =========================================================

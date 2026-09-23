@@ -233,6 +233,12 @@ export default function CareerForm({ open, onClose, showToast, currentUser }) {
       return;
     }
 
+    // Matches the backend limit in middleware/uploadResume.js
+    if (formData.resume.size > 5 * 1024 * 1024) {
+      toastFn("error", "Resume must be smaller than 5 MB.");
+      return;
+    }
+
     const data = new FormData();
     data.append("name", formData.name);
     data.append("email", formData.email);

@@ -108,19 +108,21 @@ export default function RequestDemoForm({ onClose, showToast, currentUser }) {
         exit={{ opacity: 0 }}
       >
         <motion.div
-          className="modal-box-demo two-column-demo"
+          className="modal-box-demo"
           onClick={(e) => e.stopPropagation()}
           initial={{ opacity: 0, y: 40, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 30, scale: 0.95 }}
           transition={{ duration: 0.35 }}
         >
+          {isModal && (
+            <button className="close-btn" onClick={onClose} aria-label="Close">
+              <X size={20} />
+            </button>
+          )}
+
+          <div className="modal-demo-body two-column-demo">
           <div className="demo-form-side">
-            {isModal && (
-              <button className="close-btn" onClick={onClose} aria-label="Close">
-                <X size={20} />
-              </button>
-            )}
 
             <h2 className="modal-title">Request a demo</h2>
             <p className="modal-subtitle">Tell us about yourself and your company.</p>
@@ -200,6 +202,7 @@ export default function RequestDemoForm({ onClose, showToast, currentUser }) {
                 </div>
               );
             })}
+          </div>
           </div>
         </motion.div>
       </motion.div>

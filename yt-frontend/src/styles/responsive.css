@@ -107,6 +107,12 @@ table {
   overflow-y: auto;
 }
 
+/* These scroll an inner body instead, so the close button never scrolls away. */
+.modal-box-demo,
+.contact-modal-shell {
+  overflow: hidden;
+}
+
 /* ==========================================================
    Tablet
 ========================================================== */

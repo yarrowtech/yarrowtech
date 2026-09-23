@@ -504,7 +504,7 @@ export default function ContactPage({ open = true, onClose, isModal = false, cur
         >
           <X size={20} />
         </button>
-        {contactContent}
+        <div className="contact-modal-body">{contactContent}</div>
       </div>
     </div>
   )
