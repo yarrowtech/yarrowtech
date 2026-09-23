@@ -4,6 +4,7 @@ import ERPMessage from "../models/Message.js";
 import EfnbmmsSubscription from "../../models/EfnbmmsSubscription.js";
 import EfnbmmsVendorSubscription from "../../models/EfnbmmsVendorSubscription.js";
 import { EFNBMMS_ADMIN_PRODUCT_NAME } from "../../utils/efnbmmsProductUserSync.js";
+import logger from "../../utils/logger.js";
 
 const PRODUCT_ROLE = "productuser";
 const PRODUCT_CATALOG = [
@@ -151,7 +152,7 @@ export const getManagersForAssignment = async (req, res) => {
 
     res.json({ success: true, managers });
   } catch (err) {
-    console.error("GET MANAGERS ERROR:", err);
+    logger.error({ err: err }, "Get managers error");
     res.status(500).json({ message: "Failed to fetch managers" });
   }
 };
@@ -183,7 +184,7 @@ export const updateProductUserPaymentSummary = async (req, res) => {
       ...(await buildProductUserDetails(refreshed)),
     });
   } catch (err) {
-    console.error("UPDATE PRODUCT USER PAYMENT SUMMARY ERROR:", err);
+    logger.error({ err: err }, "Update product user payment summary error");
     res.status(500).json({ message: "Failed to update total amount" });
   }
 };
@@ -210,7 +211,7 @@ export const getProductUsers = async (req, res) => {
       productUsers,
     });
   } catch (err) {
-    console.error("GET PRODUCT USERS ERROR:", err);
+    logger.error({ err: err }, "Get product users error");
     res.status(500).json({ message: "Failed to fetch product users" });
   }
 };
@@ -262,7 +263,7 @@ export const getProductSubscriptions = async (req, res) => {
 
     res.json({ success: true, products: PRODUCT_CATALOG, subscriptions });
   } catch (err) {
-    console.error("GET PRODUCT SUBSCRIPTIONS ERROR:", err);
+    logger.error({ err: err }, "Get product subscriptions error");
     res.status(500).json({ message: "Failed to fetch product subscriptions" });
   }
 };
@@ -395,7 +396,7 @@ export const getProductUserAnalytics = async (req, res) => {
       ),
     });
   } catch (err) {
-    console.error("GET PRODUCT USER ANALYTICS ERROR:", err);
+    logger.error({ err: err }, "Get product user analytics error");
     res.status(500).json({ message: "Failed to fetch product user analytics" });
   }
 };
@@ -412,7 +413,7 @@ export const getProductUserDetails = async (req, res) => {
       ...(await buildProductUserDetails(productUser)),
     });
   } catch (err) {
-    console.error("GET PRODUCT USER DETAILS ERROR:", err);
+    logger.error({ err: err }, "Get product user details error");
     res.status(500).json({ message: "Failed to fetch product user details" });
   }
 };
@@ -458,7 +459,7 @@ export const addProductUserPayment = async (req, res) => {
       ...(await buildProductUserDetails(refreshed)),
     });
   } catch (err) {
-    console.error("ADD PRODUCT USER PAYMENT ERROR:", err);
+    logger.error({ err: err }, "Add product user payment error");
     res.status(500).json({ message: "Failed to add payment entry" });
   }
 };
@@ -500,7 +501,7 @@ export const getMyDashboard = async (req, res) => {
       recentMessages,
     });
   } catch (err) {
-    console.error("PRODUCT USER DASHBOARD ERROR:", err);
+    logger.error({ err: err }, "Product user dashboard error");
     res.status(500).json({ message: "Failed to fetch dashboard" });
   }
 };
@@ -521,7 +522,7 @@ export const getMyProjectDetails = async (req, res) => {
       ...(await buildProductUserDetails(productUser)),
     });
   } catch (err) {
-    console.error("PRODUCT USER PROJECT DETAILS ERROR:", err);
+    logger.error({ err: err }, "Product user project details error");
     res.status(500).json({ message: "Failed to fetch product details" });
   }
 };
@@ -544,7 +545,7 @@ export const getMyPayments = async (req, res) => {
       paymentHistory: details.paymentHistory,
     });
   } catch (err) {
-    console.error("PRODUCT USER PAYMENTS ERROR:", err);
+    logger.error({ err: err }, "Product user payments error");
     res.status(500).json({ message: "Failed to fetch payment history" });
   }
 };

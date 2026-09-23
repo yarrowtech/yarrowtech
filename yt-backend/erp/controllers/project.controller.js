@@ -1,4 +1,5 @@
 import ERPProject from "../models/Project.js";
+import logger from "../../utils/logger.js";
 
 const getCurrentErpUserId = (req) => req.erpUser?._id || req.erpUser?.id;
 const getCurrentErpUserEmail = (req) =>
@@ -17,7 +18,7 @@ export const getAll = async (req, res) => {
       projects,
     });
   } catch (err) {
-    console.error("Get all projects error:", err);
+    logger.error({ err: err }, "Get all projects error");
     res.status(500).json({
       success: false,
       message: err.message,
@@ -57,7 +58,7 @@ export const updateProjectAdmin = async (req, res) => {
 
     res.json({ success: true, project: updated });
   } catch (err) {
-    console.error("Admin update project error:", err);
+    logger.error({ err: err }, "Admin update project error");
     res.status(500).json({ success: false, message: "Failed to update project" });
   }
 };
@@ -137,7 +138,7 @@ export const getManagerProjects = async (req, res) => {
       projects,
     });
   } catch (err) {
-    console.error("Manager projects error:", err);
+    logger.error({ err: err }, "Manager projects error");
     res.status(500).json({
       success: false,
       message: "Failed to fetch manager projects",

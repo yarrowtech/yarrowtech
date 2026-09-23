@@ -1,10 +1,11 @@
 // erp/utils/sendEmail.js
 import nodemailer from "nodemailer";
+import logger from "../../utils/logger.js";
 
 export default async function sendEmail(to, subject, html) {
   try {
     if (!process.env.SMTP_USER) {
-      console.log("📨 Email skipped (SMTP not set):", { to, subject });
+      logger.warn({ to, subject }, "Email skipped: SMTP not configured");
       return;
     }
 
@@ -27,8 +28,8 @@ export default async function sendEmail(to, subject, html) {
       html,
     });
 
-    console.log("📧 Email sent to:", to);
+    logger.info({ to }, "Email sent");
   } catch (err) {
-    console.error("❌ Email Error:", err.message, "| code:", err.code, "| response:", err.response);
+    logger.error({ err, code: err.code, response: err.response }, "Email send failed");
   }
 }

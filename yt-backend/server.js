@@ -227,11 +227,40 @@ import efnbmmsSignupRoutes from "./routes/efnbmmsSignup.Routes.js";
 
 // ====== SECURITY ======
 import helmet from "helmet";
+import { randomUUID } from "crypto";
+import pinoHttp from "pino-http";
+import logger from "./utils/logger.js";
 import { apiLimiter } from "./middleware/rateLimiters.js";
 
 const app = express();
 app.set("trust proxy", 1);
 app.disable("x-powered-by");
+
+// -------------------- REQUEST LOGGING --------------------
+// One log line per request (method, url, status, time) with a request id.
+// Controllers can use req.log to tie their logs to the same request.
+app.use(
+  pinoHttp({
+    logger,
+    genReqId: (req, res) => {
+      const id = req.headers["x-request-id"] || randomUUID();
+      res.setHeader("X-Request-Id", id);
+      return id;
+    },
+    customLogLevel: (req, res, err) => {
+      if (err || res.statusCode >= 500) return "error";
+      if (res.statusCode >= 400) return "warn";
+      return "info";
+    },
+    autoLogging: {
+      ignore: (req) => req.url === "/health" || req.method === "OPTIONS",
+    },
+    serializers: {
+      req: (req) => ({ id: req.id, method: req.method, url: req.url }),
+      res: (res) => ({ statusCode: res.statusCode }),
+    },
+  })
+);
 
 // -------------------- SECURITY HEADERS --------------------
 // JSON API only; allow the frontend domain to load any files/PDFs it returns.
@@ -331,8 +360,14 @@ app.use((req, res) => {
 
 // -------------------- ERROR HANDLER --------------------
 app.use((err, req, res, next) => {
-  console.error("❌ Error:", err.message);
-  res.status(500).json({ message: err.message });
+  const status = err.status || err.statusCode || 500;
+  req.log.error({ err }, "Unhandled request error");
+  // Don't leak internal error details to clients in production.
+  const message =
+    status < 500 || process.env.NODE_ENV !== "production"
+      ? err.message
+      : "Internal server error";
+  res.status(status).json({ message });
 });
 
 // -------------------- SOCKET.IO --------------------
@@ -351,7 +386,7 @@ const io = new Server(server, {
 const onlineUsers = new Map();
 
 io.on("connection", (socket) => {
-  console.log("🟢 Socket connected:", socket.id);
+  logger.debug({ socketId: socket.id }, "Socket connected");
 
   socket.on("register", (email) => {
     if (!email) return;
@@ -380,7 +415,7 @@ const PORT = Number(process.env.PORT) || 5000;
 
 async function start() {
   if (!process.env.MONGO_URI) {
-    console.error("❌ MONGO_URI missing");
+    logger.fatal("MONGO_URI missing");
     process.exit(1);
   }
 
@@ -389,14 +424,13 @@ async function start() {
       serverSelectionTimeoutMS: 15000,
     });
 
-    console.log("✅ MongoDB Connected");
+    logger.info("MongoDB connected");
 
     server.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-      console.log("✅ Allowed CORS origins:", allowedOrigins);
+      logger.info({ port: PORT, allowedOrigins }, "Server started");
     });
   } catch (err) {
-    console.error("❌ DB Error:", err);
+    logger.fatal({ err }, "MongoDB connection failed");
     process.exit(1);
   }
 }

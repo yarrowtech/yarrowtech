@@ -7,13 +7,14 @@
 import RequestDemo from "../models/RequestDemo.js";
 import { notifyRoles } from "../erp/utils/createNotification.js";
 import sendEmail from "../erp/utils/sendEmail.js";
+import logger from "../utils/logger.js";
 
 /* ============================================================
    🌐 SUBMIT REQUEST DEMO (Website User)
 ============================================================ */
 export const submitRequestDemo = async (req, res) => {
   try {
-    console.log("📥 Incoming Body:", req.body);
+    logger.debug({ body: req.body }, "Request demo submission");
 
     const name = (req.body.name || req.body.fullName || "").trim();
     const email = (req.body.email || "").trim();
@@ -147,7 +148,7 @@ export const submitRequestDemo = async (req, res) => {
       data: demoRequest,
     });
   } catch (error) {
-    console.error("❌ REQUEST DEMO ERROR:", error);
+    logger.error({ err: error }, "Request demo error");
 
     return res.status(500).json({
       message: "Server error while submitting demo request",
@@ -170,7 +171,7 @@ export const getAllDemoRequests = async (req, res) => {
       requests,
     });
   } catch (error) {
-    console.error("❌ FETCH DEMO REQUESTS ERROR:", error);
+    logger.error({ err: error }, "Fetch demo requests error");
     res.status(500).json({
       message: "Failed to fetch demo requests",
     });
@@ -190,7 +191,7 @@ export const getManagerDemoRequests = async (req, res) => {
       requests,
     });
   } catch (error) {
-    console.error("❌ MANAGER FETCH DEMO ERROR:", error);
+    logger.error({ err: error }, "Manager fetch demo error");
     res.status(500).json({
       message: "Failed to fetch demo requests",
     });
@@ -236,7 +237,7 @@ export const updateLeadStatusByManager = async (req, res) => {
       lead: updatedLead,
     });
   } catch (error) {
-    console.error("❌ UPDATE LEAD STATUS ERROR:", error);
+    logger.error({ err: error }, "Update lead status error");
     res.status(500).json({
       message: "Failed to update lead status",
     });

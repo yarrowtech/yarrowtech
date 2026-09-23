@@ -4,6 +4,7 @@ import sendEmail from "../utils/sendEmail.js";
 import { generateInvoicePDF } from "../utils/generateInvoice.js";
 import { calculateProjectPaymentSummary } from "../utils/paymentSummary.js";
 import { notifyEmail } from "../utils/createNotification.js";
+import logger from "../../utils/logger.js";
 
 const VALID_PAYMENT_STATUSES = ["paid", "pending", "failed"];
 
@@ -98,7 +99,7 @@ export const updateProjectPaymentSummary = async (req, res) => {
       ...payload,
     });
   } catch (err) {
-    console.error("PAYMENT SUMMARY UPDATE ERROR:", err);
+    logger.error({ err: err }, "Payment summary update error");
     res.status(500).json({ message: "Failed to update project payment summary" });
   }
 };
@@ -164,7 +165,7 @@ YarrowTech Team`,
           [{ filename: `invoice-${invoiceNo}.pdf`, path: invoicePath }]
         );
       } catch (emailErr) {
-        console.error("PAYMENT EMAIL ERROR:", emailErr.message);
+        logger.error({ err: emailErr }, "Payment email error");
       }
     }
 
@@ -185,7 +186,7 @@ YarrowTech Team`,
       ...payload,
     });
   } catch (err) {
-    console.error("ADD PAYMENT ERROR:", err);
+    logger.error({ err: err }, "Add payment error");
     res.status(500).json({ message: "Payment failed" });
   }
 };
@@ -206,7 +207,7 @@ export const getPaymentsByProject = async (req, res) => {
       ...payload,
     });
   } catch (err) {
-    console.error("GET PROJECT PAYMENTS ERROR:", err);
+    logger.error({ err: err }, "Get project payments error");
     res.status(500).json({ message: "Failed to fetch payments" });
   }
 };
@@ -273,7 +274,7 @@ export const updatePayment = async (req, res) => {
       ...payload,
     });
   } catch (err) {
-    console.error("UPDATE PAYMENT ERROR:", err);
+    logger.error({ err: err }, "Update payment error");
     res.status(500).json({ message: "Failed to update payment" });
   }
 };

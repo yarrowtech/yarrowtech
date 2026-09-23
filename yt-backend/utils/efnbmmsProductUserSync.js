@@ -6,6 +6,7 @@
 ------------------------------------------------------- */
 import ERPUser from "../erp/models/User.js";
 import ERPProductUserPayment from "../erp/models/ProductUserPayment.js";
+import logger from "./logger.js";
 
 export const EFNBMMS_ADMIN_PRODUCT_NAME = "F&B - Food & Beverage Management System";
 export const EFNBMMS_VENDOR_PRODUCT_NAME =
@@ -68,15 +69,16 @@ export const syncEfnbmmsProductUser = async ({
 
     const existing = await ERPUser.findOne({ email: normalizedEmail });
     if (existing) {
-      console.warn(
-        `EFNBMMS product-user sync skipped: ${normalizedEmail} already exists in ERP (role: ${existing.role})`
+      logger.warn(
+        { email: normalizedEmail, role: existing.role },
+        "EFNBMMS product-user sync skipped: user already exists in ERP"
       );
       return;
     }
 
     const managerInfo = await resolveManagerForProduct(productName);
     if (!managerInfo) {
-      console.warn("EFNBMMS product-user sync skipped: no active manager available to assign");
+      logger.warn("EFNBMMS product-user sync skipped: no active manager available to assign");
       return;
     }
 
@@ -106,7 +108,7 @@ export const syncEfnbmmsProductUser = async ({
       });
     }
   } catch (error) {
-    console.error("EFNBMMS product-user sync failed:", error.message);
+    logger.error({ err: error }, "EFNBMMS product-user sync failed");
   }
 };
 
@@ -140,6 +142,6 @@ export const recordEfnbmmsProductUserPayment = async ({
       notes: notes || "",
     });
   } catch (error) {
-    console.error("EFNBMMS product-user payment sync failed:", error.message);
+    logger.error({ err: error }, "EFNBMMS product-user payment sync failed");
   }
 };

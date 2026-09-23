@@ -1,6 +1,7 @@
 import Notification from "../models/Notification.js";
 import ERPUser from "../models/User.js";
 import ERPClient from "../models/Client.js";
+import logger from "../../utils/logger.js";
 
 const recipientEmail = (req) => String(req.erpUser?.email || "").toLowerCase();
 
@@ -22,7 +23,7 @@ export const getNotifications = async (req, res) => {
 
     res.json({ success: true, notifications, total, page, limit });
   } catch (err) {
-    console.error("GET NOTIFICATIONS ERROR:", err);
+    logger.error({ err: err }, "Get notifications error");
     res.status(500).json({ message: "Failed to fetch notifications" });
   }
 };
@@ -100,7 +101,7 @@ export const sendNotification = async (req, res) => {
     await Notification.insertMany(docs);
     res.json({ success: true, sent: docs.length });
   } catch (err) {
-    console.error("SEND NOTIFICATION ERROR:", err);
+    logger.error({ err: err }, "Send notification error");
     res.status(500).json({ message: "Failed to send notification" });
   }
 };

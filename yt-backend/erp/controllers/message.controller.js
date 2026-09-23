@@ -1,6 +1,7 @@
 import ERPMessage from "../models/Message.js";
 import ERPProject from "../models/Project.js";
 import ERPUser from "../models/User.js";
+import logger from "../../utils/logger.js";
 
 async function getAccessibleProject(req, projectId) {
   const project = await ERPProject.findById(projectId).lean();
@@ -54,7 +55,7 @@ export const byProject = async (req, res) => {
 
     res.json({ success: true, messages });
   } catch (err) {
-    console.error("MESSAGE FETCH ERROR:", err);
+    logger.error({ err: err }, "Message fetch error");
     res.status(500).json({ message: "Failed to fetch messages" });
   }
 };
@@ -72,7 +73,7 @@ export const byProductUser = async (req, res) => {
 
     res.json({ success: true, messages });
   } catch (err) {
-    console.error("PRODUCT USER MESSAGE FETCH ERROR:", err);
+    logger.error({ err: err }, "Product user message fetch error");
     res.status(500).json({ message: "Failed to fetch messages" });
   }
 };
@@ -119,7 +120,7 @@ export const sendMessage = async (req, res) => {
 
     res.json({ success: true, message: newMsg });
   } catch (err) {
-    console.error("SEND MESSAGE ERROR:", err);
+    logger.error({ err: err }, "Send message error");
     res.status(500).json({ message: "Failed to send message" });
   }
 };

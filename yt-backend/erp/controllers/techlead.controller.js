@@ -2,6 +2,7 @@ import ERPProject from "../models/Project.js";
 import ERPProjectStatus from "../models/ProjectStatus.js";
 import ERPMessage from "../models/Message.js";
 import ERPUser from "../models/User.js";
+import logger from "../../utils/logger.js";
 /* =====================================================
    GET PROJECTS ASSIGNED TO TECH LEAD
 ===================================================== */
@@ -13,7 +14,7 @@ export const getAssigned = async (req, res) => {
 
     res.json({ success: true, projects });
   } catch (err) {
-    console.error("❌ GET ASSIGNED ERROR:", err);
+    logger.error({ err: err }, "Get assigned error");
     res.status(500).json({ message: "Failed to load assigned projects" });
   }
 };
@@ -56,7 +57,7 @@ export const getDashboardStats = async (req, res) => {
       thisMonthDeployments,
     });
   } catch (err) {
-    console.error("❌ TECH LEAD STATS ERROR:", err);
+    logger.error({ err: err }, "Tech lead stats error");
     res.status(500).json({ message: "Failed to load dashboard stats" });
   }
 };
@@ -92,7 +93,7 @@ export const updateProject = async (req, res) => {
 
     res.json({ success: true, project });
   } catch (err) {
-    console.error("❌ UPDATE PROJECT ERROR:", err);
+    logger.error({ err: err }, "Update project error");
     res.status(500).json({ message: "Failed to update project" });
   }
 };
@@ -113,7 +114,7 @@ export const sendMessage = async (req, res) => {
 
     res.json({ success: true, message: msg });
   } catch (err) {
-    console.error("❌ SEND MESSAGE ERROR:", err);
+    logger.error({ err: err }, "Send message error");
     res.status(500).json({ message: "Failed to send message" });
   }
 };

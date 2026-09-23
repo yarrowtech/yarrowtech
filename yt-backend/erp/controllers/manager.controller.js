@@ -17,7 +17,7 @@
 
 //     res.json({ success: true, techLeads });
 //   } catch (err) {
-//     console.error("❌ GET TECH LEADS ERROR:", err);
+//     logger.error({ err: err }, "Get tech leads error");
 //     res.status(500).json({ message: "Server error" });
 //   }
 // };
@@ -118,7 +118,7 @@
 //       project,
 //     });
 //   } catch (err) {
-//     console.error("❌ CREATE PROJECT ERROR:", err);
+//     logger.error({ err: err }, "Create project error");
 //     res.status(500).json({ message: "Server error" });
 //   }
 // };
@@ -147,7 +147,7 @@
 //       projects,
 //     });
 //   } catch (err) {
-//     console.error("❌ GET MANAGER PROJECTS ERROR:", err);
+//     logger.error({ err: err }, "Get manager projects error");
 //     res.status(500).json({ message: "Server error" });
 //   }
 // };
@@ -189,7 +189,7 @@
 //       project: updated,
 //     });
 //   } catch (err) {
-//     console.error("❌ UPDATE PROJECT ERROR:", err);
+//     logger.error({ err: err }, "Update project error");
 //     res.status(500).json({ message: "Server error" });
 //   }
 // };
@@ -215,6 +215,7 @@ import ERPUser from "../models/User.js";
 import { generatePassword } from "../utils/generatePassword.js";
 import sendEmail from "../utils/sendEmail.js";
 import { notifyEmail, notifyRoles } from "../utils/createNotification.js";
+import logger from "../../utils/logger.js";
 
 const getCurrentManagerId = (req) => req.erpUser?.id || req.erpUser?._id;
 const getCurrentManagerEmail = (req) =>
@@ -232,7 +233,7 @@ export const getTechLeads = async (req, res) => {
 
     res.json({ success: true, techLeads });
   } catch (err) {
-    console.error("❌ GET TECH LEADS ERROR:", err);
+    logger.error({ err: err }, "Get tech leads error");
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -334,7 +335,7 @@ Password: ${generatedPassword}
 Please change your password after login.`
         );
       } catch (err) {
-        console.error("❌ Email failed:", err.message);
+        logger.error({ err: err }, "Email failed");
       }
     }
 
@@ -390,7 +391,7 @@ Please change your password after login.`
       project,
     });
   } catch (err) {
-    console.error("❌ CREATE PROJECT ERROR:", err);
+    logger.error({ err: err }, "Create project error");
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -425,7 +426,7 @@ export const getProjects = async (req, res) => {
       projects,
     });
   } catch (err) {
-    console.error("❌ GET MANAGER PROJECTS ERROR:", err);
+    logger.error({ err: err }, "Get manager projects error");
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -503,7 +504,7 @@ export const updateProject = async (req, res) => {
       project: updated,
     });
   } catch (err) {
-    console.error("❌ UPDATE PROJECT ERROR:", err);
+    logger.error({ err: err }, "Update project error");
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -552,7 +553,7 @@ export const deleteClient = async (req, res) => {
       message: "Client deleted successfully",
     });
   } catch (err) {
-    console.error("❌ DELETE CLIENT ERROR:", err);
+    logger.error({ err: err }, "Delete client error");
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -592,7 +593,7 @@ Email: ${client.email}
 New Password: ${newPassword}`
       );
     } catch (err) {
-      console.error("❌ Email failed:", err.message);
+      logger.error({ err: err }, "Email failed");
     }
 
     res.json({
@@ -600,7 +601,7 @@ New Password: ${newPassword}`
       message: "Password reset successfully",
     });
   } catch (err) {
-    console.error("❌ RESET PASSWORD ERROR:", err);
+    logger.error({ err: err }, "Reset password error");
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -624,7 +625,7 @@ export const getDeletedClientHistory = async (req, res) => {
       history,
     });
   } catch (err) {
-    console.error("❌ DELETED CLIENT HISTORY ERROR:", err);
+    logger.error({ err: err }, "Deleted client history error");
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -638,7 +639,7 @@ export const getManagerProfile = async (req, res) => {
     if (!user) return res.status(404).json({ message: "Profile not found" });
     res.json(user);
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to fetch profile" });
   }
 };
@@ -661,7 +662,7 @@ export const updateManagerProfile = async (req, res) => {
     if (!user) return res.status(404).json({ message: "Profile not found" });
     res.json({ success: true, user });
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to update profile" });
   }
 };
@@ -687,7 +688,7 @@ export const changeManagerPassword = async (req, res) => {
     await user.save();
     res.json({ success: true, message: "Password changed successfully" });
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to change password" });
   }
 };

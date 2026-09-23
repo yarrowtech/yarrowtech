@@ -94,6 +94,7 @@ import Project from "../models/Project.js";
 import ERPUser from "../models/User.js";
 import { Contact } from "../../models/contact.js";
 import RequestDemo from "../../models/RequestDemo.js";
+import logger from "../../utils/logger.js";
 
 /* ============================================================
    ⭐ ADMIN DASHBOARD STATS
@@ -141,7 +142,7 @@ export const getAdminStats = async (req, res) => {
       projectDistribution,
     });
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to fetch admin stats" });
   }
 };
@@ -158,7 +159,7 @@ export const getERPUsers = async (req, res) => {
       users,
     });
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to fetch ERP users" });
   }
 };
@@ -252,7 +253,7 @@ export const createERPUser = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to create user" });
   }
 };
@@ -275,7 +276,7 @@ export const toggleUserStatus = async (req, res) => {
       status: user.status,
     });
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to update user status" });
   }
 };
@@ -304,7 +305,7 @@ export const resetUserPassword = async (req, res) => {
       message: "Password reset successfully",
     });
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to reset password" });
   }
 };
@@ -318,7 +319,7 @@ export const getAdminProfile = async (req, res) => {
     if (!user) return res.status(404).json({ message: "Profile not found" });
     res.json(user);
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to fetch profile" });
   }
 };
@@ -337,7 +338,7 @@ export const updateAdminProfile = async (req, res) => {
     if (!user) return res.status(404).json({ message: "Profile not found" });
     res.json({ success: true, user });
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to update profile" });
   }
 };
@@ -363,7 +364,7 @@ export const changeAdminPassword = async (req, res) => {
     await user.save();
     res.json({ success: true, message: "Password changed successfully" });
   } catch (err) {
-    console.error(err);
+    logger.error({ err: err }, "Request failed");
     res.status(500).json({ message: "Failed to change password" });
   }
 };

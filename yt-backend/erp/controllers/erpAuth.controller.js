@@ -90,7 +90,7 @@
 //     });
 
 //   } catch (err) {
-//     console.error("❌ ERP LOGIN ERROR:", err);
+//     logger.error({ err: err }, "Erp login error");
 //     return res.status(500).json({
 //       message: "Server error during login",
 //     });
@@ -107,7 +107,7 @@
 //       message: "Logged out successfully",
 //     });
 //   } catch (err) {
-//     console.error("❌ ERP LOGOUT ERROR:", err);
+//     logger.error({ err: err }, "Erp logout error");
 //     return res.status(500).json({
 //       message: "Logout failed",
 //     });
@@ -126,6 +126,7 @@
 import ERPUser from "../models/User.js";
 import ERPClient from "../models/Client.js";
 import { signErpToken } from "../middleware/erpAuth.js";
+import logger from "../../utils/logger.js";
 
 /* ============================================================
    ERP LOGIN
@@ -133,7 +134,6 @@ import { signErpToken } from "../middleware/erpAuth.js";
 export const erpLogin = async (req, res) => {
   try {
     /* 🔍 DEBUG (remove in production) */
-    console.log("🔥 ERP LOGIN BODY:", req.body);
 
     /* ================= SAFE BODY ================= */
     const body = req.body || {};
@@ -234,7 +234,7 @@ export const erpLogin = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("❌ ERP LOGIN ERROR:", err);
+    logger.error({ err: err }, "Erp login error");
     return res.status(500).json({
       message: "Server error during login",
     });
@@ -251,7 +251,7 @@ export const erpLogout = async (req, res) => {
       message: "Logged out successfully",
     });
   } catch (err) {
-    console.error("❌ ERP LOGOUT ERROR:", err);
+    logger.error({ err: err }, "Erp logout error");
     return res.status(500).json({
       message: "Logout failed",
     });

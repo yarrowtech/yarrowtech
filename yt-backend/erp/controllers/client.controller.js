@@ -3,6 +3,7 @@ import ERPMessage from "../models/Message.js";
 import ERPPayment from "../models/Payment.js";
 import ERPProject from "../models/Project.js";
 import { calculateProjectPaymentSummary } from "../utils/paymentSummary.js";
+import logger from "../../utils/logger.js";
 
 const getClientId = (req) => req.erpUser?._id || req.erpUser?.id;
 
@@ -41,7 +42,7 @@ export const getMyProjects = async (req, res) => {
       projects,
     });
   } catch (err) {
-    console.error("CLIENT PROJECTS ERROR:", err);
+    logger.error({ err: err }, "Client projects error");
     res.status(500).json({ message: "Failed to fetch client projects" });
   }
 };
@@ -126,7 +127,7 @@ export const getClientDashboard = async (req, res) => {
       recentProjects,
     });
   } catch (err) {
-    console.error("CLIENT DASHBOARD ERROR:", err);
+    logger.error({ err: err }, "Client dashboard error");
     res.status(500).json({ message: "Failed to fetch client dashboard" });
   }
 };
@@ -209,7 +210,7 @@ export const getPayments = async (req, res) => {
       summary: overallSummary,
     });
   } catch (err) {
-    console.error("CLIENT PAYMENTS ERROR:", err);
+    logger.error({ err: err }, "Client payments error");
     res.status(500).json({ message: "Failed to fetch payments" });
   }
 };
@@ -257,7 +258,7 @@ export const getPaymentsForProject = async (req, res) => {
       payments: normalizedPayments,
     });
   } catch (err) {
-    console.error("CLIENT PROJECT PAYMENTS ERROR:", err);
+    logger.error({ err: err }, "Client project payments error");
     res.status(500).json({ message: "Failed to fetch project payments" });
   }
 };
@@ -289,7 +290,7 @@ export const getProjectHistory = async (req, res) => {
       history,
     });
   } catch (err) {
-    console.error("CLIENT PROJECT HISTORY ERROR:", err);
+    logger.error({ err: err }, "Client project history error");
     res.status(500).json({ message: "Failed to fetch project history" });
   }
 };
@@ -311,7 +312,7 @@ export const getProfile = async (req, res) => {
       createdAt: client.createdAt,
     });
   } catch (err) {
-    console.error("CLIENT PROFILE ERROR:", err);
+    logger.error({ err: err }, "Client profile error");
     res.status(500).json({ message: "Failed to fetch client profile" });
   }
 };
@@ -345,7 +346,7 @@ export const updateProfile = async (req, res) => {
       },
     });
   } catch (err) {
-    console.error("CLIENT PROFILE UPDATE ERROR:", err);
+    logger.error({ err: err }, "Client profile update error");
     res.status(500).json({ message: "Failed to update client profile" });
   }
 };
@@ -386,7 +387,7 @@ export const sendMessage = async (req, res) => {
       message,
     });
   } catch (err) {
-    console.error("CLIENT SEND MESSAGE ERROR:", err);
+    logger.error({ err: err }, "Client send message error");
     res.status(500).json({ message: "Failed to send message" });
   }
 };

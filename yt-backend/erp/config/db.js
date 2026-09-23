@@ -1,12 +1,13 @@
 // erp/config/db.js
 import mongoose from "mongoose";
+import logger from "../../utils/logger.js";
 
 const connectErpDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("🔥 ERP Database Connected");
+    logger.info("ERP database connected");
   } catch (error) {
-    console.error("❌ ERP DB Error:", error.message);
+    logger.error({ err: error }, "ERP database connection failed");
     process.exit(1);
   }
 };

@@ -3,11 +3,11 @@ import Career from "../models/Career.js";
 import { notifyRoles } from "../erp/utils/createNotification.js";
 import sendEmail from "../erp/utils/sendEmail.js";
 import cloudinary from "../utils/cloudinary.js";
+import logger from "../utils/logger.js";
 
 export const submitCareer = async (req, res) => {
   try {
-    console.log("REQ.FILE:", req.file ? JSON.stringify(req.file, null, 2) : "NO FILE");
-    console.log("REQ.BODY:", req.body ? JSON.stringify(req.body, null, 2) : "NO BODY");
+    logger.debug({ file: req.file?.originalname, body: req.body }, "Career submission");
 
     if (!req.file) {
       return res.status(400).json({ message: "Resume is required" });
@@ -114,7 +114,7 @@ export const submitCareer = async (req, res) => {
 
     res.json({ message: "Career application submitted", data });
   } catch (err) {
-    console.error("Career Submit Error:", JSON.stringify(err, null, 2));
+    logger.error({ err }, "Career submit error");
     res.status(500).json({ message: err.message });
   }
 };
@@ -157,7 +157,7 @@ export const downloadResume = async (req, res) => {
     const fileRes = await fetch(fetchUrl);
 
     if (!fileRes.ok) {
-      console.error("Cloudinary fetch failed:", fileRes.status, publicId);
+      logger.error({ status: fileRes.status, publicId }, "Cloudinary fetch failed");
       return res.status(502).json({ message: "Failed to fetch resume from storage" });
     }
 
@@ -168,7 +168,7 @@ export const downloadResume = async (req, res) => {
     const arrayBuffer = await fileRes.arrayBuffer();
     res.send(Buffer.from(arrayBuffer));
   } catch (err) {
-    console.error("Download Resume Error:", err);
+    logger.error({ err: err }, "Download Resume Error");
     res.status(500).json({ message: err.message });
   }
 };
@@ -178,7 +178,7 @@ export const getAllCareerSubmissions = async (_req, res) => {
     const careers = await Career.find().sort({ createdAt: -1 });
     return res.status(200).json({ success: true, total: careers.length, careers });
   } catch (err) {
-    console.error("Career Fetch Error:", err);
+    logger.error({ err: err }, "Career Fetch Error");
     return res.status(500).json({ success: false, message: "Failed to fetch career applications" });
   }
 };

@@ -1,5 +1,6 @@
 import Notification from "../models/Notification.js";
 import ERPUser from "../models/User.js";
+import logger from "../../utils/logger.js";
 
 /* Notify every active ERP user that has one of the given roles */
 export async function notifyRoles(roles, title, message, type, link = "") {
@@ -17,7 +18,7 @@ export async function notifyRoles(roles, title, message, type, link = "") {
     }));
     await Notification.insertMany(docs);
   } catch (err) {
-    console.error("createNotification.notifyRoles error:", err.message);
+    logger.error({ err: err }, "createNotification.notifyRoles error");
   }
 }
 
@@ -26,6 +27,6 @@ export async function notifyEmail(recipientEmail, recipientRole, title, message,
   try {
     await Notification.create({ recipientEmail: recipientEmail.toLowerCase(), recipientRole, title, message, type, link });
   } catch (err) {
-    console.error("createNotification.notifyEmail error:", err.message);
+    logger.error({ err: err }, "createNotification.notifyEmail error");
   }
 }

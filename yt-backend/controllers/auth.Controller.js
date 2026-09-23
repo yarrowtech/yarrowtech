@@ -8,6 +8,7 @@ import { OAuth2Client } from "google-auth-library";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import sendEmail from "../erp/utils/sendEmail.js";
+import logger from "../utils/logger.js";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -253,7 +254,7 @@ export const googleLogin = async (req, res) => {
       user,
     });
   } catch (err) {
-    console.log("GOOGLE LOGIN ERROR:", err);
+    logger.error({ err: err }, "Google login error");
     res.status(500).json({ message: "Google authentication failed" });
   }
 };

@@ -78,6 +78,7 @@ import cloudinary from "../../utils/cloudinary.js";
 /* ================= MIDDLEWARE ================= */
 import { verifyErpToken } from "../middleware/erpAuth.js";
 import verifyRoles from "../middleware/verifyRoles.js";
+import logger from "../../utils/logger.js";
 
 const router = express.Router();
 
@@ -134,7 +135,7 @@ router.get("/clients", async (req, res) => {
     const clients = await ERPClient.find().select("-password");
     res.json(clients);
   } catch (err) {
-    console.error("❌ GET CLIENTS ERROR:", err);
+    logger.error({ err: err }, "Get clients error");
     res.status(500).json({ message: "Failed to fetch clients" });
   }
 });
@@ -169,7 +170,7 @@ router.post("/clients", async (req, res) => {
       client,
     });
   } catch (err) {
-    console.error("❌ CREATE CLIENT ERROR:", err);
+    logger.error({ err: err }, "Create client error");
     res.status(500).json({ message: "Failed to create client" });
   }
 });
@@ -189,7 +190,7 @@ router.patch("/clients/:id/status", async (req, res) => {
 
     res.json({ success: true });
   } catch (err) {
-    console.error("❌ UPDATE CLIENT STATUS ERROR:", err);
+    logger.error({ err: err }, "Update client status error");
     res.status(500).json({ message: "Failed to update status" });
   }
 });
@@ -211,7 +212,7 @@ router.post("/clients/:id/reset-password", async (req, res) => {
       tempPassword,
     });
   } catch (err) {
-    console.error("❌ RESET CLIENT PASSWORD ERROR:", err);
+    logger.error({ err: err }, "Reset client password error");
     res.status(500).json({ message: "Failed to reset password" });
   }
 });
@@ -234,7 +235,7 @@ router.get("/clients/:id/details", async (req, res) => {
 
     res.json({ client, projects });
   } catch (err) {
-    console.error("❌ CLIENT DETAILS ERROR:", err);
+    logger.error({ err: err }, "Client details error");
     res.status(500).json({ message: "Failed to fetch client details" });
   }
 });
@@ -258,7 +259,7 @@ router.post("/clients/:id/projects", async (req, res) => {
 
     res.status(201).json(project);
   } catch (err) {
-    console.error("❌ CREATE PROJECT ERROR:", err);
+    logger.error({ err: err }, "Create project error");
     res.status(500).json({ message: "Failed to create project" });
   }
 });

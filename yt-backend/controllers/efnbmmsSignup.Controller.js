@@ -17,6 +17,7 @@ import {
   syncEfnbmmsProductUser,
 } from "../utils/efnbmmsProductUserSync.js";
 import { getEfnbmmsPolicyDocument } from "../utils/efnbmmsPolicyClient.js";
+import logger from "../utils/logger.js";
 
 /* -------------------------------------------------------
    GET PLANS  (GET /api/efnbmms/plans)
@@ -29,7 +30,7 @@ export const getPlans = async (req, res) => {
     const data = await getEfnbmmsPlans();
     return res.status(200).json(data);
   } catch (error) {
-    console.error("EFNBMMS getPlans error:", error.message);
+    logger.error({ err: error }, "EFNBMMS getPlans error");
     return res.status(error.status || 500).json({
       success: false,
       message: error.data?.message || "Could not load EFNBMMS plans",
@@ -61,7 +62,7 @@ export const createSignupOrder = async (req, res) => {
 
     return res.status(201).json(data);
   } catch (error) {
-    console.error("EFNBMMS createSignupOrder error:", error.message);
+    logger.error({ err: error }, "EFNBMMS createSignupOrder error");
     return res.status(error.status || 500).json({
       success: false,
       message: error.data?.message || "Could not start EFNBMMS signup",
@@ -109,7 +110,7 @@ export const verifySignupPayment = async (req, res) => {
 
     return res.status(201).json(data);
   } catch (error) {
-    console.error("EFNBMMS verifySignupPayment error:", error.message);
+    logger.error({ err: error }, "EFNBMMS verifySignupPayment error");
 
     if (razorpayOrderId) {
       await EfnbmmsSubscription.findOneAndUpdate(
@@ -146,7 +147,7 @@ export const getVendorPlans = async (req, res) => {
     const data = await getEfnbmmsVendorPlans();
     return res.status(200).json(data);
   } catch (error) {
-    console.error("EFNBMMS getVendorPlans error:", error.message);
+    logger.error({ err: error }, "EFNBMMS getVendorPlans error");
     return res.status(error.status || 500).json({
       success: false,
       message: error.data?.message || "Could not load EFNBMMS vendor plans",
@@ -178,7 +179,7 @@ export const vendorSignup = async (req, res) => {
 
     return res.status(201).json(data);
   } catch (error) {
-    console.error("EFNBMMS vendorSignup error:", error.message);
+    logger.error({ err: error }, "EFNBMMS vendorSignup error");
     return res.status(error.status || 500).json({
       success: false,
       message: error.data?.message || "Could not create EFNBMMS vendor account",
@@ -198,7 +199,7 @@ export const vendorLogin = async (req, res) => {
     const data = await loginEfnbmmsVendor(req.body);
     return res.status(200).json(data);
   } catch (error) {
-    console.error("EFNBMMS vendorLogin error:", error.message);
+    logger.error({ err: error }, "EFNBMMS vendorLogin error");
     return res.status(error.status || 500).json({
       success: false,
       message: error.data?.message || "Could not log in to EFNBMMS",
@@ -241,7 +242,7 @@ export const createVendorSubscriptionOrder = async (req, res) => {
 
     return res.status(201).json(data);
   } catch (error) {
-    console.error("EFNBMMS createVendorSubscriptionOrder error:", error.message);
+    logger.error({ err: error }, "EFNBMMS createVendorSubscriptionOrder error");
     return res.status(error.status || 500).json({
       success: false,
       message: error.data?.message || "Could not start EFNBMMS vendor subscription",
@@ -294,7 +295,7 @@ export const verifyVendorSubscriptionPayment = async (req, res) => {
 
     return res.status(200).json(data);
   } catch (error) {
-    console.error("EFNBMMS verifyVendorSubscriptionPayment error:", error.message);
+    logger.error({ err: error }, "EFNBMMS verifyVendorSubscriptionPayment error");
 
     if (razorpayOrderId) {
       await EfnbmmsVendorSubscription.findOneAndUpdate(
@@ -349,7 +350,7 @@ export const getPolicyDocument = async (req, res) => {
 
     return res.status(200).json(document);
   } catch (error) {
-    console.error("EFNBMMS getPolicyDocument error:", error.message);
+    logger.error({ err: error }, "EFNBMMS getPolicyDocument error");
     return res.status(error.status || 500).json({
       success: false,
       message: error.data?.error || error.message || "Could not load policy document",
