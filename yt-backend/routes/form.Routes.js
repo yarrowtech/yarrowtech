@@ -32,13 +32,14 @@ import {
 
 import { verifyErpToken } from "../erp/middleware/erpAuth.js";
 import verifyRoles from "../erp/middleware/verifyRoles.js";
+import { formLimiter } from "../middleware/rateLimiters.js";
 
 const router = express.Router();
 
 /* ===============================
    🌐 PUBLIC → SUBMIT DEMO REQUEST
 ================================ */
-router.post("/demo", submitRequestDemo);
+router.post("/demo", formLimiter, submitRequestDemo);
 
 /* ===============================
    👑 ADMIN → VIEW ALL CRM LEADS (READ ONLY)

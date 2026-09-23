@@ -135,23 +135,54 @@ export default function ManagerProjects() {
           <p>{projects.length === 0 ? "No projects found." : "No projects match your search."}</p>
         </div>
       ) : (
-        <div className="mp-grid">
+        <div className="mp-list" role="table" aria-label="Projects">
+          <div className="mp-list-head" role="row">
+            <span role="columnheader">Project</span>
+            <span role="columnheader">Client</span>
+            <span role="columnheader">Tech Lead</span>
+            <span role="columnheader">Status</span>
+            <span role="columnheader">Progress</span>
+            <span role="columnheader" className="mp-sr-only">Action</span>
+          </div>
+
           {filtered.map((project) => {
             const sc = STATUS_COLORS[project.status] || STATUS_COLORS.pending;
             const progress = Number(project.progress) || 0;
+            const open = () => navigate(`/manager/projects/${project._id}`);
 
             return (
-              <div key={project._id} className="mp-card">
-
-                {/* Card header */}
-                <div className="mp-card-head">
-                  <div className="mp-card-icon">
-                    <FolderKanban size={18} />
-                  </div>
-                  <div className="mp-card-title">
-                    <h3>{project.name}</h3>
+              <div
+                key={project._id}
+                className="mp-row"
+                role="row"
+                tabIndex={0}
+                onClick={open}
+                onKeyDown={(e) => { if (e.key === "Enter") open(); }}
+              >
+                <div className="mp-cell mp-cell-project" role="cell">
+                  <div className="mp-card-icon"><FolderKanban size={16} /></div>
+                  <div className="mp-cell-text">
+                    <strong title={project.name}>{project.name}</strong>
                     <span className="mp-project-id">{project.projectId}</span>
                   </div>
+                </div>
+
+                <div className="mp-cell" role="cell">
+                  <div className="mp-cell-text">
+                    <span className="mp-cell-label"><User size={12} /> Client</span>
+                    <strong>{project.clientName || "—"}</strong>
+                    <span className="mp-cell-sub"><Mail size={12} /> {project.clientEmail || "—"}</span>
+                  </div>
+                </div>
+
+                <div className="mp-cell" role="cell">
+                  <div className="mp-cell-text">
+                    <span className="mp-cell-label"><Activity size={12} /> Tech Lead</span>
+                    <span className="mp-cell-value">{project.techLeadEmail || "—"}</span>
+                  </div>
+                </div>
+
+                <div className="mp-cell" role="cell">
                   <span
                     className="mp-status-badge"
                     style={{ background: sc.bg, color: sc.text }}
@@ -160,55 +191,22 @@ export default function ManagerProjects() {
                   </span>
                 </div>
 
-                {/* Info rows */}
-                <div className="mp-card-info">
-                  <div className="mp-info-row">
-                    <div className="mp-info-icon"><User size={13} /></div>
-                    <div className="mp-info-body">
-                      <span>Client</span>
-                      <strong>{project.clientName || "—"}</strong>
-                    </div>
-                  </div>
-                  <div className="mp-info-row">
-                    <div className="mp-info-icon"><Mail size={13} /></div>
-                    <div className="mp-info-body">
-                      <span>Client Email</span>
-                      <strong>{project.clientEmail || "—"}</strong>
-                    </div>
-                  </div>
-                  {project.techLeadEmail && (
-                    <div className="mp-info-row">
-                      <div className="mp-info-icon"><Activity size={13} /></div>
-                      <div className="mp-info-body">
-                        <span>Tech Lead</span>
-                        <strong>{project.techLeadEmail}</strong>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Progress */}
-                <div className="mp-progress-section">
-                  <div className="mp-progress-header">
-                    <span>Progress</span>
-                    <span className="mp-progress-pct">{progress}%</span>
-                  </div>
+                <div className="mp-cell mp-cell-progress" role="cell">
                   <div className="mp-progress-bar">
-                    <div
-                      className="mp-progress-fill"
-                      style={{ width: `${progress}%` }}
-                    />
+                    <div className="mp-progress-fill" style={{ width: `${progress}%` }} />
                   </div>
+                  <span className="mp-progress-pct">{progress}%</span>
                 </div>
 
-                {/* Footer */}
-                <button
-                  className="mp-open-btn"
-                  onClick={() => navigate(`/manager/projects/${project._id}`)}
-                >
-                  Open Project <ArrowRight size={15} />
-                </button>
-
+                <div className="mp-cell mp-cell-action" role="cell">
+                  <button
+                    type="button"
+                    className="mp-row-open"
+                    onClick={(e) => { e.stopPropagation(); open(); }}
+                  >
+                    Open <ArrowRight size={14} />
+                  </button>
+                </div>
               </div>
             );
           })}

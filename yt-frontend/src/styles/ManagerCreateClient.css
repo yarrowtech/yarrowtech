@@ -530,3 +530,51 @@
 .client-address-fields .form-field {
   min-width: 0;
 }
+
+/* ---- Multiple projects per client ---- */
+.client-project-link {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.client-project-link:hover {
+  background: var(--erp-bg-hover);
+}
+
+.client-project-link:focus-visible,
+.client-add-project-btn:focus-visible {
+  outline: 2px solid var(--erp-accent);
+  outline-offset: 2px;
+}
+
+.client-add-project-btn {
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--erp-accent);
+  background: var(--erp-accent);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.client-add-project-btn:hover {
+  opacity: 0.9;
+}
+
+.client-add-project-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.add-project-client-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--erp-accent-muted);
+  color: var(--erp-text);
+  font-size: 0.875rem;
+}

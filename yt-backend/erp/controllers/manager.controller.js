@@ -243,6 +243,7 @@ export const getTechLeads = async (req, res) => {
 export const createClientAndProject = async (req, res) => {
   try {
     const {
+      clientId,
       name,
       clientName,
       clientEmail,
@@ -263,6 +264,12 @@ export const createClientAndProject = async (req, res) => {
       });
     }
 
+    if (!name?.trim() || !techLeadEmail) {
+      return res.status(400).json({
+        message: "Project name and Tech Lead are required",
+      });
+    }
+
     const techLead = await ERPUser.findOne({
       email: techLeadEmail.toLowerCase(),
       role: "techlead",
@@ -275,10 +282,24 @@ export const createClientAndProject = async (req, res) => {
       });
     }
 
-    let client = await ERPClient.findOne({
-      email: clientEmail.toLowerCase(),
-    });
+    /* A client account can own many projects: add to an existing
+       client by id, or reuse the account matching the email. */
+    let client = null;
+    if (clientId) {
+      client = await ERPClient.findById(clientId);
+      if (!client) {
+        return res.status(404).json({ message: "Client not found" });
+      }
+    } else {
+      if (!clientEmail) {
+        return res.status(400).json({ message: "Client email is required" });
+      }
+      client = await ERPClient.findOne({
+        email: clientEmail.toLowerCase(),
+      });
+    }
 
+    const isNewClient = !client;
     let generatedPassword;
 
     if (!client) {
@@ -320,9 +341,9 @@ Please change your password after login.`
     const projectId = await generateProjectId();
     const project = await ERPProject.create({
       projectId,
-      name,
+      name: name.trim(),
       client: client._id,
-      clientName,
+      clientName: client.name,
       clientEmail: client.email,
 
       manager: managerId,
@@ -355,14 +376,17 @@ Please change your password after login.`
     notifyRoles(
       ["admin"],
       `New Project Created: ${name}`,
-      `Manager ${req.erpUser.email} created project "${name}" for client ${clientName}.`,
+      `Manager ${req.erpUser.email} created project "${name}" for client ${client.name}.`,
       "project_created",
       "/admin/projects"
     );
 
     res.json({
       success: true,
-      message: "Client & Project created successfully",
+      message: isNewClient
+        ? "Client & Project created successfully"
+        : `Project added to existing client ${client.name}`,
+      isNewClient,
       project,
     });
   } catch (err) {

@@ -225,8 +225,21 @@ import erpNotificationRoutes from "./erp/routes/notification.routes.js";
 // ====== EFNBMMS PRODUCT SIGNUP (server-to-server proxy) ======
 import efnbmmsSignupRoutes from "./routes/efnbmmsSignup.Routes.js";
 
+// ====== SECURITY ======
+import helmet from "helmet";
+import { apiLimiter } from "./middleware/rateLimiters.js";
+
 const app = express();
 app.set("trust proxy", 1);
+app.disable("x-powered-by");
+
+// -------------------- SECURITY HEADERS --------------------
+// JSON API only; allow the frontend domain to load any files/PDFs it returns.
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
 
 // -------------------- ALLOWED ORIGINS --------------------
 const defaultAllowedOrigins = [
@@ -269,6 +282,10 @@ app.use(
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
+
+// -------------------- RATE LIMIT --------------------
+// Stricter per-route limits live on login / password / form / payment routes.
+app.use("/api", apiLimiter);
 
 // -------------------- ROUTES --------------------
 // Website

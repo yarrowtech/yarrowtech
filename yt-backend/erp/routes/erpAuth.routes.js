@@ -4,11 +4,12 @@ import {
   erpLogout,
 } from "../controllers/erpAuth.controller.js";
 import { verifyErpToken } from "../middleware/erpAuth.js";
+import { loginLimiter } from "../../middleware/rateLimiters.js";
 
 const router = express.Router();
 
 /* LOGIN */
-router.post("/login", erpLogin);
+router.post("/login", loginLimiter, erpLogin);
 
 /* LOGOUT */
 router.post("/logout", verifyErpToken, erpLogout);

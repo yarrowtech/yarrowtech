@@ -28,6 +28,8 @@ export default function CreateClient() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [activeTab, setActiveTab] = useState("clients");
   const [showCreateModal, setShowCreateModal] = useState(false);
+  // When set, the modal adds a project to this existing client instead of creating one.
+  const [addProjectClient, setAddProjectClient] = useState(null);
   const [loading, setLoading] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
   const [showResetModal, setShowResetModal] = useState(false);
@@ -154,8 +156,23 @@ export default function CreateClient() {
 
     setLoading(true);
     try {
+      if (addProjectClient) {
+        const res = await createClientAndProject({
+          clientId: addProjectClient.clientId,
+          name: formData.name,
+          techLeadEmail: formData.techLeadEmail,
+          expectedDelivery: formData.expectedDelivery,
+          totalPayment: formData.totalPayment,
+          projectDetails: formData.projectDetails,
+        });
+        toast.success(res?.message || "Project added");
+        closeCreateModal();
+        loadProjects();
+        return;
+      }
+
       const address = formData.clientAddress;
-      await createClientAndProject({
+      const res = await createClientAndProject({
         ...formData,
         clientAddress: [
           address.building,
@@ -166,15 +183,26 @@ export default function CreateClient() {
           address.pinCode,
         ].map((part) => part.trim()).filter(Boolean).join(", "),
       });
-      toast.success("Client & Project created");
-      setFormData(emptyFormData);
-      setShowCreateModal(false);
+      toast.success(res?.message || "Client & Project created");
+      closeCreateModal();
       loadProjects();
     } catch (err) {
       toast.error(err?.response?.data?.message || "Create failed");
     } finally {
       setLoading(false);
     }
+  };
+
+  const openCreateModal = (client = null) => {
+    setAddProjectClient(client);
+    setFormData({ ...emptyFormData, expectedDelivery: getTodayDate() });
+    setShowCreateModal(true);
+  };
+
+  const closeCreateModal = () => {
+    setShowCreateModal(false);
+    setAddProjectClient(null);
+    setFormData(emptyFormData);
   };
 
   const confirmDeleteClient = async () => {
@@ -257,13 +285,7 @@ export default function CreateClient() {
 
         <button
           className="open-create-btn"
-          onClick={() => {
-            setFormData((current) => ({
-              ...current,
-              expectedDelivery: current.expectedDelivery || getTodayDate(),
-            }));
-            setShowCreateModal(true);
-          }}
+          onClick={() => openCreateModal()}
         >
           Create Client
         </button>
@@ -331,9 +353,15 @@ export default function CreateClient() {
               {client.projects.length > 0 && (
                 <div className="client-project-tags">
                   {client.projects.slice(0, 3).map((project) => (
-                    <span key={project._id} className="client-project-tag">
+                    <button
+                      type="button"
+                      key={project._id}
+                      className="client-project-tag client-project-link"
+                      title={project.name}
+                      onClick={() => navigate(`/manager/projects/${project._id}`)}
+                    >
                       {project.projectId}
-                    </span>
+                    </button>
                   ))}
                   {client.projects.length > 3 && (
                     <span className="client-project-tag">
@@ -351,6 +379,14 @@ export default function CreateClient() {
                   disabled={!client.projects[0]?._id}
                 >
                   Details
+                </button>
+                <button
+                  type="button"
+                  className="client-add-project-btn"
+                  onClick={() => openCreateModal(client)}
+                  disabled={!client.clientId}
+                >
+                  + Add Project
                 </button>
                 <button
                   className="reset-btn"
@@ -431,20 +467,24 @@ export default function CreateClient() {
       {showCreateModal && (
         <div
           className="create-modal-overlay"
-          onClick={() => setShowCreateModal(false)}
+          onClick={closeCreateModal}
         >
           <div className="form-card create-modal-card" onClick={(e) => e.stopPropagation()}>
             <div className="create-modal-header">
               <div>
-                <h3>Create Client</h3>
-                <p>Add a client and assign the project details in one step.</p>
+                <h3>{addProjectClient ? "Add Project" : "Create Client"}</h3>
+                <p>
+                  {addProjectClient
+                    ? "Create another project under this client's existing account."
+                    : "Add a client and assign the project details in one step."}
+                </p>
               </div>
 
               <button
                 type="button"
                 className="create-modal-close"
-                onClick={() => setShowCreateModal(false)}
-                aria-label="Close create client form"
+                onClick={closeCreateModal}
+                aria-label="Close form"
                 title="Close"
               >
                 <X size={18} />
@@ -452,6 +492,22 @@ export default function CreateClient() {
             </div>
 
             <form onSubmit={handleSubmit}>
+              {addProjectClient ? (
+                <div className="form-section">
+                  <div className="form-section-head">
+                    <User size={16} />
+                    <h4>Client</h4>
+                  </div>
+                  <div className="add-project-client-summary">
+                    <strong>{addProjectClient.clientName}</strong>
+                    <span>{addProjectClient.clientEmail}</span>
+                    <span className="muted">
+                      {addProjectClient.projects.length} existing project
+                      {addProjectClient.projects.length === 1 ? "" : "s"} · no new login is created
+                    </span>
+                  </div>
+                </div>
+              ) : (
               <div className="form-section">
                 <div className="form-section-head">
                   <User size={16} />
@@ -563,6 +619,7 @@ export default function CreateClient() {
                   </fieldset>
                 </div>
               </div>
+              )}
 
               <div className="form-section">
                 <div className="form-section-head">
@@ -651,7 +708,11 @@ export default function CreateClient() {
               </div>
 
               <button className="submit-btn" disabled={loading}>
-                {loading ? "Creating..." : "Create Client"}
+                {loading
+                  ? "Creating..."
+                  : addProjectClient
+                    ? "Add Project"
+                    : "Create Client"}
               </button>
             </form>
           </div>

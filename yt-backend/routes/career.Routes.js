@@ -7,11 +7,12 @@ import {
 } from "../controllers/career.Controller.js";
 import { authMiddleware } from "../middleware/auth.js";
 import verifyRoles from "../middleware/verifyRoles.js";
+import { formLimiter } from "../middleware/rateLimiters.js";
 
 const router = express.Router();
 
 // PUBLIC route → receives form + resume file
-router.post("/", uploadResume.single("resume"), submitCareer);
+router.post("/", formLimiter, uploadResume.single("resume"), submitCareer);
 
 // ADMIN + MANAGER route → fetch career applications
 router.get(
