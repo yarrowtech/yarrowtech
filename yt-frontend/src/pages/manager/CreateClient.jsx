@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useMemo, useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, User, Briefcase, X } from "lucide-react";
 import { toast } from "react-hot-toast";
 
+import ConfirmDialog from "../../components/ConfirmDialog";
 import "../../styles/ManagerCreateClient.css";
 import {
   createClientAndProject,
@@ -12,7 +14,13 @@ import {
   resetClientPassword,
 } from "../../services/managerService";
 
+const getTodayDate = () => {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+};
+
 export default function CreateClient() {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [deletedHistory, setDeletedHistory] = useState([]);
   const [techLeads, setTechLeads] = useState([]);
@@ -30,14 +38,28 @@ export default function CreateClient() {
     newPassword: "",
     confirmPassword: "",
   });
-  const [formData, setFormData] = useState({
-    projectId: "",
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+  const emptyFormData = {
     name: "",
     clientName: "",
     clientEmail: "",
+    clientPhone: "",
+    clientCompany: "",
+    clientAddress: {
+      building: "",
+      street: "",
+      landmark: "",
+      city: "",
+      state: "",
+      pinCode: "",
+    },
     techLeadEmail: "",
-    expectedDelivery: "",
-  });
+    expectedDelivery: getTodayDate(),
+    totalPayment: "",
+    projectDetails: "",
+  };
+  const [formData, setFormData] = useState(emptyFormData);
 
   useEffect(() => {
     loadProjects();
@@ -132,16 +154,20 @@ export default function CreateClient() {
 
     setLoading(true);
     try {
-      await createClientAndProject(formData);
-      toast.success("Client & Project created");
-      setFormData({
-        projectId: "",
-        name: "",
-        clientName: "",
-        clientEmail: "",
-        techLeadEmail: "",
-        expectedDelivery: "",
+      const address = formData.clientAddress;
+      await createClientAndProject({
+        ...formData,
+        clientAddress: [
+          address.building,
+          address.street,
+          address.landmark,
+          address.city,
+          address.state,
+          address.pinCode,
+        ].map((part) => part.trim()).filter(Boolean).join(", "),
       });
+      toast.success("Client & Project created");
+      setFormData(emptyFormData);
       setShowCreateModal(false);
       loadProjects();
     } catch (err) {
@@ -151,18 +177,20 @@ export default function CreateClient() {
     }
   };
 
-  const handleDeleteClient = async (clientId) => {
-    if (!clientId) return;
+  const confirmDeleteClient = async () => {
+    if (!deleteTarget) return;
 
-    if (!window.confirm("Are you sure you want to delete this client?")) return;
-
+    setDeleting(true);
     try {
-      await deleteClient(clientId);
+      await deleteClient(deleteTarget.clientId);
       toast.success("Client deleted");
       loadProjects();
       loadDeletedHistory();
+      setDeleteTarget(null);
     } catch {
       toast.error("Delete failed");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -229,7 +257,13 @@ export default function CreateClient() {
 
         <button
           className="open-create-btn"
-          onClick={() => setShowCreateModal(true)}
+          onClick={() => {
+            setFormData((current) => ({
+              ...current,
+              expectedDelivery: current.expectedDelivery || getTodayDate(),
+            }));
+            setShowCreateModal(true);
+          }}
         >
           Create Client
         </button>
@@ -311,6 +345,14 @@ export default function CreateClient() {
 
               <div className="card-actions">
                 <button
+                  type="button"
+                  className="client-details-btn"
+                  onClick={() => navigate(`/manager/projects/${client.projects[0]._id}`)}
+                  disabled={!client.projects[0]?._id}
+                >
+                  Details
+                </button>
+                <button
                   className="reset-btn"
                   onClick={() => openResetPasswordModal(client.clientId)}
                 >
@@ -319,7 +361,9 @@ export default function CreateClient() {
 
                 <button
                   className="toggle-btn"
-                  onClick={() => handleDeleteClient(client.clientId)}
+                  onClick={() =>
+                    setDeleteTarget({ clientId: client.clientId, clientName: client.clientName })
+                  }
                 >
                   Delete
                 </button>
@@ -400,76 +444,210 @@ export default function CreateClient() {
                 type="button"
                 className="create-modal-close"
                 onClick={() => setShowCreateModal(false)}
+                aria-label="Close create client form"
+                title="Close"
               >
-                Close
+                <X size={18} />
               </button>
             </div>
 
             <form onSubmit={handleSubmit}>
-              <div className="form-grid">
-                <input
-                  placeholder="Project ID"
-                  value={formData.projectId}
-                  onChange={(e) =>
-                    setFormData({ ...formData, projectId: e.target.value })
-                  }
-                  required
-                />
+              <div className="form-section">
+                <div className="form-section-head">
+                  <User size={16} />
+                  <h4>Client Details</h4>
+                </div>
+                <div className="form-grid">
+                  <label className="form-field">
+                    <span>Client Name</span>
+                    <input
+                      placeholder="e.g. Rohit Verma"
+                      value={formData.clientName}
+                      onChange={(e) =>
+                        setFormData({ ...formData, clientName: e.target.value })
+                      }
+                      required
+                    />
+                  </label>
 
-                <input
-                  placeholder="Project Name"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                  required
-                />
+                  <label className="form-field">
+                    <span>Client Email</span>
+                    <input
+                      type="email"
+                      placeholder="client@example.com"
+                      value={formData.clientEmail}
+                      onChange={(e) =>
+                        setFormData({ ...formData, clientEmail: e.target.value })
+                      }
+                      required
+                    />
+                  </label>
 
-                <input
-                  placeholder="Client Name"
-                  value={formData.clientName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, clientName: e.target.value })
-                  }
-                  required
-                />
+                  <label className="form-field">
+                    <span>Phone Number</span>
+                    <input
+                      type="tel"
+                      inputMode="numeric"
+                      autoComplete="tel-national"
+                      pattern="[0-9]{10}"
+                      minLength={10}
+                      maxLength={10}
+                      title="Enter a 10-digit phone number"
+                      placeholder="10-digit phone number"
+                      value={formData.clientPhone}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          clientPhone: e.target.value.replace(/[^0-9]/g, "").slice(0, 10),
+                        })
+                      }
+                    />
+                  </label>
 
-                <input
-                  type="email"
-                  placeholder="Client Email"
-                  value={formData.clientEmail}
-                  onChange={(e) =>
-                    setFormData({ ...formData, clientEmail: e.target.value })
-                  }
-                  required
-                />
+                  <label className="form-field">
+                    <span>Company</span>
+                    <input
+                      placeholder="e.g. ABC Foods Pvt Ltd"
+                      value={formData.clientCompany}
+                      onChange={(e) =>
+                        setFormData({ ...formData, clientCompany: e.target.value })
+                      }
+                    />
+                  </label>
 
-                <select
-                  value={formData.techLeadEmail}
-                  onChange={(e) =>
-                    setFormData({ ...formData, techLeadEmail: e.target.value })
-                  }
-                  required
-                >
-                  <option value="">Select Tech Lead</option>
-                  {techLeads.map((t) => (
-                    <option key={t.email} value={t.email}>
-                      {t.name || "Tech Lead"} ({t.email})
-                    </option>
-                  ))}
-                </select>
+                  <fieldset className="client-address-fields form-field-wide">
+                    <legend>Address</legend>
+                    <div className="form-grid">
+                      {[
+                        { key: "building", label: "House / Flat / Building", placeholder: "e.g. Flat 12, Sunrise Apartments", autoComplete: "address-line1" },
+                        { key: "street", label: "Street / Area", placeholder: "e.g. MG Road, Indiranagar", autoComplete: "address-line2" },
+                        { key: "landmark", label: "Landmark (optional)", placeholder: "e.g. Near City Park", autoComplete: "address-line3" },
+                        { key: "city", label: "City / Town", placeholder: "e.g. Bengaluru", autoComplete: "address-level2" },
+                        { key: "state", label: "State / Union Territory", placeholder: "e.g. Karnataka", autoComplete: "address-level1" },
+                      ].map((field) => (
+                        <label className="form-field" key={field.key}>
+                          <span>{field.label}</span>
+                          <input
+                            autoComplete={field.autoComplete}
+                            placeholder={field.placeholder}
+                            value={formData.clientAddress[field.key]}
+                            onChange={(e) => setFormData((current) => ({
+                              ...current,
+                              clientAddress: { ...current.clientAddress, [field.key]: e.target.value },
+                            }))}
+                          />
+                        </label>
+                      ))}
+                      <label className="form-field">
+                        <span>PIN Code</span>
+                        <input
+                          type="text"
+                          inputMode="numeric"
+                          autoComplete="postal-code"
+                          placeholder="e.g. 560001"
+                          pattern="[1-9][0-9]{5}"
+                          minLength={6}
+                          maxLength={6}
+                          title="Enter a 6-digit PIN code starting with 1?9"
+                          value={formData.clientAddress.pinCode}
+                          onChange={(e) => setFormData((current) => ({
+                            ...current,
+                            clientAddress: {
+                              ...current.clientAddress,
+                              pinCode: e.target.value.replace(/[^0-9]/g, "").slice(0, 6),
+                            },
+                          }))}
+                        />
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
 
-                <input
-                  type="date"
-                  value={formData.expectedDelivery}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      expectedDelivery: e.target.value,
-                    })
-                  }
-                  required
-                />
+              <div className="form-section">
+                <div className="form-section-head">
+                  <Briefcase size={16} />
+                  <h4>Project Details</h4>
+                </div>
+                <div className="form-grid">
+                  <label className="form-field">
+                    <span>Project ID</span>
+                    <input
+                      value="Assigned automatically on creation"
+                      readOnly
+                    />
+                  </label>
+
+                  <label className="form-field">
+                    <span>Project Name</span>
+                    <input
+                      placeholder="e.g. Restaurant Landing Page"
+                      value={formData.name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, name: e.target.value })
+                      }
+                      required
+                    />
+                  </label>
+
+                  <label className="form-field">
+                    <span>Tech Lead</span>
+                    <select
+                      value={formData.techLeadEmail}
+                      onChange={(e) =>
+                        setFormData({ ...formData, techLeadEmail: e.target.value })
+                      }
+                      required
+                    >
+                      <option value="">Select Tech Lead</option>
+                      {techLeads.map((t) => (
+                        <option key={t.email} value={t.email}>
+                          {t.name || "Tech Lead"} ({t.email})
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+
+                  <label className="form-field">
+                    <span>Expected Delivery</span>
+                    <input
+                      type="date"
+                      value={formData.expectedDelivery}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          expectedDelivery: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </label>
+
+                  <label className="form-field">
+                    <span>Budget (₹)</span>
+                    <input
+                      type="number"
+                      min="0"
+                      placeholder="Optional — total project payment"
+                      value={formData.totalPayment}
+                      onChange={(e) =>
+                        setFormData({ ...formData, totalPayment: e.target.value })
+                      }
+                    />
+                  </label>
+
+                  <label className="form-field form-field-wide">
+                    <span>Project Notes</span>
+                    <textarea
+                      rows="3"
+                      placeholder="Scope, requirements, or anything the tech lead should know"
+                      value={formData.projectDetails}
+                      onChange={(e) =>
+                        setFormData({ ...formData, projectDetails: e.target.value })
+                      }
+                    />
+                  </label>
+                </div>
               </div>
 
               <button className="submit-btn" disabled={loading}>
@@ -562,6 +740,21 @@ export default function CreateClient() {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        open={Boolean(deleteTarget)}
+        title="Delete this client?"
+        message={
+          deleteTarget?.clientName
+            ? `${deleteTarget.clientName} and their project history will be moved to the deleted-client history. This can't be undone.`
+            : "This client and their project history will be moved to the deleted-client history. This can't be undone."
+        }
+        confirmLabel="Delete Client"
+        danger
+        loading={deleting}
+        onConfirm={confirmDeleteClient}
+        onCancel={() => setDeleteTarget(null)}
+      />
     </div>
   );
 }

@@ -28,12 +28,12 @@
   padding: 12px 18px;
   border-radius: 12px;
   border: none;
-  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  background: linear-gradient(135deg, #b35900, #ff8a00);
   color: #fff;
   font-weight: 700;
   cursor: pointer;
   white-space: nowrap;
-  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 15px 35px rgba(255, 138, 0, 0.25);
 }
 
 .open-create-btn:hover {
@@ -63,7 +63,7 @@
 }
 
 .manager-client-tab.active {
-  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  background: linear-gradient(135deg, #b35900, #ff8a00);
   color: #fff;
   border-color: transparent;
 }
@@ -81,8 +81,8 @@
 .search-input:focus,
 .status-filter:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  border-color: var(--erp-accent);
+  box-shadow: 0 0 0 3px var(--erp-accent-muted);
 }
 
 .client-list {
@@ -105,7 +105,7 @@
 }
 
 .client-list-item:hover {
-  border-color: rgba(96, 165, 250, 0.28);
+  border-color: var(--erp-accent-muted);
   box-shadow: var(--erp-shadow-lg);
 }
 
@@ -162,8 +162,8 @@
 .client-project-tag {
   padding: 5px 10px;
   border-radius: 999px;
-  background: rgba(37,99,235,0.16);
-  color: #bfdbfe;
+  background: var(--erp-accent-muted);
+  color: var(--erp-accent);
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -184,8 +184,8 @@
   transition: all 0.2s ease;
 }
 
-.reset-btn         { background: #2563eb; color: #fff; }
-.reset-btn:hover   { background: #1d4ed8; }
+.reset-btn         { background: var(--erp-accent); color: var(--erp-accent-text); }
+.reset-btn:hover   { filter: brightness(1.08); }
 .toggle-btn        { background: #ef4444; color: #fff; }
 .toggle-btn:hover  { background: #dc2626; }
 
@@ -218,10 +218,24 @@
 
 .create-modal-card {
   max-width: 920px;
+  box-sizing: border-box;
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.create-modal-card > form {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px;
 }
 
 .create-modal-header {
   display: flex;
+  flex-shrink: 0;
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
@@ -244,16 +258,45 @@
 }
 
 .create-modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
   border: 1px solid var(--erp-border-med);
   background: transparent;
   color: var(--erp-text);
   border-radius: 10px;
-  padding: 10px 14px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .create-modal-close:hover {
   background: var(--erp-bg-hover);
+}
+
+.create-modal-close:focus-visible {
+  outline: 2px solid var(--erp-accent);
+  outline-offset: 2px;
+}
+
+.form-section { margin-bottom: 22px; }
+
+.form-section-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--erp-border);
+  color: var(--erp-accent);
+}
+
+.form-section-head h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--erp-text);
 }
 
 .form-grid {
@@ -262,27 +305,46 @@
   gap: 14px;
 }
 
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--erp-text-muted);
+}
+
+.form-field-wide { grid-column: 1 / -1; }
+
 .form-grid input,
-.form-grid select {
+.form-grid select,
+.form-grid textarea {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--erp-border-med);
   font-size: 0.9rem;
+  font-family: inherit;
   background: var(--erp-bg-input);
   color: var(--erp-text);
 }
 
+.form-grid textarea { resize: vertical; min-height: 80px; }
+
 .form-grid input:focus,
-.form-grid select:focus {
+.form-grid select:focus,
+.form-grid textarea:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  border-color: var(--erp-accent);
+  box-shadow: 0 0 0 3px var(--erp-accent-muted);
 }
 
 .submit-btn {
-  margin-top: 20px;
+  margin-top: 8px;
   padding: 12px;
-  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  background: linear-gradient(135deg, #b35900, #ff8a00);
   color: #fff;
   border-radius: 10px;
   border: none;
@@ -294,7 +356,7 @@
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 15px 40px rgba(37, 99, 235, 0.4);
+  box-shadow: 0 15px 40px rgba(255, 138, 0, 0.35);
 }
 
 .submit-btn:disabled {
@@ -348,8 +410,8 @@
 }
 
 .reset-password-field:focus-within {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  border-color: var(--erp-accent);
+  box-shadow: 0 0 0 3px var(--erp-accent-muted);
 }
 
 .reset-password-field input {
@@ -376,8 +438,8 @@
 }
 
 .password-eye-btn:hover {
-  background: #1d4ed8;
-  color: #fff;
+  background: var(--erp-accent);
+  color: var(--erp-accent-text);
 }
 
 .reset-modal-actions {
@@ -402,7 +464,7 @@
 }
 
 .reset-save-btn {
-  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  background: linear-gradient(135deg, #b35900, #ff8a00);
   color: #fff;
 }
 
@@ -417,7 +479,54 @@
   .client-list-item       { grid-template-columns: 1fr; align-items: flex-start; }
   .card-actions           { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
   .form-card              { padding: 20px; }
-  .create-modal-header    { flex-direction: column; }
+  .create-modal-header    { flex-direction: row; }
   .reset-modal            { padding: 20px; }
   .reset-modal-actions    { flex-direction: column; }
+}
+
+.manager-create-page .card-actions {
+  flex-wrap: wrap;
+}
+
+.client-details-btn {
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--erp-accent);
+  background: var(--erp-accent-muted);
+  color: var(--erp-text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.client-details-btn:hover {
+  background: var(--erp-bg-hover);
+}
+
+.client-details-btn:focus-visible {
+  outline: 2px solid var(--erp-accent);
+  outline-offset: 2px;
+}
+
+.client-address-fields {
+  min-width: 0;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--erp-border);
+  border-radius: 12px;
+}
+
+.client-address-fields legend {
+  padding: 0 6px;
+  color: var(--erp-text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.client-address-fields .form-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+}
+
+.client-address-fields .form-field {
+  min-width: 0;
 }

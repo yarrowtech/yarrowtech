@@ -205,6 +205,7 @@
 
 
 
+import { generateProjectId } from "../utils/generateProjectId.js";
 import bcrypt from "bcryptjs";
 import ERPClient from "../models/Client.js";
 import DeletedClientHistory from "../models/DeletedClientHistory.js";
@@ -242,12 +243,16 @@ export const getTechLeads = async (req, res) => {
 export const createClientAndProject = async (req, res) => {
   try {
     const {
-      projectId,
       name,
       clientName,
       clientEmail,
+      clientPhone,
+      clientCompany,
+      clientAddress,
       expectedDelivery,
       techLeadEmail,
+      projectDetails,
+      totalPayment,
     } = req.body;
 
     const managerId = req.erpUser?.id || req.erpUser?._id;
@@ -286,6 +291,9 @@ export const createClientAndProject = async (req, res) => {
         password: generatedPassword,
         status: "active",
         role: "client",
+        phone: clientPhone || "",
+        company: clientCompany || "",
+        address: clientAddress || "",
       });
 
       client = await newClient.save();
@@ -309,6 +317,7 @@ Please change your password after login.`
       }
     }
 
+    const projectId = await generateProjectId();
     const project = await ERPProject.create({
       projectId,
       name,
@@ -320,7 +329,9 @@ Please change your password after login.`
       managerEmail: req.erpUser.email,
       techLeadEmail: techLead.email,
 
-      expectedDelivery,
+      expectedDelivery: expectedDelivery || new Date(),
+      projectDetails: projectDetails || "",
+      totalPayment: Number(totalPayment) || 0,
       status: "pending",
       progress: 0,
     });

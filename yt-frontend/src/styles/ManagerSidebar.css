@@ -1,5 +1,6 @@
 .manager-sidebar {
   width: 240px;
+  flex-shrink: 0;
   background: #1e1006;
   color: #fff;
   padding: 25px 20px;

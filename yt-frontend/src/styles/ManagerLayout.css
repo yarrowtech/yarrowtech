@@ -6,7 +6,8 @@
 }
 
 .manager-content {
-  flex-grow: 1;
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   background: var(--erp-bg);
@@ -14,6 +15,7 @@
 }
 
 .manager-inner {
+  min-width: 0;
   padding: 25px;
   min-height: calc(100vh - 70px);
 }
