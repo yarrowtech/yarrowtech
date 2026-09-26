@@ -57,6 +57,8 @@ import {
   getAdminProfile,
   updateAdminProfile,
   changeAdminPassword,
+  getProductAnalytics,
+  trackProductPageVisit,
 } from "../controllers/admin.controller.js";
 import {
   addProductUserPayment,
@@ -82,6 +84,16 @@ import logger from "../../utils/logger.js";
 
 const router = express.Router();
 
+router.post("/product-analytics/track", async (req, res, next) => {
+  try {
+    return await import("../controllers/admin.controller.js").then(({ trackProductPageVisit }) =>
+      trackProductPageVisit(req, res)
+    );
+  } catch (error) {
+    next(error);
+  }
+});
+
 /* ============================================================
    🔐 ADMIN AUTH + ROLE GUARD (GLOBAL)
 ============================================================ */
@@ -90,8 +102,8 @@ router.use(verifyErpToken, verifyRoles("admin"));
 /* ============================================================
    👤 ADMIN PROFILE / SETTINGS
 ============================================================ */
-router.get("/profile",                 getAdminProfile);
-router.put("/profile",                 updateAdminProfile);
+router.get("/profile", getAdminProfile);
+router.put("/profile", updateAdminProfile);
 router.post("/profile/change-password", changeAdminPassword);
 
 /* ============================================================
@@ -114,6 +126,8 @@ router.put("/user/:id/toggle-status", toggleUserStatus);
 
 // Reset ERP user password
 router.put("/user/:id/reset-password", resetUserPassword);
+
+router.get("/product-analytics", getProductAnalytics);
 
 // Product user management
 router.get("/product-users", getProductUsers);

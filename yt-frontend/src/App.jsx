@@ -556,6 +556,7 @@ import AdminBlog from "./pages/admin/AdminBlog";
 import CareerApplications from "./pages/admin/CareerApplications";
 import AdminProductUsers from "./pages/admin/ProductUsers";
 import AdminProductUserDetails from "./pages/admin/ProductUserDetails";
+import ProductAnalytics from "./pages/admin/ProductAnalytics";
 
 /* 🧩 MANAGER MODULE */
 import ManagerLayout from "./pages/manager/ManagerLayout";
@@ -658,227 +659,228 @@ function NotFound() {
 export default function App() {
   return (
     <ThemeProvider>
-    <Router>
-      <ContactMenuWrapper />
+      <Router>
+        <ContactMenuWrapper />
 
-      <div className="app">
-        <Routes>
-          {/* PUBLIC HOME */}
-          <Route
-            path="/"
-            element={
-              <>
-                <Header headerClass="header-warm" />
-                <Home2 />
-                <ScrollProgress />
-              </>
-            }
-          />
+        <div className="app">
+          <Routes>
+            {/* PUBLIC HOME */}
+            <Route
+              path="/"
+              element={
+                <>
+                  <Header headerClass="header-warm" />
+                  <Home2 />
+                  <ScrollProgress />
+                </>
+              }
+            />
 
-          <Route
-            path="/home-classic"
-            element={
-              <>
-                <Header />
-                <Home />
-                <ScrollProgress />
-              </>
-            }
-          />
+            <Route
+              path="/home-classic"
+              element={
+                <>
+                  <Header />
+                  <Home />
+                  <ScrollProgress />
+                </>
+              }
+            />
 
-          {/* SECTION ROUTES */}
-          {["services", "products", "expertise", "faq", "about"].map(
-            (sec) => (
-              <Route
-                key={sec}
-                path={`/${sec}`}
-                element={
-                  <>
-                    <Header />
-                    <SectionRouteRedirect sectionId={sec} />
-                  </>
-                }
-              />
-            )
-          )}
+            {/* SECTION ROUTES */}
+            {["services", "products", "expertise", "faq", "about"].map(
+              (sec) => (
+                <Route
+                  key={sec}
+                  path={`/${sec}`}
+                  element={
+                    <>
+                      <Header />
+                      <SectionRouteRedirect sectionId={sec} />
+                    </>
+                  }
+                />
+              )
+            )}
 
-          {/* ==========================
+            {/* ==========================
              🔐 ERP LOGIN (PUBLIC)
           ========================== */}
-          <Route
-            path="/products/:productSlug"
-            element={
-              <>
-                <Header headerClass="header-warm" />
-                <ProductDetailsPage />
-                <Home2Footer />
-              </>
-            }
-          />
+            <Route
+              path="/products/:productSlug"
+              element={
+                <>
+                  <Header headerClass="header-warm" />
+                  <ProductDetailsPage />
+                  <Home2Footer />
+                </>
+              }
+            />
 
-          {/* EFNBMMS product signup / subscription checkout */}
-          <Route
-            path="/efnbmms/signup"
-            element={
-              <>
-                <Header headerClass="header-warm" />
-                <EfnbmmsSignupPage />
-                <Home2Footer />
-              </>
-            }
-          />
+            {/* EFNBMMS product signup / subscription checkout */}
+            <Route
+              path="/efnbmms/signup"
+              element={
+                <>
+                  <Header headerClass="header-warm" />
+                  <EfnbmmsSignupPage />
+                  <Home2Footer />
+                </>
+              }
+            />
 
-          <Route
-            path="/efnbmms/vendor/signup"
-            element={
-              <>
-                <Header headerClass="header-warm" />
-                <EfnbmmsVendorSignupPage />
-                <Home2Footer />
-              </>
-            }
-          />
+            <Route
+              path="/efnbmms/vendor/signup"
+              element={
+                <>
+                  <Header headerClass="header-warm" />
+                  <EfnbmmsVendorSignupPage />
+                  <Home2Footer />
+                </>
+              }
+            />
 
-          {/* HOME2 – direct route kept alongside the new default landing page */}
-          <Route
-            path="/home2"
-            element={
-              <>
-                <Header headerClass="header-warm" />
-                <Home2 />
-                <ScrollProgress />
-              </>
-            }
-          />
+            {/* HOME2 – direct route kept alongside the new default landing page */}
+            <Route
+              path="/home2"
+              element={
+                <>
+                  <Header headerClass="header-warm" />
+                  <Home2 />
+                  <ScrollProgress />
+                </>
+              }
+            />
 
-          {/* ==========================
+            {/* ==========================
              🔐 ADMIN
           ========================== */}
-          <Route
-            path="/admin"
-            element={
-              <ERPProtectedRoute role="admin">
-                <AdminLayout />
-              </ERPProtectedRoute>
-            }
-          >
-            <Route index element={<AdminDashboard />} />
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="users" element={<Users />} />
-            <Route path="product-users" element={<AdminProductUsers />} />
-            <Route path="product-users/:id" element={<AdminProductUserDetails />} />
-            <Route path="projects" element={<Projects />} />
-            <Route path="blogs" element={<AdminBlog />} />
-            <Route path="requests" element={<RequestDemoAdmin />} />
-            <Route path="contacts" element={<ContactsAdmin />} />
-            <Route path="careers" element={<CareerApplications />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="notifications" element={<Notifications />} />
-          </Route>
+            <Route
+              path="/admin"
+              element={
+                <ERPProtectedRoute role="admin">
+                  <AdminLayout />
+                </ERPProtectedRoute>
+              }
+            >
+              <Route index element={<AdminDashboard />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="users" element={<Users />} />
+              <Route path="product-users" element={<AdminProductUsers />} />
+              <Route path="product-users/:id" element={<AdminProductUserDetails />} />
+              <Route path="product-analytics" element={<ProductAnalytics />} />
+              <Route path="projects" element={<Projects />} />
+              <Route path="blogs" element={<AdminBlog />} />
+              <Route path="requests" element={<RequestDemoAdmin />} />
+              <Route path="contacts" element={<ContactsAdmin />} />
+              <Route path="careers" element={<CareerApplications />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="notifications" element={<Notifications />} />
+            </Route>
 
-          {/* ==========================
+            {/* ==========================
              🔐 MANAGER
           ========================== */}
-          <Route
-            path="/manager"
-            element={
-              <ERPProtectedRoute role="manager">
-                <ManagerLayout />
-              </ERPProtectedRoute>
-            }
-          >
-            <Route index element={<ManagerDashboard />} />
-            <Route path="dashboard" element={<ManagerDashboard />} />
-            <Route path="projects" element={<ManageProjects />} />
-            <Route path="projects/:projectId" element={<ProjectDetails />} />
-            <Route path="product-users" element={<ManagerProductUsers />} />
-            <Route path="product-users/:id" element={<ManagerProductUserDetails />} />
-            <Route path="create-client" element={<CreateClient />} />
-            <Route path="notifications" element={<Notifications />} />
-            <Route path="requests" element={<RequestDemoManager />} />
-            <Route path="contacts" element={<ContactsAdmin />} />
-            <Route path="careers" element={<CareerApplications />} />
-            <Route path="settings" element={<ManagerSettings />} />
-            <Route path="chat" element={<ChatWindow />} />
-          </Route>
+            <Route
+              path="/manager"
+              element={
+                <ERPProtectedRoute role="manager">
+                  <ManagerLayout />
+                </ERPProtectedRoute>
+              }
+            >
+              <Route index element={<ManagerDashboard />} />
+              <Route path="dashboard" element={<ManagerDashboard />} />
+              <Route path="projects" element={<ManageProjects />} />
+              <Route path="projects/:projectId" element={<ProjectDetails />} />
+              <Route path="product-users" element={<ManagerProductUsers />} />
+              <Route path="product-users/:id" element={<ManagerProductUserDetails />} />
+              <Route path="create-client" element={<CreateClient />} />
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="requests" element={<RequestDemoManager />} />
+              <Route path="contacts" element={<ContactsAdmin />} />
+              <Route path="careers" element={<CareerApplications />} />
+              <Route path="settings" element={<ManagerSettings />} />
+              <Route path="chat" element={<ChatWindow />} />
+            </Route>
 
-          {/* ==========================
+            {/* ==========================
              🔐 TECH LEAD
           ========================== */}
-          <Route
-            path="/techlead"
-            element={
-              <ERPProtectedRoute role="techlead">
-                <TechnicalLayout />
-              </ERPProtectedRoute>
-            }
-          >
-            <Route index element={<TechnicalDashboard />} />
-            <Route path="dashboard" element={<TechnicalDashboard />} />
-            <Route path="project-updates" element={<ProjectUpdates />} />
-            <Route path="team-overview" element={<TeamOverview />} />
-            <Route path="profile" element={<TechnicalProfile />} />
-            <Route path="notifications" element={<Notifications />} />
-          </Route>
+            <Route
+              path="/techlead"
+              element={
+                <ERPProtectedRoute role="techlead">
+                  <TechnicalLayout />
+                </ERPProtectedRoute>
+              }
+            >
+              <Route index element={<TechnicalDashboard />} />
+              <Route path="dashboard" element={<TechnicalDashboard />} />
+              <Route path="project-updates" element={<ProjectUpdates />} />
+              <Route path="team-overview" element={<TeamOverview />} />
+              <Route path="profile" element={<TechnicalProfile />} />
+              <Route path="notifications" element={<Notifications />} />
+            </Route>
 
-          {/* ==========================
+            {/* ==========================
              🔐 CLIENT
           ========================== */}
-          <Route
-            path="/client"
-            element={
-              <ERPProtectedRoute role="client">
-                <ClientLayout />
-              </ERPProtectedRoute>
-            }
-          >
-            <Route index element={<ClientDashboard />} />
-            <Route path="dashboard" element={<ClientDashboard />} />
-            <Route path="projects" element={<MyProjects />} />
-            <Route path="payments" element={<Payments />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="notifications" element={<Notifications />} />
-          </Route>
+            <Route
+              path="/client"
+              element={
+                <ERPProtectedRoute role="client">
+                  <ClientLayout />
+                </ERPProtectedRoute>
+              }
+            >
+              <Route index element={<ClientDashboard />} />
+              <Route path="dashboard" element={<ClientDashboard />} />
+              <Route path="projects" element={<MyProjects />} />
+              <Route path="payments" element={<Payments />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="notifications" element={<Notifications />} />
+            </Route>
 
-          <Route
-            path="/product-user"
-            element={
-              <ERPProtectedRoute role="productuser">
-                <ProductUserLayout />
-              </ERPProtectedRoute>
-            }
-          >
-            <Route index element={<ProductUserDashboard />} />
-            <Route path="dashboard" element={<ProductUserDashboard />} />
-            <Route path="projects" element={<ProductUserProjects />} />
-            <Route path="payments" element={<ProductUserPayments />} />
-            <Route path="chat" element={<ProductUserChat />} />
-          </Route>
-{/* 📩 REQUEST DEMO PAGE */}
-<Route
-  path="/request-demo"
-  element={
-    <>
-      <Seo
-        title="Request a Demo"
-        description="Tell us about your project and we'll schedule a demo to show how YarrowTech can build your custom software or ERP solution."
-        path="/request-demo"
-      />
-      <Header headerClass="header-warm" />
-      <div style={{ paddingTop: "100px" }}>
-        <RequestDemoForm />
-      </div>
-      <Home2Footer />
-    </>
-  }
-/>
-          {/* 🚫 404 */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            <Route
+              path="/product-user"
+              element={
+                <ERPProtectedRoute role="productuser">
+                  <ProductUserLayout />
+                </ERPProtectedRoute>
+              }
+            >
+              <Route index element={<ProductUserDashboard />} />
+              <Route path="dashboard" element={<ProductUserDashboard />} />
+              <Route path="projects" element={<ProductUserProjects />} />
+              <Route path="payments" element={<ProductUserPayments />} />
+              <Route path="chat" element={<ProductUserChat />} />
+            </Route>
+            {/* 📩 REQUEST DEMO PAGE */}
+            <Route
+              path="/request-demo"
+              element={
+                <>
+                  <Seo
+                    title="Request a Demo"
+                    description="Tell us about your project and we'll schedule a demo to show how YarrowTech can build your custom software or ERP solution."
+                    path="/request-demo"
+                  />
+                  <Header headerClass="header-warm" />
+                  <div style={{ paddingTop: "100px" }}>
+                    <RequestDemoForm />
+                  </div>
+                  <Home2Footer />
+                </>
+              }
+            />
+            {/* 🚫 404 */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
 
-        <Toaster position="top-right" />
-      </div>
-    </Router>
+          <Toaster position="top-right" />
+        </div>
+      </Router>
     </ThemeProvider>
   );
 }

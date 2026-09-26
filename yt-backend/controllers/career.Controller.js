@@ -1,15 +1,9 @@
 // backend/controllers/career.Controller.js
 import Career from "../models/Career.js";
 import { notifyRoles } from "../erp/utils/createNotification.js";
-import sendEmail from "../erp/utils/sendEmail.js";
+import sendEmail, { escapeHtml, getTeamInbox } from "../erp/utils/sendEmail.js";
 import cloudinary from "../utils/cloudinary.js";
 import logger from "../utils/logger.js";
-
-// Applicant input goes into email HTML, so escape it.
-const escapeHtml = (value) =>
-  String(value ?? "").replace(/[&<>"']/g, (ch) => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-  })[ch]);
 
 export const submitCareer = async (req, res) => {
   try {
@@ -87,7 +81,7 @@ export const submitCareer = async (req, res) => {
     }
 
     // ── Email 2: Alert to YarrowTech team ───────────────────────
-    const hrEmail = process.env.SMTP_USER || process.env.FROM_EMAIL;
+    const hrEmail = getTeamInbox();
     if (hrEmail) {
       sendEmail(
         hrEmail,
@@ -125,7 +119,8 @@ export const submitCareer = async (req, res) => {
             </a>
           </p>
         </div>
-        `
+        `,
+        { replyTo: email }
       );
     }
 

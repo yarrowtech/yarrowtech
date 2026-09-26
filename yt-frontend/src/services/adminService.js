@@ -37,6 +37,16 @@ export const getProductUsers = async () => {
   return Array.isArray(res.data?.productUsers) ? res.data.productUsers : [];
 };
 
+export const getProductAnalytics = async () => {
+  const res = await API.get("/erp/admin/product-analytics");
+  return res.data;
+};
+
+export const trackProductPageVisit = async (payload) => {
+  const res = await API.post("/erp/admin/product-analytics/track", payload);
+  return res.data;
+};
+
 export const getProductUserAnalytics = async () => {
   const res = await API.get("/erp/admin/product-users/analytics");
   return res.data;

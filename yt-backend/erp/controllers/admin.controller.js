@@ -92,9 +92,80 @@ import bcrypt from "bcryptjs";
 import Client from "../models/Client.js";
 import Project from "../models/Project.js";
 import ERPUser from "../models/User.js";
+import ProductPageVisit from "../../models/ProductPageVisit.js";
 import { Contact } from "../../models/contact.js";
 import RequestDemo from "../../models/RequestDemo.js";
 import logger from "../../utils/logger.js";
+import { summarizePageVisits } from "../../utils/productAnalyticsStats.js";
+
+export const trackProductPageVisit = async (req, res) => {
+  try {
+    const path = String(req.body?.path || "").trim();
+    const title = String(req.body?.title || "").trim();
+    const referrer = String(req.body?.referrer || "").trim();
+    const userAgent = String(req.body?.userAgent || "").trim();
+    const durationMs = Number(req.body?.durationMs || 0);
+
+    if (!path) {
+      return res.status(400).json({ message: "Page path is required" });
+    }
+
+    const visit = await ProductPageVisit.create({
+      path,
+      title: title || path,
+      referrer: referrer || "",
+      userAgent: userAgent || "",
+      durationMs: Number.isFinite(durationMs) && durationMs >= 0 ? durationMs : 0,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Page visit tracked",
+      visit: {
+        _id: visit._id,
+        path: visit.path,
+        title: visit.title,
+        durationMs: visit.durationMs,
+        createdAt: visit.createdAt,
+      },
+    });
+  } catch (err) {
+    logger.error({ err: err }, "Track product page visit error");
+    res.status(500).json({ message: "Failed to track page visit" });
+  }
+};
+
+export const getProductAnalytics = async (req, res) => {
+  try {
+    const visits = await ProductPageVisit.find().sort({ createdAt: -1 }).lean();
+    const summary = summarizePageVisits(visits);
+
+    const recentVisits = visits.slice(0, 12).map((visit) => ({
+      _id: visit._id,
+      path: visit.path,
+      title: visit.title || visit.path,
+      durationMs: Number(visit.durationMs || 0),
+      createdAt: visit.createdAt,
+      referrer: visit.referrer || "Direct",
+    }));
+
+    res.json({
+      success: true,
+      summary: {
+        totalViews: summary.totalViews,
+        totalStayMs: summary.totalStayMs,
+        avgStayMs: summary.avgStayMs,
+        topPage: summary.topPage,
+        longestStayPage: summary.longestStayPage,
+      },
+      pages: summary.pages,
+      recentVisits,
+    });
+  } catch (err) {
+    logger.error({ err: err }, "Get product analytics error");
+    res.status(500).json({ message: "Failed to fetch product analytics" });
+  }
+};
 
 /* ============================================================
    ⭐ ADMIN DASHBOARD STATS

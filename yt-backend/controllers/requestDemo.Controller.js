@@ -6,7 +6,7 @@
 
 import RequestDemo from "../models/RequestDemo.js";
 import { notifyRoles } from "../erp/utils/createNotification.js";
-import sendEmail from "../erp/utils/sendEmail.js";
+import sendEmail, { escapeHtml, getTeamInbox } from "../erp/utils/sendEmail.js";
 import logger from "../utils/logger.js";
 
 /* ============================================================
@@ -60,6 +60,11 @@ export const submitRequestDemo = async (req, res) => {
       "/manager/requests"
     );
 
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeCompany = escapeHtml(company);
+    const safeMessage = escapeHtml(message);
+
     // ── Email 1: Confirmation to requester ──────────────────────
     if (email) {
       sendEmail(
@@ -67,26 +72,26 @@ export const submitRequestDemo = async (req, res) => {
         "We've received your demo request — YarrowTech",
         `
         <div style="font-family:Arial,sans-serif;max-width:560px;margin:auto;background:#071a2d;color:#f1f5f9;border-radius:14px;padding:32px;">
-          <h2 style="color:#ffcb05;margin-top:0;">Thank you, ${name}!</h2>
+          <h2 style="color:#ffcb05;margin-top:0;">Thank you, ${safeName}!</h2>
           <p>We've received your demo request and our team will get back to you shortly.</p>
           <p style="color:#94a3b8;">Here's what you submitted:</p>
           <table style="width:100%;border-collapse:collapse;margin:16px 0;">
             <tr>
               <td style="padding:8px 0;color:#94a3b8;width:130px;">Name</td>
-              <td style="padding:8px 0;font-weight:600;">${name}</td>
+              <td style="padding:8px 0;font-weight:600;">${safeName}</td>
             </tr>
             <tr>
               <td style="padding:8px 0;color:#94a3b8;">Email</td>
-              <td style="padding:8px 0;font-weight:600;">${email}</td>
+              <td style="padding:8px 0;font-weight:600;">${safeEmail}</td>
             </tr>
             ${company ? `
             <tr>
               <td style="padding:8px 0;color:#94a3b8;">Company</td>
-              <td style="padding:8px 0;">${company}</td>
+              <td style="padding:8px 0;">${safeCompany}</td>
             </tr>` : ""}
             <tr>
               <td style="padding:8px 0;color:#94a3b8;vertical-align:top;">Message</td>
-              <td style="padding:8px 0;">${message}</td>
+              <td style="padding:8px 0;">${safeMessage}</td>
             </tr>
           </table>
           <p>Our team will reach out within 1–2 business days to schedule your demo.</p>
@@ -100,7 +105,7 @@ export const submitRequestDemo = async (req, res) => {
     }
 
     // ── Email 2: Alert to YarrowTech team ───────────────────────
-    const hrEmail = process.env.SMTP_USER || process.env.FROM_EMAIL;
+    const hrEmail = getTeamInbox();
     if (hrEmail) {
       sendEmail(
         hrEmail,
@@ -111,20 +116,20 @@ export const submitRequestDemo = async (req, res) => {
           <table style="width:100%;border-collapse:collapse;margin:16px 0;">
             <tr>
               <td style="padding:8px 0;color:#94a3b8;width:130px;">Name</td>
-              <td style="padding:8px 0;font-weight:600;">${name}</td>
+              <td style="padding:8px 0;font-weight:600;">${safeName}</td>
             </tr>
             <tr>
               <td style="padding:8px 0;color:#94a3b8;">Email</td>
-              <td style="padding:8px 0;">${email}</td>
+              <td style="padding:8px 0;">${safeEmail}</td>
             </tr>
             ${company ? `
             <tr>
               <td style="padding:8px 0;color:#94a3b8;">Company</td>
-              <td style="padding:8px 0;">${company}</td>
+              <td style="padding:8px 0;">${safeCompany}</td>
             </tr>` : ""}
             <tr>
               <td style="padding:8px 0;color:#94a3b8;vertical-align:top;">Message</td>
-              <td style="padding:8px 0;">${message}</td>
+              <td style="padding:8px 0;">${safeMessage}</td>
             </tr>
             <tr>
               <td style="padding:8px 0;color:#94a3b8;">Submitted</td>
@@ -138,7 +143,8 @@ export const submitRequestDemo = async (req, res) => {
             </a>
           </p>
         </div>
-        `
+        `,
+        { replyTo: email }
       );
     }
 

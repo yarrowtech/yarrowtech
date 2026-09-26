@@ -88,6 +88,7 @@ import {
   Layers3,
   LogOut,
   Bell,
+  ChartColumn,
 } from "lucide-react";
 
 import API from "../services/axiosInstance";
@@ -146,6 +147,12 @@ export default function Sidebar() {
           to="/admin/product-users"
           icon={<Layers3 size={18} />}
           label="Product Users"
+        />
+
+        <NavItem
+          to="/admin/product-analytics"
+          icon={<ChartColumn size={18} />}
+          label="Product Analytics"
         />
 
         <NavItem

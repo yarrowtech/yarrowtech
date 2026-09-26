@@ -1,17 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight, CheckCircle2, UsersRound } from "lucide-react";
 import { getProductBySlug } from "../data/productData";
+import { trackProductPageVisit } from "../services/adminService";
 import Seo from "../components/Seo";
 import "./ProductDetailsPage.css";
 
 export default function ProductDetailsPage() {
   const { productSlug } = useParams();
   const product = getProductBySlug(productSlug);
+  const pageStartedAt = useRef(Date.now());
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
-  }, [productSlug]);
+    pageStartedAt.current = Date.now();
+
+    const sendVisit = () => {
+      const durationMs = Date.now() - pageStartedAt.current;
+      const payload = {
+        path: `/products/${productSlug || "unknown"}`,
+        title: product?.name || "Product page",
+        referrer: document.referrer || "Direct",
+        userAgent: navigator.userAgent,
+        durationMs,
+      };
+
+      const baseUrl = String(import.meta.env.VITE_API_URL || "http://localhost:5000").replace(/\/+$/, "");
+      const apiBase = baseUrl.endsWith("/api") ? baseUrl : `${baseUrl}/api`;
+      const endpoint = `${apiBase}/erp/admin/product-analytics/track`;
+
+      if (navigator.sendBeacon) {
+        const blob = new Blob([JSON.stringify(payload)], { type: "application/json" });
+        navigator.sendBeacon(endpoint, blob);
+        return;
+      }
+
+      trackProductPageVisit(payload).catch(() => undefined);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") sendVisit();
+    };
+
+    window.addEventListener("beforeunload", sendVisit);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("beforeunload", sendVisit);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      sendVisit();
+    };
+  }, [productSlug, product?.name]);
 
   if (!product) {
     return (
