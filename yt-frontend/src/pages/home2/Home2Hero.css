@@ -343,9 +343,29 @@
     max-width: 100%;
   }
 
+  .v2-hero .hero-kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    margin-bottom: 0.25rem;
+  }
+
+  .v2-hero .hero-eyebrow {
+    height: 3rem;
+    line-height: 3rem;
+    font-size: clamp(1.7rem, 8.5vw, 2.5rem);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.35rem;
+  }
+
+  .v2-hero .hero-eyebrow-word {
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+
   .v2-hero .hero-title {
-    font-size: clamp(2.15rem, 7vw, 2.75rem);
-    line-height: 1.02;
+    font-size: clamp(1.6rem, 6.5vw, 2.1rem);
+    line-height: 1.1;
   }
 
   .v2-hero .hero-subtitle {
@@ -368,8 +388,12 @@
 
 @media (max-width: 480px) {
   .v2-hero .hero-title {
-    font-size: 2rem;
-    line-height: 1.06;
+    font-size: 1.65rem;
+    line-height: 1.1;
+  }
+
+  .v2-hero .hero-kicker {
+    letter-spacing: 0.16em;
   }
 
   .v2-hero .cta-btn {
