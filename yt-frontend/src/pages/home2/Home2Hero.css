@@ -6,6 +6,8 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
+  padding: 120px 0 56px;
+  box-sizing: border-box;
   overflow: hidden;
   background:
     linear-gradient(115deg, #4e240c 0%, #6b3211 18%, #863f15 36%, #b0632c 50%, #7f3a12 64%, #5a280d 82%, #341607 100%),
@@ -115,14 +117,13 @@
 }
 
 .v2-hero .hero-products-strip {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.7rem 0.9rem;
+  grid-column: 1 / -1;
+  min-width: 0;
   margin-top: 1.8rem;
 }
 
 .v2-hero .hero-products-label {
+  margin: 0 0 1rem;
   color: #f6e8dc;
   font-size: 0.85rem;
   font-weight: 600;
@@ -131,41 +132,57 @@
   opacity: 0.85;
 }
 
-.v2-hero .hero-products-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
+.v2-hero .hero-products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 140px));
+  gap: 0.75rem;
 }
 
-.v2-hero .hero-product-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0.45rem 0.9rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.1);
+.v2-hero .hero-product-card {
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.18);
   border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
 }
 
-.v2-hero .hero-product-pill:hover {
-  background: color-mix(in srgb, var(--pill-accent) 55%, rgba(255, 255, 255, 0.1));
-  border-color: color-mix(in srgb, var(--pill-accent) 70%, white);
-  transform: translateY(-2px);
-}
-
-.v2-hero .hero-pill-logo {
-  width: 15px;
-  height: 15px;
+.v2-hero .hero-product-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
   object-fit: contain;
-  border-radius: 3px;
+}
+
+.v2-hero .hero-product-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.5rem 0.6rem;
+  box-sizing: border-box;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s ease;
+}
+
+.v2-hero .hero-product-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.v2-hero .hero-product-link:focus-visible {
+  outline: 3px solid #ffd700;
+  outline-offset: -4px;
 }
 
 @media (max-width: 768px) {
+  .v2-hero .hero-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 140px));
+    justify-content: center;
+  }
+
   .v2-hero .hero-products-strip {
     justify-content: center;
     margin-top: 1.5rem;

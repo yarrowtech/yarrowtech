@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Home2Hero.css";
 import HeroImg from "../../assets/result.png";
+import eecImage from "../../assets/eec.png";
+import retailImage from "../../assets/eretailms.png";
+import foodImage from "../../assets/efnbmms.png";
+import sportsImage from "../../assets/esportm.png";
 import { products } from "../../data/productData";
+
+const productImages = {
+  "electronic-educare": eecImage,
+  "retail-management-system": retailImage,
+  "food-and-beverage-management-system": foodImage,
+  sportbit: sportsImage,
+};
 
 const heroContainerVariants = {
   hidden: {},
@@ -25,7 +36,6 @@ const Home2Hero = () => {
   const words = ["Website", "AI Systems", "Mobile App", "Software", "ERP System"];
   const [wordIndex, setWordIndex] = useState(0);
   const [typedText, setTypedText] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     let i = 0;
@@ -97,27 +107,6 @@ const Home2Hero = () => {
             </button>
           </motion.div>
 
-          <motion.div className="hero-products-strip" variants={heroItemVariants}>
-            <span className="hero-products-label">Our Products</span>
-            <div className="hero-products-pills">
-              {products.map((product) => (
-                <button
-                  key={product.slug}
-                  type="button"
-                  className="hero-product-pill"
-                  style={{ "--pill-accent": product.accent }}
-                  onClick={() => navigate(`/products/${product.slug}`)}
-                >
-                  {product.logo ? (
-                    <img src={product.logo} alt="" className="hero-pill-logo" />
-                  ) : (
-                    <product.icon size={14} />
-                  )}
-                  {product.shortName}
-                </button>
-              ))}
-            </div>
-          </motion.div>
         </div>
 
         <motion.div
@@ -128,6 +117,30 @@ const Home2Hero = () => {
           transition={{ type: "spring", stiffness: 220, damping: 22 }}
         >
           <img src={HeroImg} alt="Yarrow Tech laptop and phone showcase" />
+        </motion.div>
+
+        <motion.div className="hero-products-strip" variants={heroItemVariants}>
+          <h2 className="hero-products-label">Our Products</h2>
+          <div className="hero-products-grid">
+            {products.map((product) => (
+              <div key={product.slug} className="hero-product-card">
+                <Link
+                  className="hero-product-link"
+                  to={`/products/${product.slug}`}
+                  aria-label={`View ${product.shortName}`}
+                >
+                  View Product <span aria-hidden="true">&rarr;</span>
+                </Link>
+                <img
+                  src={productImages[product.slug]}
+                  alt={product.name}
+                  className="hero-product-image"
+                  width="1254"
+                  height="1254"
+                />
+              </div>
+            ))}
+          </div>
         </motion.div>
       </motion.div>
     </section>
