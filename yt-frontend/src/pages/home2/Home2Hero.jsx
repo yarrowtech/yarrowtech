@@ -59,14 +59,14 @@ const Home2Hero = () => {
             Industry-focused
           </motion.p>
           <motion.div className="hero-eyebrow" variants={heroItemVariants} aria-live="polite">
-            <AnimatePresence mode="wait">
+            <AnimatePresence initial={false}>
               <motion.span
                 key={EYEBROW_WORDS[wordIndex]}
                 className="hero-eyebrow-word"
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -14 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
+                exit={{ opacity: 0, y: -24 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
               >
                 {EYEBROW_WORDS[wordIndex]}
               </motion.span>
