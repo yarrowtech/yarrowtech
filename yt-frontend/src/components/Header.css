@@ -27,6 +27,29 @@
 .header.header-warm {
   background: linear-gradient(180deg, rgba(128, 59, 20, 0.95) 0%, rgba(88, 39, 11, 0.92) 100%);
   border-bottom-color: rgba(255, 200, 120, 0.16);
+  height: 64px;
+}
+
+.header.header-warm .header-container {
+  max-width: 1380px;
+}
+
+.header.header-warm .nav-menu {
+  gap: 2px;
+}
+
+.header.header-warm .nav-link {
+  padding: 10px 12px;
+}
+
+.header.header-warm .logo-mark {
+  width: 46px;
+  height: 46px;
+}
+
+.header.header-warm .logo-img {
+  width: 40px;
+  height: 40px;
 }
 
 .header.header-warm .nav-link {
@@ -46,6 +69,11 @@
 .header.header-warm .nav-menu.open {
   background: linear-gradient(180deg, rgba(73, 31, 8, 0.98) 0%, rgba(54, 22, 6, 0.98) 100%);
   border-top: 1px solid rgba(255, 200, 120, 0.1);
+}
+
+.header.header-warm .nav-menu.open {
+  top: 64px;
+  height: calc(100dvh - 64px);
 }
 
 .header-container {
@@ -102,8 +130,7 @@
   height: 48px;
   object-fit: contain;
   filter:
-    drop-shadow(0 0 10px rgba(255, 255, 255, 0.14))
-    drop-shadow(0 0 14px rgba(250, 204, 21, 0.16));
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.14)) drop-shadow(0 0 14px rgba(250, 204, 21, 0.16));
   transition: transform 0.25s ease, filter 0.25s ease;
 }
 
@@ -122,6 +149,7 @@
 }
 
 @keyframes logoAura {
+
   0%,
   100% {
     opacity: 0.28;
@@ -487,7 +515,7 @@
 
 .input-group,
 .password-field,
-.modal-form > input {
+.modal-form>input {
   min-height: 46px;
   border-radius: 999px;
   background: #ffffff !important;
@@ -506,7 +534,7 @@
   padding: 0 16px;
 }
 
-.modal-form > input {
+.modal-form>input {
   width: 100%;
   padding: 0 18px;
   outline: none;
@@ -521,7 +549,7 @@
 
 .input-group:focus-within,
 .password-field:focus-within,
-.modal-form > input:focus {
+.modal-form>input:focus {
   border-color: #9ca3af;
 }
 
@@ -550,7 +578,7 @@
 
 .input-group input::placeholder,
 .password-field input::placeholder,
-.modal-form > input::placeholder {
+.modal-form>input::placeholder {
   color: #9ca3af;
 }
 
@@ -560,9 +588,9 @@
 .password-field input:-webkit-autofill,
 .password-field input:-webkit-autofill:hover,
 .password-field input:-webkit-autofill:focus,
-.modal-form > input:-webkit-autofill,
-.modal-form > input:-webkit-autofill:hover,
-.modal-form > input:-webkit-autofill:focus {
+.modal-form>input:-webkit-autofill,
+.modal-form>input:-webkit-autofill:hover,
+.modal-form>input:-webkit-autofill:focus {
   -webkit-text-fill-color: #000000;
   -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
   box-shadow: 0 0 0 1000px #ffffff inset;
@@ -658,7 +686,7 @@
   justify-content: center;
 }
 
-.google-auth-box > div,
+.google-auth-box>div,
 .google-auth-box iframe {
   width: 100% !important;
   border-radius: 6px !important;
@@ -749,7 +777,7 @@
    RESPONSIVE — MOBILE  (≤ 900px)
 ====================================================== */
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .header-container {
     gap: 0;
   }

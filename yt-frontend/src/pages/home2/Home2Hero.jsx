@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import "./Home2Hero.css";
 import HeroImg from "../../assets/result.png";
 import eecImage from "../../assets/eec.png";
@@ -32,34 +33,18 @@ const heroItemVariants = {
   },
 };
 
+const EYEBROW_WORDS = ["Software", "AI Systems", "Mobile App", "ERP System"];
+
 const Home2Hero = () => {
-  const words = ["Website", "AI Systems", "Mobile App", "Software", "ERP System"];
   const [wordIndex, setWordIndex] = useState(0);
-  const [typedText, setTypedText] = useState("");
 
   useEffect(() => {
-    let i = 0;
-    const word = words[wordIndex];
-    setTypedText("");
-
-    const typing = setInterval(() => {
-      setTypedText(word.slice(0, i + 1));
-      i += 1;
-
-      if (i === word.length) {
-        clearInterval(typing);
-      }
-    }, 80);
-
-    const next = setTimeout(() => {
-      setWordIndex((prev) => (prev + 1) % words.length);
-    }, 2800);
-
-    return () => {
-      clearInterval(typing);
-      clearTimeout(next);
-    };
-  }, [wordIndex]);
+    const timer = setInterval(
+      () => setWordIndex((prev) => (prev + 1) % EYEBROW_WORDS.length),
+      2200
+    );
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <section id="home" className="v2-hero">
@@ -70,16 +55,28 @@ const Home2Hero = () => {
         animate="visible"
       >
         <div className="hero-copy">
+          <motion.div className="hero-eyebrow" variants={heroItemVariants} aria-live="polite">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={EYEBROW_WORDS[wordIndex]}
+                className="hero-eyebrow-word"
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                {EYEBROW_WORDS[wordIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </motion.div>
           <motion.h1 className="hero-title" variants={heroItemVariants}>
-            Industry-focused <br />
-            <span className="highlight">{typedText}</span> <br />
-            Development Company
+            Development <br />
+            <span className="highlight">Company</span>
           </motion.h1>
 
           <motion.p className="hero-subtitle" variants={heroItemVariants}>
             Transform your operations with innovative software, AI-powered systems
-            <br />
-            and customized ERP solutions designed to scale your business efficiently
+            and customized ERP solutions designed to scale your business efficiently.
           </motion.p>
 
           <motion.div className="hero-actions" variants={heroItemVariants}>
@@ -91,7 +88,7 @@ const Home2Hero = () => {
                 }
               }}
             >
-              Get Free Demo
+              Get Free Demo <ArrowRight size={17} aria-hidden="true" />
             </button>
 
             <button
@@ -103,7 +100,7 @@ const Home2Hero = () => {
                 }
               }}
             >
-              Explore Our Product
+              Explore Our Products <ArrowRight size={17} aria-hidden="true" />
             </button>
           </motion.div>
 
@@ -120,24 +117,31 @@ const Home2Hero = () => {
         </motion.div>
 
         <motion.div className="hero-products-strip" variants={heroItemVariants}>
-          <h2 className="hero-products-label">Our Products</h2>
+          <div className="hero-products-heading">
+            <h2 className="hero-products-label">Our Products</h2>
+            <a className="hero-products-all" href="#products">
+              View All Products <ArrowUpRight size={14} aria-hidden="true" />
+            </a>
+          </div>
           <div className="hero-products-grid">
             {products.map((product) => (
               <div key={product.slug} className="hero-product-card">
                 <Link
                   className="hero-product-link"
                   to={`/products/${product.slug}`}
-                  aria-label={`View ${product.shortName}`}
+                  aria-label={`View ${product.shortName} product`}
                 >
-                  View Product <span aria-hidden="true">&rarr;</span>
+                  <img
+                    src={productImages[product.slug]}
+                    alt={`${product.shortName} product preview`}
+                    className="hero-product-image"
+                    width="1254"
+                    height="1254"
+                  />
+                  <span className="hero-product-arrow" aria-hidden="true">
+                    <ArrowRight size={18} />
+                  </span>
                 </Link>
-                <img
-                  src={productImages[product.slug]}
-                  alt={product.name}
-                  className="hero-product-image"
-                  width="1254"
-                  height="1254"
-                />
               </div>
             ))}
           </div>
