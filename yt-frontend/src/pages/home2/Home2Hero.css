@@ -46,6 +46,16 @@
   max-width: 650px;
 }
 
+.v2-hero .hero-kicker {
+  margin: 0 0 0.2rem;
+  color: rgba(255, 236, 207, 0.78);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.34em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
 .v2-hero .hero-eyebrow {
   margin: 0 0 0.5rem;
   height: clamp(3.2rem, 5vw, 4.4rem);

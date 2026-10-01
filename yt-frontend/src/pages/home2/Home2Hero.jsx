@@ -55,6 +55,9 @@ const Home2Hero = () => {
         animate="visible"
       >
         <div className="hero-copy">
+          <motion.p className="hero-kicker" variants={heroItemVariants}>
+            Industry-focused
+          </motion.p>
           <motion.div className="hero-eyebrow" variants={heroItemVariants} aria-live="polite">
             <AnimatePresence mode="wait">
               <motion.span
