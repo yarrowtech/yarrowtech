@@ -20,7 +20,15 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const origin = `http://127.0.0.1:${server.address().port}`;
 let browser;
 try {
-  browser = await chromium.launch({ headless: true });
+  // Vercel's build image lacks the system libraries Playwright's bundled
+  // Chromium needs, so there we use a Chromium built for serverless Linux.
+  const launchOptions = { headless: true };
+  if (process.env.VERCEL) {
+    const { default: serverlessChromium } = await import('@sparticuz/chromium');
+    launchOptions.args = serverlessChromium.args;
+    launchOptions.executablePath = await serverlessChromium.executablePath();
+  }
+  browser = await chromium.launch(launchOptions);
   const context = await browser.newContext({ reducedMotion: 'reduce' });
   // Build snapshots must not send analytics, load maps or depend on external APIs.
   await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
