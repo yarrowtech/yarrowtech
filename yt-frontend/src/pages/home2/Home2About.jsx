@@ -77,6 +77,8 @@ export default function Home2About() {
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
+            <span className="ring ring-outer" aria-hidden="true" />
+            <span className="ring ring-orbit" aria-hidden="true" />
             <span className="blob-glow" aria-hidden="true" />
             <div className="blob-frame">
               <img
@@ -90,10 +92,11 @@ export default function Home2About() {
             </div>
             <span className="orb orb-a" aria-hidden="true" />
             <span className="orb orb-b" aria-hidden="true" />
-            <span className="orb orb-c" aria-hidden="true" />
 
             <div className="about-chip chip-team">
-              <Users size={30} aria-hidden="true" />
+              <span className="chip-icon">
+                <Users size={22} aria-hidden="true" />
+              </span>
               <span>
                 Passionate
                 <br />
@@ -101,7 +104,9 @@ export default function Home2About() {
               </span>
             </div>
             <div className="about-chip chip-innov">
-              <Lightbulb size={30} aria-hidden="true" />
+              <span className="chip-icon">
+                <Lightbulb size={22} aria-hidden="true" />
+              </span>
               <span>
                 Innovative
                 <br />
@@ -109,7 +114,9 @@ export default function Home2About() {
               </span>
             </div>
             <div className="about-chip chip-growth">
-              <ChartColumn size={30} aria-hidden="true" />
+              <span className="chip-icon">
+                <ChartColumn size={22} aria-hidden="true" />
+              </span>
               <span>
                 Future
                 <br />

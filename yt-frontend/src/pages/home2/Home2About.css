@@ -40,48 +40,63 @@
 
 .v2-about-section .about-visual {
   position: relative;
-  aspect-ratio: 1 / 0.96;
-  max-width: 520px;
+  aspect-ratio: 1 / 1;
+  max-width: 500px;
   width: 100%;
   margin: 0 auto;
 }
 
+.v2-about-section .ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.v2-about-section .ring-outer {
+  inset: 4%;
+  border: 1px solid rgba(249, 115, 22, 0.14);
+}
+
+.v2-about-section .ring-orbit {
+  inset: 11%;
+  border: 1.5px dashed rgba(249, 115, 22, 0.38);
+}
+
 .v2-about-section .blob-glow {
   position: absolute;
-  inset: 6% -6% -6% 6%;
-  border-radius: 46% 54% 52% 48% / 52% 44% 56% 48%;
-  background: linear-gradient(135deg, rgba(255, 196, 120, 0.55), rgba(255, 226, 190, 0.2));
-  filter: blur(2px);
+  inset: 20%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 190, 110, 0.55), rgba(255, 190, 110, 0) 70%);
+  filter: blur(8px);
+  transform: scale(1.25);
 }
 
 .v2-about-section .blob-frame {
   position: absolute;
-  inset: 4% 4% 4% 4%;
-  overflow: hidden;
-  border-radius: 46% 54% 52% 48% / 52% 44% 56% 48%;
-  box-shadow: 0 30px 50px -28px rgba(77, 39, 18, 0.5);
-}
-
-.v2-about-section .blob-frame {
+  inset: 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 10px;
+  border-radius: 50%;
   background:
-    radial-gradient(70% 60% at 50% 38%, #fff8ec 0%, rgba(255, 238, 214, 0.9) 55%, rgba(255, 214, 170, 0.9) 100%),
-    linear-gradient(135deg, #ffe8c8, #ffc98a);
+    radial-gradient(75% 65% at 50% 32%, #ffffff 0%, #fff4e4 60%, #ffe2bc 100%);
+  border: 1px solid #fbe3c4;
+  box-shadow:
+    0 30px 50px -26px rgba(194, 103, 10, 0.55),
+    inset 0 0 0 10px rgba(255, 255, 255, 0.55);
 }
 
 .v2-about-section .blob-logo {
-  width: 42%;
+  width: 46%;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 14px 18px rgba(194, 103, 10, 0.3));
+  filter: drop-shadow(0 12px 16px rgba(194, 103, 10, 0.28));
 }
 
 .v2-about-section .blob-brand {
-  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  font-size: clamp(1.1rem, 2.6vw, 1.55rem);
   font-weight: 800;
   letter-spacing: 0.06em;
   color: #2a140a;
@@ -91,39 +106,48 @@
   position: absolute;
   border-radius: 50%;
   background: linear-gradient(145deg, #ffc15a, #f97316);
-  box-shadow: 0 10px 18px -8px rgba(249, 115, 22, 0.7);
+  box-shadow: 0 8px 14px -6px rgba(249, 115, 22, 0.7);
 }
 
-.v2-about-section .orb-a { width: 34px; height: 34px; top: 24%; left: -1%; }
-.v2-about-section .orb-b { width: 20px; height: 20px; bottom: 2%; left: 55%; }
-.v2-about-section .orb-c { width: 40px; height: 40px; top: 18%; right: -2%; border-radius: 50% 50% 50% 0; }
+.v2-about-section .orb-a { width: 16px; height: 16px; top: 11%; left: 62%; }
+.v2-about-section .orb-b { width: 12px; height: 12px; bottom: 11%; left: 66%; }
 
+/* Labels sit evenly on the orbit ring */
 .v2-about-section .about-chip {
   position: absolute;
   z-index: 3;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  min-width: 108px;
-  padding: 14px 16px;
-  border-radius: 22px;
+  gap: 12px;
+  padding: 10px 18px 10px 10px;
+  border-radius: 18px;
   background: #ffffff;
-  text-align: center;
+  border: 1px solid #f6e6d4;
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.25;
+  text-align: left;
   color: #2a140a;
-  box-shadow: 0 20px 34px -18px rgba(77, 39, 18, 0.45);
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 18px 30px -16px rgba(77, 39, 18, 0.45);
 }
 
-.v2-about-section .about-chip svg {
-  color: #f97316;
+.v2-about-section .chip-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  color: #ffffff;
+  background: linear-gradient(145deg, #ffb347, #f97316);
+  box-shadow: 0 8px 14px -8px rgba(249, 115, 22, 0.8);
 }
 
-.v2-about-section .chip-team { top: 2%; left: 0; }
-.v2-about-section .chip-innov { top: 42%; right: -4%; }
-.v2-about-section .chip-growth { bottom: 4%; left: -3%; }
+.v2-about-section .chip-team { top: 20%; left: 24%; }
+.v2-about-section .chip-innov { top: 50%; left: 90%; }
+.v2-about-section .chip-growth { top: 80%; left: 24%; }
 
 .v2-about-section .about-pill {
   display: inline-flex;
@@ -333,20 +357,24 @@
   }
 
   .v2-about-section .about-chip {
-    min-width: 0;
-    padding: 9px 11px;
-    gap: 5px;
-    font-size: 0.68rem;
-    border-radius: 16px;
+    padding: 6px 10px 6px 6px;
+    gap: 8px;
+    font-size: 0.64rem;
+    border-radius: 14px;
   }
 
-  .v2-about-section .about-chip svg {
-    width: 22px;
-    height: 22px;
+  .v2-about-section .chip-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
   }
 
-  .v2-about-section .chip-innov { right: -2%; }
-  .v2-about-section .chip-growth { left: -1%; }
+  .v2-about-section .chip-icon svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .v2-about-section .chip-innov { left: 86%; }
 
   .v2-about-section .about-text {
     text-align: left;
