@@ -4,6 +4,10 @@ import { ArrowLeft, ArrowUpRight, CheckCircle2, UsersRound } from "lucide-react"
 import { getProductBySlug } from "../data/productData";
 import { trackProductPageVisit } from "../services/adminService";
 import Seo from "../components/Seo";
+import EecProductLayout from "./EecProductLayout";
+import RetailProductLayout from "./RetailProductLayout";
+import FnbProductLayout from "./FnbProductLayout";
+import SportsProductLayout from "./SportsProductLayout";
 import "./ProductDetailsPage.css";
 
 export default function ProductDetailsPage() {
@@ -66,6 +70,22 @@ export default function ProductDetailsPage() {
         </section>
       </main>
     );
+  }
+
+  if (product.slug === "electronic-educare") {
+    return <EecProductLayout product={product} />;
+  }
+
+  if (product.slug === "retail-management-system") {
+    return <RetailProductLayout product={product} />;
+  }
+
+  if (product.slug === "food-and-beverage-management-system") {
+    return <FnbProductLayout product={product} />;
+  }
+
+  if (product.slug === "sportbit") {
+    return <SportsProductLayout product={product} />;
   }
 
   const ProductIcon = product.icon;

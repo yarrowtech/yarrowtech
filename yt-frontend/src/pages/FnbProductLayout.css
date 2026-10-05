@@ -1,0 +1,233 @@
+/* Green F&B theme layered on top of the retail (blue) layout */
+.eec-page.eec-blue.fnb-green {
+  --eec-amber: #16a34a;
+  --eec-amber-dark: #15803d;
+  background:
+    radial-gradient(900px 420px at 85% -5%, rgba(74, 222, 128, 0.28), transparent 60%),
+    linear-gradient(180deg, #ecfbf1 0%, #f8fdf9 55%, #ffffff 100%);
+}
+
+.fnb-green .eec-card {
+  background:
+    radial-gradient(700px 420px at 70% 30%, rgba(134, 239, 172, 0.5), transparent 65%),
+    linear-gradient(120deg, #fbfef9 0%, #e8f8ec 100%);
+  border-color: rgba(22, 163, 74, 0.16);
+  box-shadow: 0 30px 70px -34px rgba(22, 163, 74, 0.38);
+}
+
+.fnb-green .eec-category {
+  color: #15803d;
+  background: #dff5e5;
+  border-color: rgba(22, 163, 74, 0.35);
+}
+
+.fnb-green .eec-title {
+  text-transform: uppercase;
+  font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+}
+
+.fnb-green .eec-title span {
+  white-space: normal;
+  background: linear-gradient(135deg, #15803d, #22b35a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.fnb-green .eec-btn-primary {
+  background: linear-gradient(135deg, #22b35a, #15803d);
+  box-shadow: 0 14px 28px -12px rgba(21, 128, 61, 0.7);
+}
+
+.fnb-green .eec-btn-primary:hover {
+  box-shadow: 0 18px 32px -12px rgba(21, 128, 61, 0.8);
+}
+
+.fnb-green .eec-btn-outline {
+  min-height: 48px;
+  color: #15803d;
+  background: #ffffff;
+  border: 1.5px solid #22b35a;
+}
+
+.fnb-green .eec-btn-outline:hover {
+  transform: translateY(-2px);
+  background: #f0fbf3;
+}
+
+.fnb-green .eec-actions {
+  gap: 12px;
+}
+
+.fnb-green .eec-blob {
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.36), rgba(34, 197, 94, 0) 68%);
+}
+
+.fnb-green .retail-deco {
+  color: rgba(22, 163, 74, 0.24);
+}
+
+.fnb-green .eec-chip-icon {
+  color: #15803d;
+  background: #dcf5e4;
+}
+
+.fnb-green .rd-nav li.active {
+  background: #16a34a;
+}
+
+.fnb-green .rd-bars-wrap span,
+.fnb-green .rd-top-products i {
+  background: linear-gradient(180deg, #34d27a, #15803d);
+}
+
+.fnb-green .rd-top-products i {
+  background: #22b35a;
+}
+
+.fnb-green .eec-highlight svg {
+  color: #22b35a;
+}
+
+.fnb-green .eec-highlights {
+  border-color: rgba(22, 163, 74, 0.14);
+  box-shadow: 0 20px 44px -30px rgba(22, 163, 74, 0.4);
+}
+
+.fnb-green .eec-highlight + .eec-highlight {
+  border-left-color: #e2efe6;
+}
+
+.fnb-green .eec-details article {
+  border-color: rgba(22, 163, 74, 0.16);
+  box-shadow: 0 16px 36px -28px rgba(22, 163, 74, 0.45);
+}
+
+.fnb-green .eec-details li::before {
+  background: #dcf5e4 radial-gradient(circle, #16a34a 38%, transparent 42%);
+}
+
+/* Dashboard bits specific to F&B */
+.fnb-popular > div {
+  grid-template-columns: 58px minmax(0, 1fr) 20px;
+}
+
+.fnb-orders > div {
+  display: grid;
+  grid-template-columns: 0.7fr 0.5fr 0.8fr 0.8fr 1fr;
+  gap: 4px;
+  margin-top: 5.5px;
+  font-size: 7.5px;
+  line-height: 1.2;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.fnb-orders em {
+  width: fit-content;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.st-served, .st-paid { color: #15803d; background: #dcf5e4; }
+.st-preparing { color: #c2670a; background: #ffedd5; }
+.st-ready { color: #1d4ed8; background: #e0ebff; }
+
+.fnb-table-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.fnb-table-grid span {
+  padding: 4px 0;
+  border-radius: 4px;
+  font-size: 7px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.tb-a { color: #15803d; background: #dcf5e4; }
+.tb-o { color: #c2670a; background: #fde1c0; }
+.tb-r { color: #4b5563; background: #e5e7eb; }
+
+/* No photo yet: let the dashboard use the full width */
+.fnb-visual .retail-laptop {
+  right: 16%;
+  top: 50%;
+  transform: translateY(-46%);
+}
+
+.fnb-visual .retail-screen {
+  border-radius: 18px;
+}
+
+.fnb-visual .retail-chip-inventory {
+  top: 2%;
+  left: 2%;
+}
+
+.fnb-visual .retail-chip-sales {
+  top: 2%;
+  right: 3%;
+}
+
+.fnb-visual .retail-chip-reports {
+  top: 22%;
+  right: -2%;
+}
+
+@media (max-width: 1100px) {
+  .fnb-visual .retail-laptop {
+    right: 2%;
+  }
+}
+
+@media (max-width: 640px) {
+  .fnb-orders,
+  .fnb-tables {
+    display: none;
+  }
+
+  .fnb-green .eec-btn,
+  .fnb-green .eec-btn-outline {
+    width: 100%;
+  }
+
+  .fnb-visual .retail-chip-reports {
+    display: none;
+  }
+}
+
+/* Chef photo */
+.fnb-chef {
+  height: 64%;
+  max-width: 32%;
+  right: 0;
+}
+
+.fnb-visual .retail-chip-reports {
+  top: 24%;
+  right: -2%;
+  z-index: 5;
+}
+
+@media (max-width: 1100px) {
+  .fnb-visual .retail-laptop {
+    right: 10%;
+  }
+}
+
+@media (max-width: 640px) {
+  .fnb-visual .retail-laptop {
+    right: 0;
+  }
+
+  .fnb-chef {
+    height: 52%;
+    max-width: 36%;
+  }
+}

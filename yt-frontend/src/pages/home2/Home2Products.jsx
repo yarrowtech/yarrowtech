@@ -1,33 +1,60 @@
-import React, { useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
+import React from "react";
+import { ArrowRight, GraduationCap, Store, Trophy, UtensilsCrossed } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { products } from "../../data/productData";
 import "./Home2Products.css";
 
+const DISPLAY_NAMES = {
+  "electronic-educare": "EEC - Electronic Educare",
+  "retail-management-system": "ERetailMS - Retail Management System",
+  "food-and-beverage-management-system":
+    "EFNBMMS - Food & Beverage Management System",
+  sportbit: "ESPORTM - Sports Management System",
+};
+
+const DECO_ICONS = {
+  "electronic-educare": GraduationCap,
+  "retail-management-system": Store,
+  "food-and-beverage-management-system": UtensilsCrossed,
+  sportbit: Trophy,
+};
+
+// Content for the small dashboard preview shown on each card.
+const PREVIEWS = {
+  "electronic-educare": {
+    brand: "EEC",
+    nav: ["Dashboard", "Students", "Teachers", "Classes", "Exams", "Reports"],
+    stats: [["Students", "1,250"], ["Teachers", "86"]],
+    bars: [30, 44, 38, 58, 50, 72, 84],
+    chartTitle: "Attendance",
+  },
+  "retail-management-system": {
+    brand: "ERetailMS",
+    nav: ["Dashboard", "Products", "Inventory", "Sales", "Vendors", "Reports"],
+    stats: [["Total Sales", "₹2,48,500"], ["Products", "2,580"]],
+    bars: [28, 40, 34, 56, 48, 68, 88],
+    chartTitle: "Sales Overview",
+  },
+  "food-and-beverage-management-system": {
+    brand: "EFNBMMS",
+    nav: ["Dashboard", "Orders", "Menu", "Inventory", "Staff", "Reports"],
+    stats: [["Today's Orders", "120"], ["Revenue", "₹28,430"]],
+    bars: [26, 38, 46, 42, 62, 70, 90],
+    chartTitle: "Order Trends",
+  },
+  sportbit: {
+    brand: "SportM",
+    nav: ["Dashboard", "Players", "Teams", "Matches", "Analytics", "Reports"],
+    stats: [["Total Players", "320"], ["Matches", "156"]],
+    bars: [32, 44, 40, 58, 52, 74, 86],
+    chartTitle: "Performance Overview",
+  },
+};
+
 export default function Home2Products() {
-  const sectionRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-
   return (
-    <section
-      id="products"
-      ref={sectionRef}
-      className="v2-products-section"
-      style={{ position: "relative" }}
-    >
-      <motion.div
-        className="v2-ambient-particles"
-        style={{ y: bgY }}
-        aria-hidden="true"
-      />
-
+    <section id="products" className="v2-products-section">
       <div className="container">
         <motion.div
           className="products-header"
@@ -36,23 +63,18 @@ export default function Home2Products() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="title">Our Products</h2>
+          <span className="products-kicker">Our Products</span>
+          <h2 className="title">
+            Our <span>Products</span>
+          </h2>
           <p className="subtitle">
-            Choose ready digital platforms built to reduce manual work, connect
-            your teams, and give every business owner clearer control over daily
-            operations.
-          </p>
-          <p className="products-writeup">
-            Each product is practical, customizable, and designed for real users:
-            administrators, managers, staff, customers, students, parents,
-            coaches, and decision-makers. Start with what you need today, then
-            expand modules as your organization grows.
+            Purpose-built platforms for modern businesses
           </p>
         </motion.div>
 
         <div className="products-list">
           {products.map((product, index) => (
-            <AliveCard key={product.slug} product={product} index={index} />
+            <ProductCard key={product.slug} product={product} index={index} />
           ))}
         </div>
       </div>
@@ -60,9 +82,11 @@ export default function Home2Products() {
   );
 }
 
-function AliveCard({ product, index }) {
+function ProductCard({ product, index }) {
   const navigate = useNavigate();
-
+  const preview = PREVIEWS[product.slug];
+  const DecoIcon = DECO_ICONS[product.slug];
+  const ProductIcon = product.icon || DecoIcon;
   const openProduct = () => navigate(`/products/${product.slug}`);
 
   return (
@@ -71,31 +95,16 @@ function AliveCard({ product, index }) {
       role="button"
       tabIndex={0}
       style={{ "--accent": product.accent }}
-      initial={{
-        opacity: 0,
-        y: 40,
-        scale: 0.94,
-      }}
-      whileInView={{
-        opacity: 1,
-        y: 0,
-        scale: 1,
-      }}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
       transition={{
         duration: 0.6,
-        delay: index * 0.12,
+        delay: (index % 2) * 0.12,
         ease: [0.16, 1, 0.3, 1],
       }}
-      viewport={{ once: true, amount: 0.4 }}
-      whileHover={{
-        y: -10,
-        scale: 1.025,
-        transition: { duration: 0.25, ease: "easeOut" },
-      }}
-      whileTap={{
-        scale: 0.98,
-        transition: { duration: 0.12 },
-      }}
+      viewport={{ once: true, amount: 0.25 }}
+      whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
+      whileTap={{ scale: 0.99, transition: { duration: 0.12 } }}
       onClick={openProduct}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
@@ -104,26 +113,68 @@ function AliveCard({ product, index }) {
         }
       }}
     >
-      <div className="accent-bar" />
+      <span className="accent-bar" />
+      <span className="card-glow" aria-hidden="true" />
 
-      <div className="product-icon">
-        {product.logo ? (
-          <img src={product.logo} alt={product.name} className="product-logo" />
-        ) : (
-          <product.icon size={26} />
-        )}
+      <div className="card-copy">
+        <div className="product-icon">
+          {product.logo ? (
+            <img src={product.logo} alt="" className="product-logo" />
+          ) : (
+            <ProductIcon size={30} aria-hidden="true" />
+          )}
+        </div>
+
+        <span className="product-category">{product.category}</span>
+        <h3>{DISPLAY_NAMES[product.slug] || product.name}</h3>
+        <p>{product.description}</p>
+
+        <span className="product-detail-link">
+          View product details
+          <ArrowRight size={16} aria-hidden="true" />
+        </span>
       </div>
 
-      <span className="product-category">{product.category}</span>
-      <h3>{product.name}</h3>
-      <p>{product.description}</p>
-
-      <span className="product-detail-link">
-        View product details
-        <ArrowUpRight size={17} aria-hidden="true" />
-      </span>
-
-      <span className="hover-light" />
+      {preview && (
+        <div className="card-preview" aria-hidden="true">
+          {DecoIcon && (
+            <DecoIcon className="preview-deco" size={86} strokeWidth={1.2} />
+          )}
+          <div className="mini-dash">
+            <div className="mini-top">
+              <b>{preview.brand}</b>
+              <i />
+            </div>
+            <div className="mini-body">
+              <ul className="mini-nav">
+                {preview.nav.map((item, i) => (
+                  <li key={item} className={i === 0 ? "active" : ""}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <div className="mini-main">
+                <div className="mini-stats">
+                  {preview.stats.map(([label, value]) => (
+                    <div key={label}>
+                      <small>{label}</small>
+                      <strong>{value}</strong>
+                    </div>
+                  ))}
+                </div>
+                <div className="mini-chart">
+                  <small>{preview.chartTitle}</small>
+                  <div className="mini-bars">
+                    {preview.bars.map((h, i) => (
+                      <span key={i} style={{ height: `${h}%` }} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }

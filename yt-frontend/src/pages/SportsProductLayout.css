@@ -1,0 +1,236 @@
+/* Purple sports theme layered on top of the retail (blue) layout */
+.eec-page.eec-blue.sport-purple {
+  --eec-amber: #7c3aed;
+  --eec-amber-dark: #6d28d9;
+  background:
+    radial-gradient(900px 420px at 85% -5%, rgba(167, 139, 250, 0.28), transparent 60%),
+    linear-gradient(180deg, #f3edff 0%, #fbf9ff 55%, #ffffff 100%);
+}
+
+.sport-purple .eec-card {
+  background:
+    radial-gradient(700px 420px at 70% 30%, rgba(196, 181, 253, 0.5), transparent 65%),
+    linear-gradient(120deg, #fcfaff 0%, #efe7ff 100%);
+  border-color: rgba(124, 58, 237, 0.16);
+  box-shadow: 0 30px 70px -34px rgba(124, 58, 237, 0.38);
+}
+
+.sport-purple .eec-category {
+  color: #6d28d9;
+  background: #ede4ff;
+  border-color: rgba(124, 58, 237, 0.35);
+}
+
+.sport-purple .eec-title {
+  font-size: clamp(1.9rem, 3vw, 2.7rem);
+}
+
+.sport-purple .eec-title span {
+  white-space: normal;
+  background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sport-purple .eec-btn-primary {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  box-shadow: 0 14px 28px -12px rgba(109, 40, 217, 0.7);
+}
+
+.sport-purple .eec-btn-primary:hover {
+  box-shadow: 0 18px 32px -12px rgba(109, 40, 217, 0.8);
+}
+
+.sport-purple .eec-btn-outline {
+  min-height: 48px;
+  color: #6d28d9;
+  background: #ffffff;
+  border: 1.5px solid #8b5cf6;
+}
+
+.sport-purple .eec-btn-outline:hover {
+  transform: translateY(-2px);
+  background: #f6f0ff;
+}
+
+.sport-purple .eec-actions {
+  gap: 12px;
+}
+
+.sport-purple .eec-blob {
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.36), rgba(139, 92, 246, 0) 68%);
+}
+
+.sport-purple .retail-deco {
+  color: rgba(124, 58, 237, 0.24);
+}
+
+.sport-purple .eec-chip-icon {
+  color: #6d28d9;
+  background: #ede4ff;
+}
+
+.sport-purple .rd-nav li.active {
+  background: #7c3aed;
+}
+
+.sport-purple .rd-bars-wrap span,
+.sport-purple .rd-top-products i {
+  background: linear-gradient(180deg, #a78bfa, #6d28d9);
+}
+
+.sport-purple .rd-top-products i {
+  background: #8b5cf6;
+}
+
+.sport-purple .eec-highlight svg {
+  color: #8b5cf6;
+}
+
+.sport-purple .eec-highlights {
+  border-color: rgba(124, 58, 237, 0.14);
+  box-shadow: 0 20px 44px -30px rgba(124, 58, 237, 0.4);
+}
+
+.sport-purple .eec-highlight + .eec-highlight {
+  border-left-color: #e8e2f3;
+}
+
+.sport-purple .eec-details article {
+  border-color: rgba(124, 58, 237, 0.16);
+  box-shadow: 0 16px 36px -28px rgba(124, 58, 237, 0.45);
+}
+
+.sport-purple .eec-details li::before {
+  background: #ede4ff radial-gradient(circle, #7c3aed 38%, transparent 42%);
+}
+
+/* Dashboard bits specific to sports */
+.sport-players > div {
+  grid-template-columns: 56px minmax(0, 1fr) 16px;
+}
+
+.sport-events > div {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5.5px;
+  font-size: 7.5px;
+  line-height: 1.2;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.sport-events i {
+  display: block;
+  height: 4px;
+  border-radius: 4px;
+  background: #8b5cf6;
+}
+
+.sport-events b {
+  text-align: right;
+  color: #17120e;
+}
+
+.sport-rate {
+  display: flex;
+  flex-direction: column;
+}
+
+.sport-rate .rd-donut span {
+  background:
+    radial-gradient(circle, #ffffff 58%, transparent 60%),
+    conic-gradient(#f59e0b 0 82%, #ede4ff 82% 100%);
+}
+
+/* No photo yet: let the dashboard use the full width */
+.sport-visual .retail-laptop {
+  right: 16%;
+  top: 50%;
+  transform: translateY(-46%);
+}
+
+.sport-visual .retail-screen {
+  border-radius: 18px;
+}
+
+.sport-visual .retail-chip-reports {
+  top: 6%;
+  right: -2%;
+}
+
+.sport-visual .retail-chip-sales {
+  right: 20%;
+}
+
+@media (max-width: 1100px) {
+  .sport-visual .retail-laptop {
+    right: 2%;
+  }
+}
+
+@media (max-width: 640px) {
+  .sport-events,
+  .sport-rate {
+    display: none;
+  }
+
+  .sport-purple .eec-btn,
+  .sport-purple .eec-btn-outline {
+    width: 100%;
+  }
+
+  .sport-visual .retail-chip-reports {
+    display: none;
+  }
+}
+
+/* Floating labels: keep them from overlapping */
+.sport-visual .retail-chip-inventory {
+  top: 2%;
+  left: 2%;
+}
+
+.sport-visual .retail-chip-sales {
+  top: 2%;
+  right: 3%;
+}
+
+.sport-visual .retail-chip-reports {
+  top: 22%;
+  right: -2%;
+  z-index: 5;
+}
+
+@media (max-width: 640px) {
+  .sport-visual .retail-chip-reports {
+    display: none;
+  }
+}
+
+/* Player photo */
+.sport-player {
+  height: 64%;
+  max-width: 32%;
+  right: 0;
+}
+
+@media (max-width: 1100px) {
+  .sport-visual .retail-laptop {
+    right: 10%;
+  }
+}
+
+@media (max-width: 640px) {
+  .sport-visual .retail-laptop {
+    right: 0;
+  }
+
+  .sport-player {
+    height: 52%;
+    max-width: 36%;
+  }
+}

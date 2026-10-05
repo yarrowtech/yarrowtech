@@ -1,0 +1,613 @@
+/* Blue retail theme layered on top of EecProductLayout.css */
+.eec-page.eec-blue {
+  --eec-amber: #2563eb;
+  --eec-amber-dark: #1d4ed8;
+  background:
+    radial-gradient(900px 420px at 85% -5%, rgba(96, 165, 250, 0.28), transparent 60%),
+    linear-gradient(180deg, #eaf2ff 0%, #f8fbff 55%, #ffffff 100%);
+}
+
+.eec-blue .eec-card {
+  background: linear-gradient(120deg, #f6faff 0%, #e9f1ff 100%);
+  border-color: rgba(37, 99, 235, 0.14);
+  box-shadow: 0 30px 70px -34px rgba(37, 99, 235, 0.38);
+}
+
+.eec-blue .eec-category {
+  color: #1d4ed8;
+  background: #e3edff;
+  border-color: rgba(37, 99, 235, 0.35);
+}
+
+.eec-blue .eec-title span {
+  background: linear-gradient(135deg, #1d4ed8, #2f7bff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.eec-blue .eec-btn-primary {
+  background: linear-gradient(135deg, #2f7bff, #1d4ed8);
+  box-shadow: 0 14px 28px -12px rgba(29, 78, 216, 0.7);
+}
+
+.eec-blue .eec-btn-primary:hover {
+  box-shadow: 0 18px 32px -12px rgba(29, 78, 216, 0.8);
+}
+
+.eec-blue .eec-blob {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.38), rgba(59, 130, 246, 0) 68%);
+}
+
+.eec-blue .eec-dots {
+  background-image: radial-gradient(#7aa7f5 2px, transparent 2px);
+}
+
+.eec-blue .eec-chip-icon {
+  color: #1d4ed8;
+  background: #dce9ff;
+}
+
+.eec-blue .eec-mock-nav li.active {
+  color: #1d4ed8;
+  background: #dce9ff;
+}
+
+.eec-blue .eec-bars span,
+.eec-blue .eec-bars span:nth-child(3n + 1),
+.eec-blue .eec-bars span:nth-child(3n + 2) {
+  background: linear-gradient(180deg, #4f9bff, #1d4ed8);
+}
+
+.eec-blue .eec-highlight svg {
+  color: #2f7bff;
+}
+
+.eec-blue .eec-highlights {
+  border-color: rgba(37, 99, 235, 0.12);
+  box-shadow: 0 20px 44px -30px rgba(37, 99, 235, 0.4);
+}
+
+.eec-blue .eec-highlight + .eec-highlight {
+  border-left-color: #e3ebf7;
+}
+
+.eec-blue .eec-details article {
+  border-color: rgba(37, 99, 235, 0.14);
+  box-shadow: 0 16px 36px -28px rgba(37, 99, 235, 0.45);
+}
+
+.eec-blue .eec-details li::before {
+  background: #dce9ff radial-gradient(circle, #2563eb 38%, transparent 42%);
+}
+
+.tone-pink { color: #db2777; background: #ffe4ef; }
+.tone-teal { color: #0891b2; background: #d9f3f9; }
+.tone-amber { color: #d97706; background: #fff0d1; }
+
+/* ---------- Retail-specific layout ---------- */
+.eec-blue .eec-card {
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.32fr);
+  padding: 40px 0 0 44px;
+  background:
+    radial-gradient(700px 420px at 70% 30%, rgba(147, 197, 253, 0.55), transparent 65%),
+    linear-gradient(120deg, #f6faff 0%, #e6efff 100%);
+}
+
+.eec-blue .eec-copy {
+  padding-bottom: 44px;
+}
+
+.eec-blue .eec-title {
+  font-size: clamp(2rem, 3.6vw, 3rem);
+}
+
+.retail-visual {
+  min-height: 560px;
+}
+
+.retail-deco {
+  position: absolute;
+  color: rgba(37, 99, 235, 0.22);
+  stroke-width: 1.5;
+}
+
+.deco-cart { top: 4%; left: 2%; }
+.deco-box { top: 3%; left: 44%; }
+.deco-store { top: 20%; right: 1%; }
+.deco-bars { bottom: 12%; right: 1%; }
+
+/* Laptop */
+.retail-laptop {
+  position: absolute;
+  left: 2%;
+  right: 12%;
+  top: 14%;
+  z-index: 2;
+  transform: perspective(1500px) rotateY(-5deg) rotateX(1.5deg);
+  transform-origin: 30% 50%;
+}
+
+.retail-screen {
+  border: 7px solid #14161c;
+  border-radius: 18px;
+  background: #f4f7fc;
+  overflow: hidden;
+  box-shadow: 0 30px 50px -26px rgba(15, 23, 42, 0.5);
+}
+
+.rd-top {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 6.5px 12px;
+  background: #ffffff;
+  border-bottom: 1px solid #e6ebf3;
+}
+
+.rd-top b {
+  font-size: 13px;
+  font-weight: 800;
+  color: #17120e;
+}
+
+.rd-search {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 4px 10.5px;
+  border-radius: 6.5px;
+  background: #f1f4f9;
+  font-size: 8px;
+  color: #8a94a6;
+}
+
+.rd-top i {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #cfd8e8;
+}
+
+.rd-body {
+  display: grid;
+  grid-template-columns: 97.5px minmax(0, 1fr);
+}
+
+.rd-nav {
+  margin: 0;
+  padding: 8px 6.5px;
+  list-style: none;
+  background: #ffffff;
+  border-right: 1px solid #e6ebf3;
+}
+
+.rd-nav li {
+  display: flex;
+  align-items: center;
+  gap: 5.5px;
+  padding: 4px 6.5px;
+  border-radius: 5.5px;
+  font-size: 8.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #4b5563;
+  white-space: nowrap;
+}
+
+.rd-nav li.active {
+  color: #ffffff;
+  background: #2563eb;
+}
+
+.rd-main {
+  display: grid;
+  gap: 8px;
+  padding: 9px;
+  min-width: 0;
+}
+
+.rd-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.rd-stats > div,
+.rd-panel {
+  min-width: 0;
+  overflow: hidden;
+  padding: 6.5px 8px;
+  border-radius: 8px;
+  background: #ffffff;
+  border: 1px solid #e6ebf3;
+}
+
+.rd-stats > div {
+  display: flex;
+  align-items: center;
+  gap: 6.5px;
+}
+
+.rd-stat-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 21px;
+  height: 21px;
+  border-radius: 6.5px;
+}
+
+.rd-stat-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.rd-main small {
+  display: block;
+  font-size: 7.5px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.rd-stats strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #17120e;
+  white-space: nowrap;
+}
+
+.rd-stats em {
+  font-size: 7.5px;
+  font-style: normal;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.rd-stats em.down { color: #e11d48; }
+
+.rd-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.rd-top-products > div {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 22px;
+  align-items: center;
+  gap: 5.5px;
+  margin-top: 5.5px;
+  font-size: 7.5px;
+  line-height: 1.2;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.rd-top-products i {
+  display: block;
+  height: 5.5px;
+  border-radius: 5.5px;
+  background: #3b82f6;
+}
+
+.rd-sales > div {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr 0.8fr 0.7fr;
+  gap: 4px;
+  margin-top: 5.5px;
+  font-size: 7.5px;
+  line-height: 1.2;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.rd-sales em {
+  font-style: normal;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.rd-sales em.pending { color: #d97706; }
+
+.rd-inventory {
+  display: flex;
+  flex-direction: column;
+}
+
+.rd-donut {
+  display: grid;
+  place-items: center;
+  flex: 1;
+  margin-top: 2.5px;
+}
+
+.rd-donut span {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  font-size: 6.5px;
+  color: #6b7280;
+  background:
+    radial-gradient(circle, #ffffff 56%, transparent 58%),
+    conic-gradient(#2563eb 0 72%, #f59e0b 72% 92%, #ef4444 92% 100%);
+}
+
+.rd-donut b {
+  font-size: 10.5px;
+  color: #17120e;
+  line-height: 1;
+}
+
+/* Photo + labels */
+.retail-person {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  width: auto;
+  height: 56%;
+  max-width: 30%;
+  object-fit: contain;
+  object-position: right bottom;
+  filter: drop-shadow(0 16px 22px rgba(15, 23, 42, 0.28));
+  pointer-events: none;
+}
+
+.retail-chip-inventory { top: 2%; left: 8%; }
+.retail-chip-sales { top: 2%; right: 18%; }
+.retail-chip-reports { top: 34%; right: 1%; }
+
+.retail-modules {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  margin: 30px 20px 0;
+}
+
+@media (max-width: 1100px) {
+  .eec-blue .eec-card {
+    grid-template-columns: 1fr;
+    padding: 34px 28px 0;
+  }
+
+  .retail-visual {
+    min-height: 520px;
+  }
+
+  .retail-modules {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    row-gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .eec-blue .eec-card {
+    padding: 26px 14px 0;
+  }
+
+  .retail-visual {
+    min-height: 330px;
+  }
+
+  .retail-laptop {
+    right: 0;
+  }
+
+  .rd-body {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .rd-nav li {
+    padding: 2px 3px;
+    font-size: 5px;
+  }
+
+  .rd-nav li svg { display: none; }
+  .rd-search { display: none; }
+  .rd-panel.rd-sales, .rd-row:last-child { display: none; }
+  .rd-stat-icon { display: none; }
+  .rd-stats strong { font-size: 7px; }
+  .rd-chart svg { height: 36px; }
+
+  .retail-person { height: 56%; max-width: 38%; }
+  .retail-chip-inventory { top: 0; left: 4%; }
+  .retail-chip-sales { top: 0; right: 2%; }
+  .retail-chip-reports { display: none; }
+  .retail-deco { display: none; }
+
+  .retail-modules {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 26px 0 0;
+  }
+}
+
+/* Bar chart, legend, base */
+.rd-barchart {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 4px;
+  height: 78px;
+  margin-top: 5px;
+}
+
+.rd-y {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: 2px;
+  font-size: 6px;
+  color: #9aa3b2;
+}
+
+.rd-bars-wrap {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  padding: 0 2px;
+  border-left: 1px solid #e6ebf3;
+  border-bottom: 1px solid #e6ebf3;
+  background: repeating-linear-gradient(to top, transparent 0 18px, #f0f3f8 18px 19px);
+}
+
+.rd-bars-wrap span {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  background: linear-gradient(180deg, #4f9bff, #1d4ed8);
+}
+
+.rd-top-products b {
+  font-size: 6.5px;
+  text-align: right;
+}
+
+.rd-inv-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 8px;
+  flex: 1;
+}
+
+.rd-legend {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 6.5px;
+  color: #374151;
+}
+
+.rd-legend li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 5px;
+  white-space: nowrap;
+}
+
+.rd-legend i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.rd-legend b {
+  margin-left: 6px;
+  color: #17120e;
+}
+
+.retail-base {
+  height: 11px;
+  margin: 0 -5%;
+  border-radius: 0 0 26px 26px / 0 0 12px 12px;
+  background: linear-gradient(180deg, #eef0f4 0%, #c3c8d2 100%);
+  box-shadow: 0 16px 24px -12px rgba(15, 23, 42, 0.45);
+  position: relative;
+}
+
+.retail-base::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 16%;
+  height: 4px;
+  transform: translateX(-50%);
+  border-radius: 0 0 8px 8px;
+  background: #aeb4c0;
+}
+
+.retail-chip-inventory,
+.retail-chip-sales,
+.retail-chip-reports {
+  padding: 14px 22px 14px 16px;
+  border-radius: 18px;
+  font-size: 0.95rem;
+}
+
+.retail-chip-inventory .eec-chip-icon,
+.retail-chip-sales .eec-chip-icon,
+.retail-chip-reports .eec-chip-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+}
+
+@media (max-width: 640px) {
+  .retail-laptop { transform: none; }
+  .rd-barchart { height: 44px; }
+  .rd-legend { display: none; }
+  .retail-chip-inventory,
+  .retail-chip-sales { padding: 8px 12px 8px 8px; font-size: 0.7rem; }
+  .retail-chip-inventory .eec-chip-icon,
+  .retail-chip-sales .eec-chip-icon { width: 32px; height: 32px; }
+}
+
+/* Compact hero so the CTA stays above the fold */
+.eec-blue .eec-hero {
+  padding-top: 92px;
+}
+
+.eec-blue .eec-card {
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+  padding: 28px 0 0 44px;
+}
+
+.eec-blue .eec-copy {
+  padding-bottom: 32px;
+}
+
+.eec-blue .eec-category {
+  margin: 18px 0 12px;
+}
+
+.eec-blue .eec-title {
+  font-size: clamp(1.9rem, 3vw, 2.7rem);
+  line-height: 1.1;
+}
+
+.eec-blue .eec-title span {
+  white-space: nowrap;
+}
+
+.eec-blue .eec-lead {
+  margin-top: 14px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.eec-blue .eec-writeup {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.eec-blue .eec-actions {
+  margin-top: 22px;
+}
+
+.retail-visual {
+  min-height: 500px;
+}
+
+.retail-chip-reports {
+  top: 30%;
+  right: -1%;
+}
+
+@media (max-width: 1100px) {
+  .eec-blue .eec-card {
+    grid-template-columns: 1fr;
+    padding: 28px 24px 0;
+  }
+
+  .eec-blue .eec-title span {
+    white-space: normal;
+  }
+}
