@@ -1,0 +1,307 @@
+/* Public marketing pages: services, products, industries, blog, contact */
+.marketing-page {
+  --mk-ink: #2a140a;
+  --mk-muted: #6c584d;
+  --mk-orange: #f97316;
+  min-height: 70vh;
+  padding: 112px max(20px, calc((100% - 1120px) / 2)) 84px;
+  color: var(--mk-ink);
+  line-height: 1.7;
+  background:
+    radial-gradient(700px 380px at 6% 0%, rgba(255, 205, 150, 0.5), transparent 65%),
+    radial-gradient(620px 360px at 100% 22%, rgba(255, 205, 150, 0.35), transparent 65%),
+    linear-gradient(180deg, #fffaf4 0%, #ffffff 60%);
+}
+
+.marketing-page a,
+.seo-breadcrumbs a {
+  color: #b9560a;
+  text-decoration: none;
+}
+
+.marketing-page a:hover {
+  color: #8f3f05;
+}
+
+.marketing-page a:focus-visible {
+  outline: 3px solid #ffb347;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* ---------- Breadcrumbs ---------- */
+.seo-breadcrumbs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #fff1dc;
+  border: 1px solid #fbe3c4;
+  font-size: 0.84rem;
+  font-weight: 600;
+  line-height: 1.8;
+  color: #6c584d;
+  overflow-wrap: anywhere;
+}
+
+.seo-breadcrumbs span[aria-hidden] {
+  margin: 0 6px;
+  color: #e0b28a;
+}
+
+.seo-breadcrumbs [aria-current] {
+  color: var(--mk-ink);
+}
+
+/* ---------- Hero ---------- */
+.marketing-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 28px;
+  margin-top: 26px;
+}
+
+.marketing-hero.has-art {
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+}
+
+.marketing-page h1 {
+  position: relative;
+  margin: 0 0 22px;
+  padding-bottom: 18px;
+  font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--mk-ink);
+}
+
+.marketing-page h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 64px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #ffb000, var(--mk-orange));
+}
+
+.marketing-intro {
+  max-width: 56ch;
+  margin: 0;
+  font-size: 1.18rem;
+  line-height: 1.65;
+  color: var(--mk-muted);
+}
+
+.marketing-hero-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 22px 26px rgba(194, 103, 10, 0.25));
+}
+
+/* ---------- Content cards ---------- */
+.marketing-page h2 {
+  margin: 0 0 10px;
+  font-size: 1.22rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--mk-ink);
+}
+
+.marketing-page p {
+  max-width: 78ch;
+  margin: 0;
+  color: var(--mk-muted);
+}
+
+.marketing-page ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.marketing-page li {
+  position: relative;
+  padding-left: 26px;
+  color: var(--mk-muted);
+}
+
+.marketing-page li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fdecc4 radial-gradient(circle, #e8780c 38%, transparent 42%);
+}
+
+.marketing-page section {
+  position: relative;
+  margin: 24px 0;
+  padding: 26px 26px 28px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #f6e6d4;
+  box-shadow: 0 1px 2px rgba(77, 39, 18, 0.03), 0 18px 34px -26px rgba(194, 103, 10, 0.4);
+}
+
+.marketing-sections {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.marketing-sections section {
+  margin: 0;
+  padding-top: 30px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.marketing-sections section:hover {
+  transform: translateY(-4px);
+  border-color: #f4cfa0;
+}
+
+.marketing-sections section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 26px;
+  width: 52px;
+  height: 4px;
+  border-radius: 0 0 6px 6px;
+  background: linear-gradient(90deg, #ffb000, var(--mk-orange));
+}
+
+.marketing-step {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+  color: rgba(249, 115, 22, 0.12);
+}
+
+/* ---------- Listing grids ---------- */
+.marketing-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 36px;
+}
+
+.marketing-grid article {
+  padding: 26px;
+  border-radius: 20px;
+  background: #ffffff;
+  border: 1px solid #f6e6d4;
+  box-shadow: 0 1px 2px rgba(77, 39, 18, 0.03), 0 18px 34px -26px rgba(194, 103, 10, 0.4);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.marketing-grid article:hover {
+  transform: translateY(-4px);
+  border-color: #f4cfa0;
+}
+
+.marketing-grid h2 a {
+  color: var(--mk-ink);
+}
+
+.marketing-grid h2 a:hover {
+  color: #b9560a;
+}
+
+/* ---------- Call to action ---------- */
+.marketing-page .marketing-cta {
+  margin-top: 44px;
+  padding: 36px 32px;
+  border: 0;
+  border-radius: 24px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ffa53a 0%, #f97316 55%, #e8620a 100%);
+  box-shadow: 0 26px 44px -26px rgba(249, 115, 22, 0.8);
+}
+
+.marketing-page .marketing-cta h2 {
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+.marketing-page .marketing-cta p {
+  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.marketing-cta a {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 12px 8px 0;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.marketing-page .marketing-cta a:first-of-type {
+  color: #c2570a;
+  background: #ffffff;
+  box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.45);
+}
+
+.marketing-page .marketing-cta a:last-of-type {
+  color: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+}
+
+.marketing-page .marketing-cta a:hover {
+  transform: translateY(-2px);
+  color: inherit;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .marketing-hero.has-art {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .marketing-hero-art {
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  .marketing-sections {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .marketing-page {
+    padding: 100px 16px 56px;
+  }
+
+  .marketing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .marketing-page .marketing-cta {
+    padding: 28px 22px;
+  }
+
+  .marketing-cta a {
+    justify-content: center;
+    width: 100%;
+    margin-right: 0;
+  }
+}

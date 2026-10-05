@@ -235,6 +235,11 @@ import { apiLimiter } from "./middleware/rateLimiters.js";
 const app = express();
 app.set("trust proxy", 1);
 app.disable("x-powered-by");
+// API responses are not search landing pages, including authenticated ERP data.
+app.use('/api', (req, res, next) => {
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+  next();
+});
 
 // -------------------- REQUEST LOGGING --------------------
 // One log line per request (method, url, status, time) with a request id.

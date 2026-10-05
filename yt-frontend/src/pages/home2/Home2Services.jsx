@@ -1,6 +1,8 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { motion } from "../../components/MarketingMotion";
 import {
+  ArrowRight,
   Code,
   Cloud,
   Database,
@@ -101,6 +103,7 @@ function CodeArt() {
 const services = [
   {
     title: "Web Development",
+    slug: "web-development",
     description:
       "Building responsive, high-performance websites tailored to your business goals.",
     icon: Globe,
@@ -108,6 +111,7 @@ const services = [
   },
   {
     title: "Mobile App Development",
+    slug: "mobile-app-development",
     description:
       "Creating cross-platform mobile applications with seamless user experiences.",
     icon: Smartphone,
@@ -115,6 +119,7 @@ const services = [
   },
   {
     title: "Cloud Solutions",
+    slug: "cloud-solutions",
     description:
       "Empowering businesses with scalable and secure cloud-based infrastructures.",
     icon: Cloud,
@@ -122,6 +127,7 @@ const services = [
   },
   {
     title: "Backend Engineering",
+    slug: "backend-engineering",
     description:
       "Designing robust APIs and database systems to power your applications.",
     icon: Database,
@@ -129,6 +135,7 @@ const services = [
   },
   {
     title: "AI Marketing Agents",
+    slug: "ai-solutions",
     description:
       "Deploying intelligent AI agents that automate campaigns, content, and lead engagement to grow your brand.",
     icon: Bot,
@@ -136,6 +143,7 @@ const services = [
   },
   {
     title: "Custom Software",
+    slug: "custom-software-development",
     description:
       "Developing tailored software solutions to solve complex business challenges.",
     icon: Code,
@@ -167,7 +175,7 @@ export default function Home2Services() {
         </motion.div>
 
         <div className="services-grid">
-          {services.map(({ title, description, icon: Icon, Art }, index) => (
+          {services.map(({ title, slug, description, icon: Icon, Art }, index) => (
             <motion.article
               key={title}
               className="service-card"
@@ -191,6 +199,16 @@ export default function Home2Services() {
                 </div>
                 <h3>{title}</h3>
                 <p>{description}</p>
+                <Link
+                  className="service-link"
+                  to={`/services/${slug}`}
+                  aria-label={`Explore ${title} service`}
+                >
+                  Explore Service
+                  <span className="service-arrow">
+                    <ArrowRight size={15} aria-hidden="true" />
+                  </span>
+                </Link>
               </div>
 
               <div className="service-art" aria-hidden="true">

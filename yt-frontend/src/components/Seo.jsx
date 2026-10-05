@@ -14,16 +14,26 @@ export default function Seo({
   path = "/",
   image = DEFAULT_IMAGE,
   noindex = false,
+  breadcrumbs,
+  schema,
 }) {
   const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
   const url = `${SITE_URL}${path === "/" ? "/" : path.replace(/\/$/, "")}`;
+  const graph = [
+    { '@type': 'Organization', '@id': `${SITE_URL}/#organization`, name: SITE_NAME, url: `${SITE_URL}/` },
+    { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, name: SITE_NAME, url: `${SITE_URL}/`, publisher: { '@id': `${SITE_URL}/#organization` } },
+    ...(path.startsWith('/products/') && !noindex ? [{ '@type': 'SoftwareApplication', name: title, description, url, applicationCategory: 'BusinessApplication', operatingSystem: 'Web browser', publisher: { '@id': `${SITE_URL}/#organization` } }] : []),
+    ...(breadcrumbs ? [{ '@type': 'BreadcrumbList', itemListElement: [{ name: 'Home', path: '/' }, ...breadcrumbs].map((item, index) => ({ '@type': 'ListItem', position: index + 1, name: item.name, item: `${SITE_URL}${item.path}` })) }] : []),
+    ...(schema ? [schema] : []),
+  ];
 
   return (
     <Helmet>
       <title>{fullTitle}</title>
       {description && <meta name="description" content={description} />}
       <link rel="canonical" href={url} />
-      {noindex && <meta name="robots" content="noindex, nofollow" />}
+      <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+      {!noindex && <script type="application/ld+json">{JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c')}</script>}
 
       <meta property="og:type" content="website" />
       <meta property="og:site_name" content={SITE_NAME} />

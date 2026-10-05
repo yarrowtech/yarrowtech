@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Hero.css";
-import HeroImg from "../assets/result.png";
+import HeroImg from "../assets/result.webp";
 import HeroParticles from "./HeroParticles";
 
 const Hero = () => {

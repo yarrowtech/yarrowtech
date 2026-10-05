@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
+import { motion } from "../../components/MarketingMotion";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import "./Home2Hero.css";
-import HeroImg from "../../assets/result.png";
-import eecImage from "../../assets/eec.png";
-import retailImage from "../../assets/eretailms.png";
-import foodImage from "../../assets/efnbmms.png";
-import sportsImage from "../../assets/esportm.png";
+import HeroImg from "../../assets/result.webp";
+import eecImage from "../../assets/eec.webp";
+import retailImage from "../../assets/eretailms.webp";
+import foodImage from "../../assets/efnbmms.webp";
+import sportsImage from "../../assets/esportm.webp";
 import { products } from "../../data/productData";
 
 const productImages = {
@@ -51,7 +52,7 @@ const Home2Hero = () => {
       <motion.div
         className="hero-content"
         variants={heroContainerVariants}
-        initial="hidden"
+        initial={false}
         animate="visible"
       >
         <div className="hero-copy">
@@ -73,7 +74,7 @@ const Home2Hero = () => {
             </AnimatePresence>
           </motion.div>
           <motion.h1 className="hero-title" variants={heroItemVariants}>
-            Development <br />
+            <span className="sr-only">Software </span>Development <br />
             <span className="highlight">Company</span>
           </motion.h1>
 
@@ -116,7 +117,7 @@ const Home2Hero = () => {
           whileHover={{ scale: 1.02 }}
           transition={{ type: "spring", stiffness: 220, damping: 22 }}
         >
-          <img src={HeroImg} alt="Yarrow Tech laptop and phone showcase" />
+          <img src={HeroImg} alt="Yarrow Tech laptop and phone showcase" width="1120" height="696" fetchPriority="high" />
         </motion.div>
 
         <motion.div className="hero-products-strip" variants={heroItemVariants}>

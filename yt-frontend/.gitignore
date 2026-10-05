@@ -72,3 +72,6 @@ coverage/
 # Misc
 # ===============================
 *.log
+
+# Local SEO measurements
+seo-artifacts/

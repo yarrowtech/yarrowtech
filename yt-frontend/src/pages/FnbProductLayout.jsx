@@ -1,3 +1,4 @@
+import Breadcrumbs from "../components/Breadcrumbs";
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -118,6 +119,7 @@ export default function FnbProductLayout({ product }) {
         title={product.shortName}
         description={product.description}
         path={`/products/${product.slug}`}
+        breadcrumbs={[{ name: "Products", path: "/products" }, { name: product.shortName, path: `/products/${product.slug}` }]}
       />
 
       <section className="eec-hero">
@@ -130,6 +132,7 @@ export default function FnbProductLayout({ product }) {
               </Link>
 
               <span className="eec-category">{product.category}</span>
+              <Breadcrumbs items={[{ name: "Products", path: "/products" }, { name: product.shortName, path: `/products/${product.slug}` }]} />
               <h1 className="eec-title">
                 EFNBMMS – <span>Food &amp; Beverage Management System</span>
               </h1>

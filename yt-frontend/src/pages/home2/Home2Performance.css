@@ -1,0 +1,9 @@
+/* Keep section content in the HTML while the browser skips off-screen layout
+   and painting. Once visited, the browser remembers the section's real size. */
+@supports (content-visibility: auto) {
+  .v2-hero ~ section,
+  .v2-hero ~ footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1000px;
+  }
+}

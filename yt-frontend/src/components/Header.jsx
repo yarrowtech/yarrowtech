@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -22,8 +22,8 @@ const IS_GOOGLE_AUTH_ENABLED = Boolean(GOOGLE_CLIENT_ID);
 
 const NAV_LINKS = [
   { label: "Home", hash: "" },
-  { label: "Services", hash: "#services" },
-  { label: "Products", hash: "#products" },
+  { label: "Services", hash: "#services", path: "/services" },
+  { label: "Products", hash: "#products", path: "/products" },
   { label: "Expertise", hash: "#expertise" },
   { label: "FAQ", hash: "#faq" },
   { label: "About", hash: "#about" },
@@ -479,8 +479,8 @@ export default function Header({ headerClass = "" }) {
             {NAV_LINKS.map((item) => (
               <a
                 key={item.label}
-                href={item.hash}
-                onClick={(event) => handleNav(event, item.hash)}
+                href={item.path || `/${item.hash}`}
+                onClick={item.path ? undefined : (event) => handleNav(event, item.hash)}
                 className={`nav-link ${activeHash === item.hash ? "active" : ""}`}
               >
                 {item.label}
@@ -597,10 +597,12 @@ export default function Header({ headerClass = "" }) {
 
               <div className="google-auth-box">
                 {IS_GOOGLE_AUTH_ENABLED ? (
+                  <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
                   <GoogleLogin
                     onSuccess={handleGoogleLoginSuccess}
                     onError={handleGoogleLoginError}
                   />
+                  </GoogleOAuthProvider>
                 ) : (
                   <p className="google-auth-disabled">
                     Google login is not configured

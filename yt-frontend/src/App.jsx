@@ -511,29 +511,33 @@
 
 
 
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useLocation,
+  Link,
 } from "react-router-dom";
 
 /* 🌐 PUBLIC WEBSITE */
 import Seo from "./components/Seo";
+import RouteMetadata from "./components/RouteMetadata";
+import { lazyPage } from "./utils/lazyPage";
+const MarketingPage = lazyPage(() => import("./pages/MarketingPage"));
 import Header from "./components/Header";
-import Hero from "./components/Hero";
-import Service from "./pages/services";
-import Products from "./pages/products";
-import ProductDetailsPage from "./pages/ProductDetailsPage";
-import EfnbmmsSignupPage from "./pages/EfnbmmsSignupPage";
-import EfnbmmsVendorSignupPage from "./pages/EfnbmmsVendorSignupPage";
-import Expertise from "./pages/expertise";
-import FAQ from "./pages/faq";
-import About from "./pages/about";
+const Hero = lazy(() => import("./components/Hero"));
+const Service = lazy(() => import("./pages/services"));
+const Products = lazy(() => import("./pages/products"));
+const ProductDetailsPage = lazyPage(() => import("./pages/ProductDetailsPage"));
+const EfnbmmsSignupPage = lazy(() => import("./pages/EfnbmmsSignupPage"));
+const EfnbmmsVendorSignupPage = lazy(() => import("./pages/EfnbmmsVendorSignupPage"));
+const Expertise = lazy(() => import("./pages/expertise"));
+const FAQ = lazy(() => import("./pages/faq"));
+const About = lazy(() => import("./pages/about"));
 import ScrollProgress from "./components/ScrollProgress";
 import SectionRouteRedirect from "./components/SectionRouteRedirect";
-import Footer from "./components/Footer";
+const Footer = lazy(() => import("./components/Footer"));
 import RequestDemoForm from "./components/RequestDemoForm";
 import Home2 from "./pages/home2/Home2";
 import Home2Footer from "./pages/home2/Home2Footer";
@@ -545,50 +549,50 @@ import ContactMenu from "./components/ContactMenu";
 import ERPProtectedRoute from "./routes/ERPProtectedRoute";
 
 /* 🧩 ADMIN MODULE */
-import AdminLayout from "./pages/admin/AdminLayout";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import Users from "./pages/admin/Users";
-import Projects from "./pages/admin/Projects";
-import RequestDemoAdmin from "./pages/admin/RequestDemoAdmin";
-import ContactsAdmin from "./pages/admin/ContactsAdmin";
-import Settings from "./pages/admin/Settings";
-import AdminBlog from "./pages/admin/AdminBlog";
-import CareerApplications from "./pages/admin/CareerApplications";
-import AdminProductUsers from "./pages/admin/ProductUsers";
-import AdminProductUserDetails from "./pages/admin/ProductUserDetails";
-import ProductAnalytics from "./pages/admin/ProductAnalytics";
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const Users = lazy(() => import("./pages/admin/Users"));
+const Projects = lazy(() => import("./pages/admin/Projects"));
+const RequestDemoAdmin = lazy(() => import("./pages/admin/RequestDemoAdmin"));
+const ContactsAdmin = lazy(() => import("./pages/admin/ContactsAdmin"));
+const Settings = lazy(() => import("./pages/admin/Settings"));
+const AdminBlog = lazy(() => import("./pages/admin/AdminBlog"));
+const CareerApplications = lazy(() => import("./pages/admin/CareerApplications"));
+const AdminProductUsers = lazy(() => import("./pages/admin/ProductUsers"));
+const AdminProductUserDetails = lazy(() => import("./pages/admin/ProductUserDetails"));
+const ProductAnalytics = lazy(() => import("./pages/admin/ProductAnalytics"));
 
 /* 🧩 MANAGER MODULE */
-import ManagerLayout from "./pages/manager/ManagerLayout";
-import ManagerDashboard from "./pages/manager/ManagerDashboard";
-import ManageProjects from "./pages/manager/ManageProjects";
-import ProjectDetails from "./pages/manager/ProjectDetails";
-import CreateClient from "./pages/manager/CreateClient";
-import Notifications from "./pages/manager/Notifications";
-import ManagerSettings from "./pages/manager/Settings";
-import ChatWindow from "./pages/manager/ChatWindow";
-import RequestDemoManager from "./pages/manager/RequestDemoManager";
-import ManagerProductUsers from "./pages/manager/ProductUsers";
-import ManagerProductUserDetails from "./pages/manager/ProductUserDetails";
+const ManagerLayout = lazy(() => import("./pages/manager/ManagerLayout"));
+const ManagerDashboard = lazy(() => import("./pages/manager/ManagerDashboard"));
+const ManageProjects = lazy(() => import("./pages/manager/ManageProjects"));
+const ProjectDetails = lazy(() => import("./pages/manager/ProjectDetails"));
+const CreateClient = lazy(() => import("./pages/manager/CreateClient"));
+const Notifications = lazy(() => import("./pages/manager/Notifications"));
+const ManagerSettings = lazy(() => import("./pages/manager/Settings"));
+const ChatWindow = lazy(() => import("./pages/manager/ChatWindow"));
+const RequestDemoManager = lazy(() => import("./pages/manager/RequestDemoManager"));
+const ManagerProductUsers = lazy(() => import("./pages/manager/ProductUsers"));
+const ManagerProductUserDetails = lazy(() => import("./pages/manager/ProductUserDetails"));
 
 /* 🧩 TECH LEAD */
-import TechnicalLayout from "./pages/technical/TechnicalLayout";
-import TechnicalDashboard from "./pages/technical/TechnicalDashboard";
-import ProjectUpdates from "./pages/technical/ProjectUpdates";
-import TeamOverview from "./pages/technical/TeamOverview";
-import TechnicalProfile from "./pages/technical/TechnicalProfile";
+const TechnicalLayout = lazy(() => import("./pages/technical/TechnicalLayout"));
+const TechnicalDashboard = lazy(() => import("./pages/technical/TechnicalDashboard"));
+const ProjectUpdates = lazy(() => import("./pages/technical/ProjectUpdates"));
+const TeamOverview = lazy(() => import("./pages/technical/TeamOverview"));
+const TechnicalProfile = lazy(() => import("./pages/technical/TechnicalProfile"));
 
 /* 🧩 CLIENT MODULE */
-import ClientLayout from "./pages/client/ClientLayout";
-import ClientDashboard from "./pages/client/ClientDashboard";
-import MyProjects from "./pages/client/MyProjects";
-import Payments from "./pages/client/Payments";
-import Profile from "./pages/client/Profile";
-import ProductUserLayout from "./pages/productuser/ProductUserLayout";
-import ProductUserDashboard from "./pages/productuser/ProductUserDashboard";
-import ProductUserProjects from "./pages/productuser/ProductUserProjects";
-import ProductUserPayments from "./pages/productuser/ProductUserPayments";
-import ProductUserChat from "./pages/productuser/ProductUserChat";
+const ClientLayout = lazy(() => import("./pages/client/ClientLayout"));
+const ClientDashboard = lazy(() => import("./pages/client/ClientDashboard"));
+const MyProjects = lazy(() => import("./pages/client/MyProjects"));
+const Payments = lazy(() => import("./pages/client/Payments"));
+const Profile = lazy(() => import("./pages/client/Profile"));
+const ProductUserLayout = lazy(() => import("./pages/productuser/ProductUserLayout"));
+const ProductUserDashboard = lazy(() => import("./pages/productuser/ProductUserDashboard"));
+const ProductUserProjects = lazy(() => import("./pages/productuser/ProductUserProjects"));
+const ProductUserPayments = lazy(() => import("./pages/productuser/ProductUserPayments"));
+const ProductUserChat = lazy(() => import("./pages/productuser/ProductUserChat"));
 
 /* 🔔 Toast */
 import { Toaster } from "react-hot-toast";
@@ -649,6 +653,7 @@ function NotFound() {
       <Seo title="Page Not Found" noindex />
       <h1>404 – Page Not Found</h1>
       <p>The page you are trying to access does not exist.</p>
+      <p><Link to="/">Go Home</Link> | <Link to="/services">Explore Services</Link> | <Link to="/products">Explore Products</Link></p>
     </div>
   );
 }
@@ -660,9 +665,11 @@ export default function App() {
   return (
     <ThemeProvider>
       <Router>
+        <RouteMetadata />
         <ContactMenuWrapper />
 
         <div className="app">
+          <Suspense fallback={<div role="status" style={{ padding: "120px 24px" }}>Loading page...</div>}>
           <Routes>
             {/* PUBLIC HOME */}
             <Route
@@ -687,8 +694,12 @@ export default function App() {
               }
             />
 
+            {["/services", "/services/:slug", "/products", "/industries", "/industries/:slug", "/blog", "/blog/:slug", "/case-studies", "/contact"].map(path => (
+              <Route key={path} path={path} element={<><Header headerClass="header-warm" /><MarketingPage /><Home2Footer /></>} />
+            ))}
+
             {/* SECTION ROUTES */}
-            {["services", "products", "expertise", "faq", "about"].map(
+            {["expertise", "faq", "about"].map(
               (sec) => (
                 <Route
                   key={sec}
@@ -868,6 +879,7 @@ export default function App() {
                   />
                   <Header headerClass="header-warm" />
                   <div style={{ paddingTop: "100px" }}>
+                    <h1 style={{ textAlign: "center", marginBottom: "24px" }}>Request a YarrowTech Demo</h1>
                     <RequestDemoForm />
                   </div>
                   <Home2Footer />
@@ -877,6 +889,7 @@ export default function App() {
             {/* 🚫 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </Suspense>
 
           <Toaster position="top-right" />
         </div>
@@ -885,3 +898,8 @@ export default function App() {
   );
 }
 
+
+export async function prepareInitialPage(pathname) {
+  if (/^\/products\/[^/]+\/?$/.test(pathname)) await ProductDetailsPage.preload();
+  else if (/^\/(services|products|industries|blog|case-studies|contact)(\/|$)/.test(pathname)) await MarketingPage.preload();
+}

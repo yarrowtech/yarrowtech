@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion } from "../../components/MarketingMotion";
 import "./Home2Expertise.css";
 
 const fadeUp = {
@@ -120,6 +120,10 @@ export default function Home2Expertise() {
                 {[...cat.tools, ...cat.tools].map((tool, index) => (
                   <div className="tool-inline" key={index}>
                     <img
+                      loading="lazy"
+                      decoding="async"
+                      width="32"
+                      height="32"
                       src={tool.logo}
                       alt={tool.name}
                       className={`tool-inline-logo ${

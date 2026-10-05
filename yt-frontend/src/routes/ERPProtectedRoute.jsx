@@ -17,8 +17,8 @@ export default function ERPProtectedRoute({ role, children }) {
 
     const requiredRole = role.trim().toLowerCase();
 
-    // ❗ Only block when role DEFINITELY mismatches
-    if (savedRole && savedRole !== requiredRole) {
+    // Missing roles must not bypass the role gate. APIs independently verify JWTs.
+    if (savedRole !== requiredRole) {
       return <Navigate to="/" replace />;
     }
   }

@@ -1,5 +1,216 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Strict-Transport-Security": "max-age=31536000",
+        "Content-Security-Policy": "frame-ancestors 'self'",
+        "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
+      },
+      "continue": true
+    },
+    {
+      "src": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.yarrowtech.in"
+        }
+      ],
+      "status": 308,
+      "headers": {
+        "Location": "https://yarrowtech.in/$1"
+      }
+    },
+    {
+      "src": "/(.+)/",
+      "status": 308,
+      "headers": {
+        "Location": "/$1"
+      }
+    },
+    {
+      "src": "/home2",
+      "status": 308,
+      "headers": {
+        "Location": "/"
+      }
+    },
+    {
+      "src": "/home-classic",
+      "status": 308,
+      "headers": {
+        "Location": "/"
+      }
+    },
+    {
+      "src": "/expertise",
+      "status": 308,
+      "headers": {
+        "Location": "/#expertise"
+      }
+    },
+    {
+      "src": "/faq",
+      "status": 308,
+      "headers": {
+        "Location": "/#faq"
+      }
+    },
+    {
+      "src": "/about",
+      "status": 308,
+      "headers": {
+        "Location": "/#about"
+      }
+    },
+    {
+      "src": "/blogs",
+      "status": 308,
+      "headers": {
+        "Location": "/blog"
+      }
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/services",
+      "dest": "/services/index.html"
+    },
+    {
+      "src": "/products",
+      "dest": "/products/index.html"
+    },
+    {
+      "src": "/industries",
+      "dest": "/industries/index.html"
+    },
+    {
+      "src": "/blog",
+      "dest": "/blog/index.html"
+    },
+    {
+      "src": "/contact",
+      "dest": "/contact/index.html"
+    },
+    {
+      "src": "/request-demo",
+      "dest": "/request-demo/index.html"
+    },
+    {
+      "src": "/services/web-development",
+      "dest": "/services/web-development/index.html"
+    },
+    {
+      "src": "/services/mobile-app-development",
+      "dest": "/services/mobile-app-development/index.html"
+    },
+    {
+      "src": "/services/cloud-solutions",
+      "dest": "/services/cloud-solutions/index.html"
+    },
+    {
+      "src": "/services/backend-engineering",
+      "dest": "/services/backend-engineering/index.html"
+    },
+    {
+      "src": "/services/ai-solutions",
+      "dest": "/services/ai-solutions/index.html"
+    },
+    {
+      "src": "/services/custom-software-development",
+      "dest": "/services/custom-software-development/index.html"
+    },
+    {
+      "src": "/services/erp-development",
+      "dest": "/services/erp-development/index.html"
+    },
+    {
+      "src": "/industries/education",
+      "dest": "/industries/education/index.html"
+    },
+    {
+      "src": "/industries/retail",
+      "dest": "/industries/retail/index.html"
+    },
+    {
+      "src": "/industries/food-and-beverage",
+      "dest": "/industries/food-and-beverage/index.html"
+    },
+    {
+      "src": "/industries/sports",
+      "dest": "/industries/sports/index.html"
+    },
+    {
+      "src": "/blog/planning-an-erp-project",
+      "dest": "/blog/planning-an-erp-project/index.html"
+    },
+    {
+      "src": "/blog/choosing-business-software",
+      "dest": "/blog/choosing-business-software/index.html"
+    },
+    {
+      "src": "/products/electronic-educare",
+      "dest": "/products/electronic-educare/index.html"
+    },
+    {
+      "src": "/products/retail-management-system",
+      "dest": "/products/retail-management-system/index.html"
+    },
+    {
+      "src": "/products/food-and-beverage-management-system",
+      "dest": "/products/food-and-beverage-management-system/index.html"
+    },
+    {
+      "src": "/products/sportbit",
+      "dest": "/products/sportbit/index.html"
+    },
+    {
+      "src": "/case-studies",
+      "dest": "/case-studies/index.html"
+    },
+    {
+      "src": "/(admin|manager|techlead|client|product-user)(/.*)?",
+      "dest": "/app-shell.html",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow",
+        "Cache-Control": "private, no-store"
+      }
+    },
+    {
+      "src": "/efnbmms/(signup|vendor/signup)",
+      "dest": "/app-shell.html",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow"
+      }
+    },
+    {
+      "src": "/app-shell.html",
+      "headers": {
+        "X-Robots-Tag": "noindex, nofollow"
+      },
+      "continue": true
+    },
+    {
+      "src": "/assets/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/404.html",
+      "status": 404
+    }
   ]
 }

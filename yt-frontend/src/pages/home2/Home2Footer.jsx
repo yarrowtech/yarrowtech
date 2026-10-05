@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion } from "../../components/MarketingMotion";
 import "./Home2Footer.css";
 import { Linkedin, Facebook, Instagram, Mail, Phone, MapPin } from "lucide-react";
 
@@ -44,10 +44,14 @@ export default function Home2Footer() {
             <h4>Quick Links</h4>
             <nav className="footer-links">
               <a href="/#home">Home</a>
-              <a href="/#services">Services</a>
-              <a href="/#products">Products</a>
+              <a href="/services">Services</a>
+              <a href="/products">Products</a>
               <a href="/#expertise">Expertise</a>
               <a href="/#about">About</a>
+              <a href="/industries">Industries</a>
+              <a href="/blog">Guides</a>
+              <a href="/case-studies">Case Studies</a>
+              <a href="/contact">Contact</a>
             </nav>
           </motion.div>
 
@@ -86,6 +90,7 @@ export default function Home2Footer() {
                 <iframe
                   src="https://www.google.com/maps?q=3A,+Bertram+St,+Esplanade,+Dharmatala,+Taltala,+Kolkata,+West+Bengal+700087&output=embed"
                   loading="lazy"
+                  title="YarrowTech office location"
                 ></iframe>
               </div>
 

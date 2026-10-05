@@ -190,7 +190,13 @@
   box-shadow: 0 14px 24px -12px var(--accent);
   font-size: 0.9rem;
   font-weight: 700;
+  text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.v2-products-section .product-detail-link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 60%, white);
+  outline-offset: 3px;
 }
 
 .v2-products-section .product-card p + .product-detail-link {

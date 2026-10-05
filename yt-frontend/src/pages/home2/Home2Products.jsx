@@ -1,7 +1,7 @@
 import React from "react";
 import { ArrowRight, GraduationCap, Store, Trophy, UtensilsCrossed } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "../../components/MarketingMotion";
 import { products } from "../../data/productData";
 import "./Home2Products.css";
 
@@ -92,8 +92,6 @@ function ProductCard({ product, index }) {
   return (
     <motion.div
       className="product-card"
-      role="button"
-      tabIndex={0}
       style={{ "--accent": product.accent }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -106,12 +104,6 @@ function ProductCard({ product, index }) {
       whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
       whileTap={{ scale: 0.99, transition: { duration: 0.12 } }}
       onClick={openProduct}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          openProduct();
-        }
-      }}
     >
       <span className="accent-bar" />
       <span className="card-glow" aria-hidden="true" />
@@ -129,10 +121,15 @@ function ProductCard({ product, index }) {
         <h3>{DISPLAY_NAMES[product.slug] || product.name}</h3>
         <p>{product.description}</p>
 
-        <span className="product-detail-link">
+        <Link
+          className="product-detail-link"
+          to={`/products/${product.slug}`}
+          onClick={(event) => event.stopPropagation()}
+          aria-label={`View ${DISPLAY_NAMES[product.slug] || product.name} details`}
+        >
           View product details
           <ArrowRight size={16} aria-hidden="true" />
-        </span>
+        </Link>
       </div>
 
       {preview && (

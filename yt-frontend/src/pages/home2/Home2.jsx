@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./Home2Performance.css";
 import Seo from "../../components/Seo";
 import Home2Hero from "./Home2Hero";
 import Home2Services from "./Home2Services";
