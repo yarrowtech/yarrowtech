@@ -1,10 +1,26 @@
 .pa-page {
+    padding: 24px 28px;
+    max-width: 1700px;
+    margin: 0 auto;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 22px;
-    min-height: 100vh;
     color: var(--erp-text);
 }
+
+.pa-page * { box-sizing: border-box; }
+.pa-page > section { margin: 0; padding: 0; min-height: 0; }
+.pa-page > .pa-panel { padding: 22px; }
+.pa-subtitle { margin: 10px 0 0; color: var(--erp-text-muted); font-size: 13px; line-height: 1.6; }
+.pa-refresh { display: inline-flex; align-items: center; gap: 8px; padding: 11px 15px; border-radius: 9px; border: 1px solid var(--erp-border); background: var(--erp-bg); color: inherit; font: inherit; font-size: 12px; cursor: pointer; white-space: nowrap; }
+.pa-refresh:hover { border-color: #efa438; }
+.pa-refresh:focus-visible { outline: 3px solid #eda033; outline-offset: 3px; }
+.pa-refresh:disabled { opacity: .6; cursor: wait; }
+.pa-context { display: flex; justify-content: space-between; gap: 12px; color: var(--erp-text-muted); font-size: 11px; padding-top: 6px; }
+.pa-error { background: #fff0ec; color: #963c28; border: 1px solid #eed0c8; border-radius: 10px; padding: 15px; font-size: 13px; }
+.pa-count { background: rgba(167,137,101,.09); color: var(--erp-text-muted); padding: 5px 9px; border-radius: 6px; font-size: 10px; white-space: nowrap; }
+.pa-product-name { font-size: 12px; line-height: 1.7; margin: 0 0 8px; }
 
 .pa-header {
     display: flex;
@@ -23,6 +39,7 @@
 }
 
 .pa-header h1 {
+    letter-spacing: -1px;
     margin: 0;
     font-size: clamp(1.6rem, 2vw, 2.2rem);
     color: var(--erp-text);
@@ -36,13 +53,16 @@
 
 .pa-metric-card {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 14px;
     padding: 18px 20px;
-    background: var(--erp-card-gradient);
+    background: var(--erp-bg);
     border: 1px solid var(--erp-border);
     border-radius: 16px;
 }
+.pa-metric-card > div:last-child { min-width: 0; }
+.pa-metric-card small { display: block; margin-top: 8px; font-size: 11px; color: var(--erp-text-muted); }
 
 .pa-icon {
     width: 42px;
@@ -83,7 +103,9 @@
 }
 
 .pa-metric-card strong {
-    font-size: 1.1rem;
+    font-size: clamp(23px, 2vw, 30px);
+    letter-spacing: -.7px;
+    overflow-wrap: anywhere;
     color: var(--erp-text);
     line-height: 1.3;
 }
@@ -95,11 +117,12 @@
 }
 
 .pa-panel {
-    background: var(--erp-card-gradient);
+    background: var(--erp-bg);
+    min-width: 0;
+    overflow: hidden;
     border: 1px solid var(--erp-border);
     border-radius: 18px;
     padding: 20px;
-    box-shadow: var(--erp-shadow);
 }
 
 .pa-panel--full {
@@ -133,18 +156,27 @@
 .pa-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 640px;
+    min-width: 550px;
 }
+.pa-table thead { background: transparent; }
+.pa-table tbody tr:last-child td { border-bottom: 0; }
+.pa-table tbody tr:hover { background: rgba(255,149,0,.035); }
+.pa-table td:not(:first-child) { font-variant-numeric: tabular-nums; }
+.pa-table--compact { min-width: 700px; }
+.pa-table--compact td:first-child { max-width: 260px; overflow-wrap: anywhere; }
+.pa-table--compact td:last-child { white-space: nowrap; }
 
 .pa-table th,
 .pa-table td {
-    padding: 12px 10px;
+    padding: 16px 12px;
     text-align: left;
     border-bottom: 1px solid var(--erp-border);
-    font-size: 0.9rem;
+    font-size: 12px;
+    line-height: 1.6;
 }
 
 .pa-table th {
+    background: rgba(167,137,101,.07);
     color: var(--erp-text-muted);
     font-weight: 700;
     text-transform: uppercase;
@@ -157,6 +189,8 @@
 }
 
 .pa-page-cell {
+    min-width: 190px;
+    max-width: 380px;
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -173,8 +207,8 @@
 
 .pa-progress-box {
     display: inline-flex;
-    width: 110px;
-    height: 8px;
+    width: 65px;
+    height: 5px;
     background: rgba(148, 163, 184, 0.2);
     border-radius: 999px;
     overflow: hidden;
@@ -185,11 +219,11 @@
 .pa-progress {
     height: 100%;
     border-radius: inherit;
-    background: linear-gradient(90deg, var(--erp-accent), #60a5fa);
+    background: linear-gradient(90deg, #f2b34d, #f58b0c);
 }
 
 .pa-insight-card {
-    background: rgba(15, 23, 42, 0.35);
+    background: linear-gradient(145deg, var(--erp-bg), rgba(255,167,48,.12));
     border: 1px solid var(--erp-border);
     border-radius: 14px;
     padding: 18px;
@@ -205,11 +239,13 @@
 
 .pa-insight-card h3 {
     margin: 0 0 4px;
-    font-size: 1.45rem;
+    font-size: 30px;
+    letter-spacing: -.8px;
     color: var(--erp-text);
 }
 
 .pa-insight-path {
+    font-size: 11px;
     margin: 0 0 18px;
     color: var(--erp-text-muted);
     word-break: break-all;
@@ -241,11 +277,64 @@
     color: var(--erp-text);
 }
 
+.pa-explore-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pa-table--explore {
+    min-width: 680px;
+}
+
+.pa-location-chips {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.pa-location-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 9px;
+    background: rgba(59, 130, 246, 0.12);
+    color: #60a5fa;
+    border-radius: 999px;
+    font-size: 11px;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.pa-location-chip b {
+    font-weight: 700;
+}
+
+.pa-location-chips small {
+    color: var(--erp-text-muted);
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.pa-recent-explore {
+    margin-top: 20px;
+}
+
+.pa-recent-explore h3 {
+    margin: 0 0 12px;
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    color: var(--erp-text);
+}
+
 .pa-empty {
     text-align: center;
     color: var(--erp-text-muted);
     padding: 24px 10px;
 }
+.pa-table .pa-empty { text-align: center; padding: 40px 15px; }
 
 .pa-loading {
     display: flex;
@@ -271,8 +360,12 @@
     }
 
     .pa-metrics {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
     }
+
+    .pa-header { flex-direction: column; align-items: flex-start; }
+    .pa-metric-card { padding: 15px; }
 
     .pa-panel {
         padding: 16px;

@@ -24,6 +24,7 @@ import {
   Wallet,
 } from "lucide-react";
 import Seo from "../components/Seo";
+import { trackProductExploreClick } from "../services/productTracking";
 import chefImg from "../assets/fnbchef.webp";
 import "./EecProductLayout.css";
 import "./RetailProductLayout.css";
@@ -158,6 +159,7 @@ export default function FnbProductLayout({ product }) {
                     href={product.productUrl}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => trackProductExploreClick(product)}
                   >
                     Explore This Product
                     <ArrowRight size={18} aria-hidden="true" />

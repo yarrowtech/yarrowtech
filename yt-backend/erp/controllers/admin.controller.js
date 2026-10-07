@@ -93,10 +93,14 @@ import Client from "../models/Client.js";
 import Project from "../models/Project.js";
 import ERPUser from "../models/User.js";
 import ProductPageVisit from "../../models/ProductPageVisit.js";
+import ProductExploreClick from "../../models/ProductExploreClick.js";
 import { Contact } from "../../models/contact.js";
 import RequestDemo from "../../models/RequestDemo.js";
 import logger from "../../utils/logger.js";
-import { summarizePageVisits } from "../../utils/productAnalyticsStats.js";
+import { summarizePageVisits, summarizeExploreClicks } from "../../utils/productAnalyticsStats.js";
+
+const validTrackingId = (value) =>
+  typeof value === "string" && /^[a-zA-Z0-9_-]{8,80}$/.test(value);
 
 export const trackProductPageVisit = async (req, res) => {
   try {
@@ -135,10 +139,78 @@ export const trackProductPageVisit = async (req, res) => {
   }
 };
 
+export const trackProductExploreClick = async (req, res) => {
+  try {
+    const eventId = String(req.body?.eventId || "").trim();
+    const productSlug = String(req.body?.productSlug || "").trim();
+    const visitorId = String(req.body?.visitorId || "").trim();
+
+    if (
+      !validTrackingId(eventId) ||
+      !productSlug ||
+      productSlug.length > 120 ||
+      !validTrackingId(visitorId)
+    ) {
+      return res.status(400).json({ message: "Invalid explore click payload" });
+    }
+
+    // Timezone strings look like "Asia/Kolkata"; strip anything unexpected.
+    const location =
+      String(req.body?.location || "Unknown")
+        .replace(/[^a-zA-Z0-9 ,/_-]/g, "")
+        .trim()
+        .slice(0, 120) || "Unknown";
+    const productTitle = String(req.body?.productTitle || "")
+      .replace(/[\r\n\t]/g, " ")
+      .trim()
+      .slice(0, 200);
+    const targetUrl = String(req.body?.targetUrl || "").trim().slice(0, 500);
+    const referrer = String(req.body?.referrer || "").trim().slice(0, 255);
+
+    await ProductExploreClick.updateOne(
+      { eventId },
+      {
+        $setOnInsert: {
+          eventId,
+          productSlug,
+          productTitle,
+          targetUrl,
+          visitorId,
+          location,
+          referrer,
+        },
+      },
+      { upsert: true }
+    );
+
+    res.status(201).json({ success: true, message: "Explore click tracked" });
+  } catch (err) {
+    // A repeated event ID means the click was already recorded.
+    if (err?.code === 11000) {
+      return res.status(201).json({ success: true, message: "Explore click tracked" });
+    }
+    logger.error({ err: err }, "Track product explore click error");
+    res.status(500).json({ message: "Failed to track explore click" });
+  }
+};
+
 export const getProductAnalytics = async (req, res) => {
   try {
     const visits = await ProductPageVisit.find().sort({ createdAt: -1 }).lean();
     const summary = summarizePageVisits(visits);
+
+    const exploreClicks = await ProductExploreClick.find().sort({ createdAt: -1 }).lean();
+    const exploreSummary = summarizeExploreClicks(exploreClicks);
+    const explore = {
+      ...exploreSummary,
+      recent: exploreClicks.slice(0, 12).map((click) => ({
+        _id: click._id,
+        productSlug: click.productSlug,
+        productTitle: click.productTitle || click.productSlug,
+        location: click.location || "Unknown",
+        createdAt: click.createdAt,
+      })),
+    };
 
     const recentVisits = visits.slice(0, 12).map((visit) => ({
       _id: visit._id,
@@ -160,6 +232,7 @@ export const getProductAnalytics = async (req, res) => {
       },
       pages: summary.pages,
       recentVisits,
+      explore,
     });
   } catch (err) {
     logger.error({ err: err }, "Get product analytics error");

@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight, CheckCircle2, UsersRound } from "lucide-react";
 import { getProductBySlug } from "../data/productData";
 import { trackProductPageVisit } from "../services/adminService";
+import { trackProductExploreClick } from "../services/productTracking";
 import Seo from "../components/Seo";
 import EecProductLayout from "./EecProductLayout";
 import RetailProductLayout from "./RetailProductLayout";
@@ -151,6 +152,7 @@ export default function ProductDetailsPage() {
                     href={product.productUrl}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => trackProductExploreClick(product)}
                   >
                     Explore This Product
                     <ArrowUpRight size={19} aria-hidden="true" />

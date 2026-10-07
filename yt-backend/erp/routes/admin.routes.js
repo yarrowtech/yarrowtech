@@ -61,6 +61,7 @@ import {
   changeAdminPassword,
   getProductAnalytics,
   trackProductPageVisit,
+  trackProductExploreClick,
 } from "../controllers/admin.controller.js";
 import {
   addProductUserPayment,
@@ -97,6 +98,12 @@ router.post("/product-analytics/track", async (req, res, next) => {
     next(error);
   }
 });
+
+router.post(
+  "/product-analytics/explore-click",
+  rateLimit({ windowMs: 60000, limit: 300, standardHeaders: true, legacyHeaders: false }),
+  trackProductExploreClick
+);
 
 /* ============================================================
    🔐 ADMIN AUTH + ROLE GUARD (GLOBAL)

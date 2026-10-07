@@ -56,3 +56,67 @@ export function summarizePageVisits(visits = []) {
         totalStayMs,
     };
 }
+
+export function summarizeExploreClicks(clicks = []) {
+    const totalClicks = clicks.length;
+    const visitors = new Set();
+    const locationTotals = new Map();
+    const productMap = new Map();
+
+    clicks.forEach((click) => {
+        const slug = String(click.productSlug || "unknown");
+        const visitorId = String(click.visitorId || "");
+        const location = String(click.location || "Unknown") || "Unknown";
+
+        if (visitorId) visitors.add(visitorId);
+        locationTotals.set(location, (locationTotals.get(location) || 0) + 1);
+
+        if (!productMap.has(slug)) {
+            productMap.set(slug, {
+                productSlug: slug,
+                productTitle: String(click.productTitle || slug),
+                totalClicks: 0,
+                visitors: new Set(),
+                locations: new Map(),
+                lastClickedAt: null,
+            });
+        }
+
+        const bucket = productMap.get(slug);
+        bucket.totalClicks += 1;
+        if (visitorId) bucket.visitors.add(visitorId);
+        bucket.locations.set(location, (bucket.locations.get(location) || 0) + 1);
+
+        const clickedAt = click.createdAt ? new Date(click.createdAt) : null;
+        if (clickedAt && !Number.isNaN(clickedAt.getTime()) && (!bucket.lastClickedAt || clickedAt > bucket.lastClickedAt)) {
+            bucket.lastClickedAt = clickedAt;
+        }
+    });
+
+    const mapLocations = (source) =>
+        [...source.entries()]
+            .map(([location, count]) => ({ location, count }))
+            .sort((a, b) => b.count - a.count || a.location.localeCompare(b.location));
+
+    const products = [...productMap.values()]
+        .map((entry) => {
+            const locations = mapLocations(entry.locations);
+            return {
+                productSlug: entry.productSlug,
+                productTitle: entry.productTitle,
+                totalClicks: entry.totalClicks,
+                uniqueViews: entry.visitors.size,
+                locations,
+                topLocation: locations[0]?.location || "Unknown",
+                lastClickedAt: entry.lastClickedAt,
+            };
+        })
+        .sort((a, b) => b.totalClicks - a.totalClicks || b.uniqueViews - a.uniqueViews || a.productSlug.localeCompare(b.productSlug));
+
+    return {
+        totalClicks,
+        uniqueVisitors: visitors.size,
+        products,
+        locations: mapLocations(locationTotals),
+    };
+}

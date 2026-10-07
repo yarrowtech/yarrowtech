@@ -21,6 +21,7 @@ import {
   Users,
 } from "lucide-react";
 import Seo from "../components/Seo";
+import { trackProductExploreClick } from "../services/productTracking";
 import studentImg from "../assets/eecstudent.webp";
 import "./EecProductLayout.css";
 
@@ -95,6 +96,7 @@ export default function EecProductLayout({ product }) {
                     href={product.productUrl}
                     target="_blank"
                     rel="noreferrer"
+                    onClick={() => trackProductExploreClick(product)}
                   >
                     Explore This Product
                     <ArrowRight size={18} aria-hidden="true" />
