@@ -20,9 +20,16 @@ export default function ProductDetailsPage() {
     window.scrollTo({ top: 0, behavior: "auto" });
     pageStartedAt.current = Date.now();
 
+    // One visit per page load: a stable id lets the server ignore repeat sends.
+    const visitId = globalThis.crypto?.randomUUID ? crypto.randomUUID() : `v_${Date.now()}_${Math.random().toString(36).slice(2, 12)}`;
+    let sent = false;
+
     const sendVisit = () => {
+      if (sent || !product) return;
+      sent = true;
       const durationMs = Date.now() - pageStartedAt.current;
       const payload = {
+        visitId,
         path: `/products/${productSlug || "unknown"}`,
         title: product?.name || "Product page",
         referrer: document.referrer || "Direct",
@@ -43,16 +50,11 @@ export default function ProductDetailsPage() {
       trackProductPageVisit(payload).catch(() => undefined);
     };
 
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "hidden") sendVisit();
-    };
-
-    window.addEventListener("beforeunload", sendVisit);
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    // pagehide covers tab close and reload; the cleanup covers in-app navigation.
+    window.addEventListener("pagehide", sendVisit);
 
     return () => {
-      window.removeEventListener("beforeunload", sendVisit);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pagehide", sendVisit);
       sendVisit();
     };
   }, [productSlug, product?.name]);

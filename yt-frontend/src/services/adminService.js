@@ -37,8 +37,8 @@ export const getProductUsers = async () => {
   return Array.isArray(res.data?.productUsers) ? res.data.productUsers : [];
 };
 
-export const getProductAnalytics = async () => {
-  const res = await API.get("/erp/admin/product-analytics");
+export const getProductAnalytics = async (params) => {
+  const res = await API.get("/erp/admin/product-analytics", { params });
   return res.data;
 };
 

@@ -114,7 +114,21 @@ export const trackProductPageVisit = async (req, res) => {
       return res.status(400).json({ message: "Page path is required" });
     }
 
+    // Crawlers and link-preview bots are not real visitors.
+    if (/bot|crawl|spider|slurp|preview|headless|lighthouse|facebookexternalhit/i.test(userAgent)) {
+      return res.status(202).json({ success: true, message: "Automated visit ignored" });
+    }
+
+    const visitId = String(req.body?.visitId || "").trim();
+    if (visitId && !validTrackingId(visitId)) {
+      return res.status(400).json({ message: "Invalid visit id" });
+    }
+    if (visitId && (await ProductPageVisit.exists({ visitId }))) {
+      return res.status(200).json({ success: true, message: "Page visit already tracked" });
+    }
+
     const visit = await ProductPageVisit.create({
+      ...(visitId && { visitId }),
       path,
       title: title || path,
       referrer: referrer || "",
@@ -196,10 +210,23 @@ export const trackProductExploreClick = async (req, res) => {
 
 export const getProductAnalytics = async (req, res) => {
   try {
-    const visits = await ProductPageVisit.find().sort({ createdAt: -1 }).lean();
+    // Optional day filter: ?from=YYYY-MM-DD&to=YYYY-MM-DD (inclusive, server local time).
+    const parseDay = (value, endOfDay) => {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ""))) return null;
+      const date = new Date(`${value}T${endOfDay ? "23:59:59.999" : "00:00:00.000"}`);
+      return Number.isNaN(date.getTime()) ? null : date;
+    };
+    const from = parseDay(req.query?.from, false);
+    const to = parseDay(req.query?.to, true);
+    const range = {};
+    if (from) range.$gte = from;
+    if (to) range.$lte = to;
+    const dateFilter = from || to ? { createdAt: range } : {};
+
+    const visits = await ProductPageVisit.find(dateFilter).sort({ createdAt: -1 }).lean();
     const summary = summarizePageVisits(visits);
 
-    const exploreClicks = await ProductExploreClick.find().sort({ createdAt: -1 }).lean();
+    const exploreClicks = await ProductExploreClick.find(dateFilter).sort({ createdAt: -1 }).lean();
     const exploreSummary = summarizeExploreClicks(exploreClicks);
     const explore = {
       ...exploreSummary,

@@ -27,8 +27,8 @@ export async function trackProjectEvent(req, res) {
 }
 
 const counts = Object.fromEntries(EVENT_TYPES.map(type => [type, { $sum: { $cond: [{ $eq: ['$type', type] }, 1, 0] } }]));
-const distinct = { visitors: { $addToSet: '$visitorId' }, sessions: { $addToSet: '$sessionId' } };
-const totalsProjection = { _id: 0, ...Object.fromEntries(EVENT_TYPES.map(type => [type, 1])), visitors: { $size: '$visitors' }, sessions: { $size: '$sessions' } };
+const distinct = { visitors: { $addToSet: '$visitorId' }, sessions: { $addToSet: '$sessionId' }, loginVisitors: { $addToSet: { $cond: [{ $eq: ['$type', 'login'] }, '$visitorId', null] } } };
+const totalsProjection = { _id: 0, ...Object.fromEntries(EVENT_TYPES.map(type => [type, 1])), visitors: { $size: '$visitors' }, sessions: { $size: '$sessions' }, login_unique: { $size: { $setDifference: ['$loginVisitors', [null]] } } };
 
 export async function getProjectAnalytics(req, res) {
   let range;

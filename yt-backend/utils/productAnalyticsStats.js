@@ -1,4 +1,26 @@
-export function summarizePageVisits(visits = []) {
+const PRODUCT_TITLES = {
+    "electronic-educare": "EEC - ELECTRONIC EDUCARE",
+    "retail-management-system": "ERETAILMS - RETAIL MANAGEMENT SYSTEM",
+    "food-and-beverage-management-system": "EFNBMMS - FOOD & BEVERAGE MANAGEMENT SYSTEM",
+    esportm: "ESPORTM - SPORTS MANAGEMENT SYSTEM",
+};
+
+// Old slugs that now belong to a current product.
+const SLUG_ALIASES = { sportbit: "esportm" };
+
+// Merge renamed slugs into the current product and drop mistyped product URLs.
+function canonicalizeVisits(visits) {
+    return visits.flatMap((visit) => {
+        const match = String(visit.path || "").match(/^\/products\/([^/?#]+)\/?$/);
+        if (!match) return [visit];
+        const slug = SLUG_ALIASES[match[1]] || match[1];
+        if (!PRODUCT_TITLES[slug]) return [];
+        return [{ ...visit, path: `/products/${slug}`, title: PRODUCT_TITLES[slug] }];
+    });
+}
+
+export function summarizePageVisits(rawVisits = []) {
+    const visits = canonicalizeVisits(rawVisits);
     const totalViews = visits.length;
 
     const pageMap = new Map();
@@ -78,6 +100,8 @@ export function summarizeExploreClicks(clicks = []) {
                 totalClicks: 0,
                 visitors: new Set(),
                 locations: new Map(),
+                referrers: new Map(),
+                recentClicks: [],
                 lastClickedAt: null,
             });
         }
@@ -86,6 +110,12 @@ export function summarizeExploreClicks(clicks = []) {
         bucket.totalClicks += 1;
         if (visitorId) bucket.visitors.add(visitorId);
         bucket.locations.set(location, (bucket.locations.get(location) || 0) + 1);
+        const referrer = String(click.referrer || "Direct") || "Direct";
+        bucket.referrers.set(referrer, (bucket.referrers.get(referrer) || 0) + 1);
+        // Clicks arrive newest-first, so the first few are the most recent.
+        if (bucket.recentClicks.length < 8) {
+            bucket.recentClicks.push({ location, referrer, createdAt: click.createdAt || null });
+        }
 
         const clickedAt = click.createdAt ? new Date(click.createdAt) : null;
         if (clickedAt && !Number.isNaN(clickedAt.getTime()) && (!bucket.lastClickedAt || clickedAt > bucket.lastClickedAt)) {
@@ -107,6 +137,11 @@ export function summarizeExploreClicks(clicks = []) {
                 totalClicks: entry.totalClicks,
                 uniqueViews: entry.visitors.size,
                 locations,
+                referrers: [...entry.referrers.entries()]
+                    .map(([referrer, count]) => ({ referrer, count }))
+                    .sort((a, b) => b.count - a.count)
+                    .slice(0, 5),
+                recentClicks: entry.recentClicks,
                 topLocation: locations[0]?.location || "Unknown",
                 lastClickedAt: entry.lastClickedAt,
             };

@@ -2,6 +2,14 @@ import mongoose from "mongoose";
 
 const ProductPageVisitSchema = new mongoose.Schema(
     {
+        // Client-generated per page load; makes repeated sends idempotent.
+        visitId: {
+            type: String,
+            trim: true,
+            maxlength: 80,
+            unique: true,
+            sparse: true,
+        },
         path: {
             type: String,
             required: true,
