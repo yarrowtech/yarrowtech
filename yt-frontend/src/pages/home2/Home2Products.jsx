@@ -52,7 +52,8 @@ const PREVIEWS = {
   },
 };
 
-export default function Home2Products() {
+export default function Home2Products({ standalone = false }) {
+  const Heading = standalone ? 'h1' : 'h2';
   return (
     <section id="products" className="v2-products-section">
       <div className="container">
@@ -64,9 +65,9 @@ export default function Home2Products() {
           viewport={{ once: true }}
         >
           <span className="products-kicker">Our Products</span>
-          <h2 className="title">
+          <Heading className="title">
             Our <span>Products</span>
-          </h2>
+          </Heading>
           <p className="subtitle">
             Purpose-built platforms for modern businesses
           </p>

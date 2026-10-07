@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { scrollToSection } from "../utils/sectionNavigation";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
@@ -32,6 +34,7 @@ const NAV_LINKS = [
 ];
 
 export default function Header({ headerClass = "" }) {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("");
   const [user, setUser] = useState(null);
@@ -390,6 +393,7 @@ export default function Header({ headerClass = "" }) {
   };
 
   const handleNav = (event, hash) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
     setMenuOpen(false);
 
@@ -405,15 +409,13 @@ export default function Header({ headerClass = "" }) {
 
     if (!hash) {
       setActiveHash("");
+      navigate('/');
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
     setActiveHash(hash);
-    const section = document.getElementById(hash.replace("#", ""));
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
+    if (!scrollToSection(hash.slice(1))) navigate(`/${hash}`);
   };
 
   const modalAnim = {

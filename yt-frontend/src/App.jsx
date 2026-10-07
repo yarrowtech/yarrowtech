@@ -525,6 +525,7 @@ import Seo from "./components/Seo";
 import RouteMetadata from "./components/RouteMetadata";
 import { lazyPage } from "./utils/lazyPage";
 const MarketingPage = lazyPage(() => import("./pages/MarketingPage"));
+const ProductsPage = lazyPage(() => import("./pages/ProductsPage"));
 import Header from "./components/Header";
 const Hero = lazy(() => import("./components/Hero"));
 const Service = lazy(() => import("./pages/services"));
@@ -697,7 +698,9 @@ export default function App() {
               }
             />
 
-            {["/services", "/services/:slug", "/products", "/industries", "/industries/:slug", "/blog", "/blog/:slug", "/case-studies", "/contact"].map(path => (
+            <Route path="/products" element={<><Header headerClass="header-warm" /><ProductsPage /><Home2Footer /></>} />
+
+            {["/services", "/services/:slug", "/industries", "/industries/:slug", "/blog", "/blog/:slug", "/case-studies", "/contact"].map(path => (
               <Route key={path} path={path} element={<><Header headerClass="header-warm" /><MarketingPage /><Home2Footer /></>} />
             ))}
 
@@ -904,6 +907,7 @@ export default function App() {
 
 
 export async function prepareInitialPage(pathname) {
-  if (/^\/products\/[^/]+\/?$/.test(pathname)) await ProductDetailsPage.preload();
+  if (/^\/products\/?$/.test(pathname)) await ProductsPage.preload();
+  else if (/^\/products\/[^/]+\/?$/.test(pathname)) await ProductDetailsPage.preload();
   else if (/^\/(services|products|industries|blog|case-studies|contact)(\/|$)/.test(pathname)) await MarketingPage.preload();
 }

@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { scrollToSection } from "../../utils/sectionNavigation";
 import "./Home2Performance.css";
 import Seo from "../../components/Seo";
 import Home2Hero from "./Home2Hero";
@@ -10,9 +12,15 @@ import Home2About from "./Home2About";
 import Home2Footer from "./Home2Footer";
 
 export default function Home2() {
+  const { hash } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, []);
+    const frame = requestAnimationFrame(() => {
+      if (!hash || !scrollToSection(hash.slice(1), 'auto')) {
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [hash]);
 
   return (
     <>
