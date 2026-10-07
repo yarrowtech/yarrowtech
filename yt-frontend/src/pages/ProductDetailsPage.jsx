@@ -154,7 +154,7 @@ export default function ProductDetailsPage() {
                     rel="noreferrer"
                     onClick={() => trackProductExploreClick(product)}
                   >
-                    Explore This Product
+                    See Demo
                     <ArrowUpRight size={19} aria-hidden="true" />
                   </a>
                 ) : !hasSignup ? (

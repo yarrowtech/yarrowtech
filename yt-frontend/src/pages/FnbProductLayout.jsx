@@ -161,7 +161,7 @@ export default function FnbProductLayout({ product }) {
                     rel="noreferrer"
                     onClick={() => trackProductExploreClick(product)}
                   >
-                    Explore This Product
+                    See Demo
                     <ArrowRight size={18} aria-hidden="true" />
                   </a>
                 )}

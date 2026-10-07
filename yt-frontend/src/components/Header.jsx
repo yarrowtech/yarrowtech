@@ -73,6 +73,20 @@ export default function Header({ headerClass = "" }) {
     const userData = localStorage.getItem("user");
 
     if (token && userData) {
+      // Drop sessions whose JWT has expired instead of showing a stale login.
+      let expired = false;
+      try {
+        const payload = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+        expired = Boolean(payload.exp) && payload.exp * 1000 < Date.now();
+      } catch {
+        expired = true;
+      }
+
+      if (expired) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        return;
+      }
       setUser(JSON.parse(userData));
     }
   }, []);

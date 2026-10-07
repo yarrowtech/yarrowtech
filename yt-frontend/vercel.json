@@ -168,6 +168,13 @@
       "dest": "/products/food-and-beverage-management-system/index.html"
     },
     {
+      "src": "/products/sportbit/?",
+      "status": 301,
+      "headers": {
+        "Location": "/products/esportm"
+      }
+    },
+    {
       "src": "/products/esportm",
       "dest": "/products/esportm/index.html"
     },

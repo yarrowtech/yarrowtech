@@ -136,7 +136,7 @@ export default function ProductAnalytics() {
                 <div className="pa-panel-header">
                     <div className="pa-panel-title-wrap">
                         <MousePointerClick size={16} />
-                        <h2>Explore button clicks</h2>
+                        <h2>See Demo button clicks</h2>
                     </div>
                     <div className="pa-explore-stats">
                         <span className="pa-count">{explore.totalClicks ?? 0} total clicks</span>
@@ -192,7 +192,7 @@ export default function ProductAnalytics() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="5" className="pa-empty">No "Explore This Product" clicks recorded yet.</td>
+                                    <td colSpan="5" className="pa-empty">No "See Demo" clicks recorded yet.</td>
                                 </tr>
                             )}
                         </tbody>
@@ -200,7 +200,7 @@ export default function ProductAnalytics() {
                 </div>
 
                 <div className="pa-recent-explore">
-                    <h3>Recent explore clicks</h3>
+                    <h3>Recent See Demo clicks</h3>
                     <div className="pa-table-wrap">
                         <table className="pa-table pa-table--compact">
                             <thead>
@@ -221,7 +221,7 @@ export default function ProductAnalytics() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="3" className="pa-empty">No recent explore clicks available.</td>
+                                        <td colSpan="3" className="pa-empty">No recent See Demo clicks available.</td>
                                     </tr>
                                 )}
                             </tbody>
