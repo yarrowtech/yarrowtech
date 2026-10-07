@@ -23,7 +23,7 @@ test('private ERP endpoints reject anonymous requests before reaching data handl
   await new Promise(resolve => server.once('listening', resolve));
   try {
     const origin = `http://127.0.0.1:${server.address().port}`;
-    for (const route of ['/admin/stats', '/manager/profile', '/product-user/dashboard', '/client/dashboard', '/client/projects', '/techlead/stats', '/techlead/profile', '/projects']) {
+    for (const route of ['/admin/stats', '/admin/project-analytics', '/manager/profile', '/product-user/dashboard', '/client/dashboard', '/client/projects', '/techlead/stats', '/techlead/profile', '/projects']) {
       assert.equal((await fetch(origin + route)).status, 401, route);
       assert.equal((await fetch(origin + route, { headers: { Authorization: 'Bearer invalid' } })).status, 401, route);
     }

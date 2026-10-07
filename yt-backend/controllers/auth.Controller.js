@@ -216,6 +216,7 @@ export const googleLogin = async (req, res) => {
     }
 
     let user = await User.findOne({ email: normalizedEmail });
+    const isNewUser = !user;
 
     if (!user) {
       user = await User.create({
@@ -250,6 +251,7 @@ export const googleLogin = async (req, res) => {
 
     res.json({
       message: "Google login successful",
+      isNewUser,
       token: generateToken(user),
       user,
     });

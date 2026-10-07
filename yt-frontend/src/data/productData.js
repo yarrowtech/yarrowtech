@@ -30,7 +30,7 @@ export const products = [
       "Faster administration",
       "Better parent and student engagement",
     ],
-    productUrl: "https://eecb-2-b.vercel.app/",
+    productUrl: "https://eec-demo-seven.vercel.app",
   },
   {
     slug: "retail-management-system",
@@ -60,7 +60,7 @@ export const products = [
       "Faster billing workflows",
       "Real-time retail insights",
     ],
-    productUrl: "https://rms.raphaaa.com/",
+    productUrl: "https://eretailmsdemo.netlify.app/",
   },
   {
     slug: "food-and-beverage-management-system",
@@ -91,7 +91,7 @@ export const products = [
       "Better control over inventory, orders, and costs",
       "A scalable ERP foundation for restaurants and chains",
     ],
-    productUrl: "https://www.efnbmms.com/",
+    productUrl: "https://fnb-demo.onrender.com/",
     signupPaths: {
       admin: "/efnbmms/signup",
       vendor: "/efnbmms/vendor/signup",
@@ -125,7 +125,7 @@ export const products = [
       "Data-driven coaching",
       "Organized sports operations",
     ],
-    productUrl: "https://www.esportm.com/",
+    productUrl: "https://esport-m-demo.vercel.app/",
   },
 ];
 

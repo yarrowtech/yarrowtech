@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import API from "../services/api";
+import { trackProjectEvent } from "../services/projectTracking";
 import PasswordField from "../components/PasswordField";
 import LegalDocumentStep from "../components/LegalDocumentStep";
 import Seo from "../components/Seo";
@@ -250,6 +251,7 @@ export default function EfnbmmsVendorSignupPage() {
 
       setSubmitStage("Creating your vendor account…");
       const signup = await API.post("/efnbmms/vendor/signup", payload);
+      trackProjectEvent('signup');
       const vendorInfo = signup.data?.vendor
         ? {
             ...signup.data.vendor,
@@ -264,6 +266,7 @@ export default function EfnbmmsVendorSignupPage() {
       });
       const vendorToken = login.data?.token || "";
       if (!vendorToken) throw new Error("Could not sign in to activate your plan");
+      trackProjectEvent('login');
 
       setSubmitStage(
         selectedPlan.monthlyPrice > 0 ? "Opening secure payment…" : "Activating your plan…"

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import API from "../services/api";
+import { trackProjectEvent } from "../services/projectTracking";
 import PasswordField from "../components/PasswordField";
 import LegalDocumentStep from "../components/LegalDocumentStep";
 import Seo from "../components/Seo";
@@ -207,6 +208,7 @@ export default function EfnbmmsSignupPage() {
               credentialsEmailSent: Boolean(verify.data?.credentialsEmailSent),
               credentialsEmailMessage: verify.data?.credentialsEmailMessage || "",
             });
+            trackProjectEvent('signup');
             toast.success(
               verify.data?.credentialsEmailSent
                 ? "Subscription activated! Check your email for login details."

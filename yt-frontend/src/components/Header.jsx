@@ -348,7 +348,9 @@ export default function Header({ headerClass = "" }) {
   };
 
   const handleLogout = () => {
+    const analyticsVisitor = localStorage.getItem('yt_analytics_visitor');
     localStorage.clear();
+    if (analyticsVisitor) localStorage.setItem('yt_analytics_visitor', analyticsVisitor);
     setUser(null);
     setShowProfileMenu(false);
     showToastMessage("success", "Logged out successfully");
@@ -374,7 +376,7 @@ export default function Header({ headerClass = "" }) {
       closeAuthModals();
       setShowProfileMenu(false);
       showToastMessage("success", "Google login successful!");
-      trackProjectEvent('login');
+      trackProjectEvent(res.data.isNewUser ? 'signup' : 'login');
     } catch (err) {
       showToastMessage(
         "error",
