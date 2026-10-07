@@ -10,14 +10,14 @@ const DISPLAY_NAMES = {
   "retail-management-system": "ERetailMS - Retail Management System",
   "food-and-beverage-management-system":
     "EFNBMMS - Food & Beverage Management System",
-  sportbit: "ESPORTM - Sports Management System",
+  esportm: "ESPORTM - Sports Management System",
 };
 
 const DECO_ICONS = {
   "electronic-educare": GraduationCap,
   "retail-management-system": Store,
   "food-and-beverage-management-system": UtensilsCrossed,
-  sportbit: Trophy,
+  esportm: Trophy,
 };
 
 // Content for the small dashboard preview shown on each card.
@@ -43,7 +43,7 @@ const PREVIEWS = {
     bars: [26, 38, 46, 42, 62, 70, 90],
     chartTitle: "Order Trends",
   },
-  sportbit: {
+  esportm: {
     brand: "SportM",
     nav: ["Dashboard", "Players", "Teams", "Matches", "Analytics", "Reports"],
     stats: [["Total Players", "320"], ["Matches", "156"]],

@@ -84,7 +84,7 @@ export default function ProductDetailsPage() {
     return <FnbProductLayout product={product} />;
   }
 
-  if (product.slug === "sportbit") {
+  if (product.slug === "esportm") {
     return <SportsProductLayout product={product} />;
   }
 

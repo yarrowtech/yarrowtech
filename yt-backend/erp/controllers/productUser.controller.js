@@ -11,7 +11,7 @@ const PRODUCT_CATALOG = [
   "EEC - Electronic Educare",
   "RMS - Retail Management System",
   EFNBMMS_ADMIN_PRODUCT_NAME,
-  "SportBit - Sports Management System",
+  "ESPORTM - Sports Management System",
 ];
 const PAYMENT_STATUSES = ["paid", "pending", "failed"];
 

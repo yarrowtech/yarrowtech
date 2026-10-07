@@ -42,6 +42,11 @@ export const getProductAnalytics = async () => {
   return res.data;
 };
 
+export const getProjectAnalytics = async (params, signal) => {
+  const res = await API.get('/erp/admin/project-analytics', { params, signal });
+  return res.data;
+};
+
 export const trackProductPageVisit = async (payload) => {
   const res = await API.post("/erp/admin/product-analytics/track", payload);
   return res.data;

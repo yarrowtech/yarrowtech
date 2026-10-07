@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { trackProjectEvent } from "../services/projectTracking";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -192,6 +193,7 @@ export default function Header({ headerClass = "" }) {
       );
 
       const { role, token, user: loggedInUser } = res.data;
+      trackProjectEvent('login');
       const dashboardRoute = ERP_DASHBOARD_ROUTES[role];
 
       if (dashboardRoute) {
@@ -264,6 +266,7 @@ export default function Header({ headerClass = "" }) {
       setRegisterConfirmPassword("");
       closeAuthModals();
       showToastMessage("success", "Account created and logged in!");
+      trackProjectEvent('signup');
     } catch (err) {
       showToastMessage(
         "error",
@@ -371,6 +374,7 @@ export default function Header({ headerClass = "" }) {
       closeAuthModals();
       setShowProfileMenu(false);
       showToastMessage("success", "Google login successful!");
+      trackProjectEvent('login');
     } catch (err) {
       showToastMessage(
         "error",

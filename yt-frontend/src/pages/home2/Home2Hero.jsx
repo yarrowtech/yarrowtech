@@ -15,7 +15,7 @@ const productImages = {
   "electronic-educare": eecImage,
   "retail-management-system": retailImage,
   "food-and-beverage-management-system": foodImage,
-  sportbit: sportsImage,
+  esportm: sportsImage,
 };
 
 const heroContainerVariants = {

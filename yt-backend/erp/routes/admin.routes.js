@@ -46,6 +46,8 @@
 
 
 import express from "express";
+import rateLimit from "express-rate-limit";
+import { trackProjectEvent, getProjectAnalytics } from "../controllers/projectAnalytics.controller.js";
 
 /* ================= CONTROLLERS ================= */
 import {
@@ -83,6 +85,8 @@ import verifyRoles from "../middleware/verifyRoles.js";
 import logger from "../../utils/logger.js";
 
 const router = express.Router();
+
+router.post('/project-analytics/track', rateLimit({ windowMs: 60000, limit: 300, standardHeaders: true, legacyHeaders: false }), trackProjectEvent);
 
 router.post("/product-analytics/track", async (req, res, next) => {
   try {
@@ -128,6 +132,7 @@ router.put("/user/:id/toggle-status", toggleUserStatus);
 router.put("/user/:id/reset-password", resetUserPassword);
 
 router.get("/product-analytics", getProductAnalytics);
+router.get('/project-analytics', getProjectAnalytics);
 
 // Product user management
 router.get("/product-users", getProductUsers);

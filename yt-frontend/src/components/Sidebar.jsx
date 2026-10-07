@@ -156,6 +156,12 @@ export default function Sidebar() {
         />
 
         <NavItem
+          to="/admin/project-analytics"
+          icon={<ChartColumn size={18} />}
+          label="Project Analytics"
+        />
+
+        <NavItem
           to="/admin/contacts"
           icon={<Mail size={18} />}
           label="Contact Forms"

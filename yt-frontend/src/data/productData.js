@@ -98,7 +98,7 @@ export const products = [
     },
   },
   {
-    slug: "sportbit",
+    slug: "esportm",
     name: "ESPORTM - SPORTS MANAGEMENT SYSTEM",
     shortName: "ESPORTM",
     icon: Trophy,

@@ -33,7 +33,7 @@ export const industries = [
   { slug: 'education', title: 'Education Management Software', productSlug: 'electronic-educare' },
   { slug: 'retail', title: 'Retail Management Software', productSlug: 'retail-management-system' },
   { slug: 'food-and-beverage', title: 'Food and Beverage Management Software', productSlug: 'food-and-beverage-management-system' },
-  { slug: 'sports', title: 'Sports Management Software', productSlug: 'sportbit' },
+  { slug: 'sports', title: 'Sports Management Software', productSlug: 'esportm' },
 ];
 
 export const articles = [

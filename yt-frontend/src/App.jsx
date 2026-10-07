@@ -561,6 +561,8 @@ const CareerApplications = lazy(() => import("./pages/admin/CareerApplications")
 const AdminProductUsers = lazy(() => import("./pages/admin/ProductUsers"));
 const AdminProductUserDetails = lazy(() => import("./pages/admin/ProductUserDetails"));
 const ProductAnalytics = lazy(() => import("./pages/admin/ProductAnalytics"));
+const ProjectAnalytics = lazy(() => import("./pages/admin/ProjectAnalytics"));
+import ProjectAnalyticsTracker from "./components/ProjectAnalyticsTracker";
 
 /* 🧩 MANAGER MODULE */
 const ManagerLayout = lazy(() => import("./pages/manager/ManagerLayout"));
@@ -666,6 +668,7 @@ export default function App() {
     <ThemeProvider>
       <Router>
         <RouteMetadata />
+        <ProjectAnalyticsTracker />
         <ContactMenuWrapper />
 
         <div className="app">
@@ -780,6 +783,7 @@ export default function App() {
               <Route path="product-users" element={<AdminProductUsers />} />
               <Route path="product-users/:id" element={<AdminProductUserDetails />} />
               <Route path="product-analytics" element={<ProductAnalytics />} />
+              <Route path="project-analytics" element={<ProjectAnalytics />} />
               <Route path="projects" element={<Projects />} />
               <Route path="blogs" element={<AdminBlog />} />
               <Route path="requests" element={<RequestDemoAdmin />} />
