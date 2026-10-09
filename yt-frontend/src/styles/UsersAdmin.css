@@ -240,6 +240,23 @@
 .role-manager      { background: #3b82f6; color: #fff; }
 .role-techlead     { background: #22c55e; color: #fff; }
 .role-productuser  { background: #f59e0b; color: #fff; }
+.role-client       { background: #8b5cf6; color: #fff; }
+
+.client-users-note {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  color: var(--erp-text-muted);
+  font-size: 0.84rem;
+}
+
+.reset-modal-caption {
+  margin: 0 0 4px;
+  font-size: 0.82rem;
+  color: var(--erp-text-muted);
+}
 
 .status-cell   { display: flex; align-items: center; gap: 10px; }
 .status-toggle { padding: 6px 14px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; border: none; cursor: pointer; }

@@ -201,7 +201,7 @@ router.post("/clients", async (req, res) => {
   }
 });
 
-// Activate / Deactivate client
+// Activate / Deactivate client (by id, explicit status)
 router.patch("/clients/:id/status", async (req, res) => {
   try {
     const { status } = req.body;
@@ -221,21 +221,41 @@ router.patch("/clients/:id/status", async (req, res) => {
   }
 });
 
-// Reset client password
-router.post("/clients/:id/reset-password", async (req, res) => {
+// Activate / Deactivate client (toggle-style, matches ERP user UX)
+router.put("/clients/:id/toggle-status", async (req, res) => {
   try {
     const client = await ERPClient.findById(req.params.id);
     if (!client) {
       return res.status(404).json({ message: "Client not found" });
     }
 
-    const tempPassword = "12345";
-    client.password = tempPassword;
+    client.status = client.status === "active" ? "inactive" : "active";
+    await client.save();
+
+    res.json({ success: true, status: client.status });
+  } catch (err) {
+    logger.error({ err: err }, "Update client status error");
+    res.status(500).json({ message: "Failed to update status" });
+  }
+});
+
+// Reset client password (admin-provided password, or temp fallback)
+router.put("/clients/:id/reset-password", async (req, res) => {
+  try {
+    const { password } = req.body || {};
+
+    const client = await ERPClient.findById(req.params.id);
+    if (!client) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+
+    const newPassword = password || "12345";
+    client.password = newPassword;
     await client.save();
 
     res.json({
       success: true,
-      tempPassword,
+      message: "Client password reset successfully",
     });
   } catch (err) {
     logger.error({ err: err }, "Reset client password error");

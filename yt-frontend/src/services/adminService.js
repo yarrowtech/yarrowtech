@@ -218,3 +218,23 @@ export const migrateResumeAccess = async () => {
   const res = await API.post("/erp/admin/migrate-resumes");
   return res.data;
 };
+
+/* ===============================
+   CLIENT USERS (ADMIN)
+================================ */
+export const getClients = async () => {
+  const res = await API.get("/erp/admin/clients");
+  return Array.isArray(res.data) ? res.data : [];
+};
+
+export const toggleClientStatus = async (clientId) => {
+  const res = await API.put(`/erp/admin/clients/${clientId}/toggle-status`);
+  return res.data;
+};
+
+export const resetClientPassword = async (clientId, password) => {
+  const res = await API.put(`/erp/admin/clients/${clientId}/reset-password`, {
+    password,
+  });
+  return res.data;
+};

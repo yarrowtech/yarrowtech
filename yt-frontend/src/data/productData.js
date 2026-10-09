@@ -14,9 +14,7 @@ export const products = [
     writeup:
       "Electronic Educare helps educational institutions move away from scattered registers, disconnected apps, and slow manual reporting. It brings learning, administration, communication, and performance visibility into one organized platform.",
     audience: [
-      "Schools and colleges",
-      "Coaching institutes",
-      "Training centers",
+      "Schools",
       "Teachers, students, parents, and administrators",
     ],
     features: [

@@ -5,10 +5,13 @@ import { Eye, EyeOff } from "lucide-react";
 import {
   createERPUser,
   getERPUsers,
+  getClients,
   getProductUserCatalog,
   getProductUserManagers,
   getProductUsers,
+  resetClientPassword,
   resetUserPassword,
+  toggleClientStatus,
   toggleUserStatus,
 } from "../../services/adminService";
 import "../../styles/UsersAdmin.css";
@@ -37,6 +40,7 @@ export default function Users() {
   const [activeTab, setActiveTab] = useState("erp");
   const [users, setUsers] = useState([]);
   const [productUsers, setProductUsers] = useState([]);
+  const [clients, setClients] = useState([]);
   const [managers, setManagers] = useState([]);
   const [catalog, setCatalog] = useState([]);
   const [erpForm, setErpForm] = useState(initialErpForm);
@@ -61,15 +65,17 @@ export default function Users() {
   };
 
   const loadData = async () => {
-    const [erpUsers, pUsers, managerList, productCatalog] = await Promise.all([
+    const [erpUsers, pUsers, clientList, managerList, productCatalog] = await Promise.all([
       getERPUsers(),
       getProductUsers(),
+      getClients(),
       getProductUserManagers(),
       getProductUserCatalog(),
     ]);
 
     setUsers(Array.isArray(erpUsers) ? erpUsers.filter((item) => item.role !== "productuser") : []);
     setProductUsers(Array.isArray(pUsers) ? pUsers : []);
+    setClients(Array.isArray(clientList) ? clientList : []);
     setManagers(Array.isArray(managerList) ? managerList : []);
     setCatalog(Array.isArray(productCatalog) ? productCatalog : []);
   };
@@ -230,12 +236,93 @@ export default function Users() {
     </div>
   );
 
+  const handleToggleClientStatus = async (id) => {
+    try {
+      await toggleClientStatus(id);
+      toast.success("Client status updated");
+      await loadData();
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Status update failed");
+    }
+  };
+
+  const handleResetClientPassword = async () => {
+    if (resetPwd.password !== resetPwd.confirm) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      await resetClientPassword(resetUser._id, resetPwd.password);
+      toast.success("Password reset");
+      setResetUser(null);
+      setResetPwd({ password: "", confirm: "" });
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Password reset failed");
+    }
+  };
+
+  const renderClientTable = (items) => (
+    <div className="users-table-wrapper">
+      <table className="users-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Joined</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.length === 0 ? (
+            <tr>
+              <td colSpan={7} className="empty-table-cell">
+                No client users found.
+              </td>
+            </tr>
+          ) : (
+            items.map((u) => (
+              <tr key={u._id}>
+                <td>{u.name || "-"}</td>
+                <td>{u.email}</td>
+                <td>{u.company || "-"}</td>
+                <td>
+                  <span className="role-badge role-client">client</span>
+                </td>
+                <td>
+                  <button
+                    className={`status-toggle ${u.status}`}
+                    onClick={() => handleToggleClientStatus(u._id)}
+                  >
+                    {u.status === "active" ? "Disable" : "Enable"}
+                  </button>
+                </td>
+                <td>{new Date(u.createdAt).toLocaleDateString()}</td>
+                <td>
+                  <button
+                    className="reset-btn"
+                    onClick={() => setResetUser({ ...u, __client: true })}
+                  >
+                    Reset Password
+                  </button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+
   return (
     <div className="admin-users-container">
       <div className="admin-header">
         <div>
           <h2>User Management</h2>
-          <p className="subtitle">Manage ERP users and product users from separate tabs.</p>
+          <p className="subtitle">Manage ERP users, product users, and client users from separate tabs.</p>
         </div>
       </div>
 
@@ -252,6 +339,12 @@ export default function Users() {
         >
           Product Users
         </button>
+        <button
+          className={activeTab === "clients" ? "active" : ""}
+          onClick={() => setActiveTab("clients")}
+        >
+          Client Users
+        </button>
       </div>
 
       {activeTab === "erp" ? (
@@ -266,6 +359,20 @@ export default function Users() {
             </button>
           </div>
           {renderUserTable(users)}
+        </>
+      ) : activeTab === "clients" ? (
+        <>
+          <div className="admin-section-head">
+            <div className="admin-header">
+              <h2>Client Users</h2>
+              <p className="subtitle">Total Client Users: {clients.length}</p>
+            </div>
+          </div>
+          <p className="client-users-note">
+            Client users are created when a manager adds them to a project. They can log in
+            to the ERP to view their projects and chat with the team.
+          </p>
+          {renderClientTable(clients)}
         </>
       ) : (
         <>
@@ -598,6 +705,11 @@ export default function Users() {
           <div className="modal-box reset-password-modal">
             <h3>Reset Password</h3>
             <p>{resetUser.email}</p>
+            <p className="reset-modal-caption">
+              {resetUser.__client
+                ? "Set a new password for this client's ERP login."
+                : "Enter a new password for this ERP user."}
+            </p>
             <div className="password-field-wrap">
               <input
                 type={passwordVisibility.resetPassword ? "text" : "password"}
@@ -637,7 +749,11 @@ export default function Users() {
               </button>
             </div>
             <div className="modal-actions">
-              <button onClick={handleResetPassword}>Update Password</button>
+              <button
+                onClick={resetUser.__client ? handleResetClientPassword : handleResetPassword}
+              >
+                Update Password
+              </button>
               <button onClick={() => setResetUser(null)}>Cancel</button>
             </div>
           </div>
