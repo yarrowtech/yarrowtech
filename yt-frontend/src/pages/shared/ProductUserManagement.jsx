@@ -13,6 +13,7 @@ export default function ProductUserManagement({
   currentRole,
   allowChat = true,
   loadSubscriptions,
+  embedded = false,
 }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -63,7 +64,7 @@ export default function ProductUserManagement({
   const selectedSubs = selectedProduct ? subsByProduct(selectedProduct) : [];
 
   return (
-    <div className="product-user-page">
+    <div className={`product-user-page ${embedded ? "product-user-page--embedded" : ""}`}>
       <div className="product-user-page-head">
         <div>
           <h2>{title}</h2>

@@ -38,6 +38,9 @@ const paymentSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  transactionReference: { type: String, default: "" },
+  instalmentId: { type: String, default: "" },
+  instalmentLabel: { type: String, default: "" },
   createdAt: {
     type: Date,
     default: Date.now,

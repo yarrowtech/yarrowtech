@@ -55,6 +55,22 @@ export default function ManagerProjects() {
   const getCount = (status) =>
     status === "all" ? projects.length : projects.filter((p) => p.status === status).length;
 
+  /* projects count per client (all projects, not just filtered) */
+  const clientCounts = useMemo(() => {
+    const counts = new Map();
+    projects.forEach((p) => {
+      const key = p.client?._id || p.clientEmail || p.clientName;
+      if (!key) return;
+      counts.set(key, (counts.get(key) || 0) + 1);
+    });
+    return counts;
+  }, [projects]);
+
+  const getClientCount = (project) => {
+    const key = project.client?._id || project.clientEmail || project.clientName;
+    return key ? clientCounts.get(key) || 1 : 1;
+  };
+
   const stats = [
     { label: "Total Projects", value: getCount("all"),       icon: Layers,        color: "#60a5fa" },
     { label: "Ongoing",        value: getCount("ongoing"),   icon: Activity,      color: "#38bdf8" },
@@ -148,6 +164,7 @@ export default function ManagerProjects() {
           {filtered.map((project) => {
             const sc = STATUS_COLORS[project.status] || STATUS_COLORS.pending;
             const progress = Number(project.progress) || 0;
+            const clientCount = getClientCount(project);
             const open = () => navigate(`/manager/projects/${project._id}`);
 
             return (
@@ -170,7 +187,17 @@ export default function ManagerProjects() {
                 <div className="mp-cell" role="cell">
                   <div className="mp-cell-text">
                     <span className="mp-cell-label"><User size={12} /> Client</span>
-                    <strong>{project.clientName || "—"}</strong>
+                    <strong>
+                      {project.clientName || "—"}
+                      {clientCount > 1 && (
+                        <span
+                          className="mp-client-count"
+                          title={`${clientCount} projects for this client`}
+                        >
+                          {clientCount} projects
+                        </span>
+                      )}
+                    </strong>
                     <span className="mp-cell-sub"><Mail size={12} /> {project.clientEmail || "—"}</span>
                   </div>
                 </div>

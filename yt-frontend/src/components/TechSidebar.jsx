@@ -1,10 +1,11 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import "../styles/techSidebar.css";
 // import API from "../services/axiosInstance"; // optional
 
-export default function TechSidebar() {
+export default function TechSidebar({ open = false, onClose }) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -25,7 +26,10 @@ export default function TechSidebar() {
   };
 
   return (
-    <aside className="tech-sidebar">
+    <aside className={`tech-sidebar ${open ? "tech-sidebar--open" : ""}`}>
+      <button type="button" className="app-close-btn" aria-label="Close menu" onClick={onClose}>
+        <X size={20} />
+      </button>
       <h2 className="sidebar-title">Tech Panel</h2>
 
       <nav className="sidebar-menu">

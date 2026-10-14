@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/AdminProject.css";
 import {
-  FolderKanban, Search, Check, X, Pencil,
+  FolderKanban, Search, Check, X, Pencil, ExternalLink,
   Clock, Activity, CheckCircle2, Layers,
 } from "lucide-react";
 import { getAllProjects, updateProject } from "../../services/adminService";
@@ -11,6 +12,7 @@ const STATUS_OPTIONS = ["pending", "ongoing", "completed"];
 const formatDate = (value) => (value ? new Date(value).toLocaleDateString() : "—");
 
 export default function Projects() {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -195,7 +197,14 @@ export default function Projects() {
                             onChange={(e) => setEditData({ ...editData, name: e.target.value })}
                           />
                         ) : (
-                          <span className="ap-project-name">{proj.name || "—"}</span>
+                          <button
+                            type="button"
+                            className="ap-project-name ap-project-link"
+                            title="Open project details"
+                            onClick={() => navigate(`/admin/projects/${proj._id}`)}
+                          >
+                            {proj.name || "—"}
+                          </button>
                         )}
                       </td>
 
@@ -274,13 +283,22 @@ export default function Projects() {
                               </button>
                             </>
                           ) : (
-                            <button
-                              className="ap-icon-btn"
-                              onClick={() => startEdit(proj)}
-                              title="Edit"
-                            >
-                              <Pencil size={16} />
-                            </button>
+                            <>
+                              <button
+                                className="ap-icon-btn"
+                                onClick={() => navigate(`/admin/projects/${proj._id}`)}
+                                title="Open details"
+                              >
+                                <ExternalLink size={16} />
+                              </button>
+                              <button
+                                className="ap-icon-btn"
+                                onClick={() => startEdit(proj)}
+                                title="Quick edit"
+                              >
+                                <Pencil size={16} />
+                              </button>
+                            </>
                           )}
                         </div>
                       </td>

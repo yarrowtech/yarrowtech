@@ -1,4 +1,5 @@
 import express from "express";
+import { approveProjectSrs, saveSrsPaymentTerms } from "../controllers/srs.controller.js";
 
 import {
   createClientAndProject,
@@ -16,6 +17,7 @@ import {
   addProductUserPayment,
   getProductUserAnalytics,
   getProductUserDetails,
+  getProductSubscriptions,
   getProductUsers,
   updateProductUserPaymentSummary,
 } from "../controllers/productUser.controller.js";
@@ -23,6 +25,8 @@ import { verifyErpToken } from "../middleware/erpAuth.js";
 import verifyRoles from "../middleware/verifyRoles.js";
 
 const router = express.Router();
+router.post("/projects/:id/srs-approval", verifyErpToken, verifyRoles("manager"), approveProjectSrs);
+router.put("/projects/:id/srs-payment-terms", verifyErpToken, verifyRoles("manager"), saveSrsPaymentTerms);
 
 router.get(  "/profile",         verifyErpToken, verifyRoles("manager"), getManagerProfile);
 router.put(  "/profile",         verifyErpToken, verifyRoles("manager"), updateManagerProfile);
@@ -82,6 +86,14 @@ router.get(
   verifyErpToken,
   verifyRoles("manager"),
   getProductUsers
+);
+
+// Registered before "/product-users/:id" so "subscriptions" is not read as an id.
+router.get(
+  "/product-users/subscriptions",
+  verifyErpToken,
+  verifyRoles("manager"),
+  getProductSubscriptions
 );
 
 router.get(

@@ -518,6 +518,7 @@ import {
   Route,
   useLocation,
   Link,
+  Navigate,
 } from "react-router-dom";
 
 /* 🌐 PUBLIC WEBSITE */
@@ -576,6 +577,7 @@ const ManagerSettings = lazy(() => import("./pages/manager/Settings"));
 const ChatWindow = lazy(() => import("./pages/manager/ChatWindow"));
 const RequestDemoManager = lazy(() => import("./pages/manager/RequestDemoManager"));
 const ManagerProductUsers = lazy(() => import("./pages/manager/ProductUsers"));
+const ManagerUserManagement = lazy(() => import("./pages/manager/UserManagement"));
 const ManagerProductUserDetails = lazy(() => import("./pages/manager/ProductUserDetails"));
 
 /* 🧩 TECH LEAD */
@@ -788,6 +790,7 @@ export default function App() {
               <Route path="product-analytics" element={<ProductAnalytics />} />
               <Route path="project-analytics" element={<ProjectAnalytics />} />
               <Route path="projects" element={<Projects />} />
+              <Route path="projects/:projectId" element={<ProjectDetails />} />
               <Route path="blogs" element={<AdminBlog />} />
               <Route path="requests" element={<RequestDemoAdmin />} />
               <Route path="contacts" element={<ContactsAdmin />} />
@@ -811,9 +814,16 @@ export default function App() {
               <Route path="dashboard" element={<ManagerDashboard />} />
               <Route path="projects" element={<ManageProjects />} />
               <Route path="projects/:projectId" element={<ProjectDetails />} />
-              <Route path="product-users" element={<ManagerProductUsers />} />
+              <Route path="user-management" element={<ManagerUserManagement />} />
+              <Route
+                path="product-users"
+                element={<Navigate to="/manager/user-management?tab=products" replace />}
+              />
               <Route path="product-users/:id" element={<ManagerProductUserDetails />} />
-              <Route path="create-client" element={<CreateClient />} />
+              <Route
+                path="create-client"
+                element={<Navigate to="/manager/user-management?tab=clients" replace />}
+              />
               <Route path="notifications" element={<Notifications />} />
               <Route path="requests" element={<RequestDemoManager />} />
               <Route path="contacts" element={<ContactsAdmin />} />

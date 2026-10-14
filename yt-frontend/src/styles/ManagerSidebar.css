@@ -4,7 +4,9 @@
   background: #1e1006;
   color: #fff;
   padding: 25px 20px;
-  min-height: 100vh;
+  height: 100vh;
+  /* Sidebar sticks to the viewport; long nav lists scroll inside it */
+  overflow-y: auto;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
   position: sticky;
   top: 0;

@@ -29,6 +29,9 @@ const normalizePayment = (payment) => ({
   status: sanitizeStatus(payment.status),
   paymentDate: payment.paymentDate || payment.createdAt,
   notes: payment.notes || "",
+  transactionReference: payment.transactionReference || "",
+  instalmentId: payment.instalmentId || "",
+  instalmentLabel: payment.instalmentLabel || "",
   createdAt: payment.createdAt,
 });
 
@@ -90,7 +93,9 @@ export const updateProjectPaymentSummary = async (req, res) => {
       return res.status(400).json({ message: "Valid total payment is required" });
     }
 
-    await ERPProject.findByIdAndUpdate(project._id, { totalPayment });
+    const updated = await ERPProject.findOneAndUpdate({ _id: project._id,
+      srsLockedAt: null, "srsPaymentTerms.updatedAt": null }, { $set: { totalPayment } });
+    if (!updated) return res.status(409).json({ message: "Manage the contract total in SRS payment terms. Agreed documents are locked" });
     const payload = await buildProjectPaymentPayload(project._id, req.erpUser);
 
     res.json({
@@ -131,6 +136,13 @@ export const addPayment = async (req, res) => {
     }
 
     const invoiceNo = `INV-${Date.now()}`;
+    const instalmentId = String(req.body?.instalmentId || "");
+    const instalment = project.srsPaymentTerms?.breakdown?.find((row, i) => (row.id || `legacy-${i}`) === instalmentId);
+    if (instalmentId && !instalment) return res.status(400).json({ message: "Select an instalment from this project's payment terms" });
+    if (!instalmentId && project.srsPaymentTerms?.breakdown?.length) {
+      return res.status(400).json({ message: "Select which instalment this payment is for" });
+    }
+    if (paymentDate && Number.isNaN(Date.parse(paymentDate))) return res.status(400).json({ message: "Enter a valid payment date" });
     const normalizedStatus = sanitizeStatus(status);
 
     const payment = await ERPPayment.create({
@@ -141,6 +153,9 @@ export const addPayment = async (req, res) => {
       paymentType: String(paymentType || "project-payment").trim(),
       paymentDate: paymentDate || new Date(),
       notes: String(notes || "").trim(),
+      transactionReference: String(req.body?.transactionReference || "").trim().slice(0, 200),
+      instalmentId,
+      instalmentLabel: instalment?.label || "",
       invoiceNo,
       status: normalizedStatus,
     });
@@ -226,6 +241,14 @@ export const updatePayment = async (req, res) => {
     }
 
     const updates = {};
+    if (req.body?.transactionReference !== undefined) updates.transactionReference = String(req.body.transactionReference || "").trim().slice(0, 200);
+    if (req.body?.instalmentId !== undefined) {
+      const id = String(req.body.instalmentId || "");
+      const instalment = project.srsPaymentTerms?.breakdown?.find((row, i) => (row.id || `legacy-${i}`) === id);
+      if (id && !instalment && id !== payment.instalmentId) return res.status(400).json({ message: "Select an instalment from this project's payment terms" });
+      updates.instalmentId = id;
+      updates.instalmentLabel = instalment?.label || (id ? payment.instalmentLabel : "");
+    }
 
     if (req.body?.amount !== undefined) {
       const sanitizedAmount = sanitizeAmount(req.body.amount);
@@ -252,6 +275,7 @@ export const updatePayment = async (req, res) => {
     }
 
     if (req.body?.paymentDate !== undefined) {
+      if (!req.body.paymentDate || Number.isNaN(Date.parse(req.body.paymentDate))) return res.status(400).json({ message: "Enter a valid payment date" });
       updates.paymentDate = req.body.paymentDate;
     }
 

@@ -89,12 +89,13 @@ import {
   LogOut,
   Bell,
   ChartColumn,
+  X,
 } from "lucide-react";
 
 import API from "../services/axiosInstance";
 import "../styles/Sidebar.css";
 
-export default function Sidebar() {
+export default function Sidebar({ open = false, onClose }) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -111,8 +112,11 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${open ? "sidebar--open" : ""}`}>
       {/* 🔷 Logo */}
+      <button type="button" className="app-close-btn" aria-label="Close menu" onClick={onClose}>
+        <X size={20} />
+      </button>
       <h2 className="sidebar-title">Admin Panel</h2>
 
       {/* 🔷 MAIN NAV */}

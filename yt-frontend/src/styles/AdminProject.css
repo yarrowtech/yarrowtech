@@ -309,3 +309,6 @@
 @media (max-width: 480px) {
   .ap-stats { grid-template-columns: 1fr; }
 }
+
+.ap-project-link { border: none; background: none; padding: 0; text-align: left; cursor: pointer; font: inherit; font-weight: 600; color: var(--erp-text); }
+.ap-project-link:hover { color: var(--erp-accent); text-decoration: underline; }

@@ -1,9 +1,16 @@
 import ERPClient from "../models/Client.js";
+import { editableSrsFilter } from "./srs.controller.js";
 import ERPMessage from "../models/Message.js";
 import ERPPayment from "../models/Payment.js";
-import ERPProject from "../models/Project.js";
+import ERPProject, {
+  REQUIREMENT_LIST_FIELDS,
+  REQUIREMENT_PRIORITIES,
+  REQUIREMENT_STRING_FIELDS,
+} from "../models/Project.js";
 import { calculateProjectPaymentSummary } from "../utils/paymentSummary.js";
 import logger from "../../utils/logger.js";
+import cloudinary from "../../utils/cloudinary.js";
+import { MAX_PROJECT_DOCS } from "../../middleware/uploadProjectDocument.js";
 
 const getClientId = (req) => req.erpUser?._id || req.erpUser?.id;
 
@@ -47,7 +54,213 @@ export const getMyProjects = async (req, res) => {
   }
 };
 
-export const getClientDashboard = async (req, res) => {
+const cleanList = (value, max = 50) =>
+  (Array.isArray(value) ? value : [])
+    .map((item) => String(item || "").trim().slice(0, 200))
+    .filter(Boolean)
+    .slice(0, max);
+
+export const updateProjectRequirements = async (req, res) => {
+  try {
+    const client = await findClientOrFail(req, res);
+    if (!client) return;
+
+    const project = await ERPProject.findOne({
+      _id: req.params.projectId,
+      client: client._id,
+    });
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const body = req.body || {};
+    if (project.srsLockedAt) return res.status(409).json({ message: "Both sides have agreed. This SRS is locked" });
+    if (body.srsRevision !== (project.srsRevision || 0)) {
+      return res.status(409).json({ message: "The SRS changed. Reload the project before saving or approving" });
+    }
+    const requirements = { updatedAt: new Date() };
+
+    REQUIREMENT_STRING_FIELDS.forEach((key) => {
+      requirements[key] = String(body[key] || "").trim().slice(0, 3000);
+    });
+    REQUIREMENT_LIST_FIELDS.forEach((key) => {
+      requirements[key] = cleanList(body[key], key === "brandColors" ? 12 : 50);
+    });
+
+    requirements.functionalRequirements = (
+      Array.isArray(body.functionalRequirements) ? body.functionalRequirements : []
+    )
+      .map((item) => ({
+        title: String(item?.title || "").trim().slice(0, 200),
+        description: String(item?.description || "").trim().slice(0, 1500),
+        priority: REQUIREMENT_PRIORITIES.includes(item?.priority)
+          ? item.priority
+          : "Should have",
+      }))
+      .filter((item) => item.title)
+      .slice(0, 100);
+
+    if (requirements.finalAcceptance && requirements.finalAcceptance !== "yes") {
+      return res.status(400).json({ message: "Invalid final acceptance value" });
+    }
+    if (requirements.finalAcceptance === "yes") {
+      const date = requirements.finalAcceptanceDate;
+      const parsed = new Date(date);
+      if (!requirements.finalAcceptanceName || !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+          Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== date) {
+        return res.status(400).json({ message: "Enter a full name and valid date for final acceptance" });
+      }
+    } else {
+      requirements.finalAcceptanceName = "";
+      requirements.finalAcceptanceDate = "";
+    }
+
+    if (requirements.approved === "yes") {
+      if (!project.srsPaymentTerms?.updatedAt || requirements.paymentApproved !== "yes") {
+        return res.status(400).json({ message: "Review and approve the manager's payment terms before approving the SRS" });
+      }
+      if (body.paymentTermsUpdatedAt !== new Date(project.srsPaymentTerms.updatedAt).toISOString()) {
+        return res.status(409).json({ message: "Payment terms changed. Reload and review them before approving" });
+      }
+      if (!requirements.approvalName || !requirements.functionalRequirements.length) {
+        return res.status(400).json({ message: "A signature and at least one requirement are needed for client approval" });
+      }
+      requirements.approvedOn = new Date().toISOString().slice(0, 10);
+      requirements.paymentApprovedOn = requirements.approvedOn;
+    } else {
+      requirements.approved = "";
+      requirements.approvalName = "";
+      requirements.approvedOn = "";
+      requirements.paymentApproved = "";
+      requirements.paymentApprovedOn = "";
+    }
+    const updated = await ERPProject.findOneAndUpdate(editableSrsFilter(project),
+      { $set: { requirements }, $inc: { srsRevision: 1 } }, { new: true });
+    if (!updated) return res.status(409).json({ message: "The SRS changed or was locked. Reload the project" });
+
+    res.json({
+      success: true,
+      message: "Project requirements saved",
+      requirements: updated.requirements,
+      srsRevision: updated.srsRevision,
+    });
+  } catch (err) {
+    logger.error({ err: err }, "Client project requirements error");
+    res.status(500).json({ message: "Failed to save project requirements" });
+  }
+};
+
+const removeStoredFile = async (publicId) => {
+  if (!publicId) return;
+  try {
+    await cloudinary.uploader.destroy(publicId, { resource_type: "raw" });
+  } catch (err) {
+    logger.error({ err }, "Failed to delete project document from storage");
+  }
+};
+
+export const uploadProjectDocumentFile = async (req, res) => {
+  try {
+    const client = await findClientOrFail(req, res);
+    if (!client) {
+      await removeStoredFile(req.file?.filename);
+      return;
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Please choose a file to upload" });
+    }
+
+    const project = await ERPProject.findOne({
+      _id: req.params.projectId,
+      client: client._id,
+    });
+
+    if (!project) {
+      await removeStoredFile(req.file.filename);
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    if ((project.requirementDocuments || []).length >= MAX_PROJECT_DOCS) {
+      await removeStoredFile(req.file.filename);
+      return res
+        .status(400)
+        .json({ message: `You can upload up to ${MAX_PROJECT_DOCS} documents` });
+    }
+
+    if (project.srsLockedAt) {
+      await removeStoredFile(req.file.filename);
+      return res.status(409).json({ message: "This SRS is locked. Its attachments cannot be changed" });
+    }
+    const document = {
+      name: req.file.originalname,
+      url: req.file.path,
+      publicId: req.file.filename,
+      size: req.file.size,
+    };
+    const updated = await ERPProject.findOneAndUpdate(editableSrsFilter(project), {
+      $push: { requirementDocuments: document }, $inc: { srsRevision: 1 },
+      $set: { "requirements.approved": "", "requirements.approvalName": "", "requirements.approvedOn": "", "requirements.paymentApproved": "", "requirements.paymentApprovedOn": "" },
+    }, { new: true });
+    if (!updated) {
+      await removeStoredFile(req.file.filename);
+      return res.status(409).json({ message: "The SRS changed or was locked. Reload the project" });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Document uploaded",
+      documents: updated.requirementDocuments,
+      srsRevision: updated.srsRevision,
+    });
+  } catch (err) {
+    logger.error({ err: err }, "Client project document upload error");
+    res.status(500).json({ message: "Failed to upload document" });
+  }
+};
+
+export const deleteProjectDocument = async (req, res) => {
+  try {
+    const client = await findClientOrFail(req, res);
+    if (!client) return;
+
+    const project = await ERPProject.findOne({
+      _id: req.params.projectId,
+      client: client._id,
+    });
+
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    const doc = project.requirementDocuments.id(req.params.docId);
+    if (project.srsLockedAt) return res.status(409).json({ message: "This SRS is locked. Its attachments cannot be changed" });
+    if (!doc) {
+      return res.status(404).json({ message: "Document not found" });
+    }
+
+    const publicId = doc.publicId;
+    const updated = await ERPProject.findOneAndUpdate(editableSrsFilter(project), {
+      $pull: { requirementDocuments: { _id: doc._id } }, $inc: { srsRevision: 1 },
+      $set: { "requirements.approved": "", "requirements.approvalName": "", "requirements.approvedOn": "", "requirements.paymentApproved": "", "requirements.paymentApprovedOn": "" },
+    }, { new: true });
+    if (!updated) return res.status(409).json({ message: "The SRS changed or was locked. Reload the project" });
+    await removeStoredFile(publicId);
+
+    res.json({
+      success: true,
+      message: "Document removed",
+      documents: updated.requirementDocuments,
+      srsRevision: updated.srsRevision,
+    });
+  } catch (err) {
+    logger.error({ err: err }, "Client project document delete error");
+    res.status(500).json({ message: "Failed to remove document" });
+  }
+};
+
+export const getClientDashboard =async (req, res) => {
   try {
     const client = await findClientOrFail(req, res);
     if (!client) return;
@@ -235,6 +448,9 @@ export const getPaymentsForProject = async (req, res) => {
     }).lean();
 
     const normalizedPayments = payments.map((payment) => ({
+      transactionReference: payment.transactionReference || "",
+      instalmentId: payment.instalmentId || "",
+      instalmentLabel: payment.instalmentLabel || "",
       _id: payment._id,
       amount: Number(payment.amount) || 0,
       method: payment.method || "",

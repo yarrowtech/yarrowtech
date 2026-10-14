@@ -1,15 +1,20 @@
+/* App-style scrolling: layout is locked to the viewport, the sidebar gets
+   its own internal scrollbar, and only the content column scrolls. */
 .manager-layout {
   display: flex;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background: var(--erp-layout);
 }
 
 .manager-content {
   flex: 1;
   min-width: 0;
+  min-height: 0; /* lets the column shrink inside flex so overflow-y kicks in */
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
   background: var(--erp-bg);
   color: var(--erp-text);
 }
@@ -17,5 +22,5 @@
 .manager-inner {
   min-width: 0;
   padding: 25px;
-  min-height: calc(100vh - 70px);
+  min-height: 100%;
 }

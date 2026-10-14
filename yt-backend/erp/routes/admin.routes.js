@@ -47,6 +47,7 @@
 
 import express from "express";
 import rateLimit from "express-rate-limit";
+import { approveProjectSrs, saveSrsPaymentTerms } from "../controllers/srs.controller.js";
 import { trackProjectEvent, getProjectAnalytics } from "../controllers/projectAnalytics.controller.js";
 
 /* ================= CONTROLLERS ================= */
@@ -109,6 +110,10 @@ router.post(
    🔐 ADMIN AUTH + ROLE GUARD (GLOBAL)
 ============================================================ */
 router.use(verifyErpToken, verifyRoles("admin"));
+
+// SRS payment terms and final agreement: admin can act on any project
+router.put("/projects/:id/srs-payment-terms", saveSrsPaymentTerms);
+router.post("/projects/:id/srs-approval", approveProjectSrs);
 
 /* ============================================================
    👤 ADMIN PROFILE / SETTINGS

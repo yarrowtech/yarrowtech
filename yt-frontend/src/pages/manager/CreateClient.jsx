@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useMemo, useState } from "react";
-import { Eye, EyeOff, User, Briefcase, X } from "lucide-react";
+import {
+  Eye, EyeOff, User, Briefcase, X,
+  Plus, Search, Users, UserCheck, FolderOpen, History, KeyRound, Trash2,
+} from "lucide-react";
 import { toast } from "react-hot-toast";
 
 import ConfirmDialog from "../../components/ConfirmDialog";
 import "../../styles/ManagerCreateClient.css";
+import "../../styles/ManagerClientUsers.css";
 import {
   createClientAndProject,
   deleteClient,
@@ -19,7 +23,7 @@ const getTodayDate = () => {
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 };
 
-export default function CreateClient() {
+export default function CreateClient({ embedded = false }) {
   const navigate = useNavigate();
   const [projects, setProjects] = useState([]);
   const [deletedHistory, setDeletedHistory] = useState([]);
@@ -274,33 +278,58 @@ export default function CreateClient() {
   };
 
   return (
-    <div className="manager-create-page">
-      <div className="manager-create-topbar">
+    <div className={`manager-create-page ${embedded ? "manager-create-page--embedded" : ""}`}>
+      <div className="cu-head">
         <div>
-          <h2 className="manager-create-title">Create Clients</h2>
-          <p className="manager-create-subtitle">
-            Manage your client list and open the form only when you need it.
+          <h2>{embedded ? "Client Users" : "Create Clients"}</h2>
+          <p>
+            {embedded
+              ? "Create clients, manage their projects and reset passwords."
+              : "Manage your client list and open the form only when you need it."}
           </p>
         </div>
 
-        <button
-          className="open-create-btn"
-          onClick={() => openCreateModal()}
-        >
-          Create Client
+        <button type="button" className="cu-create-btn" onClick={() => openCreateModal()}>
+          <Plus size={16} /> Create Client
         </button>
       </div>
 
-      <div className="admin-filters">
-        <input
-          className="search-input"
-          placeholder="Search client / email / project..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      <div className="cu-stats">
+        <div className="cu-stat">
+          <span className="cu-stat-icon cu-stat-icon--blue"><Users size={18} /></span>
+          <div>
+            <strong>{clientList.length}</strong>
+            <span>Total clients</span>
+          </div>
+        </div>
+        <div className="cu-stat">
+          <span className="cu-stat-icon cu-stat-icon--green"><UserCheck size={18} /></span>
+          <div>
+            <strong>{clientList.filter((c) => c.clientStatus !== "inactive").length}</strong>
+            <span>Active clients</span>
+          </div>
+        </div>
+        <div className="cu-stat">
+          <span className="cu-stat-icon cu-stat-icon--orange"><FolderOpen size={18} /></span>
+          <div>
+            <strong>{projects.length}</strong>
+            <span>Total projects</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="cu-toolbar">
+        <div className="cu-search">
+          <Search size={16} />
+          <input
+            placeholder="Search by client, email or project..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
 
         <select
-          className="status-filter"
+          className="cu-select"
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
         >
@@ -308,73 +337,104 @@ export default function CreateClient() {
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
         </select>
-      </div>
 
-      <div className="manager-client-tabs">
-        <button
-          className={`manager-client-tab ${activeTab === "clients" ? "active" : ""}`}
-          onClick={() => setActiveTab("clients")}
-        >
-          Client List
-        </button>
-        <button
-          className={`manager-client-tab ${activeTab === "history" ? "active" : ""}`}
-          onClick={() => setActiveTab("history")}
-        >
-          History
-        </button>
+        <div className="cu-segment" role="tablist">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "clients"}
+            className={activeTab === "clients" ? "active" : ""}
+            onClick={() => setActiveTab("clients")}
+          >
+            Client List
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "history"}
+            className={activeTab === "history" ? "active" : ""}
+            onClick={() => setActiveTab("history")}
+          >
+            <History size={14} /> History
+          </button>
+        </div>
       </div>
 
       {activeTab === "clients" && (
-        <div className="client-list">
+        <div className="cu-table">
+          <div className="cu-row cu-row--head">
+            <span>Client</span>
+            <span>Status</span>
+            <span>Projects</span>
+            <span className="cu-col-actions">Actions</span>
+          </div>
+
+          {filteredClients.length === 0 && (
+            <div className="cu-empty">
+              <Users size={30} />
+              <p>{clientList.length === 0 ? "No clients yet." : "No clients match your search."}</p>
+              {clientList.length === 0 && (
+                <button type="button" className="cu-create-btn" onClick={() => openCreateModal()}>
+                  <Plus size={16} /> Create your first client
+                </button>
+              )}
+            </div>
+          )}
+
           {filteredClients.map((client) => (
-            <div key={client.id} className="client-list-item">
-              <div className="client-primary">
-                <h4>{client.clientName}</h4>
-                <p>{client.clientEmail}</p>
+            <div key={client.id} className="cu-row">
+              <div className="cu-client">
+                <span className="cu-avatar">
+                  {(client.clientName || "C").trim().charAt(0).toUpperCase()}
+                </span>
+                <div className="cu-client-text">
+                  <strong>{client.clientName}</strong>
+                  <span>{client.clientEmail}</span>
+                </div>
               </div>
 
-              <div className="client-secondary">
-                <span className={`status-badge ${client.clientStatus || "active"}`}>
+              <div>
+                <span className={`cu-badge cu-badge--${client.clientStatus === "inactive" ? "inactive" : "active"}`}>
                   {client.clientStatus || "active"}
                 </span>
               </div>
 
-              <div className="client-meta">
-                <div>
-                  <strong>Total Projects:</strong> {client.projects.length}
-                </div>
-                <div>
-                  <strong>Latest Project:</strong>{" "}
-                  {client.projects[0]?.name || "-"}
-                </div>
-              </div>
-
-              {client.projects.length > 0 && (
-                <div className="client-project-tags">
-                  {client.projects.slice(0, 3).map((project) => (
-                    <button
-                      type="button"
-                      key={project._id}
-                      className="client-project-tag client-project-link"
-                      title={project.name}
-                      onClick={() => navigate(`/manager/projects/${project._id}`)}
-                    >
-                      {project.projectId}
-                    </button>
-                  ))}
-                  {client.projects.length > 3 && (
-                    <span className="client-project-tag">
-                      +{client.projects.length - 3} more
+              <div className="cu-projects">
+                <div className="cu-projects-line">
+                  <strong>{client.projects.length}</strong>{" "}
+                  {client.projects.length === 1 ? "project" : "projects"}
+                  {client.projects[0]?.name && (
+                    <span className="cu-latest" title={client.projects[0].name}>
+                      · latest: {client.projects[0].name}
                     </span>
                   )}
                 </div>
-              )}
+                {client.projects.length > 0 && (
+                  <div className="cu-chips">
+                    {client.projects.slice(0, 3).map((project) => (
+                      <button
+                        type="button"
+                        key={project._id}
+                        className="cu-chip"
+                        title={project.name}
+                        onClick={() => navigate(`/manager/projects/${project._id}`)}
+                      >
+                        {project.projectId}
+                      </button>
+                    ))}
+                    {client.projects.length > 3 && (
+                      <span className="cu-chip cu-chip--static">
+                        +{client.projects.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
 
-              <div className="card-actions">
+              <div className="cu-actions">
                 <button
                   type="button"
-                  className="client-details-btn"
+                  className="cu-btn"
                   onClick={() => navigate(`/manager/projects/${client.projects[0]._id}`)}
                   disabled={!client.projects[0]?._id}
                 >
@@ -382,26 +442,31 @@ export default function CreateClient() {
                 </button>
                 <button
                   type="button"
-                  className="client-add-project-btn"
+                  className="cu-btn cu-btn--primary"
                   onClick={() => openCreateModal(client)}
                   disabled={!client.clientId}
                 >
-                  + Add Project
+                  <Plus size={14} /> Project
                 </button>
                 <button
-                  className="reset-btn"
+                  type="button"
+                  className="cu-icon-btn"
+                  title="Reset password"
+                  aria-label="Reset password"
                   onClick={() => openResetPasswordModal(client.clientId)}
                 >
-                  Reset Password
+                  <KeyRound size={16} />
                 </button>
-
                 <button
-                  className="toggle-btn"
+                  type="button"
+                  className="cu-icon-btn cu-icon-btn--danger"
+                  title="Delete client"
+                  aria-label="Delete client"
                   onClick={() =>
                     setDeleteTarget({ clientId: client.clientId, clientName: client.clientName })
                   }
                 >
-                  Delete
+                  <Trash2 size={16} />
                 </button>
               </div>
             </div>
@@ -410,54 +475,61 @@ export default function CreateClient() {
       )}
 
       {activeTab === "history" && (
-        <div className="client-list">
+        <div className="cu-table">
+          <div className="cu-row cu-row--head">
+            <span>Client</span>
+            <span>Status</span>
+            <span>Details</span>
+            <span className="cu-col-actions">Projects</span>
+          </div>
+
           {deletedHistory.length === 0 && (
-            <p className="muted">No deleted client history found yet.</p>
+            <div className="cu-empty">
+              <History size={30} />
+              <p>No deleted client history found yet.</p>
+            </div>
           )}
 
           {deletedHistory.map((item) => (
-            <div key={item._id} className="client-list-item history-list-item">
-              <div className="client-primary">
-                <h4>{item.name}</h4>
-                <p>{item.email}</p>
-              </div>
-
-              <div className="client-secondary">
-                <span className="status-badge inactive">deleted</span>
-              </div>
-
-              <div className="client-meta">
-                <div>
-                  <strong>Deleted On:</strong>{" "}
-                  {item.deletedAt
-                    ? new Date(item.deletedAt).toLocaleDateString()
-                    : "-"}
-                </div>
-                <div>
-                  <strong>Total Projects:</strong> {item.projects?.length || 0}
+            <div key={item._id} className="cu-row">
+              <div className="cu-client">
+                <span className="cu-avatar cu-avatar--muted">
+                  {(item.name || "C").trim().charAt(0).toUpperCase()}
+                </span>
+                <div className="cu-client-text">
+                  <strong>{item.name}</strong>
+                  <span>{item.email}</span>
                 </div>
               </div>
 
-              <div className="client-meta">
-                <div>
-                  <strong>Phone:</strong> {item.phone || "-"}
+              <div>
+                <span className="cu-badge cu-badge--inactive">deleted</span>
+              </div>
+
+              <div className="cu-projects">
+                <div className="cu-projects-line">
+                  Deleted{" "}
+                  <strong>
+                    {item.deletedAt ? new Date(item.deletedAt).toLocaleDateString() : "-"}
+                  </strong>
                 </div>
-                <div>
-                  <strong>Company:</strong> {item.company || "-"}
+                <div className="cu-latest-block">
+                  {item.company || "No company"} · {item.phone || "No phone"}
                 </div>
               </div>
 
-              <div className="client-project-tags">
+              <div className="cu-chips cu-actions">
                 {(item.projects || []).slice(0, 3).map((project, index) => (
-                  <span key={`${item._id}-${index}`} className="client-project-tag">
+                  <span key={`${item._id}-${index}`} className="cu-chip cu-chip--static">
                     {project.projectId || project.name || "Project"}
                   </span>
                 ))}
                 {(item.projects || []).length > 3 && (
-                  <span className="client-project-tag">
+                  <span className="cu-chip cu-chip--static">
                     +{item.projects.length - 3} more
                   </span>
                 )}
+                {(item.projects || []).length === 0 && <span className="cu-latest">None</span>}
               </div>
             </div>
           ))}

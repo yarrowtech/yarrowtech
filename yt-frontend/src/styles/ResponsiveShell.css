@@ -1,0 +1,125 @@
+/* Shared mobile shell for the admin and tech-lead panels:
+   sidebar becomes an off-canvas drawer opened from a top bar, content fills the width,
+   tables reflow into cards, and the page never scrolls sideways.
+   Loaded last from each layout so it wins over the generic responsive.css rules. */
+
+.app-mobile-bar,
+.app-backdrop,
+.app-close-btn { display: none; }
+
+@media (max-width: 900px) {
+  /* ── top bar ── */
+  .app-shell { flex-direction: column !important; height: auto !important; min-height: 100dvh; overflow: visible !important; }
+  .app-mobile-bar {
+    position: sticky; top: 0; z-index: 1500;
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; background: #1e1006; color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .app-menu-btn {
+    width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 10px; background: transparent; color: #fff; cursor: pointer;
+  }
+  .app-mobile-title { font-size: 1.1rem; font-weight: 700; color: #ff8a00; }
+
+  /* ── sidebar drawer (admin .sidebar, tech .tech-sidebar) ── */
+  .app-shell .sidebar,
+  .app-shell .tech-sidebar {
+    position: fixed !important; top: 0; left: 0; bottom: 0;
+    width: min(290px, 84vw) !important; height: 100dvh !important; min-height: 0 !important; max-height: none !important;
+    display: flex !important; flex-direction: column !important; align-items: stretch !important;
+    padding: 18px 16px !important; gap: 0 !important;
+    overflow-x: hidden !important; overflow-y: auto !important;
+    transform: translateX(-105%); transition: transform 0.25s ease;
+    z-index: 2100; border-right: 1px solid rgba(255, 255, 255, 0.08); border-bottom: 0 !important;
+  }
+  .app-shell .sidebar--open,
+  .app-shell .tech-sidebar--open { transform: none; box-shadow: 12px 0 40px rgba(0, 0, 0, 0.45); }
+
+  .app-shell .sidebar-title,
+  .app-shell .section-title,
+  .app-shell .sidebar .sidebar-section,
+  .app-shell .sidebar-menu { display: block !important; }
+  .app-shell .sidebar-title { margin: 6px 0 18px !important; text-align: left; }
+  .app-shell .sidebar-section,
+  .app-shell .sidebar-menu { display: flex !important; flex-direction: column !important; width: 100% !important; gap: 6px !important; margin: 0 0 14px !important; }
+  .app-shell .section-title { margin: 6px 4px 4px !important; }
+
+  .app-shell .sidebar-link,
+  .app-shell .sidebar-menu .menu-item,
+  .app-shell .tech-sidebar a {
+    min-height: 46px !important; width: 100%; justify-content: flex-start !important;
+    padding: 11px 14px !important; font-size: 0.97rem !important; white-space: normal !important; box-sizing: border-box;
+  }
+  .app-shell .sidebar-link span,
+  .app-shell .logout-btn span { display: inline !important; }
+  .app-shell .sidebar-bottom,
+  .app-shell .sidebar-footer { margin-top: auto !important; padding: 14px 0 0 !important; width: 100%; }
+  .app-shell .logout-btn { min-height: 46px; width: 100%; justify-content: flex-start !important; }
+
+  .app-close-btn {
+    position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; border: none; border-radius: 10px; background: rgba(255, 255, 255, 0.08); color: #fff; cursor: pointer;
+  }
+  .app-backdrop { display: block; position: fixed; inset: 0; z-index: 2000; background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(2px); }
+  body.app-nav-open { overflow: hidden; }
+
+  /* ── content ── */
+  .app-shell .admin-content,
+  .app-shell .technical-main {
+    margin-left: 0 !important; width: 100% !important; max-width: 100vw; min-width: 0;
+  }
+  .app-shell .admin-content,
+  .app-shell .technical-content { padding: 16px !important; overflow-x: hidden; }
+  html, body { overflow-x: hidden; max-width: 100vw; }
+
+  .app-shell img, .app-shell video { max-width: 100%; height: auto; }
+  .app-shell td, .app-shell th, .app-shell p, .app-shell h1, .app-shell h2, .app-shell h3, .app-shell h4, .app-shell a { overflow-wrap: anywhere; }
+
+  /* wrappers that held wide tables keep their own scroll as a fallback */
+  .app-shell [class$="table-wrap"], .app-shell [class$="table-wrapper"] { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* page headers and toolbars */
+  .app-shell .admin-header, .app-shell .admin-section-head, .app-shell .career-toolbar,
+  .app-shell .rda-toolbar, .app-shell .ap-toolbar, .app-shell .ap-filters,
+  .app-shell .admin-filters { flex-direction: column; align-items: stretch; gap: 12px; }
+  .app-shell .admin-filters > *, .app-shell .ap-filters > * { width: 100%; max-width: none; }
+
+  /* touch friendly, and no iOS zoom on focus */
+  .app-shell button, .app-shell select { min-height: 40px; }
+  .app-shell input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  .app-shell select, .app-shell textarea { font-size: 16px; }
+
+  /* popups fill the width */
+  .app-shell .modal-box, .app-shell [class*="modal"] > div { max-width: calc(100vw - 20px); }
+}
+
+/* stat/card grids: 1 column on phones, 2 on small tablets */
+@media (max-width: 640px) {
+  .app-shell [class*="stats"], .app-shell [class*="-grid"], .app-shell [class*="cards"] { grid-template-columns: 1fr !important; }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .app-shell [class*="stats"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+/* tables become stacked cards on phones */
+@media (max-width: 700px) {
+  .app-shell table.m-stack, .app-shell table.m-stack tbody, .app-shell table.m-stack tr,
+  .app-shell table.m-stack td { display: block; width: 100%; min-width: 0 !important; box-sizing: border-box; }
+  .app-shell table.m-stack { border: 0; }
+  .app-shell table.m-stack thead { display: none; }
+  .app-shell table.m-stack tbody tr { margin: 0 0 12px; padding: 6px 12px; border: 1px solid var(--erp-border); border-radius: 12px; background: var(--erp-bg); }
+  .app-shell table.m-stack td {
+    display: flex; justify-content: space-between; align-items: center; gap: 14px;
+    padding: 9px 0 !important; border: 0 !important; border-bottom: 1px dashed var(--erp-border) !important;
+    text-align: right; white-space: normal !important;
+  }
+  .app-shell table.m-stack td:last-child { border-bottom: 0 !important; }
+  .app-shell table.m-stack td::before {
+    content: attr(data-label); flex: 0 0 38%; text-align: left;
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--erp-text-muted);
+  }
+  .app-shell table.m-stack td:not([data-label])::before { content: none; }
+  .app-shell table.m-stack td[colspan] { display: block; text-align: center; }
+  .app-shell table.m-stack td[colspan]::before { content: none; }
+}

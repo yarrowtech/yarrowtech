@@ -157,6 +157,14 @@ export const getManagerProductUsers = async () => {
   return Array.isArray(res.data?.productUsers) ? res.data.productUsers : [];
 };
 
+export const getManagerProductSubscriptions = async () => {
+  const res = await API.get("/erp/manager/product-users/subscriptions");
+  return {
+    products: Array.isArray(res.data?.products) ? res.data.products : [],
+    subscriptions: Array.isArray(res.data?.subscriptions) ? res.data.subscriptions : [],
+  };
+};
+
 export const getManagerProductUserAnalytics = async () => {
   const res = await API.get("/erp/manager/product-users/analytics");
   return res.data;

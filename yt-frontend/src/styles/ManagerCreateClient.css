@@ -578,3 +578,5 @@
   color: var(--erp-text);
   font-size: 0.875rem;
 }
+
+.manager-create-page--embedded { padding: 0; min-height: 0; background: transparent; }

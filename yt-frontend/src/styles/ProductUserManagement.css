@@ -106,7 +106,9 @@
 }
 
 .product-card:hover    { border-color: var(--erp-accent); }
-.product-card.selected { border-color: var(--erp-accent); background: var(--erp-bg-header); }
+.product-card.selected { border-color: var(--erp-accent); background: var(--erp-accent); box-shadow: 0 6px 18px rgba(255, 138, 0, 0.3); }
+.product-card.selected .product-card-name,
+.product-card.selected .product-card-stats { color: var(--erp-accent-text); }
 
 .product-card-name  { font-weight: 700; color: var(--erp-accent); }
 .product-card-stats { font-size: 0.85rem; color: var(--erp-text-muted); }
@@ -205,3 +207,5 @@
 @media (max-width: 768px) {
   .product-user-page-head { flex-direction: column; align-items: flex-start; }
 }
+
+.product-user-page--embedded { padding: 0; }

@@ -11,13 +11,13 @@ import {
   Users,
   Mail,
   Briefcase,
-  Layers3,
   Bell,
   Settings,
   LogOut,
+  X,
 } from "lucide-react";
 
-export default function ManagerSidebar() {
+export default function ManagerSidebar({ open = false, onClose }) {
   const navigate = useNavigate();
 
   /* ================= GET MANAGER NAME ================= */
@@ -46,9 +46,10 @@ const managerName = formatName(erpUser?.name || "manager");
   };
 
   return (
-    <aside className="manager-sidebar">
+    <aside className={`manager-sidebar ${open ? "manager-sidebar--open" : ""}`}>
       {/* TOP */}
       <div className="manager-sidebar-top">
+        <button type="button" className="manager-close-btn" aria-label="Close menu" onClick={onClose}><X size={20} /></button>
         <h2 className="manager-logo">Manager Panel</h2>
         <p className="manager-name"> {managerName}</p>
       </div>
@@ -65,19 +66,14 @@ const managerName = formatName(erpUser?.name || "manager");
           Manage Projects
         </NavLink>
 
-        <NavLink to="/manager/create-client" className="nav-item">
-          <Users size={18} />
-          Create Client
-        </NavLink>
-
         <NavLink to="/manager/requests" className="nav-item">
           <Users size={18} />
           CRM Requests
         </NavLink>
 
-        <NavLink to="/manager/product-users" className="nav-item">
-          <Layers3 size={18} />
-          Product Users
+        <NavLink to="/manager/user-management" className="nav-item">
+          <Users size={18} />
+          User Management
         </NavLink>
 
         <NavLink to="/manager/contacts" className="nav-item">

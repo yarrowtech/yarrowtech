@@ -417,3 +417,19 @@
   .mp-cell-action { grid-column: 1 / -1; justify-content: stretch; }
   .mp-row-open { width: 100%; justify-content: center; }
 }
+
+/* ── Client project count badge ── */
+.mp-client-count {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--erp-accent-muted);
+  color: var(--erp-accent);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  vertical-align: middle;
+  white-space: nowrap;
+}

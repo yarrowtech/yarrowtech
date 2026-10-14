@@ -1,0 +1,62 @@
+[
+  {
+    "vp": "mobile-375",
+    "bodyCanScroll": true,
+    "contentCanScroll": false,
+    "scrolledTo": 500,
+    "sidebarTop": 0,
+    "sidebarLeft": 0,
+    "sidebarW": 240,
+    "sidebarH": 72,
+    "verdict": {
+      "contentScrolled": true,
+      "sidebarPinned": true,
+      "noHOverflow": true
+    }
+  },
+  {
+    "vp": "tablet-768",
+    "bodyCanScroll": true,
+    "contentCanScroll": false,
+    "scrolledTo": 500,
+    "sidebarTop": 0,
+    "sidebarLeft": 0,
+    "sidebarW": 240,
+    "sidebarH": 72,
+    "verdict": {
+      "contentScrolled": true,
+      "sidebarPinned": true,
+      "noHOverflow": true
+    }
+  },
+  {
+    "vp": "tablet-1024",
+    "bodyCanScroll": false,
+    "contentCanScroll": true,
+    "scrolledTo": 500,
+    "sidebarTop": 0,
+    "sidebarLeft": 0,
+    "sidebarW": 240,
+    "sidebarH": 768,
+    "verdict": {
+      "contentScrolled": true,
+      "sidebarPinned": true,
+      "noHOverflow": true
+    }
+  },
+  {
+    "vp": "desktop-1440",
+    "bodyCanScroll": false,
+    "contentCanScroll": true,
+    "scrolledTo": 500,
+    "sidebarTop": 0,
+    "sidebarLeft": 0,
+    "sidebarW": 240,
+    "sidebarH": 900,
+    "verdict": {
+      "contentScrolled": true,
+      "sidebarPinned": true,
+      "noHOverflow": true
+    }
+  }
+]

@@ -3,6 +3,7 @@ import "../../styles/ClientMyProject.css";
 import API from "../../services/axiosInstance";
 import { toast } from "react-hot-toast";
 import ProjectChatModal from "../../components/ProjectChatModal";
+import ProjectRequirementsForm from "../../components/ProjectRequirementsForm";
 
 export default function ClientMyProjects() {
   const [projects, setProjects] = useState([]);
@@ -209,16 +210,25 @@ export default function ClientMyProjects() {
         </div>
       )}
 
-      {/* PROJECT DETAILS — placeholder blank page for now */}
+      {/* PROJECT DETAILS — client fills the final requirements */}
       {detailsProject && (
-        <div className="client-details-page">
-          <button
-            className="client-details-close-btn"
-            onClick={() => setDetailsProject(null)}
-          >
-            Close
-          </button>
-        </div>
+        <ProjectRequirementsForm
+          project={detailsProject}
+          onClose={() => setDetailsProject(null)}
+          onDocumentsChange={(projectId, docs, srsRevision) =>
+            setProjects((prev) =>
+              prev.map((p) =>
+                p._id === projectId ? { ...p, requirementDocuments: docs, srsRevision,
+                  requirements: { ...p.requirements, approved: "", approvalName: "", approvedOn: "", paymentApproved: "", paymentApprovedOn: "" } } : p
+              )
+            )
+          }
+          onSaved={(projectId, requirements, srsRevision) =>
+            setProjects((prev) =>
+              prev.map((p) => (p._id === projectId ? { ...p, requirements, srsRevision } : p))
+            )
+          }
+        />
       )}
 
       {activeChatProject && (

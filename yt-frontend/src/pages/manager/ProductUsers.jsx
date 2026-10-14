@@ -1,15 +1,17 @@
 import React from "react";
 import ProductUserManagement from "../shared/ProductUserManagement";
-import { getManagerProductUsers } from "../../services/managerService";
+import { getManagerProductSubscriptions } from "../../services/managerService";
 
-export default function ManagerProductUsers() {
+export default function ManagerProductUsers({ embedded = false }) {
   return (
     <ProductUserManagement
-      title="Product User Management"
-      subtitle="See the product users assigned to you and manage communication."
-      loadItems={getManagerProductUsers}
+      title="Product Subscriptions"
+      subtitle="Select a product to see everyone who subscribed to it."
+      loadSubscriptions={getManagerProductSubscriptions}
       basePath="/manager/product-users"
       currentRole="manager"
+      allowChat={false}
+      embedded={embedded}
     />
   );
 }

@@ -1,0 +1,668 @@
+[
+  {
+    "label": "mobile-375 / dashboard",
+    "vw": 375,
+    "vh": 812,
+    "docScrollW": 375,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": true,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 375,
+      "h": 1928,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 1928,
+      "clientHeight": 1928
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": true,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "mobile-375 / projects",
+    "vw": 375,
+    "vh": 812,
+    "docScrollW": 375,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": true,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 375,
+      "h": 862,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 862,
+      "clientHeight": 862
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "mobile-375 / project-details",
+    "vw": 375,
+    "vh": 812,
+    "docScrollW": 375,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 375,
+      "h": 142,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 142,
+      "clientHeight": 142
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "mobile-375 / user-management",
+    "vw": 375,
+    "vh": 812,
+    "docScrollW": 375,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": true,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 375,
+      "h": 862,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 862,
+      "clientHeight": 862
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "mobile-414 / dashboard",
+    "vw": 414,
+    "vh": 896,
+    "docScrollW": 414,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": true,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 414,
+      "h": 1891,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 1891,
+      "clientHeight": 1891
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": true,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "mobile-414 / projects",
+    "vw": 414,
+    "vh": 896,
+    "docScrollW": 414,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": true,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 414,
+      "h": 946,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 946,
+      "clientHeight": 946
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "mobile-414 / project-details",
+    "vw": 414,
+    "vh": 896,
+    "docScrollW": 414,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 414,
+      "h": 142,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 142,
+      "clientHeight": 142
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "mobile-414 / user-management",
+    "vw": 414,
+    "vh": 896,
+    "docScrollW": 414,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": true,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 414,
+      "h": 946,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 946,
+      "clientHeight": 946
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "tablet-768 / dashboard",
+    "vw": 768,
+    "vh": 1024,
+    "docScrollW": 768,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": true,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 768,
+      "h": 1787,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 1787,
+      "clientHeight": 1787
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": true,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "tablet-768 / projects",
+    "vw": 768,
+    "vh": 1024,
+    "docScrollW": 768,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": true,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 768,
+      "h": 1074,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 1074,
+      "clientHeight": 1074
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "tablet-768 / project-details",
+    "vw": 768,
+    "vh": 1024,
+    "docScrollW": 768,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 768,
+      "h": 170,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 170,
+      "clientHeight": 170
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "tablet-768 / user-management",
+    "vw": 768,
+    "vh": 1024,
+    "docScrollW": 768,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": true,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 72,
+      "internalScrolls": true,
+      "visible": true
+    },
+    "content": {
+      "top": 72,
+      "w": 768,
+      "h": 1074,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 1074,
+      "clientHeight": 1074
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "tablet-1024 / dashboard",
+    "vw": 1024,
+    "vh": 768,
+    "docScrollW": 1024,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 768,
+      "internalScrolls": false,
+      "visible": true
+    },
+    "content": {
+      "top": 0,
+      "w": 784,
+      "h": 768,
+      "canScroll": true,
+      "scrollTop": 0,
+      "scrollHeight": 1141,
+      "clientHeight": 768
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": true,
+      "sidebarStillPinned": true,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "tablet-1024 / projects",
+    "vw": 1024,
+    "vh": 768,
+    "docScrollW": 1024,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 768,
+      "internalScrolls": false,
+      "visible": true
+    },
+    "content": {
+      "top": 0,
+      "w": 784,
+      "h": 768,
+      "canScroll": true,
+      "scrollTop": 0,
+      "scrollHeight": 793,
+      "clientHeight": 768
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": false,
+      "sidebarStillPinned": true,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "tablet-1024 / project-details",
+    "vw": 1024,
+    "vh": 768,
+    "docScrollW": 1024,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 768,
+      "internalScrolls": false,
+      "visible": true
+    },
+    "content": {
+      "top": 0,
+      "w": 784,
+      "h": 768,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 768,
+      "clientHeight": 768
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "tablet-1024 / user-management",
+    "vw": 1024,
+    "vh": 768,
+    "docScrollW": 1024,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 768,
+      "internalScrolls": false,
+      "visible": true
+    },
+    "content": {
+      "top": 0,
+      "w": 784,
+      "h": 768,
+      "canScroll": true,
+      "scrollTop": 0,
+      "scrollHeight": 793,
+      "clientHeight": 768
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": false,
+      "sidebarStillPinned": true,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "desktop-1440 / dashboard",
+    "vw": 1440,
+    "vh": 900,
+    "docScrollW": 1440,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 900,
+      "internalScrolls": false,
+      "visible": true
+    },
+    "content": {
+      "top": 0,
+      "w": 1200,
+      "h": 900,
+      "canScroll": true,
+      "scrollTop": 0,
+      "scrollHeight": 1114,
+      "clientHeight": 900
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": false,
+      "sidebarStillPinned": true,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "desktop-1440 / projects",
+    "vw": 1440,
+    "vh": 900,
+    "docScrollW": 1440,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 900,
+      "internalScrolls": false,
+      "visible": true
+    },
+    "content": {
+      "top": 0,
+      "w": 1200,
+      "h": 900,
+      "canScroll": true,
+      "scrollTop": 0,
+      "scrollHeight": 925,
+      "clientHeight": 900
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": false,
+      "sidebarStillPinned": true,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "desktop-1440 / project-details",
+    "vw": 1440,
+    "vh": 900,
+    "docScrollW": 1440,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 900,
+      "internalScrolls": false,
+      "visible": true
+    },
+    "content": {
+      "top": 0,
+      "w": 1200,
+      "h": 900,
+      "canScroll": false,
+      "scrollTop": 0,
+      "scrollHeight": 900,
+      "clientHeight": 900
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": null,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  },
+  {
+    "label": "desktop-1440 / user-management",
+    "vw": 1440,
+    "vh": 900,
+    "docScrollW": 1440,
+    "hOverflow": false,
+    "bodyScrollY": 0,
+    "bodyCanScroll": false,
+    "sidebar": {
+      "top": 0,
+      "left": 0,
+      "w": 240,
+      "h": 900,
+      "internalScrolls": false,
+      "visible": true
+    },
+    "content": {
+      "top": 0,
+      "w": 1200,
+      "h": 900,
+      "canScroll": true,
+      "scrollTop": 0,
+      "scrollHeight": 925,
+      "clientHeight": 900
+    },
+    "innerPresent": true,
+    "probe": {
+      "contentScrolled": false,
+      "sidebarStillPinned": true,
+      "windowScrolled": false,
+      "sidebarTopAfterWinScroll": 0,
+      "hOverflow": false
+    }
+  }
+]

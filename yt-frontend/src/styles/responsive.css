@@ -16,7 +16,10 @@ body,
 .app {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  /* `clip` (not `hidden`): overflow-x:hidden computes overflow-y:auto, which
+     turns these boxes into scroll containers and breaks position:sticky for
+     the ERP sidebars (they'd stick to .app instead of the viewport). */
+  overflow-x: clip;
 }
 
 img,
@@ -224,6 +227,17 @@ table {
     margin-left: 0 !important;
     width: 100% !important;
     min-width: 0;
+  }
+
+  /* Release the app-style viewport lock on mobile: the sidebar is a sticky
+     top bar here, so the page scrolls as a single document again. */
+  .manager-layout {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .manager-content {
+    overflow: visible !important;
   }
 
   .admin-content,

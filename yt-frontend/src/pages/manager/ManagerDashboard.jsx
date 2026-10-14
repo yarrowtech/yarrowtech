@@ -47,9 +47,9 @@ const STATUS_COLORS = {
 
 const QUICK_ACTIONS = [
   { label: "Manage Projects", icon: FolderKanban, color: "#34d399", bg: "rgba(52,211,153,0.12)",  path: "/manager/projects"       },
-  { label: "Create Client",   icon: Users,        color: "#60a5fa", bg: "rgba(96,165,250,0.12)",  path: "/manager/create-client"  },
+  { label: "Create Client",   icon: Users,        color: "#60a5fa", bg: "rgba(96,165,250,0.12)",  path: "/manager/user-management?tab=clients"  },
   { label: "CRM Requests",    icon: Mail,         color: "#a855f7", bg: "rgba(168,85,247,0.12)",  path: "/manager/requests"       },
-  { label: "Product Users",   icon: Layers3,      color: "#facc15", bg: "rgba(250,204,21,0.12)",  path: "/manager/product-users"  },
+  { label: "Product Users",   icon: Layers3,      color: "#facc15", bg: "rgba(250,204,21,0.12)",  path: "/manager/user-management?tab=products"  },
   { label: "Contact Forms",   icon: Mail,         color: "#38bdf8", bg: "rgba(56,189,248,0.12)",  path: "/manager/contacts"       },
   { label: "Career Forms",    icon: Briefcase,    color: "#f97316", bg: "rgba(249,115,22,0.12)",  path: "/manager/careers"        },
   { label: "Notifications",   icon: Bell,         color: "#818cf8", bg: "rgba(129,140,248,0.12)", path: "/manager/notifications"  },
