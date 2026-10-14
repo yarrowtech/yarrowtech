@@ -205,3 +205,24 @@
     display: none;
   }
 }
+/* ------------------------------
+   KEEP LOGOUT VISIBLE
+   Long menus scroll inside the sidebar; Logout stays pinned to the bottom edge.
+--------------------------------*/
+.sidebar {
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.sidebar-bottom {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  padding: 12px 0 4px;
+  background: #261510;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 -14px 14px -8px #261510;
+  z-index: 2;
+}

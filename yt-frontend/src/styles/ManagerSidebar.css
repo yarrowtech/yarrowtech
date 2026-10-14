@@ -79,3 +79,10 @@
   font-size: 0.9rem;
   color: #c9ac96;
 }
+
+/* Logout stays pinned to the bottom edge while the menu scrolls. */
+.manager-sidebar { display: flex; flex-direction: column; }
+.manager-sidebar-bottom {
+  position: sticky; bottom: 0; margin-top: auto;
+  background: #1e1006; box-shadow: 0 -14px 14px -8px #1e1006; z-index: 2;
+}

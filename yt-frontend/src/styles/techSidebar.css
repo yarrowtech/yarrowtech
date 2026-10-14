@@ -34,3 +34,10 @@
   color: #2b1710;
   font-weight: 600;
 }
+
+/* Long menus scroll inside the sidebar; Logout stays pinned to the bottom edge. */
+.tech-sidebar { height: 100vh; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: thin; display: flex; flex-direction: column; }
+.tech-sidebar .sidebar-bottom, .tech-sidebar .sidebar-footer {
+  position: sticky; bottom: 0; margin-top: auto; padding-top: 12px;
+  background: #2b1710; box-shadow: 0 -14px 14px -8px #2b1710; z-index: 2;
+}
