@@ -20,6 +20,9 @@ const request = async (path, options = {}) => {
     ...options,
     headers: {
       "Content-Type": "application/json",
+      // Identifies this backend to EFNBMMS so it can refuse signup/payment calls
+      // that do not come from Yarrowtech's server.
+      ...(process.env.EFNBMMS_SERVER_KEY ? { "x-api-key": process.env.EFNBMMS_SERVER_KEY } : {}),
       ...(options.headers || {}),
     },
   });

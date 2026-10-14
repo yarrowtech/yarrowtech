@@ -1,3 +1,4 @@
+import { isRazorpayCheckEnabled, isValidRazorpaySignature } from "../utils/razorpaySignature.js";
 import EfnbmmsSubscription from "../models/EfnbmmsSubscription.js";
 import EfnbmmsVendorSubscription from "../models/EfnbmmsVendorSubscription.js";
 import {
@@ -76,6 +77,18 @@ export const createSignupOrder = async (req, res) => {
 ------------------------------------------------------- */
 export const verifySignupPayment = async (req, res) => {
   const razorpayOrderId = String(req.body.razorpay_order_id || "").trim();
+
+  // Our own signature check, in addition to the EFNBMMS server's verification.
+  if (isRazorpayCheckEnabled() && !isValidRazorpaySignature(req.body)) {
+    if (razorpayOrderId) {
+      await EfnbmmsSubscription.findOneAndUpdate(
+        { razorpayOrderId },
+        { $set: { status: "failed", failureReason: "Payment signature mismatch" } }
+      ).catch(() => {});
+    }
+    logger.warn({ razorpayOrderId }, "EFNBMMS signup payment signature mismatch");
+    return res.status(400).json({ success: false, message: "Payment verification failed" });
+  }
 
   try {
     const data = await verifyEfnbmmsSignupPayment(req.body);
@@ -264,6 +277,17 @@ export const verifyVendorSubscriptionPayment = async (req, res) => {
   }
 
   const razorpayOrderId = String(req.body.razorpay_order_id || "").trim();
+
+  if (isRazorpayCheckEnabled() && !isValidRazorpaySignature(req.body)) {
+    if (razorpayOrderId) {
+      await EfnbmmsVendorSubscription.findOneAndUpdate(
+        { razorpayOrderId },
+        { $set: { status: "failed", failureReason: "Payment signature mismatch" } }
+      ).catch(() => {});
+    }
+    logger.warn({ razorpayOrderId }, "EFNBMMS vendor payment signature mismatch");
+    return res.status(400).json({ success: false, message: "Payment verification failed" });
+  }
 
   try {
     const data = await verifyEfnbmmsVendorSubscriptionPayment(req.body, vendorToken);

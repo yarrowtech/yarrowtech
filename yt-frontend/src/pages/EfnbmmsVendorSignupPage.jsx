@@ -7,6 +7,7 @@ import { trackProjectEvent } from "../services/projectTracking";
 import PasswordField from "../components/PasswordField";
 import LegalDocumentStep from "../components/LegalDocumentStep";
 import Seo from "../components/Seo";
+import CaptchaField, { useCaptchaConfig } from "../components/CaptchaField";
 import "./EfnbmmsSignupPage.css";
 
 const PRODUCT_SLUG = "food-and-beverage-management-system";
@@ -46,6 +47,10 @@ export default function EfnbmmsVendorSignupPage() {
   const navigate = useNavigate();
   const [form, setForm] = useState(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
+  const captcha = useCaptchaConfig();
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaPass, setCaptchaPass] = useState("");
+  const [captchaReset, setCaptchaReset] = useState(0);
   const [submitStage, setSubmitStage] = useState("");
   // "form" -> "terms" -> "privacy" -> (signup+payment kicks off on privacy agree)
   const [flowStep, setFlowStep] = useState("form");
@@ -118,12 +123,24 @@ export default function EfnbmmsVendorSignupPage() {
     return "";
   };
 
-  const handleContinueToTerms = (e) => {
+  const handleContinueToTerms = async (e) => {
     e.preventDefault();
     if (submitting) return;
 
     const error = validateSignup();
     if (error) return toast.error(error);
+
+    if (captcha.enabled && !captchaPass) {
+      if (!captchaToken) return toast.error("Please complete the security check.");
+      try {
+        const { data } = await API.post("/efnbmms/captcha/verify", { token: captchaToken });
+        setCaptchaPass(data.pass || "");
+      } catch (err) {
+        setCaptchaToken("");
+        setCaptchaReset((n) => n + 1);
+        return toast.error(err?.response?.data?.message || "Security check failed. Please try again.");
+      }
+    }
 
     setFlowStep("terms");
   };
@@ -244,6 +261,7 @@ export default function EfnbmmsVendorSignupPage() {
       governmentIdType: "GST",
       category: form.category.trim(),
       password: form.password,
+      ...(captchaPass ? { captchaPass } : {}),
     };
 
     try {
@@ -555,6 +573,10 @@ export default function EfnbmmsVendorSignupPage() {
                 {selectedPlan.monthlyPrice > 0 ? `₹${selectedPlan.monthlyPrice}/mo` : "Free"}
               </strong>
             </div>
+          )}
+
+          {!captchaPass && (
+            <CaptchaField key={captchaReset} resetKey={captchaReset} onToken={setCaptchaToken} />
           )}
 
           <button
