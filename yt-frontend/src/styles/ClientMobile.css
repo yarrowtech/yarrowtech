@@ -1,0 +1,116 @@
+/* Client module: mobile / tablet responsiveness.
+   Same pattern as the manager/admin panels: top bar + slide-in drawer,
+   full-width content, tables as cards, no sideways page scroll.
+   Imported last from ClientLayout so it wins over responsive.css. */
+
+.client-shell .app-mobile-bar,
+.client-shell .app-backdrop,
+.client-shell .app-close-btn { display: none; }
+
+@media (max-width: 900px) {
+  .client-shell { flex-direction: column !important; height: auto !important; min-height: 100dvh; overflow: visible !important; }
+
+  .client-shell .app-mobile-bar {
+    position: sticky; top: 0; z-index: 1500;
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; background: #1e1006; color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .client-shell .app-menu-btn {
+    width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 10px; background: transparent; color: #fff; cursor: pointer;
+  }
+  .client-shell .app-mobile-title { font-size: 1.1rem; font-weight: 700; color: #ff8a00; }
+
+  /* sidebar drawer */
+  .client-shell .client-sidebar {
+    position: fixed !important; top: 0; left: 0; bottom: 0;
+    width: min(290px, 84vw) !important; height: 100dvh !important; min-height: 0 !important; max-height: none !important;
+    display: flex !important; flex-direction: column !important; align-items: stretch !important;
+    padding: 18px 16px !important; gap: 0 !important;
+    overflow-x: hidden !important; overflow-y: auto !important;
+    transform: translateX(-105%) !important; transition: transform 0.25s ease;
+    z-index: 2100; border-right: 1px solid rgba(255, 255, 255, 0.08); border-bottom: 0 !important;
+  }
+  .client-shell .client-sidebar.open { transform: none !important; box-shadow: 12px 0 40px rgba(0, 0, 0, 0.45); }
+
+  .client-shell .client-sidebar-top { position: relative; display: block !important; }
+  .client-shell .client-sidebar-logo { display: block !important; margin: 6px 0 20px !important; text-align: left; }
+  .client-shell .client-sidebar-nav { display: flex !important; flex-direction: column !important; width: 100% !important; gap: 6px !important; flex: 1; }
+  .client-shell .client-sidebar-link {
+    min-height: 46px; width: 100%; box-sizing: border-box; justify-content: flex-start !important;
+    padding: 11px 14px !important; font-size: 0.97rem !important; white-space: normal !important;
+  }
+  .client-shell .client-sidebar-link span,
+  .client-shell .client-logout-btn span { display: inline !important; }
+  .client-shell .client-sidebar-bottom { margin-top: auto; padding: 14px 0 0 !important; width: 100%; }
+  .client-shell .client-logout-btn { min-height: 46px; width: 100%; justify-content: flex-start !important; }
+
+  .client-shell .app-close-btn {
+    position: absolute; top: -4px; right: -4px; display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; border: none; border-radius: 10px; background: rgba(255, 255, 255, 0.08); color: #fff; cursor: pointer;
+  }
+  .client-shell .app-backdrop { display: block; position: fixed; inset: 0; z-index: 2000; background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(2px); }
+  body.app-nav-open { overflow: hidden; }
+
+  /* content */
+  .client-shell .client-content {
+    margin-left: 0 !important; width: 100% !important; max-width: 100vw; min-width: 0;
+    padding: 16px !important; min-height: 0; overflow-x: hidden;
+  }
+  html, body { overflow-x: hidden; max-width: 100vw; }
+  .client-shell img, .client-shell video, .client-shell canvas { max-width: 100%; }
+  .client-shell td, .client-shell th, .client-shell p, .client-shell h1, .client-shell h2,
+  .client-shell h3, .client-shell h4, .client-shell a { overflow-wrap: anywhere; }
+
+  .client-shell .client-projects-container { padding: 0 !important; min-height: 0; }
+  .client-shell .client-header h2 { font-size: 1.4rem; }
+  .client-shell .client-projects-table-wrapper,
+  .client-shell [class$="table-wrap"], .client-shell [class$="table-wrapper"] { padding: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* touch friendly, no iOS zoom */
+  .client-shell button, .client-shell select { min-height: 40px; }
+  .client-shell input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  .client-shell select, .client-shell textarea { font-size: 16px; }
+
+  /* popups and the chat fill the screen width */
+  .client-shell .client-info-modal { width: calc(100vw - 20px); max-height: 92dvh; }
+  .chat-box { width: calc(100vw - 20px) !important; max-width: 520px; }
+  .chat-body { height: min(350px, 50dvh); }
+  .client-shell .req-wrap { padding-left: 14px; padding-right: 14px; }
+}
+
+@media (max-width: 640px) {
+  .client-shell .client-actions-cell { flex-direction: row; flex-wrap: wrap; }
+  .client-shell .client-actions-cell button { flex: 1 1 auto; }
+  .client-shell .client-info-grid { grid-template-columns: 1fr; }
+  .client-shell [class*="stats"] { grid-template-columns: 1fr !important; }
+  .client-shell .req-card { padding: 14px; }
+  .client-shell .req-footer { flex-direction: column; }
+  .client-shell .req-footer button { width: 100%; }
+}
+
+/* tables become stacked cards on phones */
+@media (max-width: 700px) {
+  .client-shell table.m-stack, .client-shell table.m-stack tbody, .client-shell table.m-stack tr,
+  .client-shell table.m-stack td { display: block; width: 100%; min-width: 0 !important; box-sizing: border-box; }
+  .client-shell table.m-stack { border: 0; font-size: 0.9rem; }
+  .client-shell table.m-stack thead { display: none; }
+  .client-shell table.m-stack tbody tr { margin: 0 0 12px; padding: 6px 12px; border: 1px solid var(--erp-border); border-radius: 12px; background: var(--erp-bg); }
+  .client-shell table.m-stack td {
+    display: flex; justify-content: space-between; align-items: center; gap: 14px;
+    padding: 9px 0 !important; border: 0 !important; border-bottom: 1px dashed var(--erp-border) !important;
+    text-align: right; white-space: normal !important;
+  }
+  .client-shell table.m-stack td:last-child { border-bottom: 0 !important; }
+  .client-shell table.m-stack td::before {
+    content: attr(data-label); flex: 0 0 38%; text-align: left;
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--erp-text-muted);
+  }
+  .client-shell table.m-stack td:not([data-label])::before { content: none; }
+  .client-shell table.m-stack td[colspan] { display: block; text-align: center; }
+  .client-shell table.m-stack td[colspan]::before { content: none; }
+  .client-shell .client-actions-cell { justify-content: flex-end; }
+  .client-shell .client-progress-bar { width: 100px; }
+  .client-shell .client-progress-text { display: inline-block; }
+}

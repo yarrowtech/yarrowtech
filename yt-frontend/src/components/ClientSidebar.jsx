@@ -53,7 +53,7 @@
 
 
 
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   Home,
@@ -61,7 +61,7 @@ import {
   CreditCard,
   User,
   LogOut,
-  Menu,
+  X,
   Bell,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
@@ -69,8 +69,7 @@ import API from "../services/axiosInstance";
 import ThemeToggle from "./ThemeToggle";
 import "../styles/ClientSidebar.css";
 
-export default function ClientSidebar() {
-  const [open, setOpen] = useState(false);
+export default function ClientSidebar({ open = false, onClose = () => {} }) {
   const navigate = useNavigate();
 
   const menu = [
@@ -102,21 +101,13 @@ export default function ClientSidebar() {
 
   return (
     <>
-      {/* MOBILE OVERLAY */}
-      <div
-        className={`client-sidebar-overlay ${open ? "show" : ""}`}
-        onClick={() => setOpen(false)}
-      />
-
-      {/* HAMBURGER (MOBILE) */}
-      <button className="client-sidebar-toggle" onClick={() => setOpen(true)}>
-        <Menu size={22} />
-      </button>
-
-      {/* SIDEBAR */}
+      {/* SIDEBAR (drawer on phones, opened from the layout's top bar) */}
       <aside className={`client-sidebar ${open ? "open" : ""}`}>
         {/* TOP */}
         <div className="client-sidebar-top">
+          <button type="button" className="app-close-btn" aria-label="Close menu" onClick={onClose}>
+            <X size={20} />
+          </button>
           <h2 className="client-sidebar-logo">Client Panel</h2>
         </div>
 
@@ -126,7 +117,7 @@ export default function ClientSidebar() {
             <NavLink
               key={item.label}
               to={item.to}
-              onClick={() => setOpen(false)}
+              onClick={onClose}
               className={({ isActive }) =>
                 `client-sidebar-link ${isActive ? "active" : ""}`
               }
