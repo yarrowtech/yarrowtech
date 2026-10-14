@@ -1,0 +1,163 @@
+/* EFNBMMS admin signup: two-column checkout (details left, order summary right) */
+
+.ck-page { padding: 116px 20px 80px; }
+.ck-shell { width: min(1120px, 100%); margin: 0 auto; }
+
+.ck-back {
+  display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+  color: #6c584d; font-weight: 700; font-size: 0.9rem; text-decoration: none;
+}
+.ck-back:hover { color: #16a34a; }
+
+/* header + steps */
+.ck-header {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.ck-header h1 { margin: 0 0 6px; font-size: clamp(1.6rem, 3.4vw, 2.2rem); line-height: 1.15; color: #2f1a0f; }
+.ck-header p { margin: 0; color: #6c584d; font-size: 0.95rem; }
+
+.ck-steps { display: flex; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.ck-steps li {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 6px;
+  border-radius: 999px; border: 1px solid rgba(134, 63, 21, 0.16); background: #fff;
+  color: #8a766a; font-size: 0.82rem; font-weight: 700;
+}
+.ck-steps li span {
+  width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: #efe6dc; color: #6c584d; font-size: 0.75rem;
+}
+.ck-steps li.active { color: #14532d; border-color: #16a34a; background: #ecf8f0; }
+.ck-steps li.active span { background: #16a34a; color: #fff; }
+
+/* layout */
+.ck-layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 22px; align-items: start;
+}
+.ck-main { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+.ck-card {
+  background: #fff; border: 1px solid rgba(134, 63, 21, 0.12); border-radius: 16px;
+  padding: 20px 22px; box-shadow: 0 6px 22px rgba(60, 30, 10, 0.05);
+}
+.ck-card h2 {
+  display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font-size: 1.02rem; color: #2f1a0f;
+}
+.ck-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.ck-card-head h2 { margin: 0; }
+.ck-num {
+  width: 26px; height: 26px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 8px; background: #16a34a; color: #fff; font-size: 0.8rem; font-weight: 800;
+}
+.ck-muted { margin: 0; color: #6c584d; font-size: 0.9rem; }
+
+/* billing toggle */
+.ck-toggle { display: inline-flex; padding: 3px; border-radius: 999px; background: #f4ece3; border: 1px solid rgba(134, 63, 21, 0.14); }
+.ck-toggle button {
+  min-height: 34px; padding: 0 18px; border: none; border-radius: 999px; background: transparent;
+  color: #6c584d; font-weight: 700; font-size: 0.85rem; cursor: pointer; transition: background 0.15s, color 0.15s;
+}
+.ck-toggle button.active { background: #16a34a; color: #fff; }
+
+/* plans */
+.ck-plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.ck-plan {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+  padding: 16px 14px 14px; text-align: left; font: inherit; color: #2f1a0f;
+  background: #fffdfb; border: 1.5px solid rgba(134, 63, 21, 0.16); border-radius: 14px; cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.ck-plan:hover { border-color: #16a34a; transform: translateY(-1px); }
+.ck-plan.selected { border-color: #16a34a; background: #f2fbf5; box-shadow: 0 6px 18px rgba(22, 163, 74, 0.16); }
+.ck-plan-check {
+  position: absolute; top: 12px; right: 12px; width: 20px; height: 20px; border-radius: 50%;
+  border: 1.5px solid rgba(134, 63, 21, 0.3); display: inline-flex; align-items: center; justify-content: center; color: #fff;
+}
+.ck-plan.selected .ck-plan-check { background: #16a34a; border-color: #16a34a; }
+.ck-badge {
+  position: absolute; top: -10px; left: 14px; padding: 2px 10px; border-radius: 999px;
+  background: #16a34a; color: #fff; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.02em;
+}
+.ck-plan-name { font-size: 0.98rem; padding-right: 26px; }
+.ck-plan-desc { font-size: 0.78rem; color: #6c584d; line-height: 1.4; }
+.ck-plan-price { display: flex; align-items: baseline; gap: 4px; flex-wrap: wrap; margin-top: 2px; }
+.ck-plan-price b { font-size: 1.45rem; color: #2f1a0f; }
+.ck-plan-price i { font-style: normal; font-size: 0.8rem; color: #6c584d; }
+.ck-plan-price s { font-size: 0.78rem; color: #9a867a; }
+.ck-plan ul { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.ck-plan li { position: relative; padding-left: 16px; font-size: 0.78rem; color: #4b382d; }
+.ck-plan li::before { content: ""; position: absolute; left: 2px; top: 6px; width: 6px; height: 6px; border-radius: 50%; background: #16a34a; }
+
+/* form fields */
+.ck-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; }
+.ck-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.ck-span { grid-column: 1 / -1; }
+.ck-field > span { font-size: 0.8rem; font-weight: 700; color: #4b382d; }
+.ck-field > span em { font-style: normal; font-weight: 500; color: #9a867a; }
+.ck-field input {
+  width: 100%; box-sizing: border-box; min-height: 44px; padding: 10px 13px;
+  border: 1px solid rgba(134, 63, 21, 0.25); border-radius: 10px; background: #fff;
+  color: #2f1a0f; font: inherit; font-size: 0.95rem;
+}
+.ck-field input::placeholder { color: #a8968a; }
+.ck-field input:focus { outline: none; border-color: #16a34a; box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.18); }
+.ck-field input:disabled { background: #f7f2ec; }
+
+.ck-rules { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.ck-rules li {
+  padding: 4px 11px; border-radius: 999px; background: #f4ece3; color: #8a766a; font-size: 0.76rem; font-weight: 600;
+}
+.ck-rules li.ok { background: #e2f5e8; color: #15803d; }
+.ck-rules li.ok::before { content: "✓ "; }
+
+/* summary */
+.ck-summary {
+  position: sticky; top: 100px; display: flex; flex-direction: column; gap: 14px;
+  padding: 20px; background: #fff; border: 1px solid rgba(134, 63, 21, 0.14); border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(60, 30, 10, 0.08);
+}
+.ck-summary h2 { margin: 0; font-size: 1.05rem; color: #2f1a0f; }
+.ck-sum-plan { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.ck-sum-plan strong { display: block; font-size: 1rem; color: #2f1a0f; }
+.ck-sum-plan span { font-size: 0.8rem; color: #6c584d; text-transform: capitalize; }
+.ck-link { border: none; background: none; padding: 0; color: #16a34a; font-weight: 700; font-size: 0.82rem; cursor: pointer; }
+.ck-link:hover { text-decoration: underline; }
+.ck-sum-features { list-style: none; margin: 0; padding: 12px 0 0; border-top: 1px dashed rgba(134, 63, 21, 0.2); display: flex; flex-direction: column; gap: 7px; }
+.ck-sum-features li { display: flex; align-items: flex-start; gap: 8px; font-size: 0.82rem; color: #4b382d; }
+.ck-sum-features svg { color: #16a34a; flex-shrink: 0; margin-top: 2px; }
+.ck-total {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  padding: 12px 14px; border-radius: 12px; background: #ecf8f0; border: 1px solid rgba(22, 163, 74, 0.3);
+}
+.ck-total span { font-size: 0.85rem; font-weight: 700; color: #14532d; }
+.ck-total strong { font-size: 1.4rem; color: #14532d; }
+.ck-total small { font-size: 0.78rem; font-weight: 600; }
+
+.ck-submit {
+  min-height: 50px; border: none; border-radius: 12px; background: linear-gradient(135deg, #16a34a, #15803d);
+  color: #fff; font: inherit; font-weight: 800; font-size: 0.98rem; cursor: pointer;
+  box-shadow: 0 8px 20px rgba(22, 163, 74, 0.3); transition: transform 0.15s, filter 0.15s;
+}
+.ck-submit:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.05); }
+.ck-submit:disabled { opacity: 0.55; cursor: not-allowed; box-shadow: none; }
+.ck-secure { display: flex; gap: 8px; margin: 0; font-size: 0.76rem; color: #6c584d; line-height: 1.5; }
+.ck-secure svg { flex-shrink: 0; margin-top: 2px; color: #16a34a; }
+
+/* the captcha card sits inside the narrow summary column */
+.ck-summary .cf-card { margin: 0; max-width: none; padding: 14px; }
+.ck-summary .cf-row { flex-direction: column; }
+.ck-summary .cf-refresh { width: 100%; flex-direction: row; padding: 9px; }
+
+/* responsive */
+@media (max-width: 960px) {
+  .ck-layout { grid-template-columns: 1fr; }
+  .ck-summary { position: static; }
+}
+@media (max-width: 720px) {
+  .ck-page { padding: 100px 14px 60px; }
+  .ck-plans { grid-template-columns: 1fr; }
+  .ck-grid { grid-template-columns: 1fr; }
+  .ck-card { padding: 16px; }
+  .ck-steps li { padding-right: 10px; }
+  .ck-steps li:not(.active) { font-size: 0; gap: 0; padding-right: 6px; }
+}

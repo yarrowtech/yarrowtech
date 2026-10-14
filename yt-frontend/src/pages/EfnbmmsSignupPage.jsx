@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Check, CheckCircle2, Lock } from "lucide-react";
 import API from "../services/api";
 import { trackProjectEvent } from "../services/projectTracking";
 import PasswordField from "../components/PasswordField";
@@ -9,6 +9,7 @@ import LegalDocumentStep from "../components/LegalDocumentStep";
 import Seo from "../components/Seo";
 import CaptchaField, { useCaptchaConfig } from "../components/CaptchaField";
 import "./EfnbmmsSignupPage.css";
+import "./EfnbmmsCheckout.css";
 
 const PRODUCT_SLUG = "food-and-beverage-management-system";
 
@@ -352,233 +353,225 @@ export default function EfnbmmsSignupPage() {
     );
   }
 
+  const selectedPricing = selectedPlan ? priceFor(selectedPlan, billingCycle) : null;
+  const cycleLabel = billingCycle === "monthly" ? "month" : "year";
+
   return (
-    <main className="efnbmms-signup-page">
+    <main className="efnbmms-signup-page ck-page">
       {/* Transactional checkout flow, not a marketing/content page —
           kept out of search results rather than competing for
           "EFNBMMS" queries against the product page itself. */}
       <Seo title="EFNBMMS Admin Signup" path="/efnbmms/signup" noindex />
-      <div className="efnbmms-signup-shell">
-        <Link
-          to="/products/food-and-beverage-management-system"
-          className="efnbmms-back-link"
-        >
+      <div className="ck-shell">
+        <Link to="/products/food-and-beverage-management-system" className="ck-back">
           <ArrowLeft size={16} aria-hidden="true" /> Back to EFNBMMS overview
         </Link>
 
-        <header className="efnbmms-signup-header">
-          <span className="efnbmms-eyebrow">EFNBMMS Subscription — Step 1 of 3</span>
-          <h1>Sign up and subscribe to EFNBMMS</h1>
-          <p>
-            Choose a plan and tell us about your business. You'll review the Terms &amp;
-            Conditions and Privacy Policy next, then pay to activate your admin account.
-          </p>
+        <header className="ck-header">
+          <div>
+            <h1>Create your EFNBMMS account</h1>
+            <p>Pick a plan, add your business details, then review the terms and pay securely.</p>
+          </div>
+          <ol className="ck-steps" aria-label="Signup steps">
+            <li className="active"><span>1</span> Details</li>
+            <li><span>2</span> Terms</li>
+            <li><span>3</span> Payment</li>
+          </ol>
         </header>
 
-        <section
-          className="efnbmms-billing-toggle"
-          role="tablist"
-          aria-label="Billing cycle"
-        >
-          <button
-            type="button"
-            className={billingCycle === "monthly" ? "active" : ""}
-            onClick={() => setBillingCycle("monthly")}
-          >
-            Monthly
-          </button>
-          <button
-            type="button"
-            className={billingCycle === "yearly" ? "active" : ""}
-            onClick={() => setBillingCycle("yearly")}
-          >
-            Yearly
-          </button>
-        </section>
+        <form className="ck-layout" onSubmit={handleContinueToTerms} noValidate={false}>
+          {/* ───────── LEFT: plan + details ───────── */}
+          <div className="ck-main">
+            <section className="ck-card">
+              <div className="ck-card-head">
+                <h2><span className="ck-num">1</span> Choose your plan</h2>
+                <div className="ck-toggle" role="tablist" aria-label="Billing cycle">
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={billingCycle === "monthly"}
+                    className={billingCycle === "monthly" ? "active" : ""}
+                    onClick={() => setBillingCycle("monthly")}
+                  >
+                    Monthly
+                  </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={billingCycle === "yearly"}
+                    className={billingCycle === "yearly" ? "active" : ""}
+                    onClick={() => setBillingCycle("yearly")}
+                  >
+                    Yearly
+                  </button>
+                </div>
+              </div>
 
-        {plansLoading ? (
-          <p className="efnbmms-loading">Loading plans…</p>
-        ) : (
-          <section className="efnbmms-plan-grid">
-            {plans.map((plan) => {
-              const pricing = priceFor(plan, billingCycle);
-              const isSelected = plan.code === selectedPlanCode;
-              return (
-                <button
-                  type="button"
-                  key={plan.code}
-                  className={`efnbmms-plan-card${isSelected ? " selected" : ""}${
-                    plan.isPopular ? " popular" : ""
-                  }`}
-                  onClick={() => setSelectedPlanCode(plan.code)}
-                >
-                  {plan.isPopular && (
-                    <span className="efnbmms-plan-badge">Most popular</span>
-                  )}
-                  <h3>{plan.name}</h3>
-                  <p className="efnbmms-plan-desc">{plan.description}</p>
-                  <div className="efnbmms-plan-price">
-                    <span className="amount">₹{pricing.price}</span>
-                    <span className="cycle">
-                      /{billingCycle === "monthly" ? "mo" : "yr"}
-                    </span>
+              {plansLoading ? (
+                <p className="ck-muted">Loading plans…</p>
+              ) : (
+                <div className="ck-plans" role="radiogroup" aria-label="Plan">
+                  {plans.map((plan) => {
+                    const pricing = priceFor(plan, billingCycle);
+                    const isSelected = plan.code === selectedPlanCode;
+                    return (
+                      <button
+                        type="button"
+                        role="radio"
+                        aria-checked={isSelected}
+                        key={plan.code}
+                        className={`ck-plan${isSelected ? " selected" : ""}`}
+                        onClick={() => setSelectedPlanCode(plan.code)}
+                      >
+                        {plan.isPopular && <span className="ck-badge">Most popular</span>}
+                        <span className="ck-plan-check" aria-hidden="true">
+                          {isSelected && <Check size={14} />}
+                        </span>
+                        <strong className="ck-plan-name">{plan.name}</strong>
+                        <span className="ck-plan-desc">{plan.description}</span>
+                        <span className="ck-plan-price">
+                          <b>₹{pricing.price}</b>
+                          <i>/{billingCycle === "monthly" ? "mo" : "yr"}</i>
+                          {pricing.original && pricing.original !== pricing.price && (
+                            <s>₹{pricing.original}</s>
+                          )}
+                        </span>
+                        <ul>
+                          {(plan.displayFeatures || []).slice(0, 4).map((feature) => (
+                            <li key={feature}>{feature}</li>
+                          ))}
+                        </ul>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+
+            <section className="ck-card">
+              <h2><span className="ck-num">2</span> Business details</h2>
+              <div className="ck-grid">
+                <label className="ck-field">
+                  <span>Business name</span>
+                  <input name="businessName" placeholder="e.g. Sunrise Restaurant" value={form.businessName} onChange={handleChange} disabled={submitting} required autoComplete="organization" />
+                </label>
+                <label className="ck-field">
+                  <span>Email address</span>
+                  <input name="email" type="email" placeholder="you@business.com" value={form.email} onChange={handleChange} disabled={submitting} required autoComplete="email" />
+                </label>
+                <label className="ck-field">
+                  <span>Mobile number</span>
+                  <input name="mobile" placeholder="10-digit mobile" value={form.mobile} onChange={handleChange} disabled={submitting} required inputMode="tel" autoComplete="tel" />
+                </label>
+                <label className="ck-field">
+                  <span>PAN number</span>
+                  <input name="panNumber" placeholder="ABCDE1234F" value={form.panNumber} onChange={handleChange} disabled={submitting} maxLength={10} required />
+                </label>
+                <label className="ck-field ck-span">
+                  <span>GST number</span>
+                  <input name="gstNumber" placeholder="22ABCDE1234F1Z5" value={form.gstNumber} onChange={handleChange} disabled={submitting} maxLength={15} required />
+                </label>
+              </div>
+            </section>
+
+            <section className="ck-card">
+              <h2><span className="ck-num">3</span> Business address</h2>
+              <div className="ck-grid">
+                <label className="ck-field ck-span">
+                  <span>Address line 1</span>
+                  <input name="addressLine1" placeholder="Building, street" value={form.addressLine1} onChange={handleChange} disabled={submitting} required autoComplete="address-line1" />
+                </label>
+                <label className="ck-field">
+                  <span>Address line 2 <em>(optional)</em></span>
+                  <input name="addressLine2" placeholder="Area, locality" value={form.addressLine2} onChange={handleChange} disabled={submitting} autoComplete="address-line2" />
+                </label>
+                <label className="ck-field">
+                  <span>Landmark <em>(optional)</em></span>
+                  <input name="landmark" placeholder="Near…" value={form.landmark} onChange={handleChange} disabled={submitting} />
+                </label>
+                <label className="ck-field">
+                  <span>City</span>
+                  <input name="city" placeholder="City" value={form.city} onChange={handleChange} disabled={submitting} required autoComplete="address-level2" />
+                </label>
+                <label className="ck-field">
+                  <span>State</span>
+                  <input name="state" placeholder="State" value={form.state} onChange={handleChange} disabled={submitting} required autoComplete="address-level1" />
+                </label>
+                <label className="ck-field">
+                  <span>PIN code</span>
+                  <input name="pincode" placeholder="6-digit PIN" value={form.pincode} onChange={handleChange} disabled={submitting} required inputMode="numeric" autoComplete="postal-code" />
+                </label>
+              </div>
+            </section>
+
+            <section className="ck-card">
+              <h2><span className="ck-num">4</span> Admin login password</h2>
+              <div className="ck-grid">
+                <div className="ck-field">
+                  <span>Password</span>
+                  <PasswordField name="password" placeholder="Create a password" value={form.password} onChange={handleChange} disabled={submitting} required />
+                </div>
+                <div className="ck-field">
+                  <span>Confirm password</span>
+                  <PasswordField name="confirmPassword" placeholder="Repeat the password" value={form.confirmPassword} onChange={handleChange} disabled={submitting} required />
+                </div>
+              </div>
+              <ul className="ck-rules" aria-label="Password rules">
+                <li className={form.password.length >= 8 ? "ok" : ""}>8+ characters</li>
+                <li className={/[A-Z]/.test(form.password) ? "ok" : ""}>Uppercase letter</li>
+                <li className={/[a-z]/.test(form.password) ? "ok" : ""}>Lowercase letter</li>
+                <li className={/\d/.test(form.password) ? "ok" : ""}>Number</li>
+                <li className={/[^A-Za-z\d]/.test(form.password) ? "ok" : ""}>Special character</li>
+                <li className={form.confirmPassword && form.password === form.confirmPassword ? "ok" : ""}>Passwords match</li>
+              </ul>
+            </section>
+          </div>
+
+          {/* ───────── RIGHT: summary + security + continue ───────── */}
+          <aside className="ck-summary">
+            <h2>Order summary</h2>
+
+            {selectedPlan ? (
+              <>
+                <div className="ck-sum-plan">
+                  <div>
+                    <strong>{selectedPlan.name}</strong>
+                    <span>Billed {billingCycle}</span>
                   </div>
-                  {pricing.original && pricing.original !== pricing.price && (
-                    <span className="efnbmms-plan-original">₹{pricing.original}</span>
-                  )}
-                  <ul>
-                    {(plan.displayFeatures || []).slice(0, 4).map((feature) => (
-                      <li key={feature}>{feature}</li>
-                    ))}
-                  </ul>
-                </button>
-              );
-            })}
-          </section>
-        )}
+                  <button type="button" className="ck-link" onClick={() => document.querySelector(".ck-plans")?.scrollIntoView({ behavior: "smooth", block: "center" })}>
+                    Change
+                  </button>
+                </div>
+                <ul className="ck-sum-features">
+                  {(selectedPlan.displayFeatures || []).slice(0, 4).map((feature) => (
+                    <li key={feature}><Check size={14} aria-hidden="true" /> {feature}</li>
+                  ))}
+                </ul>
+                <div className="ck-total">
+                  <span>Total due today</span>
+                  <strong>
+                    ₹{selectedPricing?.price}
+                    <small> / {cycleLabel}</small>
+                  </strong>
+                </div>
+              </>
+            ) : (
+              <p className="ck-muted">Select a plan to see your total.</p>
+            )}
 
-        <form className="efnbmms-signup-form" onSubmit={handleContinueToTerms}>
-          <h2>Business &amp; contact details</h2>
-          <div className="efnbmms-form-grid">
-            <input
-              name="businessName"
-              placeholder="Business name"
-              value={form.businessName}
-              onChange={handleChange}
-              disabled={submitting}
-              required
-            />
-            <input
-              name="email"
-              type="email"
-              placeholder="Email address"
-              value={form.email}
-              onChange={handleChange}
-              disabled={submitting}
-              required
-            />
-            <input
-              name="mobile"
-              placeholder="Mobile number"
-              value={form.mobile}
-              onChange={handleChange}
-              disabled={submitting}
-              required
-            />
-            <input
-              name="panNumber"
-              placeholder="PAN number (e.g. ABCDE1234F)"
-              value={form.panNumber}
-              onChange={handleChange}
-              disabled={submitting}
-              maxLength={10}
-              required
-            />
-            <input
-              name="gstNumber"
-              placeholder="GST number (e.g. 22ABCDE1234F1Z5)"
-              value={form.gstNumber}
-              onChange={handleChange}
-              disabled={submitting}
-              maxLength={15}
-              required
-            />
-          </div>
+            {!captchaPass && (
+              <CaptchaField key={captchaReset} resetKey={captchaReset} onToken={setCaptchaToken} />
+            )}
 
-          <h2>Business address</h2>
-          <div className="efnbmms-form-grid">
-            <input
-              name="addressLine1"
-              placeholder="Address line 1"
-              value={form.addressLine1}
-              onChange={handleChange}
-              disabled={submitting}
-              required
-            />
-            <input
-              name="addressLine2"
-              placeholder="Address line 2 (optional)"
-              value={form.addressLine2}
-              onChange={handleChange}
-              disabled={submitting}
-            />
-            <input
-              name="landmark"
-              placeholder="Landmark (optional)"
-              value={form.landmark}
-              onChange={handleChange}
-              disabled={submitting}
-            />
-            <input
-              name="city"
-              placeholder="City"
-              value={form.city}
-              onChange={handleChange}
-              disabled={submitting}
-              required
-            />
-            <input
-              name="state"
-              placeholder="State"
-              value={form.state}
-              onChange={handleChange}
-              disabled={submitting}
-              required
-            />
-            <input
-              name="pincode"
-              placeholder="PIN code"
-              value={form.pincode}
-              onChange={handleChange}
-              disabled={submitting}
-              required
-            />
-          </div>
+            <button type="submit" className="ck-submit" disabled={submitting || !selectedPlan}>
+              Continue to Terms &amp; Conditions
+            </button>
 
-          <h2>Set your admin login password</h2>
-          <div className="efnbmms-form-grid">
-            <PasswordField
-              name="password"
-              placeholder="Password"
-              value={form.password}
-              onChange={handleChange}
-              disabled={submitting}
-              required
-            />
-            <PasswordField
-              name="confirmPassword"
-              placeholder="Confirm password"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              disabled={submitting}
-              required
-            />
-          </div>
-          <p className="efnbmms-hint">
-            8+ characters with an uppercase letter, lowercase letter, number, and special
-            character.
-          </p>
-
-          {selectedPlan && (
-            <div className="efnbmms-order-summary">
-              <span>Total due today</span>
-              <strong>
-                ₹{priceFor(selectedPlan, billingCycle)?.price} ({billingCycle})
-              </strong>
-            </div>
-          )}
-
-          {!captchaPass && (
-            <CaptchaField key={captchaReset} resetKey={captchaReset} onToken={setCaptchaToken} />
-          )}
-
-          <button
-            type="submit"
-            className="efnbmms-primary-btn"
-            disabled={submitting || !selectedPlan}
-          >
-            Continue to Terms &amp; Conditions
-          </button>
+            <p className="ck-secure">
+              <Lock size={14} aria-hidden="true" /> You will review the terms, then pay securely with
+              Razorpay. Nothing is charged on this step.
+            </p>
+          </aside>
         </form>
       </div>
     </main>
